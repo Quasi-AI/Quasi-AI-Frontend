@@ -4,7 +4,11 @@
       class="w-full max-w-[569px] rounded-2xl bg-white py-6 text-center text-2xl lg:shadow-md"
     >
       <NuxtLink to="/" class="flex items-center justify-center gap-2">
-        <img :src="QuasiLogo" alt="logo" class="w-10 cursor-pointer" />
+        <img
+          src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png"
+          alt="logo"
+          class="w-10 cursor-pointer"
+        />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
 
@@ -68,7 +72,6 @@
 </template>
 
 <script setup lang="ts">
-import QuasiLogo from '@/assets/icons/quasiailogo.png'
 import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
 import GoogleLogo from '@/assets/media/svgs/signin-google.vue'
 import FacebookLogo from '@/assets/media/svgs/signin-facebook.vue'
