@@ -3,7 +3,11 @@
     class="flex flex-col items-center justify-between bg-[#a4d3ff] px-8 py-6 lg:flex-row"
   >
     <NuxtLink to="/" class="flex items-center justify-center gap-2">
-      <img src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png" alt="logo" class="w-10 cursor-pointer" />
+      <img
+        src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png"
+        alt="logo"
+        class="w-10 cursor-pointer"
+      />
       <h1 class="text-2xl font-bold">QUASI AI</h1>
     </NuxtLink>
 
