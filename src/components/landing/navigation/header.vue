@@ -1,7 +1,11 @@
 <template>
   <div class="flex items-center justify-between bg-white px-8 py-2">
     <NuxtLink to="/" class="flex items-center justify-center gap-2">
-      <img :src="QuasiLogo" alt="logo" class="w-10 cursor-pointer" />
+      <img
+        src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png"
+        alt="logo"
+        class="w-10 cursor-pointer"
+      />
       <h1 class="text-2xl font-bold">QUASI AI</h1>
     </NuxtLink>
 
@@ -77,5 +81,4 @@
 
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import QuasiLogo from '@/assets/icons/quasiailogo.png'
 </script>
