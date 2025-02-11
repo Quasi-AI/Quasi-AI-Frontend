@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex h-screen items-center justify-center bg-[#F4F7FE] dark:bg-gray-900"
+    class="flex h-screen items-center justify-center bg-[#F4F7FE] dark:bg-[#0C1438]"
   >
     <div
-      class="max-w-md rounded-2xl bg-white p-6 text-center shadow-lg dark:bg-gray-800"
+      class="max-w-md rounded-2xl bg-white p-6 text-center shadow-lg dark:bg-[#111C44]"
     >
       <HeroIcon class="mx-auto h-16 w-16 text-[#5D3BEA]" />
       <h1 class="mt-4 text-3xl font-bold text-gray-900 dark:text-white">

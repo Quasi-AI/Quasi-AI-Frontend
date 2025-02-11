@@ -26,7 +26,7 @@ const componentsMap = {
   '/dashboard/flashcards': FlashCards,
   '/dashboard/quizzes': Quizzes,
   '/dashboard/ai-tutor': AiTutor,
-  '/dashboard/find-tutor': FindTutors,
+  '/dashboard/find-tutors': FindTutors,
   '/dashboard/essay': Essay,
   '/dashboard/speech-to-text': SpeechToText,
   '/dashboard/plagiarism': Plagiarism,
