@@ -12,7 +12,11 @@
           : 'border-b border-[#F1F3FE]'
       "
     >
-      <img :src="quasiaiLogo" alt="logo" class="w-10 cursor-pointer" />
+      <img
+        src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png"
+        alt="logo"
+        class="w-10 cursor-pointer"
+      />
       <h1 class="text-2xl font-bold">QUASI AI</h1>
     </NuxtLink>
     <div class="mx-5">
@@ -32,8 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import quasiaiLogo from '@/assets/icons/quasiailogo.png'
-
 const colorMode = useColorMode()
 
 const year = new Date().getFullYear()
