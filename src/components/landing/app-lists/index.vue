@@ -4,40 +4,19 @@
     class="mt-5 flex flex-col items-center justify-center space-y-8 md:flex-row md:space-x-8 md:space-y-0"
   >
     <div
+      v-for="(item, index) in features"
+      :key="index"
       class="flex w-[370px] flex-col space-y-4 rounded-lg bg-white p-4 shadow-lg"
     >
-      <FlashCards />
-      <h1 class="text-[#5D3BEA]">Smart Flashcards</h1>
-      <p>
-        AI-powered flashcard generation from your learning materials with spaced
-        repetition.
-      </p>
-    </div>
-    <div
-      class="flex w-[370px] flex-col space-y-4 rounded-lg bg-white p-4 shadow-lg"
-    >
-      <Quizzes />
-      <h1 class="text-[#5D3BEA]">Practice Quizzes</h1>
-      <p>
-        Automatically generated quizzes to test understanding and track
-        progress.
-      </p>
-    </div>
-    <div
-      class="flex w-[370px] flex-col space-y-4 rounded-lg bg-white p-4 shadow-lg"
-    >
-      <AiTutor />
-      <h1 class="text-[#5D3BEA]">AI Tutors</h1>
-      <p>
-        Get instant explanations and answers to your questions about the
-        material
-      </p>
+      <component :is="item.icon" />
+      <h1 class="text-[#5D3BEA]">{{ item.title }}</h1>
+      <p>{{ item.description }}</p>
     </div>
   </div>
   <div class="my-10 flex items-center justify-center">
-    <NuxtLink to="/auth/login">
+    <NuxtLink to="/dashboard">
       <UButton
-        variant=""
+        variant="none"
         class="flex w-fit items-center justify-center bg-[#5D3BEA] text-white lg:w-[420px]"
       >
         Start Learning now
@@ -50,4 +29,25 @@
 import AiTutor from '~/assets/media/svgs/apps/ai-tutor.vue'
 import FlashCards from '~/assets/media/svgs/apps/flash-cards.vue'
 import Quizzes from '~/assets/media/svgs/apps/quizzes.vue'
+
+const features = [
+  {
+    icon: FlashCards,
+    title: 'Smart Flashcards',
+    description:
+      'AI-powered flashcard generation from your learning materials with spaced repetition.'
+  },
+  {
+    icon: Quizzes,
+    title: 'Practice Quizzes',
+    description:
+      'Automatically generated quizzes to test understanding and track progress.'
+  },
+  {
+    icon: AiTutor,
+    title: 'AI Tutors',
+    description:
+      'Get instant explanations and answers to your questions about the material.'
+  }
+]
 </script>
