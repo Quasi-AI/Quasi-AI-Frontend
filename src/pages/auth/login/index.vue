@@ -29,7 +29,7 @@
           maxLength="250"
           size="xl"
           variant="none"
-          class="w-full border-b border-[#5D3BEA] bg-white"
+          class="w-full rounded-2xl bg-[#F1F3FE]"
         />
 
         <div class="relative">
@@ -40,7 +40,7 @@
             maxLength="250"
             size="xl"
             variant="none"
-            class="w-full border-b border-[#5D3BEA] bg-white"
+            class="w-full rounded-2xl bg-[#F1F3FE]"
           />
           <span
             class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
@@ -55,8 +55,8 @@
         </div>
 
         <UButton
-          class="flex w-full justify-center bg-[#5D3BEA] font-bold text-white"
-          variant="none"
+          color="blue"
+          class="flex w-full justify-center rounded-2xl bg-[#5D3BEA] font-bold text-white"
           label="Sign in"
           size="md"
           :disabled="!isValidEmail(email)"
