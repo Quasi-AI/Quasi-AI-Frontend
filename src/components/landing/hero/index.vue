@@ -11,12 +11,14 @@
       </p>
     </div>
     <div class="mt-8 flex gap-4">
-      <NuxtLink to="/auth/login">
-        <UButton variant="" class="bg-[#5D3BEA] text-white"
+      <NuxtLink to="/dashboard">
+        <UButton color="blue" class="rounded-2xl bg-[#5D3BEA] text-white"
           >Start learning now</UButton
         >
       </NuxtLink>
-      <UButton variant="" class="bg-white text-[#5D3BEA]">Watch a demo</UButton>
+      <UButton color="white" class="rounded-2xl bg-white text-[#5D3BEA]"
+        >Watch a demo</UButton
+      >
     </div>
     <div class="mt-8">
       <VideoTmp class="h-auto w-full" />

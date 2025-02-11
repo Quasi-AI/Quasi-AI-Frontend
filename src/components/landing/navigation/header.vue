@@ -11,7 +11,7 @@
 
     <Menu as="div" class="relative inline-block text-left">
       <MenuButton class="px-4 py-2 text-gray-700 focus:outline-none lg:hidden">
-        ☰ Menu
+        ☰
       </MenuButton>
 
       <transition
@@ -71,7 +71,7 @@
       <li>How it works</li>
       <li>Pricing</li>
       <NuxtLink to="/auth/login"
-        ><UButton variant="" class="bg-[#5D3BEA] text-white"
+        ><UButton variant="" class="rounded-2xl bg-[#5D3BEA] text-white"
           >Get Started</UButton
         ></NuxtLink
       >
