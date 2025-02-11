@@ -1,10 +1,11 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between bg-[#C6E6F3] px-8 py-6 lg:flex-row"
+    class="flex flex-col items-center justify-between bg-[#a4d3ff] px-8 py-6 lg:flex-row"
   >
-    <div class="py-4 lg:py-0">
-      <quasiaiLogo />
-    </div>
+    <NuxtLink to="/" class="flex items-center justify-center gap-2">
+      <img :src="QuasiLogo" alt="logo" class="w-10 cursor-pointer" />
+      <h1 class="text-2xl font-bold">QUASI AI</h1>
+    </NuxtLink>
 
     <ul class="flex flex-col gap-4 space-x-2 lg:flex-row lg:gap-0">
       <div class="flex space-x-2">
@@ -30,5 +31,5 @@ import Instagram from '~/assets/media/svgs/social/instagram.vue'
 import OkSocial from '~/assets/media/svgs/social/ok-social.vue'
 import VkSocial from '~/assets/media/svgs/social/vk-social.vue'
 import TelegramSocial from '~/assets/media/svgs/social/telegram-social.vue'
-import quasiaiLogo from '~/assets/media/svgs/quasiai-logo.vue'
+import QuasiLogo from '@/assets/icons/quasiailogo.png'
 </script>

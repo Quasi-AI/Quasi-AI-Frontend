@@ -7,7 +7,7 @@
       class="flex w-[370px] flex-col space-y-4 rounded-lg bg-white p-4 shadow-lg"
     >
       <FlashCards />
-      <h1 class="text-[#4e90b1]">Smart Flashcards</h1>
+      <h1 class="text-[#5D3BEA]">Smart Flashcards</h1>
       <p>
         AI-powered flashcard generation from your learning materials with spaced
         repetition.
@@ -17,7 +17,7 @@
       class="flex w-[370px] flex-col space-y-4 rounded-lg bg-white p-4 shadow-lg"
     >
       <Quizzes />
-      <h1 class="text-[#4e90b1]">Practice Quizzes</h1>
+      <h1 class="text-[#5D3BEA]">Practice Quizzes</h1>
       <p>
         Automatically generated quizzes to test understanding and track
         progress.
@@ -27,7 +27,7 @@
       class="flex w-[370px] flex-col space-y-4 rounded-lg bg-white p-4 shadow-lg"
     >
       <AiTutor />
-      <h1 class="text-[#4e90b1]">AI Tutors</h1>
+      <h1 class="text-[#5D3BEA]">AI Tutors</h1>
       <p>
         Get instant explanations and answers to your questions about the
         material
@@ -35,14 +35,14 @@
     </div>
   </div>
   <div class="my-10 flex items-center justify-center">
-    <NuxtLink to="/auth/login"
-      ><UButton
-        color="cyan"
-        class="flex w-fit items-center justify-center lg:w-[420px]"
+    <NuxtLink to="/auth/login">
+      <UButton
+        variant=""
+        class="flex w-fit items-center justify-center bg-[#5D3BEA] text-white lg:w-[420px]"
       >
         Start Learning now
-      </UButton></NuxtLink
-    >
+      </UButton>
+    </NuxtLink>
   </div>
 </template>
 

@@ -1,6 +1,9 @@
 <template>
   <div class="flex items-center justify-between bg-white px-8 py-2">
-    <quasiaiLogo />
+    <NuxtLink to="/" class="flex items-center justify-center gap-2">
+      <img :src="QuasiLogo" alt="logo" class="w-10 cursor-pointer" />
+      <h1 class="text-2xl font-bold">QUASI AI</h1>
+    </NuxtLink>
 
     <Menu as="div" class="relative inline-block text-left">
       <MenuButton class="px-4 py-2 text-gray-700 focus:outline-none lg:hidden">
@@ -49,7 +52,7 @@
             >
               <p
                 :class="[active ? 'bg-gray-100' : '', 'px-4 py-2']"
-                class="cursor-pointer text-cyan-700"
+                class="cursor-pointer text-[#5D3BEA]"
               >
                 Get Started
               </p>
@@ -64,7 +67,9 @@
       <li>How it works</li>
       <li>Pricing</li>
       <NuxtLink to="/auth/login"
-        ><UButton color="cyan">Get Started</UButton></NuxtLink
+        ><UButton variant="" class="bg-[#5D3BEA] text-white"
+          >Get Started</UButton
+        ></NuxtLink
       >
     </ul>
   </div>
@@ -72,5 +77,5 @@
 
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import quasiaiLogo from '~/assets/media/svgs/quasiai-logo.vue'
+import QuasiLogo from '@/assets/icons/quasiailogo.png'
 </script>

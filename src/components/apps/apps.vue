@@ -21,7 +21,12 @@
       >
         {{ feature.icon }}
       </span>
-      <h1 class="font-medium text-[#5D3BEA]">{{ feature.label }}</h1>
+      <h1
+        class="font-medium"
+        :class="colorMode.value === 'dark' ? 'text-white' : ''"
+      >
+        {{ feature.label }}
+      </h1>
       <p>{{ feature.description }}</p>
     </div>
   </div>
