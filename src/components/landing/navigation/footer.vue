@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between bg-[#a4d3ff] px-8 py-6 lg:flex-row"
+    class="flex flex-col items-center justify-between bg-[#b4d6f7] px-8 py-6 lg:flex-row"
   >
     <NuxtLink to="/" class="flex items-center justify-center gap-2">
       <img
@@ -35,5 +35,4 @@ import Instagram from '~/assets/media/svgs/social/instagram.vue'
 import OkSocial from '~/assets/media/svgs/social/ok-social.vue'
 import VkSocial from '~/assets/media/svgs/social/vk-social.vue'
 import TelegramSocial from '~/assets/media/svgs/social/telegram-social.vue'
-import QuasiLogo from '@/assets/icons/quasiailogo.png'
 </script>
