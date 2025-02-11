@@ -16,16 +16,15 @@
   <div class="my-10 flex items-center justify-center">
     <NuxtLink to="/dashboard">
       <UButton
-        color="blue"
-        class="flex w-fit items-center justify-center rounded-2xl bg-[#5D3BEA] text-white lg:w-[420px]"
+        variant=""
+        class="flex w-fit items-center justify-center rounded-2xl bg-[#5D3BEA] text-white lg:w-[400px]"
+        >Start learning now</UButton
       >
-        Start Learning now
-      </UButton>
     </NuxtLink>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import AiTutor from '~/assets/media/svgs/apps/ai-tutor.vue'
 import FlashCards from '~/assets/media/svgs/apps/flash-cards.vue'
 import Quizzes from '~/assets/media/svgs/apps/quizzes.vue'

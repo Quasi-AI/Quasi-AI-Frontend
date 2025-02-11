@@ -1,3 +1,3 @@
 <template>
-  <h1>AI Tutors</h1>
+  <ComingSoon />
 </template>

@@ -6,25 +6,14 @@
       v-for="(feature, index) in features"
       :key="index"
       @click="navigateTo(feature.route)"
-      class="flex cursor-pointer flex-col gap-3 rounded-2xl p-4 transition hover:shadow-xl"
-      :class="
-        colorMode.value === 'dark' ? 'bg-[#111C44] text-white' : 'bg-white'
-      "
+      class="flex cursor-pointer flex-col gap-3 rounded-2xl bg-white p-4 transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
     >
       <span
-        class="flex w-20 items-center justify-center rounded-full p-5 text-4xl"
-        :class="
-          colorMode.value === 'dark'
-            ? 'bg-[#111C44] text-white'
-            : 'bg-[#F4F7FE]'
-        "
+        class="flex w-20 items-center justify-center rounded-full bg-[#F4F7FE] p-5 text-4xl dark:bg-[#0C1438] dark:text-white"
       >
         {{ feature.icon }}
       </span>
-      <h1
-        class="font-medium"
-        :class="colorMode.value === 'dark' ? 'text-white' : ''"
-      >
+      <h1 class="font-medium dark:text-white">
         {{ feature.label }}
       </h1>
       <p>{{ feature.description }}</p>
@@ -34,7 +23,6 @@
 
 <script setup lang="ts">
 const router = useRouter()
-const colorMode = useColorMode()
 
 const features = [
   {

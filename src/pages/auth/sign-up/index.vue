@@ -46,8 +46,8 @@
         </div>
 
         <UButton
-          color="blue"
-          class="flex w-full justify-center rounded-2xl bg-[#5D3BEA] font-bold text-white"
+          variant=""
+          class="flex w-full items-center justify-center rounded-md bg-[#5D3BEA] text-white"
           label="Sign up with email"
           size="md"
           :disabled="!isValidEmail(email)"
@@ -62,7 +62,7 @@
   </NuxtLayout>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { isValidEmail } from '@/utils/isValidEmail'
 
 const email = ref('')
