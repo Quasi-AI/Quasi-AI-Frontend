@@ -2,7 +2,9 @@
   <ClientOnly>
     <div class="flex min-h-screen w-full bg-[#F4F7FE] dark:bg-[#0C1438]">
       <!-- Sidebar -->
-      <div class="hidden bg-gray-200 lg:block xl:w-[20%] dark:bg-gray-900">
+      <div
+        class="w-0 bg-gray-200 md:block md:w-[35%] lg:block lg:w-[20%] dark:bg-gray-900"
+      >
         <slot name="sidebar"></slot>
       </div>
 

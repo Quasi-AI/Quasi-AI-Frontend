@@ -1,21 +1,43 @@
 <template>
   <div
-    class="flex h-full flex-col gap-4 overflow-y-auto py-4"
+    class="flex flex-col gap-4 overflow-y-auto py-4 lg:h-full lg:py-0"
     :class="colorMode.value === 'dark' ? 'text-white' : ''"
   >
-    <router-link
-      v-for="(item, index) in mainItems"
-      :key="index"
-      :to="item.route"
-      class="flex min-w-fit cursor-pointer items-center gap-4 px-2 transition-colors duration-200"
-      :class="{
-        'font-medium text-[#5D3BEA]': isActive(item.route),
-        'text-gray-500 hover:text-[#5D3BEA]': !isActive(item.route)
-      }"
+    <!-- Sidebar (Desktop) -->
+    <div class="hidden flex-col gap-4 md:flex lg:flex">
+      <router-link
+        v-for="(item, index) in mainItems"
+        :key="index"
+        :to="item.route"
+        class="flex min-w-fit cursor-pointer items-center gap-4 px-2 transition-colors duration-200"
+        :class="{
+          'font-medium text-[#5D3BEA]': isActive(item.route),
+          'text-gray-500 hover:text-[#5D3BEA]': !isActive(item.route)
+        }"
+      >
+        <component :is="item.icon" class="h-5 w-5" />
+        {{ item.label }}
+      </router-link>
+    </div>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <div
+      class="fixed bottom-0 left-0 flex w-full items-center justify-around bg-white p-2 shadow-md md:hidden lg:hidden dark:bg-[#111C44]"
     >
-      <component :is="item.icon" class="h-5 w-5" />
-      {{ item.label }}
-    </router-link>
+      <router-link
+        v-for="(item, index) in mainItems"
+        :key="index"
+        :to="item.route"
+        class="flex flex-col items-center text-xs transition-colors duration-200"
+        :class="{
+          'font-medium text-[#5D3BEA]': isActive(item.route),
+          'text-gray-500 hover:text-[#5D3BEA]': !isActive(item.route)
+        }"
+      >
+        <component :is="item.icon" class="h-6 w-6" />
+        <span>{{ item.label }}</span>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -34,11 +56,7 @@ const route = useRoute()
 
 const mainItems = [
   { label: 'Dashboard', route: '/dashboard', icon: HomeIcon },
-  {
-    label: 'Learning Games',
-    route: '/learning-games',
-    icon: AcademicCapIcon
-  },
+  { label: 'Learning Games', route: '/learning-games', icon: AcademicCapIcon },
   {
     label: 'Doctor AI',
     route: '/doctor-ai?type=doctor-ai',

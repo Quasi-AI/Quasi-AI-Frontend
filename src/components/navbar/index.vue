@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-extralight">{{ pageTitle }}</h1>
 
     <div
-      class="m-2 flex items-center justify-end gap-4 rounded-full p-4 py-1 shadow-sm"
+      class="m-2 flex items-center justify-end gap-4 rounded-full p-4 py-1 shadow-lg"
       :class="
         colorMode.value === 'dark' ? 'bg-[#111C44] text-white' : 'bg-white'
       "
@@ -80,9 +80,9 @@ const pageTitle = computed(() => {
     '/dashboard/plagiarism': 'Plagiarism',
     '/plan': 'Plan',
     '/learning-games': 'Learning Games',
-    '/smart-tutor?type=smart-tutoring': 'Smart Tutoring',
-    '/past-questions?type=past-questions': 'Past Questions',
-    '/doctor-ai?type=doctor-ai': 'Doctor AI',
+    '/smart-tutoring': 'Smart Tutoring',
+    '/past-questions': 'Past Questions',
+    '/doctor-ai': 'Doctor AI',
     '/user': 'User Profile'
   }
   return routeTitles[route.path] || 'Dashboard'
