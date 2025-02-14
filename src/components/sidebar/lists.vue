@@ -25,10 +25,10 @@
       class="fixed bottom-0 left-0 flex w-full items-center justify-around bg-white p-2 shadow-md md:hidden lg:hidden dark:bg-[#111C44]"
     >
       <router-link
-        v-for="(item, index) in mainItems"
+        v-for="(item, index) in mainItemsMobile"
         :key="index"
         :to="item.route"
-        class="flex flex-col items-center text-xs transition-colors duration-200"
+        class="flex flex-col items-center truncate text-xs transition-colors duration-200"
         :class="{
           'font-medium text-[#5D3BEA]': isActive(item.route),
           'text-gray-500 hover:text-[#5D3BEA]': !isActive(item.route)
@@ -69,6 +69,27 @@ const mainItems = [
   },
   {
     label: 'Past Questions',
+    route: '/past-questions?type=past-questions',
+    icon: ArchiveBoxIcon
+  },
+  { label: 'Plan', route: '/plan', icon: ClipboardDocumentCheckIcon }
+]
+
+const mainItemsMobile = [
+  { label: 'Dashboard', route: '/dashboard', icon: HomeIcon },
+  { label: 'Games', route: '/learning-games', icon: AcademicCapIcon },
+  {
+    label: 'Doctor AI',
+    route: '/doctor-ai?type=doctor-ai',
+    icon: UserGroupIcon
+  },
+  {
+    label: 'Tutor',
+    route: '/smart-tutoring?type=smart-tutoring',
+    icon: LightBulbIcon
+  },
+  {
+    label: 'Past Que.',
     route: '/past-questions?type=past-questions',
     icon: ArchiveBoxIcon
   },

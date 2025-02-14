@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col 2xl:h-screen">
-    <div class="flex-grow overflow-y-auto overflow-x-hidden p-2">
+    <div class="mb-[10%] flex-grow overflow-y-auto overflow-x-hidden p-2">
       <component :is="currentComponent" />
     </div>
   </div>
