@@ -1,7 +1,6 @@
 <template>
   <div
-    class="flex min-h-screen flex-col"
-    :class="colorMode.value === 'dark' ? 'bg-[#111C44] text-white' : 'bg-white'"
+    class="flex h-screen flex-col border-r-[0.4px] bg-white dark:border-[#3b3b3b] dark:bg-[#111C44]"
   >
     <NuxtLink
       to="/"

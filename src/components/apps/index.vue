@@ -30,8 +30,11 @@ const componentsMap = {
   '/dashboard/essay': Essay,
   '/dashboard/speech-to-text': SpeechToText,
   '/dashboard/plagiarism': Plagiarism,
-  '/dashboard/plan': Plan,
-  '/dashboard/learning-games': LearningGames,
+  '/plan': Plan,
+  '/learning-games': LearningGames,
+  '/smart-tutoring?type=smart-tutoring': AiTutor,
+  '/past-questions?type=past-questions': Questions,
+  '/doctor-ai?type=doctor-ai': AiTutor,
   '/dashboard': Dashboard
 }
 

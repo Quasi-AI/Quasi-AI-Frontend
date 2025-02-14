@@ -1,13 +1,13 @@
 <template>
   <div
-    class="flex h-full flex-col gap-2 overflow-y-auto py-4"
+    class="flex h-full flex-col gap-4 overflow-y-auto py-4"
     :class="colorMode.value === 'dark' ? 'text-white' : ''"
   >
     <router-link
       v-for="(item, index) in mainItems"
       :key="index"
       :to="item.route"
-      class="flex min-w-fit cursor-pointer items-center gap-2 px-2 transition-colors duration-200"
+      class="flex min-w-fit cursor-pointer items-center gap-4 px-2 transition-colors duration-200"
       :class="{
         'font-medium text-[#5D3BEA]': isActive(item.route),
         'text-gray-500 hover:text-[#5D3BEA]': !isActive(item.route)
@@ -36,22 +36,22 @@ const mainItems = [
   { label: 'Dashboard', route: '/dashboard', icon: HomeIcon },
   {
     label: 'Learning Games',
-    route: '/dashboard/learning-games',
+    route: '/learning-games',
     icon: AcademicCapIcon
   },
   {
     label: 'Doctor AI',
-    route: '/dashboard/ai-tutor?tutor=doctor',
+    route: '/doctor-ai?type=doctor-ai',
     icon: UserGroupIcon
   },
   {
     label: 'Smart Tutoring',
-    route: '/dashboard/ai-tutor?tutor=smart-tutor',
+    route: '/smart-tutoring?type=smart-tutoring',
     icon: LightBulbIcon
   },
   {
     label: 'Past Questions',
-    route: '/dashboard/questions?type=past',
+    route: '/past-questions?type=past-questions',
     icon: ArchiveBoxIcon
   },
   { label: 'Plan', route: '/plan', icon: ClipboardDocumentCheckIcon }
