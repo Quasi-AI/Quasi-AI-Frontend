@@ -88,7 +88,7 @@ const generateQuestions = async () => {
             {
               parts: [
                 {
-                  text: `Here is some content:\n\n${messageContent.value}\n\nGenerate 10 insightful questions based on it.`
+                  text: `Here is some content:\n\n${messageContent.value}\n\nGenerate 11 insightful questions based on it.`
                 }
               ]
             }
