@@ -12,7 +12,7 @@
       <h1 class="text-lg font-bold">QUASI AI</h1>
     </NuxtLink>
     <div class="mx-5">
-      <SidebarLists />
+      <LayoutSidebarLists />
     </div>
 
     <div class="flex-grow"></div>

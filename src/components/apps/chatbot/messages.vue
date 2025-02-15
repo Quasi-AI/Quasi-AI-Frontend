@@ -2,15 +2,15 @@
   <div
     v-if="!props.chat.hideInChat"
     :class="[
-      'my-2 flex w-fit items-start space-x-3 rounded-lg border px-2 py-1',
+      'my-2 flex w-fit items-start space-x-3 rounded-lg px-2 py-1',
       props.chat.role === 'model'
         ? colorMode.value === 'dark'
-          ? 'border-[#13171C] bg-gray-800 text-white'
+          ? 'bg-gray-800 text-white'
           : 'bg-blue-50'
         : colorMode.value === 'dark'
-          ? 'border-[#13171C] bg-gray-700 text-white'
+          ? 'bg-gray-700 text-white'
           : 'bg-white',
-      props.chat.isError ? 'border-[#13171C] bg-red-500 text-white' : '',
+      props.chat.isError ? 'bg-red-500 text-white' : '',
       props.chat.role === 'model' ? 'mr-auto' : 'ml-auto'
     ]"
   >
