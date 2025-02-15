@@ -61,7 +61,7 @@
         />
 
         <p class="flex items-center gap-1">
-          <NuxtLink to="/user" class="text-md">Kwame</NuxtLink>
+          <NuxtLink to="/user" class="text-md">Profile</NuxtLink>
         </p>
       </div>
     </div>
