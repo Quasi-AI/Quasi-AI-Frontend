@@ -1,23 +1,15 @@
 <template>
-  <div
-    class="flex min-h-screen flex-col"
-    :class="colorMode.value === 'dark' ? 'bg-[#111C44] text-white' : 'bg-white'"
-  >
+  <div class="flex h-screen flex-col bg-white dark:bg-[#111C44]">
     <NuxtLink
       to="/"
-      class="flex items-center gap-2 p-4"
-      :class="
-        colorMode.value === 'dark'
-          ? 'border-b border-[#3b3b3b]'
-          : 'border-b border-[#F1F3FE]'
-      "
+      class="mb-2 hidden items-center gap-2 border-b-[0.4px] px-7 py-3 md:flex dark:border-[#3b3b3b]"
     >
       <img
         src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png"
         alt="logo"
-        class="w-10 cursor-pointer"
+        class="w-5 cursor-pointer"
       />
-      <h1 class="text-2xl font-bold">QUASI AI</h1>
+      <h1 class="text-lg font-bold">QUASI AI</h1>
     </NuxtLink>
     <div class="mx-5">
       <SidebarLists />
@@ -26,7 +18,7 @@
     <div class="flex-grow"></div>
 
     <div
-      class="flex flex-col items-center py-4 text-xs"
+      class="hidden flex-col items-center py-4 text-xs md:flex"
       :class="colorMode.value === 'dark' ? 'text-gray-300' : 'text-gray-600'"
     >
       <h1 class="truncate">Quasi AI</h1>

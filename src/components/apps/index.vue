@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col 2xl:h-screen">
-    <div class="flex-grow overflow-y-auto overflow-x-hidden p-2">
+    <div class="mb-[10%] flex-grow overflow-y-auto overflow-x-hidden p-2">
       <component :is="currentComponent" />
     </div>
   </div>
@@ -30,8 +30,11 @@ const componentsMap = {
   '/dashboard/essay': Essay,
   '/dashboard/speech-to-text': SpeechToText,
   '/dashboard/plagiarism': Plagiarism,
-  '/dashboard/plan': Plan,
-  '/dashboard/learning-games': LearningGames,
+  '/plan': Plan,
+  '/learning-games': LearningGames,
+  '/smart-tutoring?type=smart-tutoring': AiTutor,
+  '/past-questions?type=past-questions': Questions,
+  '/doctor-ai?type=doctor-ai': AiTutor,
   '/dashboard': Dashboard
 }
 

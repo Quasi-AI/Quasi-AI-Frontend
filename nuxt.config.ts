@@ -21,5 +21,11 @@ export default defineNuxtConfig({
     preference: 'light'
   },
 
+  runtimeConfig: {
+    public: {
+      GOOGLE_GEMINI_API_KEY: process.env.GOOGLE_GEMINI_API_KEY
+    }
+  },
+
   compatibilityDate: '2025-02-10'
 })
