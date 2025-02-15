@@ -2,21 +2,32 @@
   <div class="flex flex-col gap-6 px-5 lg:flex-row">
     <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
       <!-- Text Area -->
-      <UTextarea
+      <textarea
         v-model="messageContent"
-        variant="none"
         class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
         placeholder="Type your content here"
       />
 
       <!-- File Upload (Styled as Text Link) -->
-      <label for="file-upload" class="cursor-pointer text-blue-600 hover:underline dark:text-blue-400">
+      <label
+        for="file-upload"
+        class="cursor-pointer text-blue-600 hover:underline dark:text-blue-400"
+      >
         Upload PDF for Flashcards
       </label>
-      <input id="file-upload" type="file" @change="handleFileUpload" class="hidden" />
+      <input
+        id="file-upload"
+        type="file"
+        @change="handleFileUpload"
+        class="hidden"
+      />
 
       <!-- File Upload (Styled as Icon Button) -->
-      <UButton icon="i-heroicons-document-arrow-up" class="rounded-full bg-gray-200 p-2 dark:bg-gray-700" @click="triggerFileInput" />
+      <UButton
+        icon="i-heroicons-document-arrow-up"
+        class="rounded-full bg-gray-200 p-2 dark:bg-gray-700"
+        @click="triggerFileInput"
+      />
 
       <UButton
         class="rounded-2xl bg-[#5D3BEA] text-white"
