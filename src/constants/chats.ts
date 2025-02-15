@@ -6,7 +6,7 @@ export const chats = [
   },
   { role: 'model', text: 'You are welcome' },
   { role: 'user', text: 'What is your name' },
-  { role: 'model', text: 'My name is Pedia' },
+  { role: 'model', text: 'My name is Quasi AI' },
   { role: 'user', text: 'How can I help you' },
   {
     role: 'model',
