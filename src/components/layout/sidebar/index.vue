@@ -5,7 +5,7 @@
       class="mb-2 hidden items-center gap-2 border-b-[0.4px] px-7 py-3 md:flex dark:border-[#3b3b3b]"
     >
       <img
-        src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png"
+        src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png"
         alt="logo"
         class="w-5 cursor-pointer"
       />

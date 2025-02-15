@@ -14,7 +14,7 @@ export const metaData = {
     {
       rel: 'icon',
       type: 'image/x-icon',
-      href: 'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png'
+      href: 'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png'
     }
   ],
   meta: [
@@ -44,7 +44,7 @@ export const metaData = {
     {
       property: 'og:image',
       content:
-        'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png'
+        'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png'
     },
     { property: 'twitter:card', content: 'summary_large_image' },
     {
@@ -58,7 +58,7 @@ export const metaData = {
     {
       property: 'twitter:image',
       content:
-        'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png'
+        'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png'
     }
   ],
   htmlAttrs: {
