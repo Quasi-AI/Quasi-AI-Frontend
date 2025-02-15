@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between bg-white px-8 py-2">
     <NuxtLink to="/" class="flex items-center justify-center gap-2">
       <img
-        src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png"
+        src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png"
         alt="logo"
         class="w-10 cursor-pointer"
       />
@@ -70,11 +70,11 @@
       <li>Features</li>
       <li>How it works</li>
       <li>Pricing</li>
-      <NuxtLink to="/auth/login"
-        ><UButton variant="" class="rounded-2xl bg-[#5D3BEA] text-white"
+      <NuxtLink to="/auth/login">
+        <UButton variant="" class="rounded-2xl bg-[#5D3BEA] text-white"
           >Get Started</UButton
-        ></NuxtLink
-      >
+        >
+      </NuxtLink>
     </ul>
   </div>
 </template>
