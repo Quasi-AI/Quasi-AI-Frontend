@@ -11,16 +11,21 @@ export const metaData = {
       href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
       rel: 'stylesheet'
     },
-    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: 'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png'
+    }
   ],
   meta: [
     {
       name: 'description',
-      content: 'Quasi AI, Your best study AI'
+      content: 'Transform your learning experience with Quasi AI'
     },
     {
       name: 'keywords',
-      content: 'Quasi AI, Your best study AI'
+      content:
+        'Quizzes, Flashcards, Essay, AI Tutor, Smart Tutoring, Quasi AI, Learning Games, Plagiarism, Speech To Text, Questions, Find Tutors, Essay Writing'
     },
     { name: 'author', content: 'Daniel Adeabah' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
@@ -32,13 +37,14 @@ export const metaData = {
     },
     {
       property: 'og:description',
-      content: 'Quasi AI, Your best study AI'
+      content: 'Transform your learning experience with Quasi AI'
     },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://ucc-mindcare.vercel.app' },
+    { property: 'og:url', content: 'https://quasi-ai-frontend.vercel.app' },
     {
       property: 'og:image',
-      content: 'https://ucc-mindcare.vercel.app/og-image.jpg'
+      content:
+        'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png'
     },
     { property: 'twitter:card', content: 'summary_large_image' },
     {
@@ -47,11 +53,12 @@ export const metaData = {
     },
     {
       property: 'twitter:description',
-      content: 'Quasi AI, Your best study AI'
+      content: 'Transform your learning experience with Quasi AI'
     },
     {
       property: 'twitter:image',
-      content: 'https://ucc-mindcare.vercel.app/og-image.jpg'
+      content:
+        'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png'
     }
   ],
   htmlAttrs: {
