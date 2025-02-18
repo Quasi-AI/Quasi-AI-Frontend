@@ -222,10 +222,10 @@ const generateFlashcards = async () => {
 
     // Create the request body
     const requestBody = {
-      user_id: localStorage.getItem("user_id"), // Example user_id (replace as needed)
-      message: messageContent.value, // Content from the textarea
-      level: level.value, // Example level (replace as needed)
-      totalQuestions: totalQuestions.totalQuestions, // Number of questions
+      user_id: localStorage.getItem("user_id"),
+      message: messageContent.value,
+      level: level.value,
+      totalQuestions: totalQuestions.totalQuestions
     };
 
     // Make the API call using axios
@@ -238,14 +238,12 @@ const generateFlashcards = async () => {
     // Handle the response
     if (response.status === 200) {
       console.log("Flashcards generated:", response.data);
-      flashcards.value = response.data.flashcards || [];  // Assuming API returns flashcards in `flashcards` field
+      flashcards.value = response.data.flashcards || [];
     } else {
-      console.error("Error generating flashcards:", response.statusText);
-      errorMessage.value = response.data.error;
+      errorMessage.value = response.error;
     }
   } catch (err) {
-    console.error("Error generating flashcards:", err);
-    errorMessage.value = response.data.error;
+    errorMessage.value = response.error;
   } finally {
     isLoading.value = false;
   }
