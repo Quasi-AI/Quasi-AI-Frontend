@@ -7,6 +7,8 @@
 </template>
 
 <script setup>
+import { computed, onMounted } from 'vue'
+
 import Questions from '@/components/apps/questions/index.vue'
 import FlashCards from '@/components/apps/flashcards/index.vue'
 import Quizzes from '@/components/apps/quizzes/index.vue'
@@ -19,7 +21,21 @@ import Plan from '@/components/apps/plan/index.vue'
 import LearningGames from '@/components/apps/learning-games/index.vue'
 import Dashboard from '@/components/apps/lists.vue'
 
+// Sample authentication check, adjust according to your store or cookie
+const isAuthenticated = computed(() => {
+  // Check your authentication method, for example, using Vuex or a cookie
+  return localStorage.getItem('authToken') !== null // Example check
+})
+
 const route = useRoute()
+const router = useRouter()
+
+// Redirect to login if not authenticated
+onMounted(() => {
+  if (!isAuthenticated.value) {
+    router.push('/auth/login') // Redirect to login page
+  }
+})
 
 const componentsMap = {
   '/dashboard/questions': Questions,

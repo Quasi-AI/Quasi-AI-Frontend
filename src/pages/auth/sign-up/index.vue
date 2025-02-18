@@ -99,12 +99,13 @@ import { isValidEmail } from "@/utils/isValidEmail"
 import Loader from "@/components/loader/Loader.vue"
 import SuccessAlert from "@/components/success/SuccessAlert.vue"
 import ErrorAlert from "@/components/error/ErrorAlert.vue"
+import axios from 'axios'
 
 const email = ref("")
 const password = ref("")
 const name = ref("")
-const role = ref(""); // Stores selected role
-const roles = ["Student", "Educator"]; // Dropdown options
+const role = ref("Student") // Stores selected role
+const roles = ["Student", "Educator"] // Dropdown options
 const isPasswordVisible = ref(false)
 const isLoading = ref(false)
 const successMessage = ref("")
@@ -118,27 +119,21 @@ const signup = async () => {
   errorMessage.value = ""
 
   try {
-    const response = await fetch("https://quasi-ai-backend.onrender.com/user/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name.value,
-        email: email.value,
-        password: password.value,
-      }),
+    const response = await axios.post("https://quasi-ai-backend.onrender.com/user/create", {
+      name: name.value,
+      email: email.value,
+      role: role.value,
+      password: password.value,
     })
 
-    const data = await response.json()
-
-    if (response.ok) {
-      successMessage.value = "🎉 Sign-up successful! Welcome to Quasi AI!"
+    if (response.status === 200) {
+      successMessage.value = "Sign-up successful! Welcome to Quasi AI!"
+      router.push('/dashboard/index.vue')
     } else {
-      errorMessage.value = data.message || "⚠️ Something went wrong!"
+      errorMessage.value = response.data.message || "⚠️ Something went wrong!"
     }
   } catch (error) {
-    errorMessage.value = "⚠️ Network error! Please try again."
+    console.error("Error during axios request:", error)
   } finally {
     isLoading.value = false
   }
