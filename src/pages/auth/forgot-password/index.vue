@@ -12,10 +12,6 @@
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
 
-      <div class="flex flex-row items-center justify-center gap-4">
-        <OrSeperator class="w-3/4 sm:w-2/3" />
-      </div>
-
       <!-- Success & Error Messages -->
       <div class="mx-8">
         <SuccessAlert v-if="successMessage" :message="successMessage" />
@@ -39,7 +35,7 @@
           label="Sign in"
           size="md"
           :disabled="!isValidEmail(email) || isLoading"
-          @click="login"
+          @click="reset"
         >
           <span v-if="!isLoading">Recover Account</span>
           <span v-else class="flex items-center">
@@ -56,16 +52,14 @@ import Loader from "@/components/loader/Loader.vue"
 import SuccessAlert from "@/components/success/SuccessAlert.vue"
 import ErrorAlert from "@/components/error/ErrorAlert.vue"
 import axios from 'axios'
-import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
 import { isValidEmail } from '@/utils/isValidEmail'
-import { useRouter } from 'vue-router'
 
-
+const email = ref("")
 const isLoading = ref(false)
 const successMessage = ref("")
 const errorMessage = ref("")
 
-const login = async () => {
+const reset = async () => {
   if (!isValidEmail(email.value)) {
     console.error("Invalid email format.")
     return
@@ -79,15 +73,14 @@ const login = async () => {
       email: email.value
     })
     
-    if (response.data.email) {
-      successMessage.value = "Email sent successful!"
-
+    if (response.status === 200) {
+      successMessage.value = "Email sent successful!, Kindly check your mail"
       // router.push('/auth/index.vue')
     } else {
       errorMessage.value = response.data.message || "⚠️ Something went wrong!"
     }
   } catch (error) {
-    console.error('An error occurred during login:', error)
+    console.error('An error occurred during reset:', error)
   }finally {
     isLoading.value = false
   }
