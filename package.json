@@ -16,7 +16,7 @@
     "@nuxt/ui": "^2.16.0",
     "@nuxtjs/color-mode": "^3.4.2",
     "animejs": "^3.2.2",
-    "axios": "^1.7.2",
+    "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "eslint-config-vue": "^2.0.2",
     "jsonwebtoken": "^9.0.2",
