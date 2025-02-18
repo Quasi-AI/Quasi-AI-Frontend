@@ -119,7 +119,7 @@ const signup = async () => {
   errorMessage.value = ""
 
   try {
-    const response = await axios.post("https://quasi-ai-backend.onrender.com/user/create", {
+    const response = await axios.post("https://dark-caldron-448714-u5.uc.r.appspot.com/user/create", {
       name: name.value,
       email: email.value,
       role: role.value,
