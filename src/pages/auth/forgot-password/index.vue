@@ -12,10 +12,6 @@
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
 
-      <div class="flex flex-row items-center justify-center gap-4">
-        <OrSeperator class="w-3/4 sm:w-2/3" />
-      </div>
-
       <!-- Success & Error Messages -->
       <div class="mx-8">
         <SuccessAlert v-if="successMessage" :message="successMessage" />
