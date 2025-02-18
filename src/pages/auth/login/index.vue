@@ -111,7 +111,7 @@ const login = async () => {
   errorMessage.value = ""
 
   try {
-    const response = await axios.post('https://quasi-ai-backend.onrender.com/user/login', {
+    const response = await axios.post('https://dark-caldron-448714-u5.uc.r.appspot.com/user/login', {
       email: email.value,
       password: password.value
     })
