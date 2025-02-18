@@ -73,7 +73,9 @@
             <Loader class="w-5 h-5" />
           </span>
         </UButton>
+        <NuxtLink to="/auth/forgot-password" class="text-sm text-[#5D3BEA]">Forgot password</NuxtLink>
       </div>
+      
       <p class="text-sm text-black">
         New to Quasi AI?
         <NuxtLink to="/auth/sign-up" class="text-[#5D3BEA]">Sign up</NuxtLink>
