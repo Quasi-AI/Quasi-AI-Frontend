@@ -8,24 +8,47 @@
         placeholder="Type your content here"
       />
 
+      <!-- Dropdown for Level -->
+      <div class="mt-2 w-full">
+        <label for="level" class="block text-gray-600 dark:text-gray-300 mb-2">Select Level</label>
+        <select v-model="level" id="level" class="w-full p-3 rounded-2xl bg-white shadow dark:bg-[#111C44] dark:text-white">
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+      
+
+      <!-- Number Input for Total Questions -->
+      <div class="mt-2 w-full">
+        <label for="totalQuestions" class="block text-gray-600 dark:text-gray-300 mb-2">Total Questions</label>
+        <input
+          v-model.number="totalQuestions"
+          type="number"
+          id="totalQuestions"
+          min="1"
+          max="50"
+          class="w-full p-3 rounded-2xl bg-white shadow dark:bg-[#111C44] dark:text-white"
+          placeholder="Enter total questions"
+        />
+      </div>
+
       <!-- File Upload Instructions -->
-      <div class="text-center text-gray-600 dark:text-gray-300 mt-4">
-        <p>Please upload one of the following file types:</p>
-        <ul class="list-disc pl-5">
-          <li>PDF</li>
-          <li>Word Documents (.docx)</li>
-          <li>Audio Files (e.g., .mp3, .wav)</li>
-        </ul>
+      <div class="text-center text-gray-600 dark:text-gray-300 mt-2">
+        <p>Please ensure your upload is in one of the following formats:</p>
+        <div class="mt-2">
+          <p><strong>Accepted File Types: (.pdf *, .docx, .mp3, .wav)</strong></p>
+        </div>
       </div>
 
       <!-- File Icons -->
-      <div class="flex gap-4 mt-4">
+      <div class="flex gap-4 mt-2">
         <!-- Audio Recording Icon -->
         <UButton
           class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
           @click="triggerFileInput"
         >
-          <font-awesome-icon :icon="['fas', 'file']" />
+          <font-awesome-icon :icon="['fas', 'upload']" />
         </UButton>
       </div>
 
@@ -86,6 +109,7 @@ import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import * as pdfjsLib from 'pdfjs-dist';
 import mammoth from "mammoth";
 import PPTX2Json from 'pptx2json';
+import axios from 'axios';  // Import axios
 
 // Specify the worker source for PDF.js
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
@@ -98,6 +122,8 @@ const flashcards = ref([]);
 const loading = ref(false);
 const isLoading = ref(false);
 const errorMessage = ref(''); // New variable for error message
+const level  = ref('Beginner');
+const totalQuestions = ref('');
 
 // Trigger the hidden file input when the button is clicked
 const triggerFileInput = () => {
@@ -188,20 +214,40 @@ const handleFileChange = async (event) => {
   }
 };
 
-// Generate Flashcards (mockup function)
-const generateFlashcards = () => {
-  
-  // Logic to generate flashcards
 
-  try{
-    isLoading.value = true
+const generateFlashcards = async () => {
+  try {
+    isLoading.value = true;
     console.log('Generating Flashcards');
-    flashcards.value = [{ front: 'Example Question', back: 'Answer' }];
 
-  }catch (err) {
-        console.error("Error extracting text from PPTX:", err);
-  }finally{
-    isLoading.value = false
+    // Create the request body
+    const requestBody = {
+      user_id: localStorage.getItem("user_id"), // Example user_id (replace as needed)
+      message: messageContent.value, // Content from the textarea
+      level: level.value, // Example level (replace as needed)
+      totalQuestions: totalQuestions.totalQuestions, // Number of questions
+    };
+
+    // Make the API call using axios
+    const response = await axios.post('https://dark-caldron-448714-u5.uc.r.appspot.com/flashcards/generate', requestBody, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    // Handle the response
+    if (response.status === 200) {
+      console.log("Flashcards generated:", response.data);
+      flashcards.value = response.data.flashcards || [];  // Assuming API returns flashcards in `flashcards` field
+    } else {
+      console.error("Error generating flashcards:", response.statusText);
+      errorMessage.value = response.data.error;
+    }
+  } catch (err) {
+    console.error("Error generating flashcards:", err);
+    errorMessage.value = response.data.error;
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>

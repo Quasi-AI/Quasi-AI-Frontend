@@ -118,6 +118,7 @@ const login = async () => {
     
     if (response.data.token) {
       localStorage.setItem('authToken', response.data.token)
+      localStorage.setItem('user_id', response.data._id)
       successMessage.value = "Login successful! Welcome to Quasi AI!"
 
       router.push('/dashboard/index.vue')
