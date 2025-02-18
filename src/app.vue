@@ -3,6 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import { metaData } from '~~/meta-data';
-useHead(metaData);
+import { metaData } from '~~/meta-data'
+useHead(metaData)
 </script>

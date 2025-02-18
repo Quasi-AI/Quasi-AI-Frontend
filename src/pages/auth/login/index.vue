@@ -70,12 +70,14 @@
         >
           <span v-if="!isLoading">Login</span>
           <span v-else class="flex items-center">
-            <Loader class="w-5 h-5" />
+            <Loader class="h-5 w-5" />
           </span>
         </UButton>
-        <NuxtLink to="/auth/forgot-password" class="text-sm text-[#5D3BEA]">Forgot password</NuxtLink>
+        <NuxtLink to="/auth/forgot-password" class="text-sm text-[#5D3BEA]"
+          >Forgot password</NuxtLink
+        >
       </div>
-      
+
       <p class="text-sm text-black">
         New to Quasi AI?
         <NuxtLink to="/auth/sign-up" class="text-[#5D3BEA]">Sign up</NuxtLink>
@@ -85,9 +87,9 @@
 </template>
 
 <script setup>
-import Loader from "@/components/loader/Loader.vue"
-import SuccessAlert from "@/components/success/SuccessAlert.vue"
-import ErrorAlert from "@/components/error/ErrorAlert.vue"
+import Loader from '@/components/loader/Loader.vue'
+import SuccessAlert from '@/components/success/SuccessAlert.vue'
+import ErrorAlert from '@/components/error/ErrorAlert.vue'
 import axios from 'axios'
 import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
 import GoogleLogo from '@/assets/media/svgs/signin-google.vue'
@@ -99,37 +101,40 @@ const email = ref('')
 const password = ref('')
 const isPasswordVisible = ref(false)
 const isLoading = ref(false)
-const successMessage = ref("")
-const errorMessage = ref("")
+const successMessage = ref('')
+const errorMessage = ref('')
 const router = useRouter()
 
 const login = async () => {
   if (!isValidEmail(email.value)) {
-    console.error("Invalid email format.")
+    console.error('Invalid email format.')
     return
   }
   isLoading.value = true
-  successMessage.value = ""
-  errorMessage.value = ""
+  successMessage.value = ''
+  errorMessage.value = ''
 
   try {
-    const response = await axios.post('https://dark-caldron-448714-u5.uc.r.appspot.com/user/login', {
-      email: email.value,
-      password: password.value
-    })
-    
+    const response = await axios.post(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/user/login',
+      {
+        email: email.value,
+        password: password.value
+      }
+    )
+
     if (response.data.token) {
       localStorage.setItem('authToken', response.data.token)
       localStorage.setItem('user_id', response.data._id)
-      successMessage.value = "Login successful! Welcome to Quasi AI!"
+      successMessage.value = 'Login successful! Welcome to Quasi AI!'
 
       router.push('/dashboard/index.vue')
     } else {
-      errorMessage.value = response.data.message || "⚠️ Something went wrong!"
+      errorMessage.value = response.data.message || '⚠️ Something went wrong!'
     }
   } catch (error) {
     console.error('An error occurred during login:', error)
-  }finally {
+  } finally {
     isLoading.value = false
   }
 }
@@ -138,4 +143,3 @@ const togglePasswordVisibility = () => {
   isPasswordVisible.value = !isPasswordVisible.value
 }
 </script>
-

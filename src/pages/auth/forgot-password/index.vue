@@ -39,7 +39,7 @@
         >
           <span v-if="!isLoading">Recover Account</span>
           <span v-else class="flex items-center">
-            <Loader class="w-5 h-5" />
+            <Loader class="h-5 w-5" />
           </span>
         </UButton>
       </div>
@@ -48,43 +48,44 @@
 </template>
 
 <script setup>
-import Loader from "@/components/loader/Loader.vue"
-import SuccessAlert from "@/components/success/SuccessAlert.vue"
-import ErrorAlert from "@/components/error/ErrorAlert.vue"
+import Loader from '@/components/loader/Loader.vue'
+import SuccessAlert from '@/components/success/SuccessAlert.vue'
+import ErrorAlert from '@/components/error/ErrorAlert.vue'
 import axios from 'axios'
 import { isValidEmail } from '@/utils/isValidEmail'
 
-const email = ref("")
+const email = ref('')
 const isLoading = ref(false)
-const successMessage = ref("")
-const errorMessage = ref("")
+const successMessage = ref('')
+const errorMessage = ref('')
 
 const reset = async () => {
   if (!isValidEmail(email.value)) {
-    console.error("Invalid email format.")
+    console.error('Invalid email format.')
     return
   }
   isLoading.value = true
-  successMessage.value = ""
-  errorMessage.value = ""
+  successMessage.value = ''
+  errorMessage.value = ''
 
   try {
-    const response = await axios.post('https://dark-caldron-448714-u5.uc.r.appspot.com/user/request', {
-      email: email.value
-    })
-    
+    const response = await axios.post(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/user/request',
+      {
+        email: email.value
+      }
+    )
+
     if (response.status === 200) {
-      successMessage.value = "Email sent successful!, Kindly check your mail"
+      successMessage.value = 'Email sent successful!, Kindly check your mail'
       // router.push('/auth/index.vue')
     } else {
-      errorMessage.value = response.data.message || "⚠️ Something went wrong!"
+      errorMessage.value = response.data.message || '⚠️ Something went wrong!'
     }
   } catch (error) {
     console.error('An error occurred during reset:', error)
-  }finally {
+  } finally {
     isLoading.value = false
   }
 }
-
 </script>
-

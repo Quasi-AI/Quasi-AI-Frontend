@@ -1,6 +1,8 @@
 <template>
   <NuxtLayout name="auth-wrapper">
-    <div class="w-full max-w-[569px] rounded-2xl bg-white py-6 text-center text-2xl lg:shadow-md">
+    <div
+      class="w-full max-w-[569px] rounded-2xl bg-white py-6 text-center text-2xl lg:shadow-md"
+    >
       <NuxtLink to="/" class="flex items-center justify-center gap-2">
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png"
@@ -63,8 +65,15 @@
             variant="none"
             class="w-full rounded-2xl bg-[#F1F3FE]"
           />
-          <span class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3" @click="togglePasswordVisibility">
-            <UIcon :name="isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'"></UIcon>
+          <span
+            class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
+            @click="togglePasswordVisibility"
+          >
+            <UIcon
+              :name="
+                isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
+              "
+            ></UIcon>
           </span>
         </div>
 
@@ -77,7 +86,7 @@
         >
           <span v-if="!isLoading">Sign up with email</span>
           <span v-else class="flex items-center">
-            <Loader class="w-5 h-5" />
+            <Loader class="h-5 w-5" />
           </span>
         </UButton>
       </div>
@@ -91,49 +100,51 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
-import OrSeperator from "@/assets/media/svgs/or-seperator.vue"
-import GoogleLogo from "@/assets/media/svgs/signin-google.vue"
-import FacebookLogo from "@/assets/media/svgs/signin-facebook.vue"
-import { isValidEmail } from "@/utils/isValidEmail"
-import Loader from "@/components/loader/Loader.vue"
-import SuccessAlert from "@/components/success/SuccessAlert.vue"
-import ErrorAlert from "@/components/error/ErrorAlert.vue"
+import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
+import GoogleLogo from '@/assets/media/svgs/signin-google.vue'
+import FacebookLogo from '@/assets/media/svgs/signin-facebook.vue'
+import { isValidEmail } from '@/utils/isValidEmail'
+import Loader from '@/components/loader/Loader.vue'
+import SuccessAlert from '@/components/success/SuccessAlert.vue'
+import ErrorAlert from '@/components/error/ErrorAlert.vue'
 import axios from 'axios'
 
-const email = ref("")
-const password = ref("")
-const name = ref("")
-const role = ref("Student") // Stores selected role
-const roles = ["Student", "Educator"] // Dropdown options
+const email = ref('')
+const password = ref('')
+const name = ref('')
+const role = ref('Student') // Stores selected role
+const roles = ['Student', 'Educator'] // Dropdown options
 const isPasswordVisible = ref(false)
 const isLoading = ref(false)
-const successMessage = ref("")
-const errorMessage = ref("")
+const successMessage = ref('')
+const errorMessage = ref('')
 
 const signup = async () => {
   if (!isValidEmail(email.value)) return
 
   isLoading.value = true
-  successMessage.value = ""
-  errorMessage.value = ""
+  successMessage.value = ''
+  errorMessage.value = ''
 
   try {
-    const response = await axios.post("https://dark-caldron-448714-u5.uc.r.appspot.com/user/create", {
-      name: name.value,
-      email: email.value,
-      role: role.value,
-      password: password.value,
-    })
+    const response = await axios.post(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/user/create',
+      {
+        name: name.value,
+        email: email.value,
+        role: role.value,
+        password: password.value
+      }
+    )
 
     if (response.status === 200) {
-      successMessage.value = "Sign-up successful! Welcome to Quasi AI!"
+      successMessage.value = 'Sign-up successful! Welcome to Quasi AI!'
       router.push('/dashboard/index.vue')
     } else {
-      errorMessage.value = response.data.message || "⚠️ Something went wrong!"
+      errorMessage.value = response.data.message || '⚠️ Something went wrong!'
     }
   } catch (error) {
-    console.error("Error during axios request:", error)
+    console.error('Error during axios request:', error)
   } finally {
     isLoading.value = false
   }

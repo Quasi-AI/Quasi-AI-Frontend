@@ -9,7 +9,7 @@
       />
 
       <!-- File Upload Instructions -->
-      <div class="text-center text-gray-600 dark:text-gray-300 mt-2">
+      <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
         <p>Please ensure your upload is in one of the following formats:</p>
         <div class="mt-2">
           <p><strong>Accepted File Types: (.pdf *, .docx)</strong></p>
@@ -17,7 +17,7 @@
       </div>
 
       <!-- File Icons -->
-      <div class="flex gap-4 mt-2">
+      <div class="mt-2 flex gap-4">
         <!-- Audio Recording Icon -->
         <UButton
           class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
@@ -36,7 +36,7 @@
       >
         <span v-if="!isLoading">Analyze Essay</span>
         <span v-else class="flex items-center rounded-2xl">
-          <Loader class="w-5 h-5" />
+          <Loader class="h-5 w-5" />
         </span>
       </UButton>
 
@@ -56,151 +56,162 @@
   </div>
 
   <!-- Hidden File Input -->
-  <input type="file" id="file-upload" style="display: none" @change="handleFileChange" />
+  <input
+    type="file"
+    id="file-upload"
+    style="display: none"
+    @change="handleFileChange"
+  />
 </template>
 
-
 <script setup>
-import { ref } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import Loader from "@/components/loader/Loader.vue";
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
-import * as pdfjsLib from 'pdfjs-dist';
-import mammoth from "mammoth";
-import PPTX2Json from 'pptx2json';
-import axios from 'axios';  // Import axios
+import { ref } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import Loader from '@/components/loader/Loader.vue'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons'
+import * as pdfjsLib from 'pdfjs-dist'
+import mammoth from 'mammoth'
+import PPTX2Json from 'pptx2json'
+import axios from 'axios' // Import axios
 
 // Specify the worker source for PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
 
 // Add microphone icon to FontAwesome library
-library.add(faMicrophone);
+library.add(faMicrophone)
 
-const messageContent = ref('');
-const flashcards = ref([]);
-const loading = ref(false);
-const isLoading = ref(false);
-const errorMessage = ref(''); // New variable for error message
-
+const messageContent = ref('')
+const flashcards = ref([])
+const loading = ref(false)
+const isLoading = ref(false)
+const errorMessage = ref('') // New variable for error message
 
 // Trigger the hidden file input when the button is clicked
 const triggerFileInput = () => {
-  document.getElementById('file-upload').click();
-};
+  document.getElementById('file-upload').click()
+}
 
 // Handle the file selection
-const handleFileChange = async (event) => {
-  const file = event.target.files[0];
+const handleFileChange = async event => {
+  const file = event.target.files[0]
 
-  if (!file) return;
+  if (!file) return
 
-  const fileType = file.type;
-  errorMessage.value = ''; // Clear previous error message
+  const fileType = file.type
+  errorMessage.value = '' // Clear previous error message
 
   // PDF Handling
   if (fileType === 'application/pdf') {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const pdfData = new Uint8Array(e.target.result);
-      const pdf = await pdfjsLib.getDocument(pdfData).promise;
-      let text = '';
+    const reader = new FileReader()
+    reader.onload = async e => {
+      const pdfData = new Uint8Array(e.target.result)
+      const pdf = await pdfjsLib.getDocument(pdfData).promise
+      let text = ''
       for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        text += content.items.map(item => item.str).join(' ') + '\n';
+        const page = await pdf.getPage(i)
+        const content = await page.getTextContent()
+        text += content.items.map(item => item.str).join(' ') + '\n'
       }
-      messageContent.value = text;
-    };
-    reader.readAsArrayBuffer(file);
+      messageContent.value = text
+    }
+    reader.readAsArrayBuffer(file)
+  } else if (
+    fileType ===
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  ) {
+    const reader = new FileReader()
+    reader.onload = e => {
+      const arrayBuffer = e.target.result
+
+      // Extract text from the Word document using Mammoth
+      mammoth
+        .extractRawText({ arrayBuffer: arrayBuffer })
+        .then(result => {
+          messageContent.value = result.value // Set the extracted text in the textarea
+        })
+        .catch(err => {
+          console.error('Error extracting text from DOCX:', err)
+        })
+    }
+    reader.readAsArrayBuffer(file)
   }
 
-  else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const arrayBuffer = e.target.result;
-
-        // Extract text from the Word document using Mammoth
-        mammoth.extractRawText({ arrayBuffer: arrayBuffer })
-          .then((result) => {
-            messageContent.value = result.value;  // Set the extracted text in the textarea
-          })
-          .catch((err) => {
-            console.error("Error extracting text from DOCX:", err);
-          });
-      };
-      reader.readAsArrayBuffer(file);
-    }
-
   // PPTX Handling (using pptx2json)
-  else if (fileType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
-    const reader = new FileReader();
+  else if (
+    fileType ===
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+  ) {
+    const reader = new FileReader()
 
-    reader.onload = async (e) => {
-      const arrayBuffer = e.target.result;
+    reader.onload = async e => {
+      const arrayBuffer = e.target.result
 
       try {
         // Parse the PPTX file
-        const pptx = new PPTX2Json();
-        pptx.load(arrayBuffer);
+        const pptx = new PPTX2Json()
+        pptx.load(arrayBuffer)
 
         // Extracting the slide content
-        pptx.getSlides().then(slides => {
-          let text = '';
-          slides.forEach(slide => {
-            slide.texts.forEach(textItem => {
-              text += textItem.text + ' ';
-            });
-          });
-          messageContent.value = text;  // Set the extracted text in the textarea
-        }).catch(err => {
-          console.error("Error extracting slides:", err);
-        });
+        pptx
+          .getSlides()
+          .then(slides => {
+            let text = ''
+            slides.forEach(slide => {
+              slide.texts.forEach(textItem => {
+                text += textItem.text + ' '
+              })
+            })
+            messageContent.value = text // Set the extracted text in the textarea
+          })
+          .catch(err => {
+            console.error('Error extracting slides:', err)
+          })
       } catch (err) {
-        console.error("Error extracting text from PPTX:", err);
+        console.error('Error extracting text from PPTX:', err)
       }
-    };
-    reader.readAsArrayBuffer(file);
+    }
+    reader.readAsArrayBuffer(file)
+  } else {
+    errorMessage.value =
+      'Unsupported file type. Please upload a PDF, DOCX, or Audio file.'
   }
-  else {
-    errorMessage.value = 'Unsupported file type. Please upload a PDF, DOCX, or Audio file.';
-  }
-};
-
+}
 
 const analyzeEssay = async () => {
   try {
-    isLoading.value = true;
+    isLoading.value = true
 
     // Create the request body
     const requestBody = {
-      user_id: localStorage.getItem("user_id"),
-      message: messageContent.value,
-    };
+      user_id: localStorage.getItem('user_id'),
+      message: messageContent.value
+    }
 
     // Make the API call using axios
-    const response = await axios.post('https://dark-caldron-448714-u5.uc.r.appspot.com/analyze/generate', requestBody, {
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await axios.post(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/analyze/generate',
+      requestBody,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
-    });
+    )
 
     // Handle the response
     if (response.status === 200) {
-      flashcards.value = response.data.essays || [];
+      flashcards.value = response.data.essays || []
     } else {
-      errorMessage.value = response.error;
+      errorMessage.value = response.error
     }
   } catch (err) {
-    errorMessage.value = response.error;
+    errorMessage.value = response.error
   } finally {
-    isLoading.value = false;
+    isLoading.value = false
   }
-};
+}
 </script>
 
-
-<style scoped>
-
-</style>
-
+<style scoped></style>

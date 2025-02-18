@@ -72,7 +72,8 @@
       <li>Pricing</li>
       <NuxtLink to="/auth/login">
         <UButton variant="" class="rounded-2xl bg-[#5D3BEA] text-white"
-          >Get Started</UButton>
+          >Get Started</UButton
+        >
       </NuxtLink>
     </ul>
   </div>

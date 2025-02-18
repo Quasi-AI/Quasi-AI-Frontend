@@ -18,7 +18,8 @@
       <UButton
         variant=""
         class="flex w-fit items-center justify-center rounded-2xl bg-[#5D3BEA] text-white lg:w-[400px]"
-        >Start learning now</UButton>
+        >Start learning now</UButton
+      >
     </NuxtLink>
   </div>
 </template>

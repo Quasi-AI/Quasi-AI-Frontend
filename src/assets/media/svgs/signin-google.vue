@@ -37,4 +37,3 @@
     />
   </svg>
 </template>
-
