@@ -8,35 +8,44 @@
         placeholder="Type your content here"
       />
 
-      <!-- File Upload (Styled as Text Link) -->
-      <label
-        for="file-upload"
-        class="cursor-pointer text-blue-600 hover:underline dark:text-blue-400"
-      >
-        Upload PDF for Flashcards
-      </label>
-      <input
-        id="file-upload"
-        type="file"
-        @change="handleFileUpload"
-        class="hidden"
-      />
+      <!-- File Upload Instructions -->
+      <div class="text-center text-gray-600 dark:text-gray-300 mt-4">
+        <p>Please upload one of the following file types:</p>
+        <ul class="list-disc pl-5">
+          <li>PDF</li>
+          <li>Word Documents (.docx)</li>
+          <li>Audio Files (e.g., .mp3, .wav)</li>
+        </ul>
+      </div>
 
-      <!-- File Upload (Styled as Icon Button) -->
-      <UButton
-        icon="i-heroicons-document-arrow-up"
-        class="rounded-full bg-gray-200 p-2 dark:bg-gray-700"
-        @click="triggerFileInput"
-      />
+      <!-- File Icons -->
+      <div class="flex gap-4 mt-4">
+        <!-- Audio Recording Icon -->
+        <UButton
+          class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
+          @click="triggerFileInput"
+        >
+          <font-awesome-icon :icon="['fas', 'file']" />
+        </UButton>
+      </div>
 
+      <!-- Submit Button -->
       <UButton
         class="rounded-2xl bg-[#5D3BEA] text-white"
         :disabled="loading"
         @click="generateFlashcards"
         variant="blue"
       >
-        {{ loading ? 'Generating...' : 'Generate Flashcards' }}
+        <span v-if="!isLoading">Generate Flashcards</span>
+        <span v-else class="flex items-center rounded-2xl">
+          <Loader class="w-5 h-5" />
+        </span>
       </UButton>
+
+      <!-- Error Message -->
+      <div v-if="errorMessage" class="mt-4 text-red-500">
+        {{ errorMessage }}
+      </div>
     </div>
 
     <!-- Flashcards Preview -->
@@ -47,11 +56,7 @@
       </div>
 
       <div v-else class="grid grid-cols-2 gap-4">
-        <div
-          v-for="(flashcard, index) in flashcards"
-          :key="index"
-          class="flip-card"
-        >
+        <div v-for="(flashcard, index) in flashcards" :key="index" class="flip-card">
           <div class="flip-card-inner">
             <!-- Front -->
             <div class="flip-card-front">
@@ -66,108 +71,141 @@
       </div>
     </div>
   </div>
+
+  <!-- Hidden File Input -->
+  <input type="file" id="file-upload" style="display: none" @change="handleFileChange" />
 </template>
 
+
 <script setup>
-const messageContent = ref('')
-const flashcards = ref([])
-const loading = ref(false)
+import { ref } from 'vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Loader from "@/components/loader/Loader.vue";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import * as pdfjsLib from 'pdfjs-dist';
+import mammoth from "mammoth";
+import PPTX2Json from 'pptx2json';
 
-// Trigger hidden file input
+// Specify the worker source for PDF.js
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+
+// Add microphone icon to FontAwesome library
+library.add(faMicrophone);
+
+const messageContent = ref('');
+const flashcards = ref([]);
+const loading = ref(false);
+const isLoading = ref(false);
+const errorMessage = ref(''); // New variable for error message
+
+// Trigger the hidden file input when the button is clicked
 const triggerFileInput = () => {
-  document.getElementById('file-upload').click()
-}
+  document.getElementById('file-upload').click();
+};
 
-// Generate Flashcards
-const generateFlashcards = async () => {
-  if (!messageContent.value.trim()) {
-    flashcards.value = [
-      { front: 'Error', back: 'Please provide content to generate flashcards.' }
-    ]
-    return
-  }
+// Handle the file selection
+const handleFileChange = async (event) => {
+  const file = event.target.files[0];
 
-  loading.value = true
-  try {
-    const response = await fetch(
-      useRuntimeConfig().public.GOOGLE_GEMINI_API_KEY,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: `Based on the following content:\n\n${messageContent.value}\n\nGenerate 10 flashcards in JSON format with fields "front" and "back".`
-                }
-              ]
-            }
-          ]
-        })
+  if (!file) return;
+
+  const fileType = file.type;
+  errorMessage.value = ''; // Clear previous error message
+
+  // PDF Handling
+  if (fileType === 'application/pdf') {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const pdfData = new Uint8Array(e.target.result);
+      const pdf = await pdfjsLib.getDocument(pdfData).promise;
+      let text = '';
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        text += content.items.map(item => item.str).join(' ') + '\n';
       }
-    )
+      messageContent.value = text;
+    };
+    reader.readAsArrayBuffer(file);
+  }
 
-    const data = await response.json()
-    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      const rawText = data.candidates[0].content.parts[0].text
-      flashcards.value = parseFlashcards(rawText)
-    } else {
-      flashcards.value = [
-        { front: 'Error', back: 'Failed to generate flashcards.' }
-      ]
+  else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const arrayBuffer = e.target.result;
+
+        // Extract text from the Word document using Mammoth
+        mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+          .then((result) => {
+            messageContent.value = result.value;  // Set the extracted text in the textarea
+          })
+          .catch((err) => {
+            console.error("Error extracting text from DOCX:", err);
+          });
+      };
+      reader.readAsArrayBuffer(file);
     }
-  } catch (error) {
-    console.error('Error:', error)
-    flashcards.value = [
-      { front: 'Error', back: 'Error generating flashcards. Please try again.' }
-    ]
-  } finally {
-    loading.value = false
-  }
-}
 
-// Parse Gemini AI Output into Flashcards
-const parseFlashcards = text => {
-  try {
-    const jsonMatch = text.match(/\[.*\]/s)
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0])
-    }
-  } catch (error) {
-    console.error('JSON Parse Error:', error)
-  }
+  // PPTX Handling (using pptx2json)
+  else if (fileType === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+    const reader = new FileReader();
 
-  const lines = text.split('\n').filter(q => q.trim())
-  return lines.map(line => {
-    const [front, back] = line.split(':')
-    return {
-      front: front?.trim() || 'Unknown',
-      back: back?.trim() || 'No definition provided'
-    }
-  })
-}
+    reader.onload = async (e) => {
+      const arrayBuffer = e.target.result;
 
-// Handle PDF Upload
-const handleFileUpload = async event => {
-  const file = event.target.files[0]
-  if (file && file.type === 'application/pdf') {
-    messageContent.value = await extractTextFromPDF(file)
-  }
-}
+      try {
+        // Parse the PPTX file
+        const pptx = new PPTX2Json();
+        pptx.load(arrayBuffer);
 
-// Extract Text from PDF
-const extractTextFromPDF = async file => {
-  const pdf = await PDFJS.getDocument(URL.createObjectURL(file)).promise
-  let fullText = ''
-  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-    const page = await pdf.getPage(pageNum)
-    const text = await page.getTextContent()
-    fullText += text.items.map(item => item.str).join(' ') + '\n'
+        // Extracting the slide content
+        pptx.getSlides().then(slides => {
+          let text = '';
+          slides.forEach(slide => {
+            slide.texts.forEach(textItem => {
+              text += textItem.text + ' ';
+            });
+          });
+          messageContent.value = text;  // Set the extracted text in the textarea
+        }).catch(err => {
+          console.error("Error extracting slides:", err);
+        });
+      } catch (err) {
+        console.error("Error extracting text from PPTX:", err);
+      }
+    };
+    reader.readAsArrayBuffer(file);
   }
-  return fullText
-}
+  
+  // Audio Handling (basic example, can be expanded with speech-to-text libraries)
+  else if (fileType.startsWith('audio/')) {
+    // Example: Extract metadata or transcribe audio (e.g., using Google Speech API)
+    const text = 'Audio recording transcribed content';
+    messageContent.value = text;
+  } else {
+    errorMessage.value = 'Unsupported file type. Please upload a PDF, DOCX, or Audio file.';
+  }
+};
+
+// Generate Flashcards (mockup function)
+const generateFlashcards = () => {
+  
+  // Logic to generate flashcards
+
+  try{
+    isLoading.value = true
+    console.log('Generating Flashcards');
+    flashcards.value = [{ front: 'Example Question', back: 'Answer' }];
+
+  }catch (err) {
+        console.error("Error extracting text from PPTX:", err);
+  }finally{
+    isLoading.value = false
+  }
+};
 </script>
+
 
 <style scoped>
 /* Flip Card Animation */
