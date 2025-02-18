@@ -68,7 +68,7 @@
             class="flex w-full items-center justify-center rounded-md bg-[#5D3BEA] text-white"
             label="Sign in"
             size="md"
-            @click="login"
+            @click="changePassword"
           >
             <span v-if="!isLoading">Change password</span>
             <span v-else class="flex items-center">
@@ -85,7 +85,6 @@
   import SuccessAlert from "@/components/success/SuccessAlert.vue"
   import ErrorAlert from "@/components/error/ErrorAlert.vue"
   import axios from 'axios'
-  import { isValidEmail } from '@/utils/isValidEmail'
   import { useRouter } from 'vue-router'
   
   const confirm_password = ref('')
@@ -96,7 +95,7 @@
   const errorMessage = ref("")
   const router = useRouter()
   
-  const login = async () => {
+  const changePassword = async () => {
     isLoading.value = true
     successMessage.value = ""
     errorMessage.value = ""
@@ -107,14 +106,14 @@
         password: password.value
       })
       
-      if (response.data.token) {
+      if (response.status === 200) {
         successMessage.value = "Password Changed successful!"
-        router.push('/auth/login')
+        router.push('/auth/changePassword')
       } else {
         errorMessage.value = response.data.message || "⚠️ Something went wrong!"
       }
     } catch (error) {
-      console.error('An error occurred during login:', error)
+      console.error('An error occurred during changePassword:', error)
     }finally {
       isLoading.value = false
     }
