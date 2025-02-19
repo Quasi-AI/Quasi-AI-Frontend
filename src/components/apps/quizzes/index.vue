@@ -45,7 +45,7 @@
       <input
         id="file-upload"
         type="file"
-        @change="handleFileUpload"
+        @change="handleFileChange"
         class="hidden"
       />
 
@@ -154,14 +154,33 @@
       </div>
     </div>
   </div>
+
+  <!-- Hidden File Input -->
+  <input
+    type="file"
+    id="file-upload"
+    style="display: none"
+    @change="handleFileChange"
+  />
 </template>
 
 <script setup>
+
+import * as pdfjsLib from 'pdfjs-dist'
+import mammoth from 'mammoth'
+import PPTX2Json from 'pptx2json'
+
+// Specify the worker source for PDF.js
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
+
+
 const messageContent = ref('')
 const quizes = ref([])
 const selectedLevel = ref('beginner')
 const numQuestions = ref(10)
 const loading = ref(false)
+const errorMessage = ref('')
 const score = ref(null)
 const userTimer = ref() // Default timer duration in minutes
 const timer = ref(0) // Timer in seconds
@@ -178,6 +197,105 @@ const startTimer = () => {
       checkAnswers() // Automatically submit answers when time runs out
     }
   }, 1000)
+}
+
+
+// Trigger the hidden file input when the button is clicked
+const triggerFileInput = () => {
+  document.getElementById('file-upload').click()
+}
+
+// Handle the file selection
+const handleFileChange = async event => {
+  const file = event.target.files[0]
+
+  if (!file) return
+
+  const fileType = file.type
+  errorMessage.value = '' // Clear previous error message
+
+  // PDF Handling
+  if (fileType === 'application/pdf') {
+    const reader = new FileReader()
+    reader.onload = async e => {
+      const pdfData = new Uint8Array(e.target.result)
+      const pdf = await pdfjsLib.getDocument(pdfData).promise
+      let text = ''
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i)
+        const content = await page.getTextContent()
+        text += content.items.map(item => item.str).join(' ') + '\n'
+      }
+      messageContent.value = text
+    }
+    reader.readAsArrayBuffer(file)
+  } else if (
+    fileType ===
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  ) {
+    const reader = new FileReader()
+    reader.onload = e => {
+      const arrayBuffer = e.target.result
+
+      // Extract text from the Word document using Mammoth
+      mammoth
+        .extractRawText({ arrayBuffer: arrayBuffer })
+        .then(result => {
+          messageContent.value = result.value // Set the extracted text in the textarea
+        })
+        .catch(err => {
+          console.error('Error extracting text from DOCX:', err)
+        })
+    }
+    reader.readAsArrayBuffer(file)
+  }
+
+  // PPTX Handling (using pptx2json)
+  else if (
+    fileType ===
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+  ) {
+    const reader = new FileReader()
+
+    reader.onload = async e => {
+      const arrayBuffer = e.target.result
+
+      try {
+        // Parse the PPTX file
+        const pptx = new PPTX2Json()
+        pptx.load(arrayBuffer)
+
+        // Extracting the slide content
+        pptx
+          .getSlides()
+          .then(slides => {
+            let text = ''
+            slides.forEach(slide => {
+              slide.texts.forEach(textItem => {
+                text += textItem.text + ' '
+              })
+            })
+            messageContent.value = text // Set the extracted text in the textarea
+          })
+          .catch(err => {
+            console.error('Error extracting slides:', err)
+          })
+      } catch (err) {
+        console.error('Error extracting text from PPTX:', err)
+      }
+    }
+    reader.readAsArrayBuffer(file)
+  }
+
+  // Audio Handling (basic example, can be expanded with speech-to-text libraries)
+  else if (fileType.startsWith('audio/')) {
+    // Example: Extract metadata or transcribe audio (e.g., using Google Speech API)
+    const text = 'Audio recording transcribed content'
+    messageContent.value = text
+  } else {
+    errorMessage.value =
+      'Unsupported file type. Please upload a PDF, DOCX, or Audio file.'
+  }
 }
 
 // Generate Quiz Questions using the new API
