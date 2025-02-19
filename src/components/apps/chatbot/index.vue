@@ -53,7 +53,7 @@
         </button>
       </form>
       <p class="py-1 text-center text-xs italic text-gray-500">
-        Type "clear" for a new chat
+        Type "clear" to reset the chat
       </p>
     </div>
   </div>
