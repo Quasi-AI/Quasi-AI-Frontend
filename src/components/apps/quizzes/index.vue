@@ -105,7 +105,9 @@
         </div>
 
         <!-- Questions -->
-        <div class="h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-y-auto space-y-4 p-2">
+        <div
+          class="h-[60vh] space-y-4 overflow-y-auto p-2 md:h-[70vh] lg:h-[80vh]"
+        >
           <div
             v-for="(quiz, index) in quizes"
             :key="index"
@@ -132,7 +134,6 @@
             </div>
           </div>
         </div>
-
 
         <!-- Submit Button -->
         <UButton

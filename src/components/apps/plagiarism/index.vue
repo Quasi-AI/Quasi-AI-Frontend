@@ -79,7 +79,6 @@ import axios from 'axios' // Import axios
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
 
-
 const inputText = ref('')
 const results = ref([])
 const loading = ref(false)
@@ -188,18 +187,18 @@ const handleFileChange = async event => {
 const checkPlagiarism = async () => {
   loading.value = true
   try {
-
     // Create the request body
     const requestBody = {
       user_id: localStorage.getItem('user_id'),
-      message: messageContent.value,
+      message: messageContent.value
     }
-    
+
     const response = await axios.post(
-      'https://dark-caldron-448714-u5.uc.r.appspot.com/plagiarism/generate', requestBody,
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/plagiarism/generate',
+      requestBody,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }
       }
     )
 
