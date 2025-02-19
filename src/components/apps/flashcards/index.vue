@@ -91,8 +91,7 @@
 
       <div
         v-else
-        class="grid grid-cols-2 gap-4 overflow-y-auto p-2 border dark:border-none rounded-lg
-           max-h-[400px] sm:max-h-[500px] md:max-h-[600px] lg:max-h-[700px] xl:max-h-[800px]"
+        class="grid max-h-[400px] grid-cols-2 gap-4 overflow-y-auto rounded-lg border p-2 sm:max-h-[500px] md:max-h-[600px] lg:max-h-[700px] xl:max-h-[800px] dark:border-none"
       >
         <div
           v-for="(flashcard, index) in flashcards"
@@ -110,9 +109,8 @@
             </div>
           </div>
         </div>
+      </div>
     </div>
-</div>
-
   </div>
 
   <!-- Hidden File Input -->

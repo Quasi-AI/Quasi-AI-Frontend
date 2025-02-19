@@ -18,7 +18,7 @@
       <!-- Buttons -->
       <div class="mt-2 flex gap-4">
         <UButton
-        variant="blue"
+          variant="blue"
           class="rounded-md bg-blue-200 px-3 dark:bg-blue-500"
           @click="toggleSpeechToText"
         >
@@ -29,8 +29,9 @@
     </div>
 
     <!-- Saved Transcripts Section -->
-    <div class="overflow-y-auto p-2 border dark:border-none rounded-lg
-    max-h-[400px] sm:max-h-[500px] md:max-h-[600px] lg:max-h-[700px] xl:max-h-[800px]">
+    <div
+      class="max-h-[400px] overflow-y-auto rounded-lg border p-2 sm:max-h-[500px] md:max-h-[600px] lg:max-h-[700px] xl:max-h-[800px] dark:border-none"
+    >
       <h2 class="mb-2 text-lg font-bold">Saved Transcripts</h2>
       <div v-if="savedTranscripts.length === 0" class="text-gray-500">
         No transcripts saved yet.

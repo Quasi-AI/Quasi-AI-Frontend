@@ -1,18 +1,15 @@
 <template>
   <div class="z-50 flex items-center justify-between px-4 py-2">
     <div class="flex flex-col items-center gap-2">
-      <NuxtLink
-        to="/"
-        class="flex items-center gap-2 border-b-[0.4px] px-2 py-3 md:hidden dark:border-[#3b3b3b]"
-      >
+      <NuxtLink to="/" class="flex items-center gap-2 px-2 py-3 md:hidden">
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png"
           alt="logo"
-          class="w-5 cursor-pointer"
+          class="w-8 cursor-pointer"
         />
-        <h5 class="truncate text-xs font-bold">QUASI AI</h5>
       </NuxtLink>
-      <h1 class="trucnate text-sm font-extralight md:text-xl">
+
+      <h1 class="trucnate hidden text-sm font-extralight md:text-xl lg:block">
         {{ pageTitle }}
       </h1>
     </div>
@@ -66,6 +63,10 @@
       </div>
     </div>
   </div>
+
+  <h1 class="mx-6 flex text-sm font-extralight md:text-xl lg:hidden">
+    {{ pageTitle }}
+  </h1>
 </template>
 
 <script setup lang="ts">
