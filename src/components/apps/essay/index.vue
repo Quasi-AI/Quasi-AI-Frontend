@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col gap-6 px-5 lg:flex-row">
+    <!-- Left Section: Text Area & Upload -->
     <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
       <!-- Text Area -->
       <textarea
@@ -12,13 +13,12 @@
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
         <p>Please ensure your upload is in one of the following formats:</p>
         <div class="mt-2">
-          <p><strong>Accepted File Types: (.pdf *, .docx)</strong></p>
+          <p><strong>Accepted File Types: (.pdf, .docx)</strong></p>
         </div>
       </div>
 
-      <!-- File Icons -->
+      <!-- File Upload Button -->
       <div class="mt-2 flex gap-4">
-        <!-- Audio Recording Icon -->
         <UButton
           class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
           @click="triggerFileInput"
@@ -30,7 +30,7 @@
       <!-- Submit Button -->
       <UButton
         class="rounded-2xl bg-[#5D3BEA] text-white"
-        :disabled="loading"
+        :disabled="isLoading"
         @click="analyzeEssay"
         variant="blue"
       >
@@ -46,22 +46,33 @@
       </div>
     </div>
 
-    <!-- Flashcards Preview -->
-    <div class="flex w-full flex-col lg:w-[50%]">
-      <h2 class="mb-2 text-lg font-bold">Preview</h2>
-      <div v-if="flashcards.length === 0" class="text-gray-500">
-        No essay analyze yet.
+    <!-- Right Section: Results -->
+
+    <div class="flex w-full flex-col lg:w-[50%] p-5 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+      <h2 class="mb-2 text-lg font-bold">Results</h2>
+
+      <!-- Show message if no essay has been analyzed -->
+      <div v-if="!essay" class="text-gray-500 text-center">
+        No essay analyzed yet.
+      </div>
+
+      <!-- Show analyzed essay with highlighted mistakes -->
+      <div 
+        v-else 
+        class="relative border border-gray-300 p-5 bg-gray-100 dark:bg-gray-700 rounded-md max-h-[60vh] overflow-y-auto"
+      >
+        <p v-html="formattedEssay"></p>
+      </div>
+
+      <!-- Beautiful Circle Chart for Mistakes -->
+      <div v-if="essay" class="mt-5 flex justify-center">
+        <DoughnutChart :chart-data="chartData" :chart-options="chartOptions" class="w-40 h-40" />
       </div>
     </div>
   </div>
 
   <!-- Hidden File Input -->
-  <input
-    type="file"
-    id="file-upload"
-    style="display: none"
-    @change="handleFileChange"
-  />
+  <input type="file" id="file-upload" style="display: none" @change="handleFileChange" />
 </template>
 
 <script setup>
@@ -73,6 +84,16 @@ import { faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import * as pdfjsLib from 'pdfjs-dist'
 import mammoth from 'mammoth'
 import PPTX2Json from 'pptx2json'
+import { defineChartComponent } from "vue-chart-3";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+// Register necessary Chart.js components
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+// Define Doughnut chart component
+const DoughnutChart = defineChartComponent("doughnut");
+
+
 import axios from 'axios' // Import axios
 
 // Specify the worker source for PDF.js
@@ -83,9 +104,10 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 library.add(faMicrophone)
 
 const messageContent = ref('')
-const flashcards = ref([])
+const essay = ref('')
 const loading = ref(false)
 const isLoading = ref(false)
+const mistakes = ref([])
 const errorMessage = ref('') // New variable for error message
 
 // Trigger the hidden file input when the button is clicked
@@ -179,39 +201,95 @@ const handleFileChange = async event => {
   }
 }
 
+const formattedEssay = computed(() => {
+      if (!essay.value || !mistakes.value.length) return essay.value || "";
+
+      let text = essay.value;
+      mistakes.value.forEach(({ word }) => {
+        const regex = new RegExp(`\\b${word}\\b`, "gi");
+        text = text.replace(regex, `<span class="text-red-500 underline">${word}</span>`);
+      });
+
+      return text;
+});
+
+const totalWords = 100;
+const chartData = computed(() => ({
+  labels: ["Mistakes", "Correct"],
+  datasets: [
+    {
+      data: [
+        mistakes.value.length, // Reactive value
+        Math.max(0, totalWords - mistakes.value.length),
+      ],
+      backgroundColor: ["#ff4d4d", "#4CAF50"],
+      hoverOffset: 4,
+    },
+  ],
+}));
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: true,
+      position: "bottom"
+    }
+  }
+};
+
+// Function to analyze the essay via API
 const analyzeEssay = async () => {
   try {
-    isLoading.value = true
+      isLoading.value = true;
+      errorMessage.value = "";
 
-    // Create the request body
-    const requestBody = {
-      user_id: localStorage.getItem('user_id'),
-      message: messageContent.value
-    }
+      const requestBody = {
+        user_id: localStorage.getItem("user_id"),
+        message: messageContent.value,
+      };
 
-    // Make the API call using axios
-    const response = await axios.post(
-      'https://dark-caldron-448714-u5.uc.r.appspot.com/analyze/generate',
-      requestBody,
-      {
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await axios.post(
+        "https://dark-caldron-448714-u5.uc.r.appspot.com/analyze/generate",
+        requestBody,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      }
-    )
+      );
 
-    // Handle the response
-    if (response.status === 200) {
-      flashcards.value = response.data.essays || []
-    } else {
-      errorMessage.value = response.error
-    }
-  } catch (err) {
-    errorMessage.value = response.error
-  } finally {
-    isLoading.value = false
+      // Handle the response
+      if (response.data.message) {
+        essay.value = response.data.message; // Store original essay
+        mistakes.value = response.data.mistakes || []; // Store mistakes if available
+      } else {
+        errorMessage.value = "Unexpected response from server.";
+      }
+    } catch (err) {
+      errorMessage.value = err.message || "Failed to analyze essay.";
+    } finally {
+      isLoading.value = false;
   }
-}
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+.border-paper {
+  border: 2px solid #ccc;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Times New Roman", serif;
+  min-height: 40vh;
+  max-width: 100%;
+  line-height: 1.6;
+}
+
+.text-red-500 {
+  color: red;
+  text-decoration: underline;
+}
+</style>
+

@@ -8,39 +8,6 @@
         placeholder="Type your content here"
       />
 
-      <!-- Dropdown for Level -->
-      <div class="mt-2 w-full">
-        <label for="level" class="mb-2 block text-gray-600 dark:text-gray-300"
-          >Select Level</label
-        >
-        <select
-          v-model="level"
-          id="level"
-          class="w-full rounded-2xl bg-white p-3 shadow dark:bg-[#111C44] dark:text-white"
-        >
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-      </div>
-
-      <!-- Number Input for Total Questions -->
-      <div class="mt-2 w-full">
-        <label
-          for="totalQuestions"
-          class="mb-2 block text-gray-600 dark:text-gray-300"
-          >Total Questions</label
-        >
-        <input
-          v-model.number="totalQuestions"
-          type="number"
-          id="totalQuestions"
-          min="1"
-          max="50"
-          class="w-full rounded-2xl bg-white p-3 shadow dark:bg-[#111C44] dark:text-white"
-          placeholder="Enter total questions"
-        />
-      </div>
 
       <!-- File Upload Instructions -->
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
@@ -61,6 +28,32 @@
         >
           <font-awesome-icon :icon="['fas', 'upload']" />
         </UButton>
+      </div>
+
+      <!-- Dropdown for Level -->
+      <div class="mt-2 w-full">
+        <select
+          v-model="level"
+          id="level"
+          class="w-full rounded-2xl bg-white p-3 shadow dark:bg-[#111C44] dark:text-white"
+        >
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+      <!-- Number Input for Total Questions -->
+      <div class="mt-2 w-full">
+        <input
+          v-model.number="totalQuestions"
+          type="number"
+          id="totalQuestions"
+          min="1"
+          max="50"
+          class="w-full rounded-2xl bg-white p-3 shadow dark:bg-[#111C44] dark:text-white"
+          placeholder="Enter total questions"
+        />
       </div>
 
       <!-- Submit Button -->
@@ -146,7 +139,7 @@ const flashcards = ref([])
 const loading = ref(false)
 const isLoading = ref(false)
 const errorMessage = ref('') // New variable for error message
-const level = ref('Beginner')
+const level = ref('beginner')
 const totalQuestions = ref('')
 
 // Trigger the hidden file input when the button is clicked
