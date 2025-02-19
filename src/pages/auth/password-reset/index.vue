@@ -12,12 +12,6 @@
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
 
-      <!-- Success & Error Messages -->
-      <div class="mx-8">
-        <SuccessAlert v-if="successMessage" :message="successMessage" />
-        <ErrorAlert v-if="errorMessage" :message="errorMessage" />
-      </div>
-
       <div class="mx-8 flex flex-col gap-4 py-6 sm:mx-12">
         <div class="relative">
           <UInput
@@ -68,7 +62,7 @@
           class="flex w-full items-center justify-center rounded-md bg-[#5D3BEA] text-white"
           label="Sign in"
           size="md"
-          @click="changePassword"
+          @click="newPassword"
         >
           <span v-if="!isLoading">Change password</span>
           <span v-else class="flex items-center">
@@ -82,44 +76,16 @@
 
 <script setup>
 import Loader from '@/components/loader/Loader.vue'
-import SuccessAlert from '@/components/success/SuccessAlert.vue'
-import ErrorAlert from '@/components/error/ErrorAlert.vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
+import { useAuthenticationStore } from '~/store/auth'
 
-const confirm_password = ref('')
 const password = ref('')
+const confirm_password = ref('')
 const isPasswordVisible = ref(false)
-const isLoading = ref(false)
-const successMessage = ref('')
-const errorMessage = ref('')
-const router = useRouter()
 
-const changePassword = async () => {
-  isLoading.value = true
-  successMessage.value = ''
-  errorMessage.value = ''
+const store = useAuthenticationStore()
 
-  try {
-    const response = await axios.post(
-      'https://dark-caldron-448714-u5.uc.r.appspot.com/user/reset',
-      {
-        confirm: confirm_password.value,
-        password: password.value
-      }
-    )
-
-    if (response.status === 200) {
-      successMessage.value = 'Password Changed successful!'
-      router.push('/auth/changePassword')
-    } else {
-      errorMessage.value = response.data.message || '⚠️ Something went wrong!'
-    }
-  } catch (error) {
-    console.error('An error occurred during changePassword:', error)
-  } finally {
-    isLoading.value = false
-  }
+const newPassword = () => {
+  store.newPassword(password.value, confirm_password.value)
 }
 
 const togglePasswordVisibility = () => {

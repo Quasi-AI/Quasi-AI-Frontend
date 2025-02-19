@@ -12,12 +12,6 @@
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
 
-      <!-- Success & Error Messages -->
-      <div class="mx-8">
-        <SuccessAlert v-if="successMessage" :message="successMessage" />
-        <ErrorAlert v-if="errorMessage" :message="errorMessage" />
-      </div>
-
       <div class="mx-8 flex flex-col gap-4 py-6 sm:mx-12">
         <UInput
           v-model="email"
@@ -35,57 +29,56 @@
           label="Sign in"
           size="md"
           :disabled="!isValidEmail(email) || isLoading"
-          @click="reset"
+          @click="forgotPassword"
         >
           <span v-if="!isLoading">Recover Account</span>
           <span v-else class="flex items-center">
             <Loader class="h-5 w-5" />
           </span>
         </UButton>
+        <NuxtLink to="/auth/login" class="text-sm text-[#5D3BEA]"
+          >Back to login</NuxtLink
+        >
       </div>
     </div>
   </NuxtLayout>
 </template>
 
 <script setup>
-import Loader from '@/components/loader/Loader.vue'
-import SuccessAlert from '@/components/success/SuccessAlert.vue'
-import ErrorAlert from '@/components/error/ErrorAlert.vue'
-import axios from 'axios'
+import { useAuthenticationStore } from '~/store/auth'
 import { isValidEmail } from '@/utils/isValidEmail'
 
 const email = ref('')
-const isLoading = ref(false)
-const successMessage = ref('')
 const errorMessage = ref('')
+const successMessage = ref('')
+const isLoading = ref(false)
 
-const reset = async () => {
-  if (!isValidEmail(email.value)) {
-    console.error('Invalid email format.')
-    return
-  }
+const store = useAuthenticationStore()
+
+const forgotPassword = async () => {
+  errorMessage.value = null
+  successMessage.value = null
   isLoading.value = true
-  successMessage.value = ''
-  errorMessage.value = ''
 
-  try {
-    const response = await axios.post(
-      'https://dark-caldron-448714-u5.uc.r.appspot.com/user/request',
-      {
-        email: email.value
-      }
-    )
-
-    if (response.status === 200) {
-      successMessage.value = 'Email sent successful!, Kindly check your mail'
-      // router.push('/auth/index.vue')
-    } else {
-      errorMessage.value = response.data.message || '⚠️ Something went wrong!'
+  if (!email.value) {
+    errorMessage.value = 'Please enter your email address'
+  } else if (!isValidEmail(email.value)) {
+    errorMessage.value = 'Please enter a valid email address'
+  } else {
+    try {
+      await store.forgotPassword(email.value)
+      successMessage.value = 'Email sent successfully. Please check your inbox.'
+    } catch (error) {
+      errorMessage.value =
+        error.message || 'An error occurred. Please try again.'
     }
-  } catch (error) {
-    console.error('An error occurred during reset:', error)
-  } finally {
-    isLoading.value = false
   }
+
+  isLoading.value = false
+
+  setTimeout(() => {
+    errorMessage.value = null
+    successMessage.value = null
+  }, 3000)
 }
 </script>
