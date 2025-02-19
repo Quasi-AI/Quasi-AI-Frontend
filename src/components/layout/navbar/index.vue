@@ -103,4 +103,34 @@ const pageTitle = computed(() => {
   }
   return routeTitles[route.path] || 'Dashboard'
 })
+
+const color = computed(() => (colorMode.value === 'dark' ? '#0C1438' : 'white'))
+
+useHead({
+  meta: [
+    { charset: 'utf-8' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { key: 'theme-color', name: 'theme-color', content: color }
+  ],
+  link: [
+    {
+      rel: 'icon',
+      href: 'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png'
+    }
+  ],
+  htmlAttrs: {
+    lang: 'en'
+  }
+})
+
+useSeoMeta({
+  titleTemplate: '%s',
+  description:
+    'Transform your learning experience with Quasi AI, the all-in-one learning platform that generates flashcards, quizzies, and study materials instantly from your lectures, notes, pdfs, and presentations.',
+  ogImage:
+    'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png',
+  twitterImage:
+    'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png',
+  twitterCard: 'summary_large_image'
+})
 </script>
