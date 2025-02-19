@@ -91,7 +91,7 @@
 
       <div
         v-else
-        class="grid grid-cols-2 gap-4 overflow-y-auto p-2 border rounded-lg
+        class="grid grid-cols-2 gap-4 overflow-y-auto p-2 border dark:border-none rounded-lg
            max-h-[400px] sm:max-h-[500px] md:max-h-[600px] lg:max-h-[700px] xl:max-h-[800px]"
       >
         <div

@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col items-center justify-center gap-6 px-5 lg:flex-row">
+  <div class="flex flex-col gap-6 px-5 lg:flex-row">
     <div class="flex w-full flex-col items-center gap-4">
       <!-- Preview Section -->
-      <div class="flex w-full flex-col lg:w-[50%]">
+      <div class="flex w-full flex-col">
         <h2 class="mb-2 text-lg font-bold">Preview</h2>
         <div v-if="messageContent.length === 0" class="text-gray-500">
           No content recognized yet.
@@ -18,25 +18,19 @@
       <!-- Buttons -->
       <div class="mt-2 flex gap-4">
         <UButton
-          class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
+        variant="blue"
+          class="rounded-md bg-blue-200 px-3 dark:bg-blue-500"
           @click="toggleSpeechToText"
         >
           <font-awesome-icon :icon="['fas', 'microphone']" />
-          {{ isListening ? 'Pause' : 'Start Speech-to-Text' }}
-        </UButton>
-
-        <UButton
-          class="rounded-full bg-gray-200 p-3 dark:bg-gray-700"
-          @click="clearPreview"
-        >
-          <font-awesome-icon :icon="['fas', 'trash']" />
-          Clear
+          {{ isListening ? 'Pause' : 'Start speaking..' }}
         </UButton>
       </div>
     </div>
 
     <!-- Saved Transcripts Section -->
-    <div class="flex w-full flex-col lg:w-[50%]">
+    <div class="overflow-y-auto p-2 border dark:border-none rounded-lg
+    max-h-[400px] sm:max-h-[500px] md:max-h-[600px] lg:max-h-[700px] xl:max-h-[800px]">
       <h2 class="mb-2 text-lg font-bold">Saved Transcripts</h2>
       <div v-if="savedTranscripts.length === 0" class="text-gray-500">
         No transcripts saved yet.
@@ -128,16 +122,6 @@ const toggleSpeechToText = () => {
     recognition.start()
   }
   isListening.value = !isListening.value
-}
-
-// Clear preview and stop recognition
-const clearPreview = () => {
-  messageContent.value = ''
-  finalizedText.value = ''
-  if (isListening.value) {
-    recognition.stop()
-    isListening.value = false
-  }
 }
 
 // Save transcript with user_id
