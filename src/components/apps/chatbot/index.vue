@@ -1,7 +1,5 @@
 <template>
   <div class="flex flex-col 2xl:h-screen">
-    <WindowsHeader />
-
     <!-- Chat Container -->
     <div class="flex flex-grow overflow-hidden">
       <!-- Chat Messages -->
@@ -69,6 +67,7 @@ import type { ChatMessage } from '~/types/chatbot'
 const chatHistory = ref<ChatMessage[]>([])
 const chatBodyRef = ref<HTMLElement | null>(null)
 const inputRef = ref('')
+const userId = localStorage.getItem('user_id')
 
 onMounted(() => {
   const savedChatHistory = localStorage.getItem(`chatHistory_componentName`)
@@ -124,16 +123,7 @@ const handleSubmit = () => {
     ]
 
     setTimeout(() => {
-      generateBotResponse(
-        [
-          ...thinkingHistory.filter(msg => msg.text !== 'Thinking...'),
-          {
-            role: 'user',
-            text: `Using the details provided above, please address this query: ${userMessage}.`
-          }
-        ],
-        chatHistory
-      )
+      generateBotResponse(userId, userMessage, chatHistory)
     }, 600)
 
     return thinkingHistory
