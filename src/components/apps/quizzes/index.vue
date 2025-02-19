@@ -105,31 +105,34 @@
         </div>
 
         <!-- Questions -->
-        <div
-          v-for="(quiz, index) in quizes"
-          :key="index"
-          class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
-        >
-          <p class="font-semibold">{{ index + 1 }}. {{ quiz.question }}</p>
-          <div class="mt-2 flex flex-col gap-2">
-            <label
-              v-for="(option, optIndex) in quiz.options"
-              :key="optIndex"
-              class="flex items-center gap-2"
-            >
-              <input
-                type="radio"
-                :name="'question-' + index"
-                :value="option"
-                v-model="quiz.userAnswer"
-                :disabled="score !== null"
-              />
-              <span :class="getAnswerClass(quiz, option)">
-                {{ option }}
-              </span>
-            </label>
+        <div class="h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-y-auto space-y-4 p-2">
+          <div
+            v-for="(quiz, index) in quizes"
+            :key="index"
+            class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
+          >
+            <p class="font-semibold">{{ index + 1 }}. {{ quiz.question }}</p>
+            <div class="mt-2 flex flex-col gap-2">
+              <label
+                v-for="(option, optIndex) in quiz.options"
+                :key="optIndex"
+                class="flex items-center gap-2"
+              >
+                <input
+                  type="radio"
+                  :name="'question-' + index"
+                  :value="option"
+                  v-model="quiz.userAnswer"
+                  :disabled="score !== null"
+                />
+                <span :class="getAnswerClass(quiz, option)">
+                  {{ option }}
+                </span>
+              </label>
+            </div>
           </div>
         </div>
+
 
         <!-- Submit Button -->
         <UButton
