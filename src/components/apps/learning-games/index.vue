@@ -2,16 +2,7 @@
   <div class="p-6">
     <!-- Filters -->
     <div class="mb-4 flex gap-4">
-      <select v-model="selectedCategory" class="rounded border p-2">
-        <option value="">All Categories</option>
-        <option
-          v-for="category in categories"
-          :key="category"
-          :value="category"
-        >
-          {{ category }}
-        </option>
-      </select>
+      <input v-model="selectedCategory" class="w-1/4 p-2 border rounded-full" placeholder="Enter Category, topic or subject" />
       <select v-model="selectedAge" class="rounded border p-2">
         <option value="">All Ages</option>
         <option v-for="age in ages" :key="age" :value="age">{{ age }}</option>
@@ -23,7 +14,7 @@
         </option>
       </select>
       <button
-        @click="fetchFlashcards"
+        @click="generateFlashcards"
         class="rounded bg-blue-500 px-4 py-2 text-white"
       >
         Generate
@@ -39,13 +30,13 @@
         class="flex h-40 w-64 transform cursor-pointer items-center justify-center rounded-xl bg-blue-500 p-4 text-center text-white transition-transform hover:scale-105"
         :class="{ 'bg-green-500': card.flipped }"
       >
-        <span v-if="!card.flipped">{{ card.question }}</span>
-        <span v-else>{{ card.answer }}</span>
+        <span v-if="!card.flipped">{{ card.front }}</span>
+        <span v-else>{{ card.back }}</span>
       </div>
     </div>
 
     <!-- Loading & Error Messages -->
-    <div v-if="loading" class="mt-4 text-center">Loading flashcards...</div>
+    <div v-if="loading" class="mt-4 text-center">Loading games flashcards...</div>
     <div v-if="errorMessage" class="mt-4 text-center text-red-500">
       {{ errorMessage }}
     </div>
@@ -53,100 +44,78 @@
 </template>
 
 <script setup>
-const selectedCategory = ref('')
-const selectedAge = ref('')
-const selectedLevel = ref('')
-const flashcards = ref([])
-const loading = ref(false)
-const errorMessage = ref('')
+import { ref, nextTick } from 'vue';
+import axios from 'axios';
 
-const categories = [
-  'Geography',
-  'Mathematics',
-  'Literature',
-  'Science',
-  'History',
-  'Technology'
-]
-const ages = ['10+', '12+', '15+']
-const levels = ['Beginner', 'Intermediate', 'Advanced']
+const selectedCategory = ref('');
+const selectedAge = ref('');
+const selectedLevel = ref('');
+const flashcards = ref([]);
+const loading = ref(false);
+const errorMessage = ref('');
+const currentIndex = ref(0);
 
-const fetchFlashcards = async () => {
-  loading.value = true
-  errorMessage.value = ''
+const ages = ['10+', '12+', '15+'];
+const levels = ['beginner', 'intermediate', 'advanced'];
 
-  const requestBody = {
-    contents: [
-      {
-        parts: [
-          {
-            text: `Generate 10 educational flashcards based on these criteria:\n
-              - Category: ${selectedCategory.value}\n
-              - Age Group: ${selectedAge.value}\n
-              - Difficulty Level: ${selectedLevel.value}\n
-              Each flashcard should have a question and an answer in the format:
-              Q: [Question]
-              A: [Answer]`
-          }
-        ]
-      }
-    ]
+const flipCard = async (index) => {
+  const card = flashcards.value[index];
+
+  // Speak the flipped card
+  speak(card.flipped ? card.front : card.back);
+
+  // Toggle the flipped state
+  card.flipped = !card.flipped;
+
+  // Wait for UI update, then speak the next card
+  await nextTick();
+  const nextCardIndex = index + 1;
+  if (nextCardIndex < flashcards.value.length) {
+    speak(flashcards.value[nextCardIndex].front);
   }
+};
 
+const speak = (text) => {
+  if (text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  }
+};
+
+const generateFlashcards = async () => {
   try {
-    const response = await fetch(
-      useRuntimeConfig().public.GOOGLE_GEMINI_API_KEY,
-      {
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-        headers: { 'Content-Type': 'application/json' }
+    loading.value = true;
+    errorMessage.value = '';
+
+    const requestBody = {
+      user_id: localStorage.getItem('user_id'),
+      category: selectedCategory.value,
+      level: selectedLevel.value,
+      age: selectedAge.value
+    };
+
+    const response = await axios.post(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/game/generate',
+      requestBody,
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+
+    if (response.status === 200) {
+      flashcards.value = response.data.flashcards || [];
+      currentIndex.value = 0;
+
+      if (flashcards.value.length > 0) {
+        speak(flashcards.value[0].front);
       }
-    )
-
-    const data = await response.json()
-    const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
-
-    flashcards.value = parseFlashcards(generatedText)
-
-    if (flashcards.value.length === 0) {
-      errorMessage.value = 'No flashcards generated. Try different filters.'
+    } else {
+      errorMessage.value = response.data.error || 'Failed to fetch flashcards.';
     }
-  } catch (error) {
-    errorMessage.value = 'Error fetching flashcards.'
+  } catch (err) {
+    errorMessage.value = err.message || 'An error occurred while fetching flashcards.';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
-
-const parseFlashcards = text => {
-  const flashcards = []
-  const lines = text.split('\n')
-
-  for (let i = 0; i < lines.length; i++) {
-    if (lines[i].startsWith('Q:')) {
-      const question = lines[i].replace('Q:', '').trim()
-      const answer = (lines[i + 1] || '').replace('A:', '').trim()
-      if (question && answer) {
-        flashcards.push({ question, answer, flipped: false })
-      }
-    }
-  }
-  return flashcards
-}
-
-const flipCard = index => {
-  flashcards.value[index].flipped = !flashcards.value[index].flipped
-  speak(
-    flashcards.value[index].flipped
-      ? flashcards.value[index].answer
-      : flashcards.value[index].question
-  )
-}
-
-const speak = text => {
-  const utterance = new SpeechSynthesisUtterance(text)
-  speechSynthesis.speak(utterance)
-}
+};
 </script>
 
 <style scoped>
