@@ -16,7 +16,7 @@
 
         <!-- Score -->
         <div v-if="score !== null" class="text-lg font-bold">
-          Your Score: {{ score }} / {{ quizzes.length }}
+          Your Score: {{ score }} / {{ quizes.length }}
         </div>
       </div>
 
@@ -31,7 +31,7 @@
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
         <p>Please ensure your upload is in one of the following formats:</p>
         <p>
-          <strong>Accepted File Types: (.pdf *, .docx, .jpeg, .png)</strong>
+          <strong>Accepted File Types: (.pdf *, .docx)</strong>
         </p>
       </div>
 
@@ -74,9 +74,16 @@
         type="number"
         v-model="userTimer"
         min="1"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
+        required
+        :class="{
+          'w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white': true,
+          'border border-red-500': hasError
+        }"
         placeholder="Timer duration (minutes)"
       />
+      <p v-if="hasError" class="text-red-500 text-sm mt-1">
+        Please specify a valid timer duration.
+      </p>
 
       <!-- Generate Button -->
       <UButton
@@ -92,7 +99,7 @@
     <!-- Quiz Section -->
     <div class="flex w-full flex-col lg:w-[50%]">
       <h2 class="mb-2 text-lg font-bold">Quiz</h2>
-      <div v-if="quizzes.length === 0" class="text-gray-500">
+      <div v-if="quizes.length === 0" class="text-gray-500">
         No quiz generated yet.
       </div>
 
@@ -106,28 +113,32 @@
 
         <!-- Questions -->
         <div
-          v-for="(quiz, index) in quizzes"
-          :key="index"
-          class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
+          class="h-[60vh] space-y-4 overflow-y-auto p-2 md:h-[70vh] lg:h-[80vh]"
         >
-          <p class="font-semibold">{{ index + 1 }}. {{ quiz.question }}</p>
-          <div class="mt-2 flex flex-col gap-2">
-            <label
-              v-for="(option, optIndex) in quiz.options"
-              :key="optIndex"
-              class="flex items-center gap-2"
-            >
-              <input
-                type="radio"
-                :name="'question-' + index"
-                :value="option"
-                v-model="quiz.userAnswer"
-                :disabled="score !== null"
-              />
-              <span :class="getAnswerClass(quiz, option)">
-                {{ option }}
-              </span>
-            </label>
+          <div
+            v-for="(quiz, index) in quizes"
+            :key="index"
+            class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
+          >
+            <p class="font-semibold">{{ index + 1 }}. {{ quiz.question }}</p>
+            <div class="mt-2 flex flex-col gap-2">
+              <label
+                v-for="(option, optIndex) in quiz.options"
+                :key="optIndex"
+                class="flex items-center gap-2"
+              >
+                <input
+                  type="radio"
+                  :name="'question-' + index"
+                  :value="option"
+                  v-model="quiz.userAnswer"
+                  :disabled="score !== null"
+                />
+                <span :class="getAnswerClass(quiz, option)">
+                  {{ option }}
+                </span>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -146,22 +157,15 @@
 </template>
 
 <script setup>
-import { useRuntimeConfig } from '#app'
-import * as pdfjsLib from 'pdfjs-dist'
-
-// Specify the worker source for PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
-
-// State
 const messageContent = ref('')
-const quizzes = ref([])
+const quizes = ref([])
 const selectedLevel = ref('beginner')
 const numQuestions = ref(10)
 const loading = ref(false)
 const score = ref(null)
 const userTimer = ref() // Default timer duration in minutes
 const timer = ref(0) // Timer in seconds
+const hasError = ref(false); // Track validation state
 
 // Timer Logic
 let timerInterval
@@ -176,10 +180,17 @@ const startTimer = () => {
   }, 1000)
 }
 
-// Generate Quiz Questions using Google Gemini API
+// Generate Quiz Questions using the new API
 const generateQuestions = async () => {
+
+  if (!userTimer.value || userTimer.value <= 0) {
+    hasError.value = true; // Show error styling
+    return;
+  }
+  hasError.value = false; // Reset error when valid
+
   if (!messageContent.value.trim()) {
-    quizzes.value = [
+    quizes.value = [
       {
         question: 'Please provide content to generate quiz questions.',
         options: [],
@@ -192,43 +203,34 @@ const generateQuestions = async () => {
   loading.value = true
   try {
     const response = await fetch(
-      useRuntimeConfig().public.GOOGLE_GEMINI_API_KEY,
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/quizes/generate',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: `Here is some content:\n\n${messageContent.value}\n\nGenerate ${numQuestions.value} ${selectedLevel.value}-level multiple-choice questions with four options each. Indicate the correct answer with an asterisk (*).`
-                }
-              ]
-            }
-          ]
+          message: messageContent.value,
+          level: selectedLevel.value,
+          totalQuestions: numQuestions.value,
+          user_timer: userTimer.value,
+          user_id: localStorage.getItem('user_id')
         })
       }
     )
 
-    if (!response.ok) {
+    if (!response.ok)
       throw new Error(`API request failed with status ${response.status}`)
-    }
 
     const data = await response.json()
-    console.log('API Data:', data)
-
-    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      const rawQuestions = data.candidates[0].content.parts[0].text
-        .split('\n')
-        .filter(q => q.trim())
-      quizzes.value = parseQuizData(rawQuestions)
-      quizzes.value = shuffleArray(quizzes.value) // Shuffle questions
-      quizzes.value.forEach(quiz => {
-        quiz.options = shuffleArray(quiz.options) // Shuffle options
-      })
+    if (data?.quizes) {
+      quizes.value = data.quizes.map(q => ({
+        question: q.question,
+        options: q.options,
+        correctAnswer: q.correctAnswer,
+        userAnswer: null
+      }))
       startTimer() // Start timer
     } else {
-      quizzes.value = [
+      quizes.value = [
         {
           question: 'Failed to generate quiz questions.',
           options: [],
@@ -238,7 +240,7 @@ const generateQuestions = async () => {
     }
   } catch (error) {
     console.error('Error:', error)
-    quizzes.value = [
+    quizes.value = [
       {
         question: 'Error generating quiz. Please try again.',
         options: [],
@@ -250,71 +252,10 @@ const generateQuestions = async () => {
   }
 }
 
-// Parse generated text into quiz format
-const parseQuizData = rawQuestions => {
-  const quizList = []
-  let currentQuestion = null
-  let answerBuffer = null
-
-  rawQuestions.forEach(line => {
-    const trimmedLine = line.trim()
-
-    // New question detection
-    if (trimmedLine.match(/^\d+\./)) {
-      if (currentQuestion) {
-        // Add buffered correct answer to options if exists
-        if (answerBuffer) {
-          currentQuestion.options.push(answerBuffer)
-          answerBuffer = null
-        }
-        quizList.push(currentQuestion)
-      }
-      currentQuestion = {
-        question: trimmedLine.replace(/^\d+\.\s*/, ''),
-        options: [],
-        correctAnswer: '',
-        userAnswer: null
-      }
-    }
-    // Correct answer detection (anywhere in line)
-    else if (trimmedLine.includes('*')) {
-      answerBuffer = trimmedLine.replace(/\*/g, '').trim()
-      currentQuestion.correctAnswer = answerBuffer
-    }
-    // Regular option
-    else if (trimmedLine) {
-      currentQuestion.options.push(trimmedLine)
-    }
-  })
-
-  // Handle the last question
-  if (currentQuestion) {
-    if (answerBuffer) {
-      currentQuestion.options.push(answerBuffer)
-    }
-    quizList.push(currentQuestion)
-  }
-
-  // Verify all questions have 4 options
-  return quizList.map(quiz => {
-    if (quiz.options.length < 4) {
-      return {
-        question: `Invalid question format: ${quiz.question}`,
-        options: [],
-        correctAnswer: ''
-      }
-    }
-    return quiz
-  })
-}
-
-// Shuffle array
-const shuffleArray = array => array.sort(() => Math.random() - 0.5)
-
 // Check user answers
 const checkAnswers = () => {
   let correctCount = 0
-  quizzes.value.forEach(quiz => {
+  quizes.value.forEach(quiz => {
     if (quiz.userAnswer === quiz.correctAnswer) correctCount++
   })
   score.value = correctCount
@@ -332,106 +273,5 @@ const getAnswerClass = (quiz, option) => {
     }
   }
   return {}
-}
-
-// Trigger the hidden file input when the button is clicked
-const triggerFileInput = () => {
-  document.getElementById('file-upload').click()
-}
-
-// Handle the file selection
-const handleFileUpload = async event => {
-  const file = event.target.files[0]
-
-  if (!file) return
-
-  const fileType = file.type
-
-  // PDF Handling
-  if (fileType === 'application/pdf') {
-    const reader = new FileReader()
-    reader.onload = async e => {
-      const pdfData = new Uint8Array(e.target.result)
-      try {
-        const pdf = await pdfjsLib.getDocument(pdfData).promise
-        let text = ''
-        for (let i = 1; i <= pdf.numPages; i++) {
-          const page = await pdf.getPage(i)
-          const content = await page.getTextContent()
-          text += content.items.map(item => item.str).join(' ') + '\n'
-        }
-        messageContent.value = text
-      } catch (error) {
-        console.error('Error extracting text from PDF:', error)
-        messageContent.value =
-          'Failed to extract text from PDF. Please try again.'
-      }
-    }
-    reader.readAsArrayBuffer(file)
-  } else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  ) {
-    // Handle DOCX files
-    const reader = new FileReader()
-    reader.onload = e => {
-      const arrayBuffer = e.target.result
-      mammoth
-        .extractRawText({ arrayBuffer: arrayBuffer })
-        .then(result => {
-          messageContent.value = result.value
-        })
-        .catch(err => {
-          console.error('Error extracting text from DOCX:', err)
-        })
-    }
-    reader.readAsArrayBuffer(file)
-  } else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-  ) {
-    // Handle PPTX files
-    const reader = new FileReader()
-    reader.onload = async e => {
-      const arrayBuffer = e.target.result
-      try {
-        const pptx = new PPTX2Json()
-        pptx.load(arrayBuffer)
-        pptx
-          .getSlides()
-          .then(slides => {
-            let text = ''
-            slides.forEach(slide => {
-              slide.texts.forEach(textItem => {
-                text += textItem.text + ' '
-              })
-            })
-            messageContent.value = text
-          })
-          .catch(err => {
-            console.error('Error extracting slides:', err)
-          })
-      } catch (err) {
-        console.error('Error extracting text from PPTX:', err)
-      }
-    }
-    reader.readAsArrayBuffer(file)
-  } else {
-    console.error('Unsupported file type:', fileType)
-  }
-}
-
-// Export Results
-const exportResults = () => {
-  const results = quizzes.value
-    .map((quiz, index) => {
-      return `Question ${index + 1}: ${quiz.question}\nYour Answer: ${quiz.userAnswer || 'Not answered'}\nCorrect Answer: ${quiz.correctAnswer}\n\n`
-    })
-    .join('')
-  const blob = new Blob([results], { type: 'text/plain' })
-  const link = document.createElement('a')
-  link.href = URL.createObjectURL(blob)
-  link.download = 'quiz-results.txt'
-  link.click()
 }
 </script>
