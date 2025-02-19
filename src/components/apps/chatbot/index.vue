@@ -1,24 +1,24 @@
 <template>
-  <div class="flex flex-col 2xl:h-screen">
+  <div class="flex flex-col items-center justify-center lg:flex-row">
     <!-- Chat Container -->
     <div class="flex flex-grow overflow-hidden">
       <!-- Chat Messages -->
       <div
         ref="chatBodyRef"
-        class="w-3/4 flex-grow overflow-y-auto overflow-x-hidden p-2 pb-20"
+        class="flex flex-grow justify-center overflow-y-auto p-2 pb-20"
       >
-        <p class="mx-1 rounded-sm px-6 py-4">
+        <div class="max-w-2xl rounded-xl bg-white p-3 dark:bg-[#111C44]">
           <ChatBotMessage
             v-for="(chat, index) in chatHistory"
             :key="index"
             :chat="chat"
           />
-        </p>
+        </div>
       </div>
 
       <!-- Chat History Sidebar -->
       <aside
-        class="hidden w-1/4 overflow-y-auto border-l p-4 lg:block dark:border-gray-700"
+        class="hidden w-1/4 overflow-y-auto p-4 lg:block dark:border-gray-700"
       >
         <h3 class="mb-2 text-lg font-semibold dark:text-white">Chat History</h3>
         <ul>
@@ -37,7 +37,7 @@
 
     <!-- Floating Input Box -->
     <div
-      class="fixed bottom-0 left-1/2 w-[90%] max-w-2xl -translate-x-1/2 rounded-t-xl bg-white p-3 shadow-md sm:w-[80%] md:w-[60%] lg:w-[40%] xl:w-[30%] dark:bg-[#111C44]"
+      class="w-[90%] max-w-2xl rounded-t-xl bg-white p-3 shadow-md sm:w-[80%] md:w-[60%] lg:fixed lg:bottom-0 lg:left-1/2 lg:w-[40%] lg:-translate-x-1/2 xl:w-[30%] dark:bg-[#111C44]"
     >
       <form @submit.prevent="handleSubmit" class="flex items-center gap-3">
         <input

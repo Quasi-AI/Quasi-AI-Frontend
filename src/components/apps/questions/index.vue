@@ -19,9 +19,8 @@
         </div>
       </div>
 
-      <!-- File Icons -->
+      <!-- File Upload Button -->
       <div class="mt-2 flex gap-4">
-        <!-- Audio Recording Icon -->
         <UButton
           class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
           @click="triggerFileInput"
@@ -74,13 +73,16 @@
       <div v-if="questions.length === 0" class="text-gray-500">
         No questions generated yet.
       </div>
-      <div v-else class="grid grid-cols-2 gap-4">
+      <div v-else class="grid grid-cols-1 gap-4">
         <div
-          v-for="(question, index) in questions"
+          v-for="(item, index) in questions"
           :key="index"
           class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
         >
-          {{ question }}
+          <p>
+            <strong>Q{{ index + 1 }}:</strong> {{ item.question }}
+          </p>
+          <p><strong>Answer:</strong> {{ item.answer }}</p>
         </div>
       </div>
     </div>
@@ -89,7 +91,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRuntimeConfig } from '#app'
 import * as pdfjsLib from 'pdfjs-dist'
 
 const messageContent = ref('')
@@ -98,45 +99,44 @@ const selectedLevel = ref('beginner') // Default level
 const numQuestions = ref(10) // Default number of questions
 const loading = ref(false)
 
-// Generate Questions using Google Gemini API
+// Generate Questions using the new API
 const generateQuestions = async () => {
   if (!messageContent.value.trim()) {
-    questions.value = ['Please provide content to generate questions.']
+    questions.value = [
+      { question: 'Please provide content to generate questions.', answer: '' }
+    ]
     return
   }
 
   loading.value = true
   try {
     const response = await fetch(
-      useRuntimeConfig().public.GOOGLE_GEMINI_API_KEY,
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/question/generate',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: `Here is some content:\n\n${messageContent.value}\n\nGenerate ${numQuestions.value} ${selectedLevel.value}-level questions based on it.`
-                }
-              ]
-            }
-          ]
+          message: messageContent.value,
+          level: selectedLevel.value,
+          totalQuestions: numQuestions.value,
+          user_id: localStorage.getItem('user_id')
         })
       }
     )
 
     const data = await response.json()
-    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      questions.value = data.candidates[0].content.parts[0].text
-        .split('\n')
-        .filter(q => q.trim())
+    if (Array.isArray(data.questions)) {
+      questions.value = data.questions
     } else {
-      questions.value = ['Failed to generate questions.']
+      questions.value = [
+        { question: 'Failed to generate questions.', answer: '' }
+      ]
     }
   } catch (error) {
     console.error('Error:', error)
-    questions.value = ['Error generating questions. Please try again.']
+    questions.value = [
+      { question: 'Error generating questions. Please try again.', answer: '' }
+    ]
   } finally {
     loading.value = false
   }
