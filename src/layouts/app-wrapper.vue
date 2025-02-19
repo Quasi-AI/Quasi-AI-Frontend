@@ -3,7 +3,7 @@
     <div class="flex min-h-screen w-full bg-[#F4F7FE] dark:bg-[#0C1438]">
       <!-- Sidebar -->
       <div
-        class="w-0 bg-gray-200 md:block md:w-[35%] lg:block lg:w-[20%] dark:bg-gray-900"
+        class="w-0 bg-gray-200 transition-all duration-300 md:block md:w-[35%] lg:block lg:w-[20%] dark:bg-gray-900"
       >
         <slot name="sidebar"></slot>
       </div>
