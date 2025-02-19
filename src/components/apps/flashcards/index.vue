@@ -89,7 +89,11 @@
         No flashcards generated yet.
       </div>
 
-      <div v-else class="grid grid-cols-2 gap-4">
+      <div
+        v-else
+        class="grid grid-cols-2 gap-4 overflow-y-auto p-2 border rounded-lg
+           max-h-[400px] sm:max-h-[500px] md:max-h-[600px] lg:max-h-[700px] xl:max-h-[800px]"
+      >
         <div
           v-for="(flashcard, index) in flashcards"
           :key="index"
@@ -106,8 +110,9 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
+</div>
+
   </div>
 
   <!-- Hidden File Input -->
