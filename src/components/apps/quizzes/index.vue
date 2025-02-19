@@ -31,7 +31,7 @@
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
         <p>Please ensure your upload is in one of the following formats:</p>
         <p>
-          <strong>Accepted File Types: (.pdf *, .docx, .jpeg, .png)</strong>
+          <strong>Accepted File Types: (.pdf *, .docx)</strong>
         </p>
       </div>
 

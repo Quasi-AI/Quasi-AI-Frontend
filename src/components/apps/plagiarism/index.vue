@@ -14,7 +14,7 @@
         <p>Please ensure your upload is in one of the following formats:</p>
         <div class="mt-2">
           <p>
-            <strong>Accepted File Types: (.pdf *, .docx, .mp3, .wav)</strong>
+            <strong>Accepted File Types: (.pdf *, .docx)</strong>
           </p>
         </div>
       </div>

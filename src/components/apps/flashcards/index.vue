@@ -8,7 +8,6 @@
         placeholder="Type your content here"
       />
 
-
       <!-- File Upload Instructions -->
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
         <p>Please ensure your upload is in one of the following formats:</p>
