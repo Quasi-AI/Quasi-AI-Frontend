@@ -21,12 +21,6 @@
         <OrSeperator class="w-3/4 sm:w-2/3" />
       </div>
 
-      <!-- Success & Error Messages -->
-      <div class="mx-8">
-        <SuccessAlert v-if="successMessage" :message="successMessage" />
-        <ErrorAlert v-if="errorMessage" :message="errorMessage" />
-      </div>
-
       <div class="mx-8 flex flex-col gap-4 py-6 sm:mx-12">
         <UInput
           v-model="email"
@@ -87,56 +81,16 @@
 </template>
 
 <script setup>
-import Loader from '@/components/loader/Loader.vue'
-import SuccessAlert from '@/components/success/SuccessAlert.vue'
-import ErrorAlert from '@/components/error/ErrorAlert.vue'
-import axios from 'axios'
-import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
-import GoogleLogo from '@/assets/media/svgs/signin-google.vue'
-import FacebookLogo from '@/assets/media/svgs/signin-facebook.vue'
-import { isValidEmail } from '@/utils/isValidEmail'
-import { useRouter } from 'vue-router'
+import { useAuthenticationStore } from '~/store/auth'
 
 const email = ref('')
 const password = ref('')
 const isPasswordVisible = ref(false)
-const isLoading = ref(false)
-const successMessage = ref('')
-const errorMessage = ref('')
-const router = useRouter()
 
-const login = async () => {
-  if (!isValidEmail(email.value)) {
-    console.error('Invalid email format.')
-    return
-  }
-  isLoading.value = true
-  successMessage.value = ''
-  errorMessage.value = ''
+const store = useAuthenticationStore()
 
-  try {
-    const response = await axios.post(
-      'https://dark-caldron-448714-u5.uc.r.appspot.com/user/login',
-      {
-        email: email.value,
-        password: password.value
-      }
-    )
-
-    if (response.data.token) {
-      localStorage.setItem('authToken', response.data.token)
-      localStorage.setItem('user_id', response.data.id)
-      successMessage.value = 'Login successful! Welcome to Quasi AI!'
-
-      router.push('/dashboard/index.vue')
-    } else {
-      errorMessage.value = response.data.message || '⚠️ Something went wrong!'
-    }
-  } catch (error) {
-    console.error('An error occurred during login:', error)
-  } finally {
-    isLoading.value = false
-  }
+const login = () => {
+  store.login(email.value, password.value)
 }
 
 const togglePasswordVisibility = () => {

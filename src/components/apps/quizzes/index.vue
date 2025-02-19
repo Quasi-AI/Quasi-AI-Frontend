@@ -81,7 +81,7 @@
         }"
         placeholder="Timer duration (minutes)"
       />
-      <p v-if="hasError" class="text-red-500 text-sm mt-1">
+      <p v-if="hasError" class="mt-1 text-sm text-red-500">
         Please specify a valid timer duration.
       </p>
 
@@ -165,7 +165,7 @@ const loading = ref(false)
 const score = ref(null)
 const userTimer = ref() // Default timer duration in minutes
 const timer = ref(0) // Timer in seconds
-const hasError = ref(false); // Track validation state
+const hasError = ref(false) // Track validation state
 
 // Timer Logic
 let timerInterval
@@ -182,12 +182,11 @@ const startTimer = () => {
 
 // Generate Quiz Questions using the new API
 const generateQuestions = async () => {
-
   if (!userTimer.value || userTimer.value <= 0) {
-    hasError.value = true; // Show error styling
-    return;
+    hasError.value = true // Show error styling
+    return
   }
-  hasError.value = false; // Reset error when valid
+  hasError.value = false // Reset error when valid
 
   if (!messageContent.value.trim()) {
     quizes.value = [
