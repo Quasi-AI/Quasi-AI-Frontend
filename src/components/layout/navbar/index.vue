@@ -14,56 +14,52 @@
     <h1 class="trucnate hidden text-sm font-extralight md:block md:text-xl">
       {{ pageTitle }}
     </h1>
-    <div class="z-50 flex items-center justify-end px-4 py-2">
-      <div
-        class="m-2 flex items-center justify-end gap-4 rounded-full p-4 py-1 shadow-lg"
-        :class="
-          colorMode.value === 'dark' ? 'bg-[#111C44] text-white' : 'bg-white'
-        "
-      >
-        <div class="my-2 flex flex-col items-center justify-center gap-4">
-          <UInput
-            v-model="q"
-            name="q"
-            placeholder="Search..."
-            icon="i-heroicons-magnifying-glass-20-solid"
-            autocomplete="off"
-            :ui="{ icon: { trailing: { pointer: '' } } }"
-            variant="none"
-            class="rounded-2xl lg:w-40"
-            :class="
-              colorMode.value === 'dark' ? 'bg-[#111C44]' : 'bg-[#F1F3FE]'
-            "
-          >
-            <template #trailing>
-              <UButton
-                v-show="q !== ''"
-                color="gray"
-                variant="link"
-                icon="i-heroicons-x-mark-20-solid"
-                :padded="false"
-                @click="q = ''"
-              />
-            </template>
-          </UInput>
-        </div>
+    <div
+      class="m-2 ml-auto flex items-center justify-end gap-4 rounded-full p-4 py-1 shadow-lg"
+      :class="
+        colorMode.value === 'dark' ? 'bg-[#111C44] text-white' : 'bg-white'
+      "
+    >
+      <div class="my-2 flex flex-col items-center justify-center gap-4">
+        <UInput
+          v-model="q"
+          name="q"
+          placeholder="Search..."
+          icon="i-heroicons-magnifying-glass-20-solid"
+          autocomplete="off"
+          :ui="{ icon: { trailing: { pointer: '' } } }"
+          variant="none"
+          class="rounded-2xl lg:w-40"
+          :class="colorMode.value === 'dark' ? 'bg-[#111C44]' : 'bg-[#F1F3FE]'"
+        >
+          <template #trailing>
+            <UButton
+              v-show="q !== ''"
+              color="gray"
+              variant="link"
+              icon="i-heroicons-x-mark-20-solid"
+              :padded="false"
+              @click="q = ''"
+            />
+          </template>
+        </UInput>
+      </div>
 
-        <div class="flex items-center gap-2">
-          <lightModeIcon
-            v-if="!isDark"
-            @click="isDark = !isDark"
-            class="cursor-pointer"
-          />
-          <DarkModeIcon
-            v-if="isDark"
-            @click="isDark = !isDark"
-            class="cursor-pointer"
-          />
+      <div class="flex items-center gap-2">
+        <lightModeIcon
+          v-if="!isDark"
+          @click="isDark = !isDark"
+          class="cursor-pointer"
+        />
+        <DarkModeIcon
+          v-if="isDark"
+          @click="isDark = !isDark"
+          class="cursor-pointer"
+        />
 
-          <p class="flex items-center gap-1">
-            <NuxtLink to="/user" class="text-md">Profile</NuxtLink>
-          </p>
-        </div>
+        <p class="flex items-center gap-1">
+          <NuxtLink to="/user" class="text-md">Profile</NuxtLink>
+        </p>
       </div>
     </div>
   </div>

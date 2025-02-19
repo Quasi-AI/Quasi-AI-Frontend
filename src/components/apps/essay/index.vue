@@ -13,7 +13,7 @@
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
         <p>Please ensure your upload is in one of the following formats:</p>
         <div class="mt-2">
-          <p><strong>Accepted File Types: (.pdf, .docx)</strong></p>
+          <strong>Accepted File Types: (.pdf *, .docx)</strong>
         </div>
       </div>
 
@@ -48,31 +48,42 @@
 
     <!-- Right Section: Results -->
 
-    <div class="flex w-full flex-col lg:w-[50%] p-5 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+    <div
+      class="flex w-full flex-col rounded-lg bg-white p-5 shadow-lg lg:w-[50%] dark:bg-gray-800"
+    >
       <h2 class="mb-2 text-lg font-bold">Results</h2>
 
       <!-- Show message if no essay has been analyzed -->
-      <div v-if="!essay" class="text-gray-500 text-center">
+      <div v-if="!essay" class="text-center text-gray-500">
         No essay analyzed yet.
       </div>
 
       <!-- Show analyzed essay with highlighted mistakes -->
-      <div 
-        v-else 
-        class="relative border border-gray-300 p-5 bg-gray-100 dark:bg-gray-700 rounded-md max-h-[60vh] overflow-y-auto"
+      <div
+        v-else
+        class="relative max-h-[60vh] overflow-y-auto rounded-md border border-gray-300 bg-gray-100 p-5 dark:bg-gray-700"
       >
         <p v-html="formattedEssay"></p>
       </div>
 
       <!-- Beautiful Circle Chart for Mistakes -->
       <div v-if="essay" class="mt-5 flex justify-center">
-        <DoughnutChart :chart-data="chartData" :chart-options="chartOptions" class="w-40 h-40" />
+        <DoughnutChart
+          :chart-data="chartData"
+          :chart-options="chartOptions"
+          class="h-40 w-40"
+        />
       </div>
     </div>
   </div>
 
   <!-- Hidden File Input -->
-  <input type="file" id="file-upload" style="display: none" @change="handleFileChange" />
+  <input
+    type="file"
+    id="file-upload"
+    style="display: none"
+    @change="handleFileChange"
+  />
 </template>
 
 <script setup>
@@ -84,15 +95,14 @@ import { faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import * as pdfjsLib from 'pdfjs-dist'
 import mammoth from 'mammoth'
 import PPTX2Json from 'pptx2json'
-import { defineChartComponent } from "vue-chart-3";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { defineChartComponent } from 'vue-chart-3'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 
 // Register necessary Chart.js components
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 // Define Doughnut chart component
-const DoughnutChart = defineChartComponent("doughnut");
-
+const DoughnutChart = defineChartComponent('doughnut')
 
 import axios from 'axios' // Import axios
 
@@ -202,31 +212,34 @@ const handleFileChange = async event => {
 }
 
 const formattedEssay = computed(() => {
-      if (!essay.value || !mistakes.value.length) return essay.value || "";
+  if (!essay.value || !mistakes.value.length) return essay.value || ''
 
-      let text = essay.value;
-      mistakes.value.forEach(({ word }) => {
-        const regex = new RegExp(`\\b${word}\\b`, "gi");
-        text = text.replace(regex, `<span class="text-red-500 underline">${word}</span>`);
-      });
+  let text = essay.value
+  mistakes.value.forEach(({ word }) => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi')
+    text = text.replace(
+      regex,
+      `<span class="text-red-500 underline">${word}</span>`
+    )
+  })
 
-      return text;
-});
+  return text
+})
 
-const totalWords = 100;
+const totalWords = 100
 const chartData = computed(() => ({
-  labels: ["Mistakes", "Correct"],
+  labels: ['Mistakes', 'Correct'],
   datasets: [
     {
       data: [
         mistakes.value.length, // Reactive value
-        Math.max(0, totalWords - mistakes.value.length),
+        Math.max(0, totalWords - mistakes.value.length)
       ],
-      backgroundColor: ["#ff4d4d", "#4CAF50"],
-      hoverOffset: 4,
-    },
-  ],
-}));
+      backgroundColor: ['#ff4d4d', '#4CAF50'],
+      hoverOffset: 4
+    }
+  ]
+}))
 
 const chartOptions = {
   responsive: true,
@@ -234,45 +247,45 @@ const chartOptions = {
   plugins: {
     legend: {
       display: true,
-      position: "bottom"
+      position: 'bottom'
     }
   }
-};
+}
 
 // Function to analyze the essay via API
 const analyzeEssay = async () => {
   try {
-      isLoading.value = true;
-      errorMessage.value = "";
+    isLoading.value = true
+    errorMessage.value = ''
 
-      const requestBody = {
-        user_id: localStorage.getItem("user_id"),
-        message: messageContent.value,
-      };
+    const requestBody = {
+      user_id: localStorage.getItem('user_id'),
+      message: messageContent.value
+    }
 
-      const response = await axios.post(
-        "https://dark-caldron-448714-u5.uc.r.appspot.com/analyze/generate",
-        requestBody,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+    const response = await axios.post(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/analyze/generate',
+      requestBody,
+      {
+        headers: {
+          'Content-Type': 'application/json'
         }
-      );
-
-      // Handle the response
-      if (response.data.message) {
-        essay.value = response.data.message; // Store original essay
-        mistakes.value = response.data.mistakes || []; // Store mistakes if available
-      } else {
-        errorMessage.value = "Unexpected response from server.";
       }
-    } catch (err) {
-      errorMessage.value = err.message || "Failed to analyze essay.";
-    } finally {
-      isLoading.value = false;
+    )
+
+    // Handle the response
+    if (response.data.message) {
+      essay.value = response.data.message // Store original essay
+      mistakes.value = response.data.mistakes || [] // Store mistakes if available
+    } else {
+      errorMessage.value = 'Unexpected response from server.'
+    }
+  } catch (err) {
+    errorMessage.value = err.message || 'Failed to analyze essay.'
+  } finally {
+    isLoading.value = false
   }
-};
+}
 </script>
 
 <style scoped>
@@ -281,7 +294,7 @@ const analyzeEssay = async () => {
   background: white;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: "Times New Roman", serif;
+  font-family: 'Times New Roman', serif;
   min-height: 40vh;
   max-width: 100%;
   line-height: 1.6;
@@ -292,4 +305,3 @@ const analyzeEssay = async () => {
   text-decoration: underline;
 }
 </style>
-
