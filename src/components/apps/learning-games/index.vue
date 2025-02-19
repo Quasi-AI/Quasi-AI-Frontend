@@ -1,10 +1,10 @@
 <template>
   <div class="p-6">
     <!-- Filters -->
-    <div class="mb-4 flex gap-4">
+    <div class="mb-4 flex flex-col gap-4 lg:flex-row">
       <input
         v-model="selectedCategory"
-        class="w-1/4 rounded-full border p-2"
+        class="w-full rounded-md border p-2 lg:w-1/4 lg:rounded-full"
         placeholder="Enter Category, topic or subject"
       />
       <select v-model="selectedAge" class="rounded border p-2">
@@ -26,12 +26,12 @@
     </div>
 
     <!-- Flashcards -->
-    <div class="flex flex-wrap justify-center gap-4">
+    <div class="flex flex-wrap gap-4">
       <div
         v-for="(card, index) in flashcards"
         :key="index"
         @click="flipCard(index)"
-        class="flex h-40 w-64 transform cursor-pointer items-center justify-center rounded-xl bg-blue-500 p-4 text-center text-white transition-transform hover:scale-105"
+        class="flex h-40 w-full transform cursor-pointer items-center justify-center rounded-xl bg-blue-500 p-4 text-center text-white transition-transform hover:scale-105 lg:w-64"
         :class="{ 'bg-green-500': card.flipped }"
       >
         <span v-if="!card.flipped">{{ card.front }}</span>
