@@ -10,7 +10,7 @@
 
       <!-- Main Content -->
       <div class="flex h-screen flex-1 flex-col">
-        <div class="py-10 overflow-auto">
+        <div class="overflow-auto py-10">
           <slot name="apps"></slot>
         </div>
       </div>
