@@ -12,7 +12,7 @@
         class="flex min-w-fit cursor-pointer items-center gap-4 px-2 transition-colors duration-200"
         :class="{
           'font-medium text-[#5D3BEA]': isActive(item.route),
-          'text-gray-500 hover:text-[#5D3BEA]': !isActive(item.route)
+          'text-gray-400 hover:text-[#5D3BEA]': !isActive(item.route)
         }"
       >
         <component :is="item.icon" class="h-5 w-5" />
