@@ -58,12 +58,15 @@
         />
 
         <p class="flex items-center gap-1">
-          <NuxtLink to="/user" class="text-md">
-            <LayoutProfileImage
+          <UDropdown
+            mode="click"
+            :popper="{ placement: 'right-start' }"
+            :items="profileList"
+            ><LayoutProfileImage
               :img-src="'https://www.tenforums.com/attachments/user-accounts-family-safety/322690d1615743307-user-account-image-log-user.png'"
               :scale="true"
               baseClass="w-[30px] h-[30px]"
-          /></NuxtLink>
+          /></UDropdown>
         </p>
       </div>
     </div>
@@ -77,6 +80,9 @@
 <script setup lang="ts">
 import lightModeIcon from '@/assets/icons/light-mode.vue'
 import DarkModeIcon from '@/assets/icons/dark-mode.vue'
+import { useAuthenticationStore } from '@/store/auth'
+
+const authStore = useAuthenticationStore()
 
 const q = ref('')
 const colorMode = useColorMode()
@@ -108,6 +114,13 @@ const pageTitle = computed(() => {
   }
   return routeTitles[route.path] || 'Dashboard'
 })
+
+const profileList = [
+  [
+    { label: 'Go to User Profile', click: () => navigateTo('/user') },
+    { label: 'Logout', click: () => authStore.logout() }
+  ]
+]
 
 const color = computed(() => (colorMode.value === 'dark' ? '#0C1438' : 'white'))
 

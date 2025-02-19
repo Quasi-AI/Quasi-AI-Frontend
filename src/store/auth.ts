@@ -311,6 +311,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       }
       localStorage.removeItem('authToken')
       this.error = ''
+      navigateTo('/')
     },
 
     loadToken() {
