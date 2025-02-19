@@ -252,7 +252,7 @@ const generateFlashcards = async () => {
       user_id: localStorage.getItem('user_id'),
       message: messageContent.value,
       level: level.value,
-      totalQuestions: totalQuestions.totalQuestions
+      totalQuestions: totalQuestions.value
     }
 
     // Make the API call using axios
