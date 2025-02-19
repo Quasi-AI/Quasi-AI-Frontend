@@ -117,7 +117,7 @@ const pageTitle = computed(() => {
 
 const profileList = [
   [
-    { label: 'Go to User Profile', click: () => navigateTo('/user') },
+    { label: 'Go to profile', click: () => navigateTo('/user') },
     { label: 'Logout', click: () => authStore.logout() }
   ]
 ]
@@ -142,7 +142,7 @@ useHead({
 })
 
 useSeoMeta({
-  titleTemplate: '%s',
+  titleTemplate: 'Quasi AI',
   description:
     'Transform your learning experience with Quasi AI, the all-in-one learning platform that generates flashcards, quizzies, and study materials instantly from your lectures, notes, pdfs, and presentations.',
   ogImage:
