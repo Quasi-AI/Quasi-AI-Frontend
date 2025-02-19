@@ -58,7 +58,12 @@
         />
 
         <p class="flex items-center gap-1">
-          <NuxtLink to="/user" class="text-md">Profile</NuxtLink>
+          <NuxtLink to="/user" class="text-md">
+            <LayoutProfileImage
+              :img-src="'https://www.tenforums.com/attachments/user-accounts-family-safety/322690d1615743307-user-account-image-log-user.png'"
+              :scale="true"
+              baseClass="w-[30px] h-[30px]"
+          /></NuxtLink>
         </p>
       </div>
     </div>
