@@ -74,9 +74,16 @@
         type="number"
         v-model="userTimer"
         min="1"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
+        required
+        :class="{
+          'w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white': true,
+          'border border-red-500': hasError
+        }"
         placeholder="Timer duration (minutes)"
       />
+      <p v-if="hasError" class="text-red-500 text-sm mt-1">
+        Please specify a valid timer duration.
+      </p>
 
       <!-- Generate Button -->
       <UButton
@@ -158,6 +165,7 @@ const loading = ref(false)
 const score = ref(null)
 const userTimer = ref() // Default timer duration in minutes
 const timer = ref(0) // Timer in seconds
+const hasError = ref(false); // Track validation state
 
 // Timer Logic
 let timerInterval
@@ -174,6 +182,13 @@ const startTimer = () => {
 
 // Generate Quiz Questions using the new API
 const generateQuestions = async () => {
+
+  if (!userTimer.value || userTimer.value <= 0) {
+    hasError.value = true; // Show error styling
+    return;
+  }
+  hasError.value = false; // Reset error when valid
+
   if (!messageContent.value.trim()) {
     quizes.value = [
       {

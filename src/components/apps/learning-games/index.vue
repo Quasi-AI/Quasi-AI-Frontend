@@ -17,7 +17,7 @@
         @click="generateFlashcards"
         class="rounded bg-blue-500 px-4 py-2 text-white"
       >
-        Generate
+        Generate Games
       </button>
     </div>
 
