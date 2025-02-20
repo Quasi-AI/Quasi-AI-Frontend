@@ -1,11 +1,9 @@
 <template>
   <div class="container mx-auto p-6">
-    <h1 class="mb-6 text-center text-3xl font-bold">Tutors</h1>
-
     <!-- Create Tutor & Search Bar -->
     <div class="mb-6 flex items-center justify-between">
       <button
-        class="rounded-lg bg-[#5D3BE9] px-4 py-2 text-white"
+        class="my-2 rounded-full bg-[#2e51ce] p-2 text-white"
         @click="openCreateModal"
       >
         Create Tutor
@@ -14,7 +12,7 @@
         type="text"
         v-model="searchQuery"
         placeholder="Search by subject..."
-        class="w-1/3 rounded-lg border px-4 py-2"
+        class="my-2 rounded-full bg-gray-200 p-2 dark:bg-[#111C44]"
       />
     </div>
 
@@ -23,7 +21,7 @@
       <div
         v-for="tutor in filteredTutors"
         :key="tutor.id"
-        class="cursor-pointer rounded-lg bg-white p-4 shadow-lg transition hover:shadow-xl"
+        class="cursor-pointer rounded-lg bg-white p-2 transition hover:shadow-xl dark:bg-[#111C44]"
         @click="openModal(tutor)"
       >
         <img
@@ -32,8 +30,8 @@
           class="mx-auto h-24 w-24 rounded-full border-4 border-gray-300"
         />
         <h2 class="mt-3 text-center text-lg font-semibold">{{ tutor.name }}</h2>
-        <p class="text-center text-gray-600">Teaches: {{ tutor.subject }}</p>
-        <p class="text-center text-gray-500">
+        <p class="text-center text-gray-500">Teaches: {{ tutor.subject }}</p>
+        <p class="text-center text-gray-400">
           Experience: {{ tutor.experience }} years
         </p>
 
@@ -49,9 +47,11 @@
     <!-- Modal -->
     <div
       v-if="showModal"
-      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 flex items-center justify-center bg-opacity-50"
     >
-      <div class="relative w-96 rounded-lg bg-white p-6 shadow-lg">
+      <div
+        class="relative w-96 rounded-lg bg-white p-6 shadow-lg dark:bg-[#111C44]"
+      >
         <button
           class="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
           @click="closeModal"
@@ -67,13 +67,13 @@
         <h2 class="mt-3 text-center text-2xl font-bold">
           {{ selectedTutor.name }}
         </h2>
-        <p class="text-center text-gray-600">
+        <p class="text-center text-gray-500">
           Teaches: {{ selectedTutor.subject }}
         </p>
-        <p class="text-center text-gray-500">
+        <p class="text-center text-gray-400">
           Experience: {{ selectedTutor.experience }} years
         </p>
-        <p class="mt-4 text-center text-gray-700">{{ selectedTutor.bio }}</p>
+        <p class="mt-4 text-center text-gray-500">{{ selectedTutor.bio }}</p>
 
         <!-- Star Rating in Modal -->
         <div class="mt-2 flex justify-center">
@@ -85,9 +85,11 @@
         <!-- Create Tutor Modal -->
         <div
           v-if="showCreateModal"
-          class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          class="fixed inset-0 flex items-center justify-center bg-opacity-50"
         >
-          <div class="relative w-96 rounded-lg bg-white p-6 shadow-lg">
+          <div
+            class="relative w-96 rounded-lg bg-white p-6 shadow-lg dark:bg-[#111C44]"
+          >
             <button
               class="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
               @click="closeCreateModal"
@@ -179,13 +181,13 @@
 
         <div class="mt-4 flex justify-center">
           <button
-            class="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+            class="rounded-full bg-blue-600 px-8 py-1 text-white hover:bg-blue-700"
             @click="openChat"
           >
             Chat
           </button>
           <button
-            class="ml-2 rounded-lg bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
+            class="ml-2 rounded-full bg-gray-600 px-8 py-1 text-white hover:bg-gray-700"
             @click="closeModal"
           >
             Close
@@ -197,7 +199,7 @@
     <!-- Chat Area -->
     <div
       v-if="showChat"
-      class="fixed bottom-5 right-5 flex h-[400px] w-96 flex-col overflow-hidden rounded-lg border border-gray-300 bg-white shadow-xl"
+      class="fixed bottom-5 right-5 flex h-[400px] w-96 flex-col overflow-hidden rounded-lg bg-white shadow-xl dark:bg-[#111C44]"
     >
       <!-- Chat Header -->
       <div
@@ -231,19 +233,19 @@
       </div>
 
       <!-- Chat Input -->
-      <div class="flex items-center border-t border-gray-300 bg-gray-100 p-3">
+      <div class="flex items-center bg-white p-3 dark:bg-[#0C1438]">
         <!-- Message Input -->
         <input
           v-model="newMessage"
           type="text"
           placeholder="Type a message..."
-          class="flex-grow rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#5D3BE9]"
+          class="my-2 flex-grow rounded-full bg-gray-200 p-2 dark:bg-[#111C44]"
           @keyup.enter="sendMessage"
         />
 
         <!-- Schedule Meeting Button -->
         <button
-          class="ml-3 rounded-full bg-gray-200 p-2 text-gray-600 transition hover:bg-gray-300"
+          class="ml-3 rounded-full p-2 text-gray-600 transition"
           @click="openCalendar"
         >
           <font-awesome-icon :icon="['fas', 'fa-calendar-alt']" />
@@ -251,7 +253,7 @@
 
         <!-- Video Call Button (Using FontAwesome) -->
         <button
-          class="ml-3 rounded-full bg-gray-200 p-2 text-gray-600 transition hover:bg-gray-300"
+          class="ml-3 rounded-full p-2 text-gray-600 transition"
           @click="startVideoCall"
         >
           <font-awesome-icon :icon="['fas', 'fa-video']" />
@@ -259,7 +261,7 @@
 
         <!-- Send Message Button -->
         <button
-          class="ml-3 rounded-full bg-[#5D3BE9] p-2 text-white transition hover:bg-[#4c32c9]"
+          class="ml-3 rounded-full p-2 text-blue-600 transition"
           @click="sendMessage"
         >
           <font-awesome-icon :icon="['fas', 'fa-paper-plane']" />
