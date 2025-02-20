@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: cursive;
-}
-
 * {
   -ms-overflow-style: none;
   scrollbar-width: none;
