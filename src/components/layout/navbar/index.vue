@@ -51,12 +51,14 @@
             mode="click"
             :popper="{ placement: 'right-start' }"
             :items="profileList"
-            ><LayoutProfileImage
+          >
+            <LayoutProfileImage
               :img-src="userInfo?.profileImage"
               :name="userInfo?.name"
               :scale="true"
               baseClass="w-[30px] h-[30px]"
-          /></UDropdown>
+            />
+          </UDropdown>
         </p>
       </div>
     </div>
@@ -124,7 +126,7 @@ useHead({
   link: [
     {
       rel: 'icon',
-      href: 'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png'
+      href: 'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png'
     }
   ],
   htmlAttrs: {
@@ -137,9 +139,9 @@ useSeoMeta({
   description:
     'Transform your learning experience with Quasi AI, the all-in-one learning platform that generates flashcards, quizzies, and study materials instantly from your lectures, notes, pdfs, and presentations.',
   ogImage:
-    'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png',
+    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
   twitterImage:
-    'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png',
+    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
   twitterCard: 'summary_large_image'
 })
 </script>

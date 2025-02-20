@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between bg-white px-8 py-2">
     <NuxtLink to="/" class="flex items-center justify-center gap-2">
       <img
-        src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png"
+        src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
         alt="logo"
         class="w-10 cursor-pointer"
       />

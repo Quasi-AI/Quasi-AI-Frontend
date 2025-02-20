@@ -13,7 +13,7 @@
           class="flex items-center gap-2 truncate text-sm font-medium transition-colors duration-200"
         >
           <img
-            src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png"
+            src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
             alt="logo"
             class="w-8 cursor-pointer"
           />
