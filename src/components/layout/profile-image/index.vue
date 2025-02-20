@@ -17,7 +17,7 @@
       ]"
     >
       <span
-        class="text-primary-text-color dark:text-primary-text-color font-medium uppercase"
+        class="text-primary-text-color dark:text-primary-text-color uppercase"
         :class="textSize"
       >
         {{ usernameToInitials(name) }}
