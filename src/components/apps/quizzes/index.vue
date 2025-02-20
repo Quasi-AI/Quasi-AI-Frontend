@@ -165,7 +165,6 @@
 </template>
 
 <script setup>
-
 import * as pdfjsLib from 'pdfjs-dist'
 import mammoth from 'mammoth'
 import PPTX2Json from 'pptx2json'
@@ -173,7 +172,6 @@ import PPTX2Json from 'pptx2json'
 // Specify the worker source for PDF.js
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
-
 
 const messageContent = ref('')
 const quizes = ref([])
@@ -198,7 +196,6 @@ const startTimer = () => {
     }
   }, 1000)
 }
-
 
 // Trigger the hidden file input when the button is clicked
 const triggerFileInput = () => {

@@ -75,19 +75,25 @@ export const useAuthenticationStore = defineStore('authentication', {
     ) {
       try {
         this.error = ''
-        const data = await $fetch<{ statusCode: number; token?: string }>(
-          apiPath,
-          {
-            method: 'POST',
-            body
-          }
-        )
+        const data = await $fetch<{
+          statusCode: number
+          token?: string
+          user_id?: number
+        }>(apiPath, {
+          method: 'POST',
+          body
+        })
 
         if (data.statusCode === successCode) {
           if ('token' in data && data.token) {
             this.token = data.token
             localStorage.setItem('authToken', this.token)
           }
+
+          if ('user_id' in data && data.user_id) {
+            localStorage.setItem('user_id', data.user_id.toString())
+          }
+
           this.success = successMessage
           navigateTo(redirectPath)
         } else {

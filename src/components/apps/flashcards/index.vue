@@ -75,24 +75,31 @@
     </div>
 
     <!-- Flashcards Preview -->
-    <div class="flex w-full flex-col overflow-y-auto md:h-[70vh] lg:h-[80vh] lg:w-[50%]">
+    <div
+      class="flex w-full flex-col overflow-y-auto md:h-[70vh] lg:h-[80vh] lg:w-[50%]"
+    >
       <h2 class="mb-4 text-xl font-bold text-gray-800">Preview</h2>
 
-      <div v-if="flashcards.length === 0" class="text-gray-500 text-center">
+      <div v-if="flashcards.length === 0" class="text-center text-gray-500">
         No flashcards generated yet.
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div
           v-for="(flashcard, index) in flashcards"
           :key="index"
           class="flip-card"
           @click="toggleFlip(index)"
         >
-          <div class="flip-card-inner" :class="{ 'flipped': flippedCards[index] }">
+          <div
+            class="flip-card-inner"
+            :class="{ flipped: flippedCards[index] }"
+          >
             <!-- Front -->
             <div class="flip-card-front">
-              <h3 class="text-lg font-semibold text-white">{{ flashcard.front }}</h3>
+              <h3 class="text-lg font-semibold text-white">
+                {{ flashcard.front }}
+              </h3>
             </div>
             <!-- Back -->
             <div class="flip-card-back">
@@ -138,10 +145,9 @@ const errorMessage = ref('') // New variable for error message
 const level = ref('beginner')
 const totalQuestions = ref('')
 
-
 const flippedCards = ref([]) // Track flipped state
 
-const toggleFlip = (index) => {
+const toggleFlip = index => {
   flippedCards.value[index] = !flippedCards.value[index] // Toggle flip state
 }
 
@@ -280,7 +286,6 @@ const generateFlashcards = async () => {
     isLoading.value = false
   }
 }
-
 </script>
 
 <style scoped>
