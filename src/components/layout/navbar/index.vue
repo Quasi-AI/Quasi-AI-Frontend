@@ -125,10 +125,6 @@ useHead({
     {
       rel: 'icon',
       href: 'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png'
-    },
-    {
-      href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
-      rel: 'stylesheet'
     }
   ],
   htmlAttrs: {
