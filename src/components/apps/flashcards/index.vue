@@ -75,29 +75,28 @@
     </div>
 
     <!-- Flashcards Preview -->
-    <div class="flex w-full flex-col lg:w-[50%]">
-      <h2 class="mb-2 text-lg font-bold">Preview</h2>
-      <div v-if="flashcards.length === 0" class="text-gray-500">
+    <div class="flex w-full flex-col overflow-y-auto md:h-[70vh] lg:h-[80vh] lg:w-[50%]">
+      <h2 class="mb-4 text-xl font-bold text-gray-800">Preview</h2>
+
+      <div v-if="flashcards.length === 0" class="text-gray-500 text-center">
         No flashcards generated yet.
       </div>
 
-      <div
-        v-else
-        class="grid max-h-[400px] grid-cols-2 gap-4 overflow-y-auto rounded-lg border p-2 sm:max-h-[500px] md:max-h-[600px] lg:max-h-[700px] xl:max-h-[800px] dark:border-none"
-      >
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div
           v-for="(flashcard, index) in flashcards"
           :key="index"
           class="flip-card"
+          @click="toggleFlip(index)"
         >
-          <div class="flip-card-inner">
+          <div class="flip-card-inner" :class="{ 'flipped': flippedCards[index] }">
             <!-- Front -->
             <div class="flip-card-front">
-              <h3 class="text-center font-bold">{{ flashcard.front }}</h3>
+              <h3 class="text-lg font-semibold text-white">{{ flashcard.front }}</h3>
             </div>
             <!-- Back -->
             <div class="flip-card-back">
-              <p class="text-center">{{ flashcard.back }}</p>
+              <p class="text-lg text-white">{{ flashcard.back }}</p>
             </div>
           </div>
         </div>
@@ -138,6 +137,13 @@ const isLoading = ref(false)
 const errorMessage = ref('') // New variable for error message
 const level = ref('beginner')
 const totalQuestions = ref('')
+
+
+const flippedCards = ref([]) // Track flipped state
+
+const toggleFlip = (index) => {
+  flippedCards.value[index] = !flippedCards.value[index] // Toggle flip state
+}
 
 // Trigger the hidden file input when the button is clicked
 const triggerFileInput = () => {
@@ -274,25 +280,27 @@ const generateFlashcards = async () => {
     isLoading.value = false
   }
 }
+
 </script>
 
 <style scoped>
-/* Flip Card Animation */
 .flip-card {
   width: 100%;
-  height: 120px;
+  max-width: 250px; /* Adjust width */
+  height: 180px; /* Adjust height */
   perspective: 1000px;
+  margin: auto; /* Center cards */
 }
 
 .flip-card-inner {
   width: 100%;
   height: 100%;
-  transition: transform 0.6s;
+  transition: transform 0.6s ease-in-out;
   transform-style: preserve-3d;
   position: relative;
 }
 
-.flip-card:hover .flip-card-inner {
+.flipped {
   transform: rotateY(180deg);
 }
 
@@ -303,20 +311,29 @@ const generateFlashcards = async () => {
   position: absolute;
   backface-visibility: hidden;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+  text-align: center;
+  padding: 15px;
 }
 
 .flip-card-front {
-  background-color: #111c44;
+  background-color: #2b6cb0; /* Nice blue */
   color: white;
 }
 
 .flip-card-back {
-  background-color: #5d3bea;
+  background-color: #38a169; /* Nice green */
   color: white;
   transform: rotateY(180deg);
+}
+
+.grid {
+  display: grid;
+  gap: 16px; /* Space between cards */
+  justify-content: center; /* Center grid items */
 }
 </style>
