@@ -63,7 +63,8 @@
             :popper="{ placement: 'right-start' }"
             :items="profileList"
             ><LayoutProfileImage
-              :img-src="'https://www.tenforums.com/attachments/user-accounts-family-safety/322690d1615743307-user-account-image-log-user.png'"
+              :img-src="userInfo?.profileImage"
+              :name="userInfo?.name"
               :scale="true"
               baseClass="w-[30px] h-[30px]"
           /></UDropdown>
@@ -82,6 +83,7 @@ import lightModeIcon from '@/assets/icons/light-mode.vue'
 import DarkModeIcon from '@/assets/icons/dark-mode.vue'
 import { useAuthenticationStore } from '@/store/auth'
 
+const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
 
 const q = ref('')
