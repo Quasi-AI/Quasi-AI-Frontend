@@ -6,7 +6,7 @@ const API_PATHS = {
   forgotPassword:
     'https://dark-caldron-448714-u5.uc.r.appspot.com/user/request',
   newPassword: 'https://dark-caldron-448714-u5.uc.r.appspot.com/user/reset',
-  getUserDetails: '/api/auth/get-user-details',
+  getUserDetails: 'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/',
   updateEmail: '/api/auth/update-email',
   updateProfileImage: '/api/auth/update-profile-image',
   updateName: '/api/auth/update-name',
@@ -100,14 +100,22 @@ export const useAuthenticationStore = defineStore('authentication', {
 
     async fetchUserDetails() {
       try {
+        const userId = localStorage.getItem('user_id')
+        if (!userId) {
+          this.error = 'User ID not found in localStorage'
+          return
+        }
+
+        const apiUrl = `${API_PATHS.getUserDetails}${userId}`
+
         const data = await $fetch<{
           statusCode: number
           id?: number
           name?: string
           email?: string
-          profile_image?: string
+          profileImage?: string
           message?: string
-        }>(API_PATHS.getUserDetails, {
+        }>(apiUrl, {
           method: 'GET',
           headers: { Authorization: `Bearer ${this.token}` }
         })
@@ -117,7 +125,7 @@ export const useAuthenticationStore = defineStore('authentication', {
             id: data.id ?? null,
             name: data.name ?? '',
             email: data.email ?? '',
-            profile_image: data.profile_image ?? ''
+            profile_image: data.profileImage ?? ''
           }
         } else {
           this.handleError(data)

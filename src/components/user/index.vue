@@ -6,10 +6,7 @@
       >
         <UserMe />
 
-        <UTabs
-          :items="tabItems"
-          class="my-5 rounded-2xl bg-white p-4 dark:bg-[#111C44]"
-        >
+        <UTabs :items="tabItems" class="my-5 rounded-2xl p-4">
           <template #name>
             <UserName />
           </template>

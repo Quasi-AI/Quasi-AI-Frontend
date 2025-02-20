@@ -37,7 +37,7 @@
 
     <!-- Floating Input Box -->
     <div
-      class="w-[90%] max-w-2xl rounded-t-xl bg-white p-3 shadow-md sm:w-[80%] md:w-[60%] lg:fixed lg:bottom-0 lg:left-1/2 lg:w-[40%] lg:-translate-x-1/2 xl:w-[30%] dark:bg-[#111C44]"
+      class="w-[90%] max-w-2xl rounded-xl bg-white p-3 shadow-md sm:w-[80%] md:w-[60%] lg:fixed lg:bottom-0 lg:left-1/2 lg:w-[40%] lg:-translate-x-1/2 lg:rounded-t-xl xl:w-[30%] dark:bg-[#111C44]"
     >
       <form @submit.prevent="handleSubmit" class="flex items-center gap-3">
         <input

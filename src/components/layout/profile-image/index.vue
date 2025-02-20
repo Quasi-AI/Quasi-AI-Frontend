@@ -12,7 +12,7 @@
       v-else
       :class="[
         baseClass,
-        'inline-flex items-center justify-center overflow-hidden border border-slate-300 shadow-sm',
+        'inline-flex items-center justify-center overflow-hidden rounded-full bg-gray-100 shadow-sm dark:bg-[#0C1438]',
         scale ? 'hover:scale-105' : ''
       ]"
     >
@@ -40,7 +40,7 @@ defineProps({
   },
   baseClass: {
     type: String,
-    default: 'w-12 h-12' // Default size (3rem)
+    default: 'w-12 h-12'
   },
   textSize: {
     type: String,

@@ -8,6 +8,8 @@
 
   <div class="flex flex-col">
     <UInput
+      variant="none"
+      class="my-2 rounded-full bg-gray-200 p-2 dark:bg-[#0C1438]"
       placeholder="Email address"
       v-model="email"
       maxLength="250"
