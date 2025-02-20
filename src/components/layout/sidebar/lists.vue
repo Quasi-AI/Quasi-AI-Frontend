@@ -5,7 +5,7 @@
   >
     <!-- Bottom Navigation (Mobile) -->
     <div
-      class="flex w-full items-center justify-between overflow-hidden bg-white px-2 py-4 sm:overflow-x-auto sm:whitespace-nowrap dark:bg-[#111C44]"
+      class="flex w-full items-center justify-between overflow-hidden bg-white px-2 py-4 pr-4 sm:overflow-x-auto sm:whitespace-nowrap dark:bg-[#111C44]"
     >
       <div class="flex shrink-0 items-center px-3">
         <NuxtLink
