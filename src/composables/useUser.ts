@@ -6,7 +6,7 @@ export const useUser = () => {
     id: number | null
     name: string
     email: string
-    profile_image: string
+    profileImage: string
   } | null>(null)
 
   onMounted(async () => {

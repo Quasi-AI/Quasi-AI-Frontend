@@ -1,4 +1,8 @@
 import { defineStore } from 'pinia'
+import type {
+  RouteLocationAsRelativeGeneric,
+  RouteLocationAsPathGeneric
+} from 'vue-router'
 
 const API_PATHS = {
   signup: 'https://dark-caldron-448714-u5.uc.r.appspot.com/user/create',
@@ -7,11 +11,13 @@ const API_PATHS = {
     'https://dark-caldron-448714-u5.uc.r.appspot.com/user/request',
   newPassword: 'https://dark-caldron-448714-u5.uc.r.appspot.com/user/reset',
   getUserDetails: 'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/',
-  updateEmail: '/api/auth/update-email',
-  updateProfileImage: '/api/auth/update-profile-image',
-  updateName: '/api/auth/update-name',
-  deleteUser: '/api/auth/delete-user',
-  getAllUsers: '/api/auth/get-all-users'
+  updateEmail:
+    'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/update/',
+  updateProfileImage:
+    'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/update/',
+  updateName: 'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/update/',
+  deleteUser: 'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/delete/',
+  getAllUsers: 'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/'
 }
 
 const STATUS_CODES = {
@@ -33,12 +39,12 @@ export const useAuthenticationStore = defineStore('authentication', {
       id: null as number | null,
       name: '',
       email: '',
-      profile_image: ''
+      profileImage: ''
     },
     users: [] as Array<{
       id: number
       name: string
-      profile_image: string
+      profileImage: string
       email: string
       created_at: string
       updated_at: string
@@ -67,18 +73,23 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async authenticateUser(
-      apiPath: string,
-      body: object,
+      apiPath: string | Request,
+      body: { name?: string; role?: string; email: string; password?: string },
       successCode: number,
       successMessage: string,
-      redirectPath: string
+      redirectPath:
+        | string
+        | RouteLocationAsRelativeGeneric
+        | RouteLocationAsPathGeneric
+        | null
+        | undefined
     ) {
       try {
         this.error = ''
         const data = await $fetch<{
           statusCode: number
           token?: string
-          user_id?: number
+          id?: number
         }>(apiPath, {
           method: 'POST',
           body
@@ -89,33 +100,26 @@ export const useAuthenticationStore = defineStore('authentication', {
             this.token = data.token
             localStorage.setItem('authToken', this.token)
           }
-
-          if ('user_id' in data && data.user_id) {
-            localStorage.setItem('user_id', data.user_id.toString())
+          if ('id' in data && data.id) {
+            localStorage.setItem('user_id', data.id.toString())
           }
-
           this.success = successMessage
           navigateTo(redirectPath)
         } else {
           this.handleError(data)
         }
-      } catch (err: any) {
+      } catch (err) {
         this.handleError(err)
       }
     },
 
     async fetchUserDetails() {
+      const apiUrl = `${API_PATHS.getUserDetails}${localStorage.getItem(
+        'user_id'
+      )}`
       try {
-        const userId = localStorage.getItem('user_id')
-        if (!userId) {
-          this.error = 'User ID not found in localStorage'
-          return
-        }
-
-        const apiUrl = `${API_PATHS.getUserDetails}${userId}`
-
         const data = await $fetch<{
-          statusCode: number
+          status: boolean
           id?: number
           name?: string
           email?: string
@@ -126,12 +130,12 @@ export const useAuthenticationStore = defineStore('authentication', {
           headers: { Authorization: `Bearer ${this.token}` }
         })
 
-        if (data.statusCode === STATUS_CODES.SUCCESS) {
+        if (data.status === false) {
           this.user = {
             id: data.id ?? null,
             name: data.name ?? '',
             email: data.email ?? '',
-            profile_image: data.profileImage ?? ''
+            profileImage: data.profileImage ?? ''
           }
         } else {
           this.handleError(data)
@@ -146,7 +150,7 @@ export const useAuthenticationStore = defineStore('authentication', {
         id: this.user.id,
         name: this.user.name,
         email: this.user.email,
-        profile_image: this.user.profile_image
+        profileImage: this.user.profileImage
       }
     },
 
@@ -157,7 +161,7 @@ export const useAuthenticationStore = defineStore('authentication', {
           users?: Array<{
             id: number
             name: string
-            profile_image: string
+            profileImage: string
             email: string
             created_at: string
             updated_at: string
@@ -218,8 +222,9 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateEmail(newEmail: string) {
+      const apiUrl = `${API_PATHS.updateEmail}${localStorage.getItem('user_id')}`
       await this.updateUserData(
-        API_PATHS.updateEmail,
+        apiUrl,
         { email: newEmail },
         'Email updated successfully!',
         'email',
@@ -228,18 +233,20 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateProfileImage(formData: FormData) {
+      const apiUrl = `${API_PATHS.updateProfileImage}${localStorage.getItem('user_id')}`
       await this.updateUserData(
-        API_PATHS.updateProfileImage,
+        apiUrl,
         formData,
         'Profile image updated successfully!',
-        'profile_image',
+        'profileImage',
         ''
       )
     },
 
     async updateName(name: string) {
+      const apiUrl = `${API_PATHS.updateName}${localStorage.getItem('user_id')}`
       await this.updateUserData(
-        API_PATHS.updateName,
+        apiUrl,
         { name: name },
         'Last name updated successfully!',
         'name',
@@ -251,14 +258,14 @@ export const useAuthenticationStore = defineStore('authentication', {
       apiPath: string,
       body: object,
       successMessage: string,
-      field: 'name' | 'email' | 'profile_image',
+      field: 'name' | 'email' | 'profileImage',
       value: string
     ) {
       try {
         const response = await $fetch<{ statusCode: number; message?: string }>(
           apiPath,
           {
-            method: 'POST',
+            method: 'PUT',
             body,
             headers: { Authorization: `Bearer ${this.token}` }
           }
@@ -276,9 +283,10 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async deleteUser() {
+      const apiUrl = `${API_PATHS.deleteUser}${localStorage.getItem('user_id')}`
       try {
         const response = await $fetch<{ statusCode: number; message?: string }>(
-          API_PATHS.deleteUser,
+          apiUrl,
           {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${this.token}` }
@@ -321,9 +329,10 @@ export const useAuthenticationStore = defineStore('authentication', {
         id: null,
         name: '',
         email: '',
-        profile_image: ''
+        profileImage: ''
       }
       localStorage.removeItem('authToken')
+      localStorage.removeItem('user_id')
       this.error = ''
       navigateTo('/')
     },

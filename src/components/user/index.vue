@@ -2,21 +2,25 @@
   <div class="container mx-auto my-10 w-full lg:w-full xl:w-[80%] 2xl:w-[65%]">
     <template v-if="isLoggedIn">
       <div
-        class="item-center mx-8 flex flex-col justify-between gap-6 rounded-2xl bg-white p-4 lg:flex-row dark:bg-[#111C44]"
+        class="item-center mx-8 flex flex-col gap-6 rounded-2xl bg-white p-4 lg:flex-row lg:items-start dark:bg-[#111C44]"
       >
-        <UserMe />
+        <div class="min-w-[280px] flex-1">
+          <UserMe class="w-full" />
+        </div>
 
-        <UTabs :items="tabItems" class="my-5 rounded-2xl p-4">
-          <template #name>
-            <UserName />
-          </template>
-          <template #email>
-            <UserEmail />
-          </template>
-          <template #password>
-            <UserPassword />
-          </template>
-        </UTabs>
+        <div class="w-full flex-1">
+          <UTabs :items="tabItems" class="my-5 rounded-2xl p-4">
+            <template #name>
+              <UserName />
+            </template>
+            <template #email>
+              <UserEmail />
+            </template>
+            <template #password>
+              <UserPassword />
+            </template>
+          </UTabs>
+        </div>
       </div>
     </template>
 
