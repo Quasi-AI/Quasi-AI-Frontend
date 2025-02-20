@@ -1,9 +1,10 @@
 <template>
   <NuxtPage />
+  <UNotifications />
 </template>
 
 <script setup lang="ts">
-import { metaData } from '~~/meta-data'
+import { useNotificationWatcher } from '@/composables/useNotificationWatcher'
 
-useHead(metaData)
+useNotificationWatcher()
 </script>

@@ -21,5 +21,14 @@ export default defineNuxtConfig({
     preference: 'light'
   },
 
-  compatibilityDate: '2025-02-10'
+  runtimeConfig: {
+    public: {
+      GOOGLE_GEMINI_API_KEY: process.env.GOOGLE_GEMINI_API_KEY
+    }
+  },
+
+  compatibilityDate: '2025-02-10',
+
+  // Add plugins here
+  plugins: ['~/plugins/fontawesome.js']
 })

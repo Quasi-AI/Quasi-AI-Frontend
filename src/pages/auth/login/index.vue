@@ -5,7 +5,7 @@
     >
       <NuxtLink to="/" class="flex items-center justify-center gap-2">
         <img
-          src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/icons/quasiailogo.png"
+          src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
           alt="logo"
           class="w-10 cursor-pointer"
         />
@@ -59,10 +59,19 @@
           class="flex w-full items-center justify-center rounded-md bg-[#5D3BEA] text-white"
           label="Sign in"
           size="md"
-          :disabled="!isValidEmail(email)"
+          :disabled="!isValidEmail(email) || isLoading"
           @click="login"
-        />
+        >
+          <span v-if="!isLoading">Login</span>
+          <span v-else class="flex items-center">
+            <Loader class="h-5 w-5" />
+          </span>
+        </UButton>
+        <NuxtLink to="/auth/forgot-password" class="text-sm text-[#5D3BEA]"
+          >Forgot password</NuxtLink
+        >
       </div>
+
       <p class="text-sm text-black">
         New to Quasi AI?
         <NuxtLink to="/auth/sign-up" class="text-[#5D3BEA]">Sign up</NuxtLink>
@@ -72,17 +81,16 @@
 </template>
 
 <script setup>
-import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
-import GoogleLogo from '@/assets/media/svgs/signin-google.vue'
-import FacebookLogo from '@/assets/media/svgs/signin-facebook.vue'
-import { isValidEmail } from '@/utils/isValidEmail'
+import { useAuthenticationStore } from '~/store/auth'
 
 const email = ref('')
 const password = ref('')
 const isPasswordVisible = ref(false)
 
+const store = useAuthenticationStore()
+
 const login = () => {
-  console.log('Login with:', email.value)
+  store.login(email.value, password.value)
 }
 
 const togglePasswordVisibility = () => {

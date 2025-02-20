@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="my-10 flex items-center justify-center">
-    <NuxtLink to="/dashboard">
+    <NuxtLink to="/auth/login">
       <UButton
         variant=""
         class="flex w-fit items-center justify-center rounded-2xl bg-[#5D3BEA] text-white lg:w-[400px]"
