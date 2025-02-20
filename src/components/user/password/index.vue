@@ -11,14 +11,27 @@
       {{ errorMessage }}
     </p>
 
-    <UInput
-      variant="none"
-      class="my-2 rounded-full bg-gray-200 p-2 dark:bg-[#0C1438]"
-      placeholder="Email address"
-      v-model="email"
-      maxLength="250"
-      @keydown.enter="forgotPassword"
-    />
+    <div class="relative">
+      <UInput
+        :type="isPasswordVisible ? 'text' : 'password'"
+        variant="none"
+        class="my-2 rounded-full bg-gray-200 p-2 dark:bg-[#0C1438]"
+        placeholder="new password"
+        v-model="email"
+        maxLength="250"
+        @keydown.enter="forgotPassword"
+      />
+      <span
+              class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
+              @click="togglePasswordVisibility"
+            >
+              <UIcon
+                :name="
+                  isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
+                "
+              ></UIcon>
+      </span>
+    </div>
     <p class="text-xs italic text-gray-400">[Press Enter to proceed]</p>
   </div>
 </template>
@@ -30,7 +43,7 @@ import { isValidEmail } from '@/utils/isValidEmail'
 
 const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
-
+const isPasswordVisible = ref(false)
 const email = ref('')
 const errorMessage = ref<string | null>(null)
 
@@ -51,5 +64,9 @@ const forgotPassword = () => {
   setTimeout(() => {
     errorMessage.value = null
   }, 3000)
+}
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value
 }
 </script>
