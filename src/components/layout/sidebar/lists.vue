@@ -5,7 +5,7 @@
   >
     <!-- Bottom Navigation (Mobile) -->
     <div
-      class="flex w-full items-center justify-between overflow-hidden bg-white p-2 sm:overflow-x-auto sm:whitespace-nowrap dark:bg-[#111C44]"
+      class="flex w-full items-center justify-between overflow-hidden bg-white px-2 py-4 pr-4 sm:overflow-x-auto sm:whitespace-nowrap dark:bg-[#111C44]"
     >
       <div class="flex shrink-0 items-center px-3">
         <NuxtLink
@@ -13,7 +13,7 @@
           class="flex items-center gap-2 truncate text-sm font-medium transition-colors duration-200"
         >
           <img
-            src="https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png"
+            src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
             alt="logo"
             class="w-8 cursor-pointer"
           />

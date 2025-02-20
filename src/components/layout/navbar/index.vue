@@ -1,6 +1,6 @@
 <template>
   <div class="my-6 flex items-center justify-between gap-2 px-2 py-3 pl-6">
-    <h1 class="trucnate hidden text-sm font-extralight md:block md:text-xl">
+    <h1 class="trucnate hidden text-sm font-medium md:block md:text-xl">
       {{ pageTitle }}
     </h1>
     <div
@@ -51,18 +51,20 @@
             mode="click"
             :popper="{ placement: 'right-start' }"
             :items="profileList"
-            ><LayoutProfileImage
+          >
+            <LayoutProfileImage
               :img-src="userInfo?.profileImage"
               :name="userInfo?.name"
               :scale="true"
               baseClass="w-[30px] h-[30px]"
-          /></UDropdown>
+            />
+          </UDropdown>
         </p>
       </div>
     </div>
   </div>
 
-  <h1 class="mx-6 flex text-sm font-extralight md:hidden md:text-xl">
+  <h1 class="mx-6 flex text-sm font-medium md:hidden md:text-xl">
     {{ pageTitle }}
   </h1>
 </template>
@@ -124,7 +126,7 @@ useHead({
   link: [
     {
       rel: 'icon',
-      href: 'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png'
+      href: 'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png'
     }
   ],
   htmlAttrs: {
@@ -137,9 +139,9 @@ useSeoMeta({
   description:
     'Transform your learning experience with Quasi AI, the all-in-one learning platform that generates flashcards, quizzies, and study materials instantly from your lectures, notes, pdfs, and presentations.',
   ogImage:
-    'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png',
+    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
   twitterImage:
-    'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png',
+    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
   twitterCard: 'summary_large_image'
 })
 </script>

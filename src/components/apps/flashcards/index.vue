@@ -78,7 +78,7 @@
     <div
       class="flex w-full flex-col overflow-y-auto md:h-[70vh] lg:h-[80vh] lg:w-[50%]"
     >
-      <h2 class="mb-4 text-xl font-bold text-gray-800">Preview</h2>
+      <h2 class="mb-2 text-lg font-bold">Preview</h2>
 
       <div v-if="flashcards.length === 0" class="text-center text-gray-500">
         No flashcards generated yet.
