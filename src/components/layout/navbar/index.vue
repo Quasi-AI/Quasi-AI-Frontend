@@ -15,7 +15,7 @@
       {{ pageTitle }}
     </h1>
     <div
-      class="m-2 ml-auto flex items-center justify-end gap-4 rounded-full p-4 py-1 shadow-lg"
+      class="m-2 ml-auto flex items-center justify-end gap-4 rounded-full p-4 py-1 shadow-md"
       :class="
         colorMode.value === 'dark' ? 'bg-[#111C44] text-white' : 'bg-white'
       "

@@ -8,6 +8,8 @@
 
   <div class="flex flex-col space-y-4">
     <UInput
+      variant="none"
+      class="my-2 rounded-full bg-gray-200 p-2 dark:bg-[#0C1438]"
       placeholder="Name"
       v-model="name"
       maxLength="250"
@@ -17,9 +19,7 @@
   <p class="text-xs italic text-gray-400">[Press Enter to update]</p>
 
   <div class="my-5 flex items-center justify-between">
-    <NuxtLink to="/dashboard" class="text-[#5D3BEA]"
-      >Back to Dashboard</NuxtLink
-    >
+    <NuxtLink to="/dashboard" class="text-[#5D3BEA]">Back</NuxtLink>
     <div class="flex justify-end">
       <UDropdown
         mode="click"
