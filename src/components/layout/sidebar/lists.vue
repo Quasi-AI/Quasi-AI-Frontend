@@ -22,7 +22,7 @@
 
     <!-- Bottom Navigation (Mobile) -->
     <div
-      class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around bg-white p-2 shadow-md md:hidden lg:hidden dark:bg-[#111C44]"
+      class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around bg-white p-2 md:hidden lg:hidden dark:bg-[#111C44]"
     >
       <router-link
         v-for="(item, index) in mainItemsMobile"

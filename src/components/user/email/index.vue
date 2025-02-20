@@ -2,7 +2,7 @@
   <div class="relative my-6">
     <p>
       You are logged in as <strong>{{ userInfo?.name }}</strong
-      >, if you wish to update your email please do so here.
+      >, if you wish to update your email address, please enter it below.
     </p>
   </div>
 
