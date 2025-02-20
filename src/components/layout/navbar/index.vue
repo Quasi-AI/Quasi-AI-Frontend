@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <h1 class="mx-6 flex text-sm font-extralight md:hidden md:text-xl">
+  <h1 class="mx-6 flex text-sm font-medium md:hidden md:text-xl">
     {{ pageTitle }}
   </h1>
 </template>
