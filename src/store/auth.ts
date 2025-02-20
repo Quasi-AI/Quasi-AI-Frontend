@@ -232,7 +232,6 @@ export const useAuthenticationStore = defineStore('authentication', {
       )
     },
 
-
     async updateProfileImage(imageUrl: string) {
       const apiUrl = `${API_PATHS.updateProfileImage}${localStorage.getItem('user_id')}`
       await this.updateUserData(
@@ -249,7 +248,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       await this.updateUserData(
         apiUrl,
         { name: name },
-        'Last name updated successfully!',
+        'Name updated successfully!',
         'name',
         name
       )

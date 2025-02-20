@@ -18,18 +18,21 @@
       </NuxtLink>
       <UButton
         variant=""
-        class="rounded-2xl bg-[#fff] text-[#5D3BEA] cursor-pointer"
+        class="cursor-pointer rounded-2xl bg-[#fff] text-[#5D3BEA]"
         @click="playVideo"
       >
         Watch a demo
       </UButton>
     </div>
-    <div class="mt-8 w-full flex justify-center">
+    <div class="mt-8 flex w-full justify-center">
       <div class="relative w-full max-w-[750px]">
         <template v-if="!videoPlaying">
           <!-- Placeholder using the imported VideoTmp component -->
           <div @click="playVideo" class="cursor-pointer">
-            <VideoTmp ref="videoTempRef" class="h-auto w-full rounded-lg shadow-lg" />
+            <VideoTmp
+              ref="videoTempRef"
+              class="h-auto w-full rounded-lg shadow-lg"
+            />
           </div>
         </template>
         <template v-else>
@@ -55,30 +58,29 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
-import VideoTmp from "~/assets/media/svgs/video-temp.vue"; 
+import VideoTmp from '~/assets/media/svgs/video-temp.vue'
 
-const videoPlaying = ref(false);
-const videoElement = ref(null);
-const videoTempRef = ref(null);
-const videoWidth = ref("100%");
-const videoHeight = ref("auto");
+const videoPlaying = ref(false)
+const videoElement = ref(null)
+const videoTempRef = ref(null)
+const videoWidth = ref('100%')
+const videoHeight = ref('auto')
 
 const playVideo = () => {
-  videoPlaying.value = true;
+  videoPlaying.value = true
   setTimeout(() => {
-    videoElement.value?.play();
-  }, 100);
-};
+    videoElement.value?.play()
+  }, 100)
+}
 
 // Get placeholder dimensions
 onMounted(() => {
   nextTick(() => {
     if (videoTempRef.value) {
-      const tempElement = videoTempRef.value.$el;
-      videoWidth.value = tempElement.clientWidth;
-      videoHeight.value = tempElement.clientHeight;
+      const tempElement = videoTempRef.value.$el
+      videoWidth.value = tempElement.clientWidth
+      videoHeight.value = tempElement.clientHeight
     }
-  });
-});
+  })
+})
 </script>
