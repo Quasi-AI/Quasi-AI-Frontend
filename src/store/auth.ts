@@ -248,7 +248,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       await this.updateUserData(
         apiUrl,
         { name: name },
-        'Last name updated successfully!',
+        'Name updated successfully!',
         'name',
         name
       )
