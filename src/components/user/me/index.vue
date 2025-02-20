@@ -23,8 +23,30 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
 import { useUser } from '@/composables/useUser'
 import { useAuthenticationStore } from '@/store/auth'
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL
+} from 'firebase/storage'
+import { initializeApp } from 'firebase/app'
+
+// 🔹 Firebase Configuration (Replace with your Firebase project details)
+const firebaseConfig = {
+  apiKey: 'AIzaSyAH_3l6IEAldLkXyB0CXqYpHRwWDvqZjhU',
+  authDomain: 'park4me-b2127.firebaseapp.com',
+  projectId: 'park4me-b2127',
+  storageBucket: 'park4me-b2127.appspot.com',
+  messagingSenderId: '372838267059',
+  appId: '1:372838267059:web:20430ac4e8fe7f2f4cd8c6'
+}
+
+// 🔹 Initialize Firebase
+const app = initializeApp(firebaseConfig)
+const storage = getStorage(app)
 
 const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
@@ -43,26 +65,30 @@ const handleFileChange = async (event: Event) => {
   const file = target.files?.[0]
   if (file) {
     preview.value = URL.createObjectURL(file)
-    await updateProfileImage(file)
+    await uploadImageToFirebase(file)
   }
 }
 
-const updateProfileImage = async (file: File) => {
+// 🔹 Upload Image to Firebase Storage
+const uploadImageToFirebase = async (file: File) => {
   try {
-    const formData = new FormData()
-    formData.append('profile_image', file)
-    await authStore.updateProfileImage(formData)
+    const filePath = `Quasi AI/profile/${Date.now()}_${file.name}`
+    const storageReference = storageRef(storage, filePath)
+
+    // Upload file to Firebase
+    const snapshot = await uploadBytes(storageReference, file)
+
+    // Get the public URL
+    const downloadURL = await getDownloadURL(snapshot.ref)
+
+    // 🔹 Send Image URL to Backend for Profile Update
+    await authStore.updateProfileImage(downloadURL)
   } catch (error) {
-    console.error('Error updating profile image:', error)
+    console.error('Error uploading to Firebase:', error)
   }
 }
 
 const profileImageSrc = computed(() => {
-  return (
-    preview.value ||
-    (userInfo.value?.profile_image
-      ? `https://raw.githubusercontent.com/danieladeabah/da-dailytasks/refs/heads/main/public/profiles/${userInfo.value.profile_image}`
-      : '')
-  )
+  return preview.value || userInfo.value?.profileImage || ''
 })
 </script>
