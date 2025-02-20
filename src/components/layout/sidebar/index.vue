@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen flex-col bg-white dark:bg-[#111C44]">
+  <div class="flex h-screen flex-col bg-white shadow dark:bg-[#111C44]">
     <NuxtLink
       to="/"
       class="mb-2 hidden items-center gap-2 border-b-[0.4px] px-7 py-3 md:flex dark:border-[#3b3b3b]"
