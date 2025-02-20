@@ -1,6 +1,6 @@
 <template>
   <div class="my-6 flex items-center justify-between gap-2 px-2 py-3 pl-6">
-    <h1 class="trucnate hidden text-sm font-extralight md:block md:text-xl">
+    <h1 class="trucnate hidden text-sm font-medium md:block md:text-xl">
       {{ pageTitle }}
     </h1>
     <div
@@ -125,6 +125,10 @@ useHead({
     {
       rel: 'icon',
       href: 'https://raw.githubusercontent.com/Quasi-AI/Quasi-AI-Frontend/refs/heads/develop/src/assets/quasiailogo.png'
+    },
+    {
+      href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
+      rel: 'stylesheet'
     }
   ],
   htmlAttrs: {
