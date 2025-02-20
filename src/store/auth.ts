@@ -1,4 +1,8 @@
 import { defineStore } from 'pinia'
+import type {
+  RouteLocationAsRelativeGeneric,
+  RouteLocationAsPathGeneric
+} from 'vue-router'
 
 const API_PATHS = {
   signup: 'https://dark-caldron-448714-u5.uc.r.appspot.com/user/create',
@@ -69,33 +73,42 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async authenticateUser(
-      apiPath: string,
-      body: object,
+      apiPath: string | Request,
+      body: { name?: string; role?: string; email: string; password?: string },
       successCode: number,
       successMessage: string,
-      redirectPath: string
+      redirectPath:
+        | string
+        | RouteLocationAsRelativeGeneric
+        | RouteLocationAsPathGeneric
+        | null
+        | undefined
     ) {
       try {
         this.error = ''
-        const data = await $fetch<{ statusCode: number; token?: string }>(
-          apiPath,
-          {
-            method: 'POST',
-            body
-          }
-        )
+        const data = await $fetch<{
+          statusCode: number
+          token?: string
+          id?: number
+        }>(apiPath, {
+          method: 'POST',
+          body
+        })
 
         if (data.statusCode === successCode) {
           if ('token' in data && data.token) {
             this.token = data.token
             localStorage.setItem('authToken', this.token)
           }
+          if ('id' in data && data.id) {
+            localStorage.setItem('user_id', data.id.toString())
+          }
           this.success = successMessage
           navigateTo(redirectPath)
         } else {
           this.handleError(data)
         }
-      } catch (err: any) {
+      } catch (err) {
         this.handleError(err)
       }
     },
