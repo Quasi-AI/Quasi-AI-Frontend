@@ -1,13 +1,15 @@
 <template>
   <div class="flex flex-col items-center justify-center lg:flex-row">
     <!-- Chat Container -->
-    <div class="flex flex-grow overflow-hidden">
+    <div class="flex flex-row-reverse overflow-hidden">
       <!-- Chat Messages -->
       <div
         ref="chatBodyRef"
         class="flex flex-grow justify-center overflow-y-auto p-2 pb-20"
       >
-        <div class="max-w-2xl rounded-xl bg-white p-3 dark:bg-[#111C44]">
+        <div
+          class="w-full rounded-xl bg-white p-3 lg:w-[450px] dark:bg-[#111C44]"
+        >
           <ChatBotMessage
             v-for="(chat, index) in chatHistory"
             :key="index"
@@ -18,9 +20,11 @@
 
       <!-- Chat History Sidebar -->
       <aside
-        class="hidden w-1/4 overflow-y-auto p-4 lg:block dark:border-gray-700"
+        class="hidden w-[250px] overflow-y-auto p-4 lg:block dark:border-gray-700"
       >
-        <h3 class="mb-2 text-lg font-semibold dark:text-white">Chat History</h3>
+        <p class="py-1 text-center text-xs italic text-gray-500">
+          Chat History
+        </p>
         <ul>
           <li
             v-for="(chat, index) in chatHistory"
@@ -32,27 +36,28 @@
             }}
           </li>
         </ul>
+
+        <p class="py-1 text-center text-xs italic text-gray-500">
+          Type "clear" to reset the chat
+        </p>
       </aside>
     </div>
 
     <!-- Floating Input Box -->
     <div
-      class="w-[90%] max-w-2xl rounded-xl bg-white p-3 shadow-md sm:w-[80%] md:w-[60%] lg:fixed lg:bottom-0 lg:left-1/2 lg:w-[40%] lg:-translate-x-1/2 lg:rounded-t-xl xl:w-[30%] dark:bg-[#111C44]"
+      class="fixed bottom-2 w-[90%] rounded-full bg-white p-3 shadow-md sm:w-[80%] md:w-[60%] lg:bottom-4 lg:left-1/2 lg:w-[40%] lg:-translate-x-1/2 xl:w-[30%] dark:bg-[#111C44]"
     >
       <form @submit.prevent="handleSubmit" class="flex items-center gap-3">
         <input
           v-model="inputRef"
-          placeholder="Type here..."
-          class="w-full rounded-md bg-white px-4 py-2 outline-none dark:bg-[#111C44]"
+          placeholder="Ask doctor ai..."
+          class="w-full rounded-md bg-white outline-none dark:bg-[#111C44]"
           required
         />
         <button type="submit">
           <sendMsgIcon />
         </button>
       </form>
-      <p class="py-1 text-center text-xs italic text-gray-500">
-        Type "clear" to reset the chat
-      </p>
     </div>
   </div>
 </template>
