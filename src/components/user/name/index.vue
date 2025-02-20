@@ -10,7 +10,7 @@
     <UInput
       variant="none"
       class="my-2 rounded-full bg-gray-200 p-2 dark:bg-[#0C1438]"
-      placeholder="Name"
+      placeholder="Full name"
       v-model="name"
       maxLength="250"
       @keyup.enter="updateName"
