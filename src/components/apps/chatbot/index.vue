@@ -66,13 +66,16 @@
 import sendMsgIcon from '@/assets/icons/send-msg.vue'
 import ChatBotMessage from './messages.vue'
 import { generateBotResponse } from '@/utils/chatbot'
-import { quasiAiTutor } from '@/prompts/chatbot'
 import type { ChatMessage } from '~/types/chatbot'
 
-defineProps({
+const props = defineProps({
   inputPlaceholder: {
     type: String,
     default: ''
+  },
+  initialMessage: {
+    type: String,
+    default: '' // Now optional
   }
 })
 
@@ -81,15 +84,13 @@ const chatBodyRef = ref<HTMLElement | null>(null)
 const inputRef = ref('')
 const userId = localStorage.getItem('user_id')
 
-onMounted(async () => {
+onMounted(() => {
   const savedChatHistory = localStorage.getItem(`chatHistory_componentName`)
   if (savedChatHistory) {
     chatHistory.value = JSON.parse(savedChatHistory)
-  } else {
-    // todo: let use it at prop to make it optional
-    const { quasiAiTutor } = await import('@/prompts/chatbot')
+  } else if (props.initialMessage) {
     chatHistory.value = [
-      { hideInChat: true, role: 'model', text: quasiAiTutor }
+      { hideInChat: true, role: 'model', text: props.initialMessage }
     ]
   }
 })
@@ -121,9 +122,9 @@ const handleSubmit = () => {
 
   if (userMessage.toLowerCase() === 'clear') {
     localStorage.removeItem(`chatHistory_componentName`)
-    chatHistory.value = [
-      { hideInChat: true, role: 'model', text: quasiAiTutor }
-    ]
+    chatHistory.value = props.initialMessage
+      ? [{ hideInChat: true, role: 'model', text: props.initialMessage }]
+      : []
     inputRef.value = ''
     return
   } else if (userMessage.toLowerCase() === 'logout') {
