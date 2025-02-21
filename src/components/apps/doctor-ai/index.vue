@@ -1,3 +1,3 @@
 <template>
-  <AppsChatbot :inputPlaceholder="'Ask doctor ai...'" />
+  <AppsChatbot />
 </template>
