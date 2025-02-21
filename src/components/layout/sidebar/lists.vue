@@ -60,12 +60,12 @@ const mainItemsMobile = [
   { label: 'Games', route: '/learning-games', icon: AcademicCapIcon },
   {
     label: 'Doctor AI',
-    route: '/doctor-ai?type=doctor-ai',
+    route: '/doctor-ai',
     icon: UserGroupIcon
   },
   {
     label: 'Tutor',
-    route: '/smart-tutoring?type=smart-tutoring',
+    route: '/smart-tutoring',
     icon: LightBulbIcon
   },
   {

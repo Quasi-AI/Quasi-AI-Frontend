@@ -5,7 +5,7 @@
     </template>
     <template #apps>
       <LayoutNavbar />
-      <AppsAiTutor />
+      <AppsSmartTutoring :inputPlaceholder="'Ask smart tutoring...'" />
     </template>
   </NuxtLayout>
 </template>

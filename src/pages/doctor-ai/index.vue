@@ -5,7 +5,7 @@
     </template>
     <template #apps>
       <LayoutNavbar />
-      <AppsAiTutor />
+      <AppsDoctorAi :inputPlaceholder="'Ask doctor ai...'" />
     </template>
   </NuxtLayout>
 </template>

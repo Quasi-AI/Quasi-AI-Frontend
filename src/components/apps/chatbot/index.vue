@@ -50,7 +50,7 @@
       <form @submit.prevent="handleSubmit" class="flex items-center gap-3">
         <input
           v-model="inputRef"
-          placeholder="Ask doctor ai..."
+          :placeholder="inputPlaceholder"
           class="w-full rounded-md bg-white outline-none dark:bg-[#111C44]"
           required
         />
@@ -69,16 +69,29 @@ import { generateBotResponse } from '@/utils/chatbot'
 import { quasiAiTutor } from '@/prompts/chatbot'
 import type { ChatMessage } from '~/types/chatbot'
 
+defineProps({
+  inputPlaceholder: {
+    type: String,
+    default: ''
+  }
+})
+
 const chatHistory = ref<ChatMessage[]>([])
 const chatBodyRef = ref<HTMLElement | null>(null)
 const inputRef = ref('')
 const userId = localStorage.getItem('user_id')
 
-onMounted(() => {
+onMounted(async () => {
   const savedChatHistory = localStorage.getItem(`chatHistory_componentName`)
-  chatHistory.value = savedChatHistory
-    ? JSON.parse(savedChatHistory)
-    : [{ hideInChat: true, role: 'model', text: quasiAiTutor }]
+  if (savedChatHistory) {
+    chatHistory.value = JSON.parse(savedChatHistory)
+  } else {
+    // todo: let use it at prop to make it optional
+    const { quasiAiTutor } = await import('@/prompts/chatbot')
+    chatHistory.value = [
+      { hideInChat: true, role: 'model', text: quasiAiTutor }
+    ]
+  }
 })
 
 // Save chat history to localStorage
