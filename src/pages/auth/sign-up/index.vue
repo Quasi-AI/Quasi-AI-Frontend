@@ -19,41 +19,46 @@
         >
           {{ errorMessage }}
         </p>
-        <UButton
-          class="flex w-full items-center justify-center gap-2 rounded-full border transition-colors duration-200"
-          size="md"
-          @click="signUpWithGoogleAsStudent"
-          variant="none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 488 512"
-            class="h-5 w-5 fill-blue-600"
-          >
-            <path
-              d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-            />
-          </svg>
-          <span>Sign up with Google As Student</span>
-        </UButton>
+        <div>
+          <p class="text-sm">Sign Up With Google</p>
+          <div class="mt-5 flex flex-row items-center justify-center gap-4">
+            <UButton
+              class="flex w-fit items-center justify-center gap-2 rounded-full border px-16 transition-colors duration-200"
+              size="md"
+              @click="signUpWithGoogleAsStudent"
+              variant="none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 488 512"
+                class="h-5 w-5 fill-blue-600"
+              >
+                <path
+                  d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+                />
+              </svg>
+              <span>As Student</span>
+            </UButton>
 
-        <UButton
-          class="mt-2 flex w-full items-center justify-center gap-2 rounded-full border transition-colors duration-200"
-          size="md"
-          @click="signUpWithGoogleAsEducator"
-          variant="none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 488 512"
-            class="h-5 w-5 fill-red-600"
-          >
-            <path
-              d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-            />
-          </svg>
-          <span>Sign up with Google As Educator</span>
-        </UButton>
+            <UButton
+              class="flex w-fit items-center justify-center gap-2 rounded-full border px-16 transition-colors duration-200"
+              size="md"
+              @click="signUpWithGoogleAsEducator"
+              variant="none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 488 512"
+                class="h-5 w-5 fill-red-600"
+              >
+                <path
+                  d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+                />
+              </svg>
+              <span>As Educator</span>
+            </UButton>
+          </div>
+        </div>
       </div>
 
       <div class="mt-5 flex flex-row items-center justify-center gap-4">
