@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container mx-auto my-5 grid grid-cols-1 gap-8 px-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
+    class="container mx-auto my-5 grid grid-cols-1 gap-8 px-4 sm:grid-cols-2 lg:grid-cols-3"
   >
     <div
       v-for="(feature, index) in features"
