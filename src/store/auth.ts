@@ -4,7 +4,7 @@ import type {
   RouteLocationAsPathGeneric
 } from 'vue-router'
 
-import { handleError, STATUS_CODES  } from '../utils';
+import { handleError, STATUS_CODES } from '../utils'
 
 const API_PATHS = {
   signup: 'https://dark-caldron-448714-u5.uc.r.appspot.com/user/create',
@@ -21,7 +21,6 @@ const API_PATHS = {
   deleteUser: 'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/delete/',
   getAllUsers: 'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/'
 }
-
 
 export const useAuthenticationStore = defineStore('authentication', {
   state: () => ({

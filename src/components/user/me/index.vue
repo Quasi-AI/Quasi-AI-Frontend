@@ -23,10 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import { useUser } from '@/composables/useUser'
 import { useAuthenticationStore } from '@/store/auth'
-import { storage, storageRef, uploadBytes, getDownloadURL } from "@/firebase";
+import { storage, storageRef, uploadBytes, getDownloadURL } from '@/firebase'
 
 const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
@@ -57,17 +56,16 @@ const uploadImageToFirebase = async (file: File) => {
 
     // Upload file to Firebase
     const snapshot = await uploadBytes(storageReference, file)
-    
+
     // Get the public URL
     const downloadURL = await getDownloadURL(snapshot.ref)
-    
+
     // 🔹 Send Image URL to Backend for Profile Update
     await authStore.updateProfileImage(downloadURL)
   } catch (error) {
     console.error('Error uploading to Firebase:', error)
   }
 }
-
 
 const profileImageSrc = computed(() => {
   return preview.value || userInfo.value?.profileImage || ''
