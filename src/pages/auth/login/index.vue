@@ -96,7 +96,6 @@
 
 <script setup>
 import { useAuthenticationStore } from '~/store/auth'
-import {handleError}  from '../../../utils'
 import { useRouter } from 'vue-router'
 import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
 import { auth, provider, signInWithPopup } from "@/firebase";
@@ -141,6 +140,7 @@ const signInWithGoogle = async () => {
     
     if (response.data && response.data.token) {
       localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem('user_id', result.user.uid)
       router.push("/dashboard");
     } 
 
