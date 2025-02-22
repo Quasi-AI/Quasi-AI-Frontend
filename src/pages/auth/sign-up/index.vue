@@ -150,7 +150,7 @@ import { isValidEmail } from '@/utils/isValidEmail'
 import Loader from '@/components/loader/Loader.vue'
 import { useAuthenticationStore } from '~/store/auth'
 import axios from 'axios'
-import { auth, provider, signInWithPopup } from '@/firebase'
+import { auth, provider, signInWithPopup } from '~/utils/firebase'
 
 const router = useRouter() // Get router instance
 const name = ref('')

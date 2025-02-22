@@ -103,7 +103,7 @@
 <script setup>
 import { useAuthenticationStore } from '~/store/auth'
 import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
-import { auth, provider, signInWithPopup } from '@/firebase'
+import { auth, provider, signInWithPopup } from '~/utils/firebase'
 import axios from 'axios'
 
 const email = ref('')
