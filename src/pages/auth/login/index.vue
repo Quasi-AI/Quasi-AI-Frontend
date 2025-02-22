@@ -77,7 +77,7 @@
           class="flex w-full items-center justify-center rounded-md bg-[#5D3BEA] text-white"
           label="Sign in"
           size="md"
-          :disabled="!isValidEmail(email) || isLoading"
+          :disabled="isLoading || !isValidForm"
           @click="login"
         >
           <span v-if="!isLoading">Login</span>
@@ -113,6 +113,10 @@ const isLoading = ref(false)
 const store = useAuthenticationStore()
 const router = useRouter()
 const errorMessage = ref('')
+
+const isValidForm = computed(() => {
+  return email.value && isValidEmail(email.value) && password.value
+})
 
 const login = async () => {
   isLoading.value = true // Show loader
