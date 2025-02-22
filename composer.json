@@ -1,16 +1,17 @@
 {
-  "name": "quasi-ai-frontend",
-  "description": "Fake PHP project to trigger deployment",
-  "require": {
-    "php": ">=7.4"
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "npm install -g yarn pm2",
-      "yarn install",
-      "yarn build",
-      "pm2 start .output/server/index.mjs --name quasi-ai-frontend || pm2 restart quasi-ai-frontend",
-      "pm2 save"
-    ]
-  }
+    "name": "quasiai/frontend",
+    "description": "Fake PHP project to trigger deployment",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "npm install -g yarn pm2",
+            "yarn install",
+            "yarn build",
+            "pm2 start .output/server/index.mjs --name=quasiai-frontend || pm2 restart quasiai-frontend",
+            "pm2 save"
+        ]
+    }
 }

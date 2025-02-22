@@ -4,6 +4,8 @@ import type {
   RouteLocationAsPathGeneric
 } from 'vue-router'
 
+import { handleError, STATUS_CODES  } from '../utils';
+
 const API_PATHS = {
   signup: 'https://dark-caldron-448714-u5.uc.r.appspot.com/user/create',
   login: 'https://dark-caldron-448714-u5.uc.r.appspot.com/user/login',
@@ -20,15 +22,6 @@ const API_PATHS = {
   getAllUsers: 'https://dark-caldron-448714-u5.uc.r.appspot.com/profile/'
 }
 
-const STATUS_CODES = {
-  SUCCESS: 200,
-  CREATED: 201,
-  BAD_REQUEST: 400,
-  UNAUTHORIZED: 401,
-  NOT_FOUND: 404,
-  SERVER_ERROR: 500,
-  CONFLICT: 409
-}
 
 export const useAuthenticationStore = defineStore('authentication', {
   state: () => ({
@@ -106,10 +99,10 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.success = successMessage
           navigateTo(redirectPath)
         } else {
-          this.handleError(data)
+          handleError(data)
         }
       } catch (err) {
-        this.handleError(err)
+        handleError(err)
       }
     },
 
@@ -138,10 +131,10 @@ export const useAuthenticationStore = defineStore('authentication', {
             profileImage: data.profileImage ?? ''
           }
         } else {
-          this.handleError(data)
+          handleError(data)
         }
       } catch (err) {
-        this.handleError(err)
+        handleError(err)
       }
     },
 
@@ -175,10 +168,10 @@ export const useAuthenticationStore = defineStore('authentication', {
         if (data.statusCode === STATUS_CODES.SUCCESS && data.users) {
           this.users = data.users
         } else {
-          this.handleError(data)
+          handleError(data)
         }
       } catch (err: any) {
-        this.handleError(err)
+        handleError(err)
       }
     },
 
@@ -214,10 +207,10 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.error = 'Invalid or expired token.'
           this.clearErrorAfterDelay()
         } else {
-          this.handleError(data)
+          handleError(data)
         }
       } catch (err) {
-        this.handleError(err)
+        handleError(err)
       }
     },
 
@@ -275,10 +268,10 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.user[field] = value
           this.success = successMessage
         } else {
-          this.handleError(response)
+          handleError(response)
         }
       } catch (err: any) {
-        this.handleError(err)
+        handleError(err)
       }
     },
 
@@ -298,29 +291,11 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.logout()
           navigateTo('/')
         } else {
-          this.handleError(response)
+          handleError(response)
         }
       } catch (err: any) {
-        this.handleError(err)
+        handleError(err)
       }
-    },
-
-    handleError(err: any) {
-      this.error = this.getErrorMessage(err)
-      this.clearErrorAfterDelay()
-    },
-
-    getErrorMessage(err: any): string {
-      if (err.statusCode === STATUS_CODES.CONFLICT)
-        return 'Email is already in use'
-      if (err.statusCode === STATUS_CODES.BAD_REQUEST)
-        return 'All fields are required'
-      if (err.statusCode === STATUS_CODES.UNAUTHORIZED)
-        return err.message || 'Invalid credentials'
-      if (err.statusCode === STATUS_CODES.NOT_FOUND) return 'User not found'
-      if (err.statusCode === STATUS_CODES.SERVER_ERROR)
-        return 'Server not hosted online'
-      return 'Error: ' + err.message
     },
 
     logout() {
