@@ -1,0 +1,29 @@
+
+name: Deploy to Hostinger via SSH
+on:
+  push:
+    branches:
+      - production
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Validate secrets
+        run: >
+          if [ -z "${{ secrets.REMOTE_HOST }}" ] || [ -z "${{ secrets.REMOTE_USER }}"
+          ] || [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "Missing required secrets!"
+            exit 1
+          fi
+      - name: Deploy via SSH
+        uses: easingthemes/ssh-deploy@v2
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: 22
+          SOURCE: ./
+          TARGET: /public_html/
+          ARGS: -avz --delete
