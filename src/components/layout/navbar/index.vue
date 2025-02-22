@@ -111,7 +111,13 @@ const pageTitle = computed(() => {
 const profileList = [
   [
     { label: 'Go to profile', click: () => navigateTo('/user') },
-    { label: 'Logout', click: () => authStore.logout() }
+    {
+      label: 'Logout',
+      click: () => {
+        authStore.logout()
+        colorMode.preference = 'light'
+      }
+    }
   ]
 ]
 
