@@ -64,9 +64,10 @@
         >
           <span v-if="!isLoading">Login</span>
           <span v-else class="flex items-center">
-            <Loader class="h-5 w-5" />
+            <Loader class="h-5 w-5 animate-spin" /> <!-- Spinner -->
           </span>
         </UButton>
+
         <NuxtLink to="/auth/forgot-password" class="text-sm text-[#5D3BEA]"
           >Forgot password</NuxtLink
         >
@@ -82,18 +83,30 @@
 
 <script setup>
 import { useAuthenticationStore } from '~/store/auth'
+import { useRouter } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
 const isPasswordVisible = ref(false)
-
+const isLoading = ref(false) // <-- Add loading state
 const store = useAuthenticationStore()
+const router = useRouter()
 
-const login = () => {
-  store.login(email.value, password.value)
+const login = async () => {
+  isLoading.value = true // Show loader
+
+  try {
+    await store.login(email.value, password.value) // Wait for login
+    router.push('/dashboard') // Redirect to dashboard
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false // Hide loader after process
+  }
 }
 
 const togglePasswordVisibility = () => {
   isPasswordVisible.value = !isPasswordVisible.value
 }
 </script>
+
