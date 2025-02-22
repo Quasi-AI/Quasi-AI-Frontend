@@ -3,7 +3,7 @@
     <div
       class="w-full max-w-[569px] rounded-2xl bg-white py-6 text-center text-2xl lg:shadow-md"
     >
-      <NuxtLink to="/" class="flex items-center justify-center gap-2">
+      <NuxtLink to="/" class="flex items-center justify-center gap-2 mb-4">
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
           alt="logo"
@@ -12,9 +12,18 @@
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
 
-      <div class="mx-8 flex items-center justify-center gap-4 py-4">
-        <GoogleLogo class="cursor-pointer" />
-        <FacebookLogo class="cursor-pointer" />
+      <div class="mx-4 flex flex-col items-center justify-center space-y-2">
+        <v-alert v-if="errorMessage" type="error" class="w-full">{{ errorMessage }}</v-alert>
+        <UButton
+          class="flex w-full items-center justify-center gap-2 rounded-md bg-[#1A73E8] text-white hover:bg-[#1558C4] transition-colors duration-200"
+          size="md"
+          @click="signInWithGoogle"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" class="h-5 w-5 fill-white">
+            <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/>
+          </svg>
+          <span>Sign in with Google As Student or Educator</span>
+        </UButton>
       </div>
 
       <div class="flex flex-row items-center justify-center gap-4">
@@ -54,6 +63,10 @@
           </span>
         </div>
 
+        <div class="flex flex-row items-center justify-center gap-4">
+          <OrSeperator class="w-3/4 sm:w-2/3" />
+        </div>
+
         <UButton
           variant=""
           class="flex w-full items-center justify-center rounded-md bg-[#5D3BEA] text-white"
@@ -83,14 +96,19 @@
 
 <script setup>
 import { useAuthenticationStore } from '~/store/auth'
+import {handleError}  from '../../../utils'
 import { useRouter } from 'vue-router'
+import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
+import { auth, provider, signInWithPopup } from "@/firebase";
+import axios from "axios";
 
 const email = ref('')
 const password = ref('')
 const isPasswordVisible = ref(false)
-const isLoading = ref(false) // <-- Add loading state
+const isLoading = ref(false)
 const store = useAuthenticationStore()
 const router = useRouter()
+const errorMessage = ref("");
 
 const login = async () => {
   isLoading.value = true // Show loader
@@ -108,5 +126,33 @@ const login = async () => {
 const togglePasswordVisibility = () => {
   isPasswordVisible.value = !isPasswordVisible.value
 }
+
+
+const signInWithGoogle = async () => {
+    let result = await signInWithPopup(auth, provider);
+    const userData = {
+      name: result.user.displayName,
+      email: result.user.email,
+      uid: result.user.uid,
+      photo: result.user.photoURL
+    };
+    try{
+      let response = await axios.post("https://dark-caldron-448714-u5.uc.r.appspot.com/google/signin", userData);
+    
+    if (response.data && response.data.token) {
+      localStorage.setItem("authToken", response.data.token);
+      router.push("/dashboard");
+    } 
+
+    }catch (error) {
+      if (error.response) {
+        // Extract error message from server response
+        errorMessage.value = error.response.data.message;
+      } else {
+        errorMessage.value = 'An unexpected error occurred!';
+      }
+    }
+};
+
 </script>
 
