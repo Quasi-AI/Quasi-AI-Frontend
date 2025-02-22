@@ -3,7 +3,14 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: false, // Disable automatic crawling
       routes: [] // Remove predefined routes
-    }
+    },
+    routeRules: {
+      "/**": {
+        headers: {
+          "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+        },
+      },
+    },
   },
   srcDir: 'src/',
   devtools: { enabled: true },
