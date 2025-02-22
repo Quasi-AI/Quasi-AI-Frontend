@@ -20,6 +20,7 @@ library.add(faVideo)
 library.add(faPaperPlane)
 library.add(faCalendarAlt)
 
+
 export default defineNuxtPlugin(nuxtApp => {
   // Register FontAwesomeIcon globally
   nuxtApp.vueApp.component('font-awesome-icon', FontAwesomeIcon)

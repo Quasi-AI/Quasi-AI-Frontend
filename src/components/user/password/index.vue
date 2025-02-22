@@ -1,9 +1,6 @@
 <template>
   <div class="relative my-6">
-    <p>
-      You are logged in as <strong>{{ userInfo?.name }}</strong
-      >, if you wish to update your password well send you an email.
-    </p>
+    <p>If you wish to update your password we will send you an email.</p>
   </div>
 
   <div class="flex flex-col">

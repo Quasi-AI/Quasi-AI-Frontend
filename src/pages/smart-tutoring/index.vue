@@ -5,7 +5,14 @@
     </template>
     <template #apps>
       <LayoutNavbar />
-      <AppsAiTutor />
+      <AppsSmartTutoring
+        :inputPlaceholder="'Ask smart tutoring...'"
+        :initialMessage="quasiAiTutor"
+      />
     </template>
   </NuxtLayout>
 </template>
+
+<script setup lang="ts">
+import { quasiAiTutor } from '~/prompts/chatbot'
+</script>
