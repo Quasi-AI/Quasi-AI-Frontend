@@ -203,7 +203,7 @@ const signUpWithGoogleAsEducator = async () => {
         if (response.data && response.data.token) {
           // Store auth token
           localStorage.setItem("authToken", response.data.token);
-
+          router.push("/dashboard");
           // Stay on the same page and update UI accordingly
           user.value = userData;
         }
@@ -245,7 +245,7 @@ const signUpWithGoogleAsStudent = async () => {
         if (response.data && response.data.token) {
           // Store auth token
           localStorage.setItem("authToken", response.data.token);
-
+          router.push("/dashboard");
           // Stay on the same page and update UI accordingly
           user.value = userData;
         }
