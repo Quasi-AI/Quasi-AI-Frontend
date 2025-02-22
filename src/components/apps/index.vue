@@ -22,7 +22,6 @@ import LearningGames from '@/components/apps/learning-games/index.vue'
 import Dashboard from '@/components/apps/lists.vue'
 
 const route = useRoute()
-const router = useRouter()
 
 const componentsMap = {
   '/dashboard/questions': Questions,

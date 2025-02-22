@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-between bg-[#b4d6f7] px-8 py-6 lg:flex-row"
+    class="flex flex-col items-center justify-between gap-4 bg-[#b4d6f7] px-8 py-6 lg:flex-row"
   >
     <NuxtLink to="/" class="flex items-center justify-center gap-2">
       <img
