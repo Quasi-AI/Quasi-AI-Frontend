@@ -50,7 +50,7 @@
       <form @submit.prevent="handleSubmit" class="flex items-center gap-3">
         <input
           v-model="inputRef"
-          placeholder="Ask doctor ai..."
+          :placeholder="inputPlaceholder"
           class="w-full rounded-md bg-white outline-none dark:bg-[#111C44]"
           required
         />
@@ -66,8 +66,18 @@
 import sendMsgIcon from '@/assets/icons/send-msg.vue'
 import ChatBotMessage from './messages.vue'
 import { generateBotResponse } from '@/utils/chatbot'
-import { quasiAiTutor } from '@/prompts/chatbot'
 import type { ChatMessage } from '~/types/chatbot'
+
+const props = defineProps({
+  inputPlaceholder: {
+    type: String,
+    default: ''
+  },
+  initialMessage: {
+    type: String,
+    default: '' // Now optional
+  }
+})
 
 const chatHistory = ref<ChatMessage[]>([])
 const chatBodyRef = ref<HTMLElement | null>(null)
@@ -76,9 +86,13 @@ const userId = localStorage.getItem('user_id')
 
 onMounted(() => {
   const savedChatHistory = localStorage.getItem(`chatHistory_componentName`)
-  chatHistory.value = savedChatHistory
-    ? JSON.parse(savedChatHistory)
-    : [{ hideInChat: true, role: 'model', text: quasiAiTutor }]
+  if (savedChatHistory) {
+    chatHistory.value = JSON.parse(savedChatHistory)
+  } else if (props.initialMessage) {
+    chatHistory.value = [
+      { hideInChat: true, role: 'model', text: props.initialMessage }
+    ]
+  }
 })
 
 // Save chat history to localStorage
@@ -108,9 +122,9 @@ const handleSubmit = () => {
 
   if (userMessage.toLowerCase() === 'clear') {
     localStorage.removeItem(`chatHistory_componentName`)
-    chatHistory.value = [
-      { hideInChat: true, role: 'model', text: quasiAiTutor }
-    ]
+    chatHistory.value = props.initialMessage
+      ? [{ hideInChat: true, role: 'model', text: props.initialMessage }]
+      : []
     inputRef.value = ''
     return
   } else if (userMessage.toLowerCase() === 'logout') {

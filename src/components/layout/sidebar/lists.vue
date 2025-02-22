@@ -26,10 +26,12 @@
           v-for="(item, index) in mainItemsMobile"
           :key="index"
           :to="item.route"
-          class="flex shrink-0 flex-col items-center truncate text-xs transition-colors duration-200"
+          class="flex shrink-0 flex-col items-center truncate text-sm font-medium transition-colors duration-200"
           :class="{
             'font-medium text-[#5D3BEA]': isActive(item.route),
-            'text-gray-500 hover:text-[#5D3BEA]': !isActive(item.route)
+            'text-gray-500 hover:text-[#5D3BEA] dark:text-gray-400': !isActive(
+              item.route
+            )
           }"
         >
           <component :is="item.icon" class="h-6 w-6" />
@@ -58,16 +60,16 @@ const mainItemsMobile = [
   { label: 'Games', route: '/learning-games', icon: AcademicCapIcon },
   {
     label: 'Doctor AI',
-    route: '/doctor-ai?type=doctor-ai',
+    route: '/doctor-ai',
     icon: UserGroupIcon
   },
   {
     label: 'Tutor',
-    route: '/smart-tutoring?type=smart-tutoring',
+    route: '/smart-tutoring',
     icon: LightBulbIcon
   },
   {
-    label: 'Past Questions',
+    label: 'Past Que.',
     route: '/past-questions?type=past-questions',
     icon: ArchiveBoxIcon
   },
