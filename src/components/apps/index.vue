@@ -20,6 +20,7 @@ import Plagiarism from '@/components/apps/plagiarism/index.vue'
 import Plan from '@/components/apps/plan/index.vue'
 import LearningGames from '@/components/apps/learning-games/index.vue'
 import Dashboard from '@/components/apps/lists.vue'
+import Support  from '@/components/apps/support/index.vue'
 
 const route = useRoute()
 
@@ -32,6 +33,7 @@ const componentsMap = {
   '/dashboard/essay': Essay,
   '/dashboard/speech-to-text': SpeechToText,
   '/dashboard/plagiarism': Plagiarism,
+  '/dashboard/support': Support,
   '/plan': Plan,
   '/learning-games': LearningGames,
   '/smart-tutoring': SmartTuroting,
