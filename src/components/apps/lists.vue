@@ -34,7 +34,8 @@ import {
   UserGroupIcon,
   PencilSquareIcon,
   MicrophoneIcon,
-  DocumentDuplicateIcon
+  DocumentDuplicateIcon,
+  PhoneArrowDownLeftIcon
 } from '@heroicons/vue/24/outline'
 
 const router = useRouter()
@@ -93,6 +94,13 @@ const features = [
     route: '/dashboard/plagiarism',
     description:
       'Ensure originality in your writing with an AI-powered plagiarism detection tool.'
+  },
+  {
+    label: '24/7 Support',
+    icon: PhoneArrowDownLeftIcon,
+    route: '/dashboard/support',
+    description:
+      'We offer live chat support and encourage you to send us feedback to ensure uninterrupted service.'
   }
 ]
 
