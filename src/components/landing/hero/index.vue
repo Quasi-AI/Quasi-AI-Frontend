@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10 flex flex-col items-center justify-center">
+  <div class="mt-10 flex flex-col items-center justify-center p-4">
     <div class="w-full text-center lg:w-[750px]">
       <h1 class="text-2xl font-extrabold">
         Transform your learning experience with

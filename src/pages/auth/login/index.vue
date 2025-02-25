@@ -12,12 +12,12 @@
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
 
-      <div class="mx-12 flex flex-col items-center justify-center space-y-2">
+      <div class="mx-3 flex flex-col items-center justify-center space-y-2">
         <v-alert v-if="errorMessage" type="error" class="w-full">{{
           errorMessage
         }}</v-alert>
         <UButton
-          class="flex w-full items-center justify-center gap-2 rounded-full border transition-colors duration-200"
+          class="flex w-fit items-center justify-center gap-2 rounded-full border transition-colors duration-200"
           size="md"
           @click="signInWithGoogle"
           variant="none"
@@ -77,7 +77,7 @@
           class="flex w-full items-center justify-center rounded-md bg-[#5D3BEA] text-white"
           label="Sign in"
           size="md"
-          :disabled="!isValidEmail(email) || isLoading"
+          :disabled="isLoading || !isValidForm"
           @click="login"
         >
           <span v-if="!isLoading">Login</span>
@@ -103,7 +103,7 @@
 <script setup>
 import { useAuthenticationStore } from '~/store/auth'
 import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
-import { auth, provider, signInWithPopup } from '@/firebase'
+import { auth, provider, signInWithPopup } from '~/utils/firebase'
 import axios from 'axios'
 
 const email = ref('')
@@ -113,6 +113,10 @@ const isLoading = ref(false)
 const store = useAuthenticationStore()
 const router = useRouter()
 const errorMessage = ref('')
+
+const isValidForm = computed(() => {
+  return email.value && isValidEmail(email.value) && password.value
+})
 
 const login = async () => {
   isLoading.value = true // Show loader

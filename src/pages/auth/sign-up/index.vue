@@ -23,7 +23,7 @@
           <p class="text-sm">Sign Up With Google</p>
           <div class="mt-5 flex flex-row items-center justify-center gap-4">
             <UButton
-              class="flex w-fit items-center justify-center gap-2 rounded-full border px-16 transition-colors duration-200"
+              class="flex w-fit items-center justify-center gap-2 rounded-full border px-8 transition-colors duration-200 lg:px-16"
               size="md"
               @click="signUpWithGoogleAsStudent"
               variant="none"
@@ -41,7 +41,7 @@
             </UButton>
 
             <UButton
-              class="flex w-fit items-center justify-center gap-2 rounded-full border px-16 transition-colors duration-200"
+              class="flex w-fit items-center justify-center gap-2 rounded-full border px-8 transition-colors duration-200 lg:px-16"
               size="md"
               @click="signUpWithGoogleAsEducator"
               variant="none"
@@ -150,7 +150,7 @@ import { isValidEmail } from '@/utils/isValidEmail'
 import Loader from '@/components/loader/Loader.vue'
 import { useAuthenticationStore } from '~/store/auth'
 import axios from 'axios'
-import { auth, provider, signInWithPopup } from '@/firebase'
+import { auth, provider, signInWithPopup } from '~/utils/firebase'
 
 const router = useRouter() // Get router instance
 const name = ref('')

@@ -25,7 +25,12 @@
 <script setup lang="ts">
 import { useUser } from '@/composables/useUser'
 import { useAuthenticationStore } from '@/store/auth'
-import { storage, storageRef, uploadBytes, getDownloadURL } from '@/firebase'
+import {
+  storage,
+  storageRef,
+  uploadBytes,
+  getDownloadURL
+} from '~/utils/firebase'
 
 const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
