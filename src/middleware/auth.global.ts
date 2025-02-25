@@ -1,17 +1,12 @@
-import { useAuthenticationStore } from '~/store/auth'
+
 
 export default defineNuxtRouteMiddleware(to => {
-  const authStore = useAuthenticationStore()
 
-  authStore.loadToken()
-
-  const isAuthRoute = to.path.startsWith('/auth/')
-
-  if (!authStore.token && to.path !== '/' && !isAuthRoute) {
-    return navigateTo('/')
-  }
-
-  if (authStore.token && (to.path === '/' || isAuthRoute)) {
-    return navigateTo('/dashboard')
-  }
+  if (process.server) return; // Skip middleware on the server side since we're using SSR: false
+  
+    const token = localStorage.getItem("token");
+  
+    if (!token && to.path !== "/auth/login") {
+      return navigateTo("/auth/login");
+    }
 })

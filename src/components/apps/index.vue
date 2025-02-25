@@ -11,7 +11,6 @@ import Questions from '@/components/apps/questions/index.vue'
 import FlashCards from '@/components/apps/flashcards/index.vue'
 import Quizzes from '@/components/apps/quizzes/index.vue'
 import AiTutor from '@/components/apps/ai-tutor/index.vue'
-import DoctorAi from '@/components/apps/doctor-ai/index.vue'
 import SmartTuroting from '@/components/apps/smart-tutoring/index.vue'
 import FindTutors from '@/components/apps/find-tutors/index.vue'
 import Essay from '@/components/apps/essay/index.vue'
@@ -38,7 +37,6 @@ const componentsMap = {
   '/learning-games': LearningGames,
   '/smart-tutoring': SmartTuroting,
   '/past-questions?type=past-questions': Questions,
-  '/doctor-ai': DoctorAi,
   '/dashboard': Dashboard
 }
 
