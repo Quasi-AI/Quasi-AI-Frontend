@@ -5,12 +5,12 @@ export default defineNuxtConfig({
       routes: [] // Remove predefined routes
     },
     routeRules: {
-      "/**": {
+      '/**': {
         headers: {
-          "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
-        },
-      },
-    },
+          'Cross-Origin-Opener-Policy': 'same-origin-allow-popups'
+        }
+      }
+    }
   },
   srcDir: 'src/',
   devtools: { enabled: true },

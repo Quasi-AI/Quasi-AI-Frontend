@@ -59,11 +59,6 @@ const mainItemsMobile = [
   { label: 'Dashboard', route: '/dashboard', icon: HomeIcon },
   { label: 'Games', route: '/learning-games', icon: AcademicCapIcon },
   {
-    label: 'Doctor AI',
-    route: '/doctor-ai',
-    icon: UserGroupIcon
-  },
-  {
     label: 'Tutor',
     route: '/smart-tutoring',
     icon: LightBulbIcon

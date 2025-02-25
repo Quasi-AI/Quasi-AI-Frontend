@@ -12,7 +12,6 @@
       <div class="flex h-screen flex-1 flex-col">
         <div class="overflow-auto py-10">
           <slot name="apps"></slot>
-          <LayoutNavbarFooter />
         </div>
       </div>
     </div>
