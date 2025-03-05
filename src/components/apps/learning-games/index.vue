@@ -3,7 +3,6 @@
     <!-- Filters -->
     <div class="mb-4 flex flex-col gap-4 lg:flex-row">
       <UInput
-        variant="none"
         class="my-2 rounded-full bg-gray-200 p-2 dark:bg-[#111C44]"
         v-model="selectedCategory"
         placeholder="Enter Category, topic or subject"
