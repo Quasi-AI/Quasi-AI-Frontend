@@ -1,34 +1,112 @@
 <template>
-  <NuxtLayout name="auth-wrapper">
-    <div
-      class="w-full max-w-[569px] rounded-md bg-white py-6 text-center text-2xl lg:shadow-md"
-    >
+  <div class="flex h-screen">
+    <div class="w-full md:w-1/2 h-full flex flex-col justify-center items-center bg-white px-10">
       <NuxtLink to="/" class="mb-4 flex items-center justify-center gap-2">
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
-          alt="logo"
-          class="w-10 cursor-pointer"
+          alt="QUASI AI Logo"
+          class="h-10 cursor-pointer"
         />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
+      <p class="text-gray-500 mb-6">Create account for free to enjoy QUASI AI</p>
 
-      <div class="mx-12 flex flex-col items-center justify-center space-y-2">
-        <p
-          v-if="errorMessage"
-          class="w-full rounded-md border-l-4 border-red-500 bg-red-100 px-4 py-3 text-sm text-red-700"
-        >
-          {{ errorMessage }}
+      <form class="w-full max-w-sm">
+        <!-- Fullname Field -->
+        <div class="relative w-full mb-4">
+          <input
+            v-model="name"
+            type="text"
+            id="fullname"
+            class="peer w-full p-3 border border-gray-300 rounded focus:border-purple-500 focus:ring-0 placeholder-transparent"
+            placeholder="Fullname"
+          />
+          <label for="fullname"
+            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-gray-500 text-sm transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+          >
+            Fullname
+          </label>
+        </div>
+
+        <!-- Email Field -->
+        <div class="relative w-full mb-4">
+          <input
+            v-model="email"
+            type="email"
+            id="email"
+            class="peer w-full p-3 border border-gray-300 rounded focus:border-purple-500 focus:ring-0 placeholder-transparent"
+            placeholder="Email"
+          />
+          <label for="email"
+            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-gray-500 text-sm transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+          >
+            Email
+          </label>
+        </div>
+
+        <!-- Password Field -->
+        <div class="relative w-full mb-4">
+          <input
+            :type="isPasswordVisible ? 'text' : 'password'"
+            v-model="password"
+            id="password"
+            class="peer w-full p-3 border border-gray-300 rounded focus:border-purple-500 focus:ring-0 placeholder-transparent"
+            placeholder="Password"
+          />
+          <label for="password"
+            class="absolute left-3 top-1/2 -translate-y-1/2  px-1 text-gray-500 text-sm transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600 bg-white"
+          >
+            Password
+          </label>
+          <span
+            class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+            @click="togglePasswordVisibility"
+          >
+            <UIcon
+              :name="
+                isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
+              "
+              class="text-gray-500"
+            ></UIcon>
+          </span>
+        </div>
+
+
+        <p v-if="passwordError" class="text-sm text-red-500">
+          {{ passwordError }}
         </p>
-        <div>
-          <p class="text-sm">Sign Up With Google</p>
+        <div class="flex items-center mb-3">
+          <input 
+            type="checkbox" 
+            id="educator" 
+            v-model="role" 
+            true-value="Educator" 
+            false-value="Student" 
+            class="mr-2"
+          />
+          <label for="educator" class="text-gray-600">I am an educator</label>
+        </div>
+        <UButton 
+          class="w-full bg-[#5D3BEA] items-center justify-center text-white p-3 rounded mb-4" 
+          size="md"
+          :disabled="isLoading || !isValidForm"
+          @click="signup"
+          variant="none">
+          <span v-if="!isLoading">Sign Up</span>
+          <span v-else class="flex items-center">
+            <Loader class="h-5 w-5 animate-spin" />
+          </span>
+        </UButton>
+        <div class="flex items-center justify-center mb-4">
           <div class="mt-5 flex flex-row items-center justify-center gap-4">
-            <UButton
-              class="flex w-fit items-center justify-center gap-2 rounded-full border px-8 transition-colors duration-200 lg:px-16"
-              size="md"
-              @click="signUpWithGoogleAsStudent"
-              variant="none"
-            >
-              <svg
+          <OrSeperator class="mx-2 text-gray-500" />
+          </div>
+        </div>
+        <UButton class="w-full flex items-center gap-2 justify-center border p-3 rounded mb-3"
+          size="md"
+          @click="signUpWithGoogleAsStudent"
+          variant="none">
+          <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 488 512"
                 class="h-5 w-5 fill-blue-600"
@@ -36,17 +114,13 @@
                 <path
                   d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
                 />
-              </svg>
-              <span>As Student</span>
-            </UButton>
-
-            <UButton
-              class="flex w-fit items-center justify-center gap-2 rounded-full border px-8 transition-colors duration-200 lg:px-16"
-              size="md"
-              @click="signUpWithGoogleAsEducator"
-              variant="none"
-            >
-              <svg
+              </svg> Sign up with Google as student
+        </UButton>
+        <UButton class="w-full flex items-center gap-1 justify-center border p-3 rounded"
+          size="md"
+          @click="signUpWithGoogleAsEducator"
+          variant="none">
+          <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 488 512"
                 class="h-5 w-5 fill-red-600"
@@ -54,95 +128,28 @@
                 <path
                   d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
                 />
-              </svg>
-              <span>As Educator</span>
-            </UButton>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-5 flex flex-row items-center justify-center gap-4">
-        <OrSeperator class="w-3/4 sm:w-2/3" />
-      </div>
-
-      <div class="mx-8 flex flex-col gap-4 py-6 sm:mx-12">
-        <UInput
-          v-model="name"
-          type="text"
-          placeholder="Enter name"
-          maxLength="250"
-          size="xl"
-          variant="none"
-          class="w-full rounded-2xl bg-[#F1F3FE]"
-          @input="validateName"
-        />
-        <p v-if="nameError" class="text-sm text-red-500">{{ nameError }}</p>
-
-        <UInput
-          v-model="email"
-          type="email"
-          placeholder="Enter email"
-          maxLength="250"
-          size="xl"
-          variant="none"
-          class="w-full rounded-2xl bg-[#F1F3FE]"
-        />
-
-        <USelect
-          variant="none"
-          v-model="role"
-          :options="roles"
-          placeholder="Select Role"
-          class="w-full rounded-2xl bg-[#F1F3FE]"
-        />
-
-        <div class="relative">
-          <UInput
-            :type="isPasswordVisible ? 'text' : 'password'"
-            placeholder="Password"
-            v-model="password"
-            maxLength="250"
-            size="xl"
-            variant="none"
-            class="w-full rounded-2xl bg-[#F1F3FE]"
-            @input="validatePassword"
-          />
-          <span
-            class="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
-            @click="togglePasswordVisibility"
-          >
-            <UIcon
-              :name="
-                isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
-              "
-            ></UIcon>
-          </span>
-        </div>
-        <p v-if="passwordError" class="text-sm text-red-500">
-          {{ passwordError }}
-        </p>
-
-        <UButton
-          variant=""
-          class="flex w-full items-center justify-center rounded-md bg-[#5D3BEA] text-white"
-          size="md"
-          :disabled="isLoading || !isValidForm"
-          @click="signup"
-        >
-          <span v-if="!isLoading">Sign up with email</span>
-          <span v-else class="flex items-center">
-            <Loader class="h-5 w-5 animate-spin" />
-          </span>
+              </svg> Sign up with Google as educator
         </UButton>
-      </div>
 
-      <p class="text-sm text-black">
-        Already have an account?
+      </form>
+
+      <p class="mt-4 text-gray-600">
+        Already have an account? 
         <NuxtLink to="/auth/login" class="text-[#5D3BEA]">Sign in</NuxtLink>
       </p>
     </div>
-  </NuxtLayout>
+    
+    <div class="w-1/2 bg-gray-100 rounded-2xl overflow-hidden m-4 md:block">
+      <img 
+        src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/freepik__the-style-is-candid-image-photography-with-natural__28525.png?alt=media&token=8a662acd-7725-41cb-9601-785985db76b9" 
+        class="h-full w-full object-cover rounded-2xl"
+      />
+    </div>
+
+  </div>
 </template>
+
+
 
 <script setup>
 import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
@@ -156,7 +163,6 @@ const router = useRouter() // Get router instance
 const name = ref('')
 const nameError = ref('')
 const role = ref('Student')
-const roles = ['Student', 'Educator']
 const email = ref('')
 const password = ref('')
 const passwordError = ref('')
@@ -302,3 +308,12 @@ const signUpWithGoogleAsStudent = async () => {
   }
 }
 </script>
+
+<style scoped>
+/* Hide element on small screens (mobile) */
+@media (max-width: 768px) {
+  .md\:block {
+    display: none !important;
+  }
+}
+</style>
