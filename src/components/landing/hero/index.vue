@@ -17,7 +17,6 @@
         </UButton>
       </NuxtLink>
       <UButton
-        variant=""
         class="cursor-pointer rounded-2xl bg-[#fff] text-[#5D3BEA]"
         @click="playVideo"
       >
