@@ -12,7 +12,7 @@
     </div>
     <div class="mt-8 flex gap-4">
       <NuxtLink to="/auth/login">
-        <UButton variant="" class="rounded-2xl bg-[#5D3BEA] text-white">
+        <UButton variant="none" class="rounded-2xl bg-[#5D3BEA] text-white">
           Start learning now
         </UButton>
       </NuxtLink>
