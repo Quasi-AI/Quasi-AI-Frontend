@@ -75,7 +75,7 @@ export const useAuthenticationStore = defineStore('authentication', {
         | RouteLocationAsPathGeneric
         | null
         | undefined,
-        rememberMe: boolean = false
+      rememberMe: boolean = false
     ) {
       try {
         this.error = ''
@@ -318,7 +318,10 @@ export const useAuthenticationStore = defineStore('authentication', {
 
     loadToken() {
       if (import.meta.client) {
-        this.token = localStorage.getItem('authToken') ?? sessionStorage.getItem('authToken') ?? ''
+        this.token =
+          localStorage.getItem('authToken') ??
+          sessionStorage.getItem('authToken') ??
+          ''
       }
     },
 
