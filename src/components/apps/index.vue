@@ -19,7 +19,7 @@ import Plagiarism from '@/components/apps/plagiarism/index.vue'
 import Plan from '@/components/apps/plan/index.vue'
 import LearningGames from '@/components/apps/learning-games/index.vue'
 import Dashboard from '@/components/apps/lists.vue'
-import Support  from '@/components/apps/support/index.vue'
+import Support from '@/components/apps/support/index.vue'
 
 const route = useRoute()
 

@@ -1,33 +1,61 @@
 <template>
-  <div class="flex h-screen flex-col items-center justify-between bg-gray-100 dark:bg-[#111C44]">
+  <div
+    class="flex h-screen flex-col items-center justify-between bg-gray-100 dark:bg-[#111C44]"
+  >
     <!-- Chat Messages -->
-    <div ref="chatBodyRef" @scroll="handleScroll" class="flex-1 w-full max-w-2xl overflow-y-auto p-4 pb-20 relative">
-      <div v-for="(chat, index) in chatHistory" :key="index" 
-          :class="['p-3 rounded-lg w-fit max-w-[75%]', 
-                    chat.role === 'user' ? 'ml-auto bg-gray-200 dark:bg-gray-700 text-black dark:text-white' : 'mr-auto text-black dark:text-white']">
-        
+    <div
+      ref="chatBodyRef"
+      @scroll="handleScroll"
+      class="relative w-full max-w-2xl flex-1 overflow-y-auto p-4 pb-20"
+    >
+      <div
+        v-for="(chat, index) in chatHistory"
+        :key="index"
+        :class="[
+          'w-fit max-w-[75%] rounded-lg p-3',
+          chat.role === 'user'
+            ? 'ml-auto bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
+            : 'mr-auto text-black dark:text-white'
+        ]"
+      >
         <!-- Render Markdown Content -->
-        <div v-html="renderedMarkdown(chat.text || '')" class="markdown-content"></div>
+        <div
+          v-html="renderedMarkdown(chat.text || '')"
+          class="markdown-content"
+        ></div>
       </div>
-      
+
       <!-- Loading Indicator -->
-      <div v-if="isLoading" class="w-full flex justify-start items-center p-2">
+      <div v-if="isLoading" class="flex w-full items-center justify-start p-2">
         <span class="loading-spinner"></span>
       </div>
     </div>
 
     <!-- Input Box -->
-    <div class="w-full max-w-2xl p-4 fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-100 dark:bg-[#111C44]">
-      <button v-if="showScrollButton" @click="scrollToBottom"
-        class="fixed bottom-40 right-5 bg-[#5d3be9] text-white p-2 rounded-full shadow-lg transition-opacity hover:bg-[#4a2fc5]">
+    <div
+      class="fixed bottom-0 left-1/2 w-full max-w-2xl -translate-x-1/2 transform bg-gray-100 p-4 dark:bg-[#111C44]"
+    >
+      <button
+        v-if="showScrollButton"
+        @click="scrollToBottom"
+        class="fixed bottom-40 right-5 rounded-full bg-[#5d3be9] p-2 text-white shadow-lg transition-opacity hover:bg-[#4a2fc5]"
+      >
         ↓
       </button>
 
-      <form @submit.prevent="handleSubmit" class="flex items-center gap-3 bg-white p-3 rounded-2xl shadow-lg dark:bg-[#1A2B5F]">
+      <form
+        @submit.prevent="handleSubmit"
+        class="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-lg dark:bg-[#1A2B5F]"
+      >
         <!-- Upload File Icon -->
         <button type="button" class="p-2" @click="handleFileUpload">
           <uploadIcon />
-          <input type="file" ref="fileInput" class="hidden" @change="handleFileSelected" />
+          <input
+            type="file"
+            ref="fileInput"
+            class="hidden"
+            @change="handleFileSelected"
+          />
         </button>
 
         <!-- Record Icon -->
@@ -36,13 +64,21 @@
         </button>
 
         <!-- Expanding Input Field -->
-        <textarea v-model="inputRef" :placeholder="inputPlaceholder" 
-                  @input="adjustTextareaHeight" ref="textarea"
-                  class="w-full rounded-md bg-transparent outline-none dark:text-white px-2 resize-none overflow-hidden" 
-                  rows="1" required></textarea>
+        <textarea
+          v-model="inputRef"
+          :placeholder="inputPlaceholder"
+          @input="adjustTextareaHeight"
+          ref="textarea"
+          class="w-full resize-none overflow-hidden rounded-md bg-transparent px-2 outline-none dark:text-white"
+          rows="1"
+          required
+        ></textarea>
 
         <!-- Send Button -->
-        <button type="submit" class="p-2 text-black rounded-full bg-white transition dark:bg-[#1A2B5F]">
+        <button
+          type="submit"
+          class="rounded-full bg-white p-2 text-black transition dark:bg-[#1A2B5F]"
+        >
           <sendMsgIcon />
         </button>
       </form>
@@ -51,54 +87,57 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue';
-import sendMsgIcon from '@/assets/icons/send-msg.vue';
-import uploadIcon from '@/assets/icons/upload.vue';
-import recordIcon from '@/assets/icons/mic.vue';
-import { generateBotResponse } from '@/utils/chatbot';
-import type { ChatMessage } from '~/types/chatbot';
-import { marked } from 'marked';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/github-dark.css';
+import { ref, onMounted, nextTick } from 'vue'
+import sendMsgIcon from '@/assets/icons/send-msg.vue'
+import uploadIcon from '@/assets/icons/upload.vue'
+import recordIcon from '@/assets/icons/mic.vue'
+import { generateBotResponse } from '@/utils/chatbot'
+import type { ChatMessage } from '~/types/chatbot'
+import { marked } from 'marked'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github-dark.css'
 
 const props = defineProps({
   inputPlaceholder: { type: String, default: 'Type a message...' },
   initialMessage: { type: String, default: '' }
-});
+})
 
-const chatHistory = ref<ChatMessage[]>([]);
-const chatBodyRef = ref<HTMLElement | null>(null);
-const inputRef = ref('');
-const textarea = ref<HTMLTextAreaElement | null>(null);
-const isLoading = ref(false);
-const fileInput = ref<HTMLInputElement | null>(null);
-const showScrollButton = ref(false);
-const userId = localStorage.getItem('user_id');
+const chatHistory = ref<ChatMessage[]>([])
+const chatBodyRef = ref<HTMLElement | null>(null)
+const inputRef = ref('')
+const textarea = ref<HTMLTextAreaElement | null>(null)
+const isLoading = ref(false)
+const fileInput = ref<HTMLInputElement | null>(null)
+const showScrollButton = ref(false)
+const userId = localStorage.getItem('user_id')
 
 onMounted(() => {
-  const savedChatHistory = localStorage.getItem('chatHistory_componentName');
-  chatHistory.value = savedChatHistory ? JSON.parse(savedChatHistory) : 
-                      props.initialMessage ? [{ role: 'model', text: props.initialMessage }] : [];
-  scrollToBottom();
+  const savedChatHistory = localStorage.getItem('chatHistory_componentName')
+  chatHistory.value = savedChatHistory
+    ? JSON.parse(savedChatHistory)
+    : props.initialMessage
+      ? [{ role: 'model', text: props.initialMessage }]
+      : []
+  scrollToBottom()
 
   // Attach event listener for copy buttons
-  document.addEventListener('click', (event) => {
-    const target = event.target as HTMLElement;
+  document.addEventListener('click', event => {
+    const target = event.target as HTMLElement
     if (target.classList.contains('copy-btn')) {
-      copyCodeToClipboard(target);
+      copyCodeToClipboard(target)
     }
-  });
-});
-
-
+  })
+})
 
 const renderedMarkdown = (text?: string) => {
-  if (!text) return '';
+  if (!text) return ''
 
   return marked.parse(text, {
     highlight: function (code, lang) {
-      const validLang = hljs.getLanguage(lang) ? lang : 'plaintext';
-      const highlightedCode = hljs.highlight(code, { language: validLang }).value;
+      const validLang = hljs.getLanguage(lang) ? lang : 'plaintext'
+      const highlightedCode = hljs.highlight(code, {
+        language: validLang
+      }).value
 
       return `
         <div class="code-container relative">
@@ -107,115 +146,124 @@ const renderedMarkdown = (text?: string) => {
           </button>
           <pre><code class="hljs ${validLang}">${highlightedCode}</code></pre>
         </div>
-      `;
+      `
     }
-  });
-};
-
+  })
+}
 
 const copyCodeToClipboard = (button: HTMLElement) => {
-  const codeElement = button.nextElementSibling?.querySelector('code');
-  if (!codeElement) return;
+  const codeElement = button.nextElementSibling?.querySelector('code')
+  if (!codeElement) return
 
-  const textToCopy = codeElement.innerText;
+  const textToCopy = codeElement.innerText
   navigator.clipboard.writeText(textToCopy).then(() => {
-    button.innerText = "Copied!";
-    setTimeout(() => (button.innerText = "Copy"), 2000);
-  });
-};
-
-
+    button.innerText = 'Copied!'
+    setTimeout(() => (button.innerText = 'Copy'), 2000)
+  })
+}
 
 const saveChatHistory = () => {
-  localStorage.setItem('chatHistory_componentName', JSON.stringify(chatHistory.value));
-};
+  localStorage.setItem(
+    'chatHistory_componentName',
+    JSON.stringify(chatHistory.value)
+  )
+}
 
 const scrollToBottom = () => {
   nextTick(() => {
     if (chatBodyRef.value) {
-      chatBodyRef.value.scrollTo({ top: chatBodyRef.value.scrollHeight, behavior: 'smooth' });
-      showScrollButton.value = false;
+      chatBodyRef.value.scrollTo({
+        top: chatBodyRef.value.scrollHeight,
+        behavior: 'smooth'
+      })
+      showScrollButton.value = false
     }
-  });
-};
+  })
+}
 
 const handleScroll = () => {
   if (chatBodyRef.value) {
-    const { scrollTop, scrollHeight, clientHeight } = chatBodyRef.value;
-    showScrollButton.value = scrollTop + clientHeight < scrollHeight - 100;
+    const { scrollTop, scrollHeight, clientHeight } = chatBodyRef.value
+    showScrollButton.value = scrollTop + clientHeight < scrollHeight - 100
   }
-};
+}
 
 const setChatHistory = (fn: (history: ChatMessage[]) => ChatMessage[]) => {
-  chatHistory.value = fn(chatHistory.value);
-  saveChatHistory();
-  scrollToBottom();
-};
+  chatHistory.value = fn(chatHistory.value)
+  saveChatHistory()
+  scrollToBottom()
+}
 
 // Handle User Input Submission
 const handleSubmit = () => {
-  if (!inputRef.value.trim()) return;
+  if (!inputRef.value.trim()) return
 
-  const userMessage = inputRef.value;
-  inputRef.value = '';
-  adjustTextareaHeight();
+  const userMessage = inputRef.value
+  inputRef.value = ''
+  adjustTextareaHeight()
 
   if (userMessage.toLowerCase() === 'clear') {
-    localStorage.removeItem('chatHistory_componentName');
-    chatHistory.value = props.initialMessage ? [{ role: 'model', text: props.initialMessage }] : [];
-    return;
+    localStorage.removeItem('chatHistory_componentName')
+    chatHistory.value = props.initialMessage
+      ? [{ role: 'model', text: props.initialMessage }]
+      : []
+    return
   } else if (userMessage.toLowerCase() === 'logout') {
-    window.location.reload();
-    return;
+    window.location.reload()
+    return
   }
 
   setChatHistory(history => {
-    const updatedHistory = [...history, { role: 'user', text: userMessage }];
-    isLoading.value = true;
+    const updatedHistory = [...history, { role: 'user', text: userMessage }]
+    isLoading.value = true
 
     setTimeout(() => {
       generateBotResponse(userId, userMessage, chatHistory).then(() => {
-        isLoading.value = false;
-      });
-    }, 600);
+        isLoading.value = false
+      })
+    }, 600)
 
-    return updatedHistory;
-  });
-};
+    return updatedHistory
+  })
+}
 
 // Auto-expand textarea
 const adjustTextareaHeight = () => {
   if (textarea.value) {
-    textarea.value.style.height = 'auto';
-    textarea.value.style.height = `${textarea.value.scrollHeight}px`;
+    textarea.value.style.height = 'auto'
+    textarea.value.style.height = `${textarea.value.scrollHeight}px`
   }
-};
+}
 
 // Handle File Upload
 const handleFileUpload = () => {
-  fileInput.value?.click();
-};
+  fileInput.value?.click()
+}
 
 const handleFileSelected = (event: Event) => {
-  const target = event.target as HTMLInputElement;
+  const target = event.target as HTMLInputElement
   if (target.files && target.files.length > 0) {
-    const file = target.files[0];
-    setChatHistory(history => [...history, { role: 'user', text: `Uploaded file: ${file.name}` }]);
+    const file = target.files[0]
+    setChatHistory(history => [
+      ...history,
+      { role: 'user', text: `Uploaded file: ${file.name}` }
+    ])
   }
-};
+}
 
 // Handle Voice Recording
 const startRecording = () => {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.lang = 'en-US';
-  recognition.start();
-  
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-    inputRef.value += transcript;
-    adjustTextareaHeight();
-  };
-};
+  const recognition = new (window.SpeechRecognition ||
+    window.webkitSpeechRecognition)()
+  recognition.lang = 'en-US'
+  recognition.start()
+
+  recognition.onresult = event => {
+    const transcript = event.results[0][0].transcript
+    inputRef.value += transcript
+    adjustTextareaHeight()
+  }
+}
 </script>
 
 <style scoped>
@@ -230,8 +278,12 @@ const startRecording = () => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 textarea {
@@ -279,7 +331,8 @@ button:disabled {
   margin-top: 10px;
 }
 
-.markdown-content th, .markdown-content td {
+.markdown-content th,
+.markdown-content td {
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -310,5 +363,4 @@ button:disabled {
 .copy-btn:hover {
   background: #444;
 }
-
 </style>

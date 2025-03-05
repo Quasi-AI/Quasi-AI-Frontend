@@ -1,9 +1,11 @@
 <template>
   <div class="flex flex-col gap-6 px-5 lg:flex-row">
     <!-- Subscription Plans -->
-    <div class="w-full grid gap-6 sm:grid-cols-1 md:grid-cols-3">
+    <div class="grid w-full gap-6 sm:grid-cols-1 md:grid-cols-3">
       <!-- Personal Plan -->
-      <div class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white">
+      <div
+        class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+      >
         <h3 class="text-xl font-bold">Personal</h3>
         <p class="mt-2 text-gray-600 dark:text-gray-300">For individuals.</p>
         <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
@@ -18,13 +20,18 @@
           <li>❌ Custom API integrations & workflow automation</li>
         </ul>
         <p class="mt-2 text-2xl font-bold">$5 / month</p>
-        <button class="mt-4 w-full rounded-lg bg-gray-400 p-2 text-white cursor-not-allowed" disabled>
+        <button
+          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 text-white"
+          disabled
+        >
           Subscribe
         </button>
       </div>
 
       <!-- Business Plan -->
-      <div class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white">
+      <div
+        class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+      >
         <h3 class="text-xl font-bold">Business</h3>
         <p class="mt-2 text-gray-600 dark:text-gray-300">For small teams.</p>
         <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
@@ -39,15 +46,22 @@
           <li>❌ Custom API integrations & workflow automation</li>
         </ul>
         <p class="mt-2 text-2xl font-bold">$15 / month</p>
-        <button class="mt-4 w-full rounded-lg bg-gray-400 p-2 text-white cursor-not-allowed" disabled>
+        <button
+          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 text-white"
+          disabled
+        >
           Subscribe
         </button>
       </div>
 
       <!-- Enterprise Plan -->
-      <div class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white">
+      <div
+        class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+      >
         <h3 class="text-xl font-bold">Enterprise</h3>
-        <p class="mt-2 text-gray-600 dark:text-gray-300">For large organizations.</p>
+        <p class="mt-2 text-gray-600 dark:text-gray-300">
+          For large organizations.
+        </p>
         <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
           <li>✅ Everything in Business Plan</li>
           <li>✅ Unlimited AI-generated responses</li>
@@ -60,7 +74,10 @@
           <li>✅ Custom API integrations & workflow automation</li>
         </ul>
         <p class="mt-2 text-2xl font-bold">$25 / month</p>
-        <button class="mt-4 w-full rounded-lg bg-gray-400 p-2 text-white cursor-not-allowed" disabled>
+        <button
+          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 text-white"
+          disabled
+        >
           Subscribe
         </button>
       </div>

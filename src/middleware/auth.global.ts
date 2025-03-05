@@ -3,6 +3,7 @@ import { useAuthenticationStore } from '~/store/auth'
 export default defineNuxtRouteMiddleware(to => {
   const authStore = useAuthenticationStore()
 
+  // Load token from storage (localStorage or sessionStorage)
   authStore.loadToken()
 
   const isAuthRoute = to.path.startsWith('/auth/')
