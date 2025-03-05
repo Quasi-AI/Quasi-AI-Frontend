@@ -73,6 +73,7 @@
 import lightModeIcon from '@/assets/icons/light-mode.vue'
 import DarkModeIcon from '@/assets/icons/dark-mode.vue'
 import { useAuthenticationStore } from '@/store/auth'
+import { useUser } from '~/composables/useUser'
 
 const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
