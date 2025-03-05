@@ -160,7 +160,7 @@ const login = async () => {
   isLoading.value = true // Show loader
 
   try {
-    await store.login(email.value, password.value) // Wait for login
+    await store.login(email.value, password.value, remember.value) // Wait for login
     router.push('/dashboard') // Redirect to dashboard
   } catch (error) {
     console.error(error)
