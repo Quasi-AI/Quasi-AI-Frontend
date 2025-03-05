@@ -25,7 +25,6 @@
   <div class="my-10 flex items-center justify-center">
     <NuxtLink to="/auth/login">
       <UButton
-        variant="none"
         class="flex w-fit items-center justify-center rounded-2xl bg-[#5D3BEA] text-white lg:w-[400px]"
         >See more</UButton
       >
