@@ -62,6 +62,7 @@
                 type="checkbox" 
                 id="remember" 
                 v-model="remember" 
+                @change="toggleRemember"
                 class="mr-2"
               />
               <label for="remember" class="text-gray-600">Remember me</label>
@@ -129,6 +130,7 @@ import { useAuthenticationStore } from '~/store/auth'
 import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
 import { auth, provider, signInWithPopup } from '~/utils/firebase'
 import axios from 'axios'
+import { ref, onMounted } from 'vue';
 
 const email = ref('')
 const password = ref('')
@@ -137,6 +139,18 @@ const isLoading = ref(false)
 const store = useAuthenticationStore()
 const router = useRouter()
 const errorMessage = ref('')
+
+const remember = ref(false);
+
+// Load remember state from localStorage
+onMounted(() => {
+  remember.value = localStorage.getItem("remember") === "true";
+});
+
+// Watch for changes and save to localStorage
+const toggleRemember = () => {
+  localStorage.setItem("remember", remember.value);
+};
 
 const isValidForm = computed(() => {
   return email.value && isValidEmail(email.value) && password.value
