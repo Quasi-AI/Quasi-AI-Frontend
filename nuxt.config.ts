@@ -37,5 +37,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-02-10',
 
   // Add plugins here
-  plugins: ['~/plugins/fontawesome.js']
+  plugins: ['~/plugins/fontawesome.js'],
+
+  // avoid server side rendering
+  ssr: false
 })
