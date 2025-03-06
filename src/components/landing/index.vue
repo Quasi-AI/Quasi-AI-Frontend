@@ -148,7 +148,7 @@
       <h2
         class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
       >
-        How you'll become a successful instructor
+        How you'll become a <br>successful instructor
       </h2>
       <div class="mt-10 grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
         <div
@@ -235,7 +235,7 @@
           <h2
             class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-left lg:text-4xl"
           >
-            Learn from 20+ Expert Instructors
+            Learn from 20+ Expert <br>Instructors
           </h2>
           <p
             class="animate-slide-up mt-4 text-gray-600"
