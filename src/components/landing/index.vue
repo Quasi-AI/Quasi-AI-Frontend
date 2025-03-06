@@ -1,18 +1,18 @@
 <template>
-  <div class="xl:mx-auto 2xl:w-[1440px]">
+  <div class="z-10 xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 py-6 pb-0 text-center lg:py-12 lg:pb-[10rem]"
+      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 pb-0 text-center lg:py-5"
     >
       <h1
-        class="animate-slide-up text-4xl font-bold leading-tight"
+        class="animate-slide-up text-4xl font-bold leading-tight text-[#190A53]"
         style="animation-delay: 0.2s"
       >
         Transform Your Learning <br />Experience with
         <span class="text-[#5D3BEA]">Quasi AI</span>
       </h1>
       <p
-        class="animate-slide-up mt-4 text-gray-600"
+        class="animate-slide-up mt-4 text-wrap text-gray-600 lg:text-wrap"
         style="animation-delay: 0.4s"
       >
         Generate flashcards, quizzes, and study materials instantly from your
@@ -37,7 +37,7 @@
         </NuxtLink>
       </div>
       <div
-        class="animate-slide-up mt-10 flex max-w-full space-x-4 overflow-x-auto"
+        class="animate-slide-up mt-10 flex max-w-full gap-8 overflow-x-auto pb-2 lg:pb-10"
         style="animation-delay: 0.8s"
       >
         <LandingUiIconsBrandsAlphawave
@@ -115,7 +115,7 @@
           v-for="(feature, features) in features"
           :key="features.title"
           class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-          :class="`bg-${feature.bgColor}`"
+          :class="feature.bgColor"
           :style="{ 'animation-delay': `${features.title * 0.2}s` }"
           v-animate-onscroll="'slide-up'"
         >
@@ -155,8 +155,10 @@
           :style="{ 'animation-delay': `${index * 0.2}s` }"
         >
           <component :is="step.icon" />
-          <h3 class="mt-4 text-2xl font-bold text-black">{{ step.title }}</h3>
-          <p class="mt-2 text-gray-600">{{ step.description }}</p>
+          <h3 class="mt-4 text-xl font-bold text-black">{{ step.title }}</h3>
+          <p class="text-md mt-2 text-center text-gray-600">
+            {{ step.description }}
+          </p>
         </div>
       </div>
     </div>
@@ -179,12 +181,12 @@
           instructors. Create a success story with our dedicated <br />
           learners — Grow yourself with from different countries.
         </p>
-        <a
-          href="/auth/sign-up"
-          class="animate-slide-up mt-8 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-          style="animation-delay: 0.4s"
-          >Sign up now</a
+        <NuxtLink
+          to="/auth/sign-up"
+          class="mt-10 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
+          Sign up now
+        </NuxtLink>
       </div>
       <div class="animate-slide-up mt-10 lg:mt-0" style="animation-delay: 0.6s">
         <LandingUiIconsTeachwithusAdimage
@@ -270,7 +272,52 @@
 </template>
 
 <script setup>
-import { whyChooseItems, features, instructorSteps } from '@/constants/landing'
+import { whyChooseItems, instructorSteps } from '@/constants/landing'
+import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
+import LandingUiIconsFeaturesFlashcards from '@/components/landing/ui/icons/features/flashcards.vue'
+import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
+import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
+import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
+import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
+
+const features = ref([
+  {
+    icon: LandingUiIconsFeaturesQuestions,
+    title: 'Questions',
+    description: '63,476 questions',
+    bgColor: 'bg-[#EBEBFF]'
+  },
+  {
+    icon: LandingUiIconsFeaturesFlashcards,
+    title: 'Smart Flashcards',
+    description: 'About 2,736 cards',
+    bgColor: 'bg-[#FFF2E5]'
+  },
+  {
+    icon: LandingUiIconsFeaturesTutors,
+    title: 'Tutors',
+    description: 'More than you imagine',
+    bgColor: 'bg-[#FFEEE8]'
+  },
+  {
+    icon: LandingUiIconsFeaturesAitutors,
+    title: 'AI Authors',
+    description: 'So many of them',
+    bgColor: 'bg-[#FFFFFF]'
+  },
+  {
+    icon: LandingUiIconsFeaturesQuizzes,
+    title: 'Quizzes',
+    description: 'About 13,932 quizzes',
+    bgColor: 'bg-[#F5F7FA]'
+  },
+  {
+    icon: LandingUiIconsFeaturesEssay,
+    title: 'Essay Analyzer',
+    description: '22,649 essays',
+    bgColor: 'bg-[#FFF0F0]'
+  }
+])
 
 onMounted(() => {
   const observer = new IntersectionObserver(
