@@ -1,75 +1,96 @@
 <template>
   <div
-    class="fixed left-0 top-0 z-50 w-full"
-    :class="colorMode.value === 'dark' ? 'text-white' : ''"
+    class="fixed left-0 top-0 flex h-screen w-64 flex-col justify-between bg-white shadow-md dark:bg-[#111C44]"
   >
-    <!-- Bottom Navigation (Mobile) -->
-    <div
-      class="flex w-full items-center justify-between overflow-hidden bg-white px-2 py-4 pr-4 sm:overflow-x-auto sm:whitespace-nowrap dark:bg-[#111C44]"
-    >
-      <div class="flex shrink-0 items-center px-3">
-        <NuxtLink
-          to="/"
-          class="flex items-center gap-2 truncate text-sm font-medium transition-colors duration-200"
+    <!-- Logo Section -->
+    <div class="p-5">
+      <NuxtLink to="/" class="flex items-center gap-2">
+        <img
+          src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
+          alt="logo"
+          class="w-8"
+        />
+        <span class="font-semibold text-gray-800 dark:text-white"
+          >QUASI AI</span
         >
-          <img
-            src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
-            alt="logo"
-            class="w-8 cursor-pointer"
-          />
-          <span>QUASI AI</span>
-        </NuxtLink>
-      </div>
+      </NuxtLink>
+    </div>
 
-      <div class="flex gap-4 overflow-x-auto whitespace-nowrap">
-        <router-link
-          v-for="(item, index) in mainItemsMobile"
-          :key="index"
-          :to="item.route"
-          class="flex shrink-0 flex-col items-center truncate text-sm font-medium transition-colors duration-200"
-          :class="{
-            'font-medium text-[#5D3BEA]': isActive(item.route),
-            'text-gray-500 hover:text-[#5D3BEA] dark:text-gray-400': !isActive(
-              item.route
-            )
-          }"
-        >
-          <component :is="item.icon" class="h-6 w-6" />
-          <span>{{ item.label }}</span>
-        </router-link>
+    <!-- Menu Items -->
+    <nav class="flex-1">
+      <ul class="space-y-2 px-4">
+        <li v-for="(item, index) in menuItems" :key="index">
+          <NuxtLink
+            :to="item.route"
+            class="flex items-center gap-3 rounded-lg p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-400 dark:hover:bg-gray-800"
+            :class="{ 'bg-[#5D3BEA] text-white': isActive(item.route) }"
+          >
+            <component :is="item.icon" class="h-5 w-5" />
+            <span class="text-sm font-medium">{{ item.label }}</span>
+          </NuxtLink>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Footer Section -->
+    <div class="space-y-2 px-4 pb-4">
+      <button
+        class="flex items-center gap-3 text-gray-600 hover:text-[#5D3BEA] dark:text-gray-400"
+      >
+        <MoonIcon class="h-5 w-5" />
+        <span class="text-sm">Dark Mode</span>
+      </button>
+
+      <button
+        class="flex items-center gap-3 text-gray-600 hover:text-[#5D3BEA] dark:text-gray-400"
+      >
+        <QuestionMarkCircleIcon class="h-5 w-5" />
+        <span class="text-sm">Contact Support</span>
+      </button>
+
+      <!-- User Profile -->
+      <div
+        class="mt-4 flex items-center gap-3 rounded-lg bg-gray-100 p-3 dark:bg-gray-800"
+      >
+        <img
+          src="https://randomuser.me/api/portraits/women/50.jpg"
+          alt="User"
+          class="h-10 w-10 rounded-full"
+        />
+        <div class="flex-1">
+          <h4 class="text-sm font-semibold text-gray-800 dark:text-white">
+            Philomena
+          </h4>
+          <p class="text-xs text-gray-500">rexton@gmail.com</p>
+        </div>
+        <ArrowRightOnRectangleIcon
+          class="h-5 w-5 cursor-pointer text-gray-500"
+        />
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
+import { useRoute } from 'vue-router'
 import {
-  HomeIcon,
+  Squares2X2Icon,
+  CubeIcon,
   AcademicCapIcon,
-  UserGroupIcon,
-  LightBulbIcon,
-  ArchiveBoxIcon,
-  ClipboardDocumentCheckIcon
+  DocumentTextIcon,
+  MoonIcon,
+  QuestionMarkCircleIcon,
+  ArrowRightOnRectangleIcon
 } from '@heroicons/vue/24/outline'
 
-const colorMode = useColorMode()
 const route = useRoute()
 
-const mainItemsMobile = [
-  { label: 'Dashboard', route: '/dashboard', icon: HomeIcon },
-  { label: 'Games', route: '/learning-games', icon: AcademicCapIcon },
-  {
-    label: 'Tutor',
-    route: '/smart-tutoring',
-    icon: LightBulbIcon
-  },
-  {
-    label: 'Past Que.',
-    route: '/past-questions?type=past-questions',
-    icon: ArchiveBoxIcon
-  },
-  { label: 'Plan', route: '/plan', icon: ClipboardDocumentCheckIcon }
+const menuItems = [
+  { label: 'Dashboard', route: '/dashboard', icon: Squares2X2Icon },
+  { label: 'Apps', route: '/apps', icon: CubeIcon },
+  { label: 'Games', route: '/games', icon: AcademicCapIcon },
+  { label: 'Past Questions', route: '/past-questions', icon: DocumentTextIcon }
 ]
 
-const isActive = (routePath: string) => route.fullPath.startsWith(routePath)
+const isActive = path => route.fullPath.startsWith(path)
 </script>
