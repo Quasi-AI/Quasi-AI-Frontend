@@ -5,7 +5,7 @@
       class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 pb-0 text-center lg:text-wrap lg:py-5"
     >
       <h1
-        class="h-[120px] w-[100%] text-3xl font-bold leading-tight text-[#190A53] lg:h-[90px] lg:w-[35%] lg:text-4xl"
+        class="h-[120px] w-[100%] text-3xl font-bold leading-tight text-[#190A53] lg:h-[80px] lg:w-[35%]"
       >
         <span v-html="displayedText"></span>
       </h1>
@@ -17,7 +17,7 @@
         lectures, notes, PDFs, and presentations.
       </p>
       <div
-        class="animate-slide-up mt-10 flex space-x-4"
+        class="animate-slide-up mt-5 flex space-x-4"
         style="animation-delay: 0.6s"
       >
         <NuxtLink
@@ -34,24 +34,36 @@
         </NuxtLink>
       </div>
       <div
-        class="animate-slide-up mt-10 flex max-w-full gap-8 overflow-x-auto pb-0 lg:pb-10"
-        style="animation-delay: 0.8s"
+        class="brand-slider-wrapper animate-slide-up mt-10 flex max-w-full items-center gap-8 overflow-x-auto pb-0 lg:pb-10"
       >
-        <LandingUiIconsBrandsAlphawave
-          class="transition duration-300 hover:scale-110"
-        />
-        <LandingUiIconsBrandsFusionx
-          class="transition duration-300 hover:scale-110"
-        />
-        <LandingUiIconsBrandsOpticore
-          class="transition duration-300 hover:scale-110"
-        />
-        <LandingUiIconsBrandsMaxiwave
-          class="transition duration-300 hover:scale-110"
-        />
-        <LandingUiIconsBrandsStellarcore
-          class="transition duration-300 hover:scale-110"
-        />
+        <div class="brand-slider">
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
+
+          <!-- Duplicate -->
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
+
+          <!-- Duplicate -->
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
+
+          <!-- Duplicate -->
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
+        </div>
       </div>
     </div>
 
@@ -378,5 +390,43 @@ onMounted(() => {
 
 .animate-slide-up {
   animation: slideUp 3s ease-out forwards;
+}
+
+/* Wrapper to enable overflow hidden */
+.brand-slider-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+/* The flex container that will move left infinitely */
+.brand-slider {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  width: max-content;
+  animation: scroll 15s linear infinite;
+}
+
+/* Individual brand icons */
+.brand-icon {
+  flex-shrink: 0;
+  width: 80px;
+  height: auto;
+  transition: transform 0.3s;
+}
+
+.brand-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Keyframes animation */
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 </style>
