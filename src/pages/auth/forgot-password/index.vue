@@ -52,11 +52,13 @@
       </p>
     </div>
 
-    <div class="m-4 w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block">
+    <div
+      class="m-4 hidden w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block"
+    >
       <img
         src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/freepik__the-style-is-candid-image-photography-with-natural__28525.png?alt=media&token=8a662acd-7725-41cb-9601-785985db76b9"
-        class="h-full w-full rounded-2xl object-cover"
         alt="cover"
+        class="h-full w-full rounded-2xl object-cover"
       />
     </div>
   </div>
