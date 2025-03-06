@@ -11,7 +11,9 @@
         />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
-      <p class="mb-6 text-gray-500">Please login to continue your account</p>
+      <p class="mb-6 text-sm text-gray-500">
+        Please login to continue your account
+      </p>
 
       <form class="w-full max-w-sm">
         <!-- Email Field -->
