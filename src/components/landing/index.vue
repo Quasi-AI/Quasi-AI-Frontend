@@ -2,21 +2,20 @@
   <div class="z-10 xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 pb-0 text-center lg:py-5"
+      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 pb-0 text-center lg:text-wrap lg:py-5"
     >
       <h1
-        class="animate-slide-up text-4xl font-bold leading-tight text-[#190A53]"
+        class="animate-slide-up w-[100%] text-3xl font-bold leading-tight text-[#190A53] lg:w-[35%] lg:text-4xl"
         style="animation-delay: 0.2s"
       >
-        Transform Your Learning <br />Experience with
+        Transform Your Learning Experience with
         <span class="text-[#5D3BEA]">Quasi AI</span>
       </h1>
       <p
-        class="animate-slide-up mt-4 text-wrap text-gray-600 lg:text-wrap"
+        class="animate-slide-up mt-4 w-[100%] text-wrap text-sm text-gray-600 lg:w-[33%] lg:text-wrap"
         style="animation-delay: 0.4s"
       >
         Generate flashcards, quizzes, and study materials instantly from your
-        <br />
         lectures, notes, PDFs, and presentations.
       </p>
       <div
@@ -76,12 +75,12 @@
       />
       <div class="mt-4 lg:mt-[30rem]">
         <h2
-          class="animate-slide-up text-center text-4xl font-bold text-[#5D3BEA]"
+          class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
         >
           Why choose Quasi AI
         </h2>
         <p
-          class="animate-slide-up mt-4 text-gray-600"
+          class="animate-slide-up mt-4 text-center text-gray-600 lg:text-wrap"
           style="animation-delay: 0.2s"
         >
           QUASI AI is one powerful platform that combines all the tools needed
@@ -93,7 +92,7 @@
         <div
           v-for="(item, index) in whyChooseItems"
           :key="index"
-          class="animate-slide-up flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6"
+          class="animate-slide-up flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 text-center lg:text-wrap"
           :style="{ 'animation-delay': `${index * 0.2}s` }"
         >
           <component :is="item.icon" />
@@ -143,7 +142,7 @@
     <!-- How to Become a Successful Instructor -->
     <div class="flex flex-col items-center bg-[#F5F7FA] px-4 py-20 lg:px-0">
       <h2
-        class="animate-slide-up text-center text-4xl font-bold text-[#5D3BEA]"
+        class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
       >
         How you'll become a successful instructor
       </h2>
@@ -151,7 +150,7 @@
         <div
           v-for="(step, index) in instructorSteps"
           :key="index"
-          class="animate-slide-up flex flex-col items-center rounded bg-white p-6"
+          class="animate-slide-up flex flex-col items-center rounded bg-white p-6 text-center lg:text-wrap"
           :style="{ 'animation-delay': `${index * 0.2}s` }"
         >
           <component :is="step.icon" />
@@ -167,19 +166,19 @@
     <div
       class="animate-fade-in flex flex-col items-center justify-center gap-10 bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
     >
-      <div class="flex flex-col items-center lg:items-start lg:text-left">
-        <h2
-          class="animate-slide-up text-center text-3xl font-bold text-white lg:text-left"
-        >
+      <div
+        class="flex w-[100%] flex-col items-center text-center lg:w-[50%] lg:items-start lg:text-wrap lg:text-left"
+      >
+        <h2 class="animate-slide-up text-3xl font-bold text-white lg:text-left">
           Start teaching with us and inspire others
         </h2>
         <p
           class="animate-slide-up mt-4 text-white"
           style="animation-delay: 0.2s"
         >
-          Become an instructor & start teaching with other certified <br />
-          instructors. Create a success story with our dedicated <br />
-          learners — Grow yourself with from different countries.
+          Become an instructor & start teaching with other certified
+          instructors. Create a success story with our dedicated learners — Grow
+          yourself with from different countries.
         </p>
         <NuxtLink
           to="/auth/sign-up"
@@ -205,13 +204,12 @@
         <div class="animate-slide-up">
           <LandingUiIconsMoreinfoFirstUser
             width="100%"
-            height=""
             class="transition duration-300 hover:scale-105"
           />
         </div>
-        <div class="lg:text-left">
+        <div class="w-[100%] lg:w-[50%] lg:text-left">
           <h2
-            class="animate-slide-up text-center text-4xl font-bold text-[#5D3BEA] lg:text-left"
+            class="animate-slide-up text-center text-4xl font-bold text-[#5D3BEA] lg:text-wrap lg:text-left"
           >
             <span class="text-[#F48C06]">Tools</span> For Teachers <br />
             And Learners
@@ -220,31 +218,29 @@
             class="animate-slide-up mt-4 text-gray-600"
             style="animation-delay: 0.2s"
           >
-            QUASI AI has a dynamic set of teaching tools built <br />
-            just for you, whether you are a student or teacher. <br />
-            Teachers can handout assignments in real-time for <br />
-            students to complete and submit.
+            QUASI AI has a dynamic set of teaching tools built just for you,
+            whether you are a student or teacher. Teachers can handout
+            assignments in real-time for students to complete and submit.
           </p>
         </div>
       </div>
       <div
-        class="animate-fade-in mt-20 flex flex-col items-center justify-between gap-16 border-t border-gray-200 py-16 lg:flex-row lg:border-none"
+        class="animate-fade-in mt-20 flex flex-col items-center justify-between gap-16 border-t border-gray-200 py-16 text-center lg:flex-row lg:text-wrap lg:border-none"
       >
-        <div class="lg:text-left">
+        <div class="w-[100%] lg:w-[50%] lg:text-left">
           <h2
-            class="animate-slide-up text-center text-4xl font-bold text-[#5D3BEA] lg:text-left"
+            class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-left lg:text-4xl"
           >
-            Learn from 20+ Expert <br />
-            Instructors
+            Learn from 20+ Expert Instructors
           </h2>
           <p
             class="animate-slide-up mt-4 text-gray-600"
             style="animation-delay: 0.2s"
           >
-            Gain knowledge from a diverse team of experienced <br />
-            professionals across various fields. Our instructors bring <br />
-            real-world expertise, ensuring you get the best guidance <br />
-            and insights to excel in your learning journey.
+            Gain knowledge from a diverse team of experienced professionals
+            across various fields. Our instructors bring real-world expertise,
+            ensuring you get the best guidance and insights to excel in your
+            learning journey.
           </p>
           <LandingUiIconsMoreinfoTestimonial
             width="100%"
@@ -262,7 +258,6 @@
         <div class="animate-slide-up" style="animation-delay: 0.2s">
           <LandingUiIconsMoreinfoSecondUser
             width="100%"
-            height=""
             class="transition duration-300 hover:scale-105"
           />
         </div>
