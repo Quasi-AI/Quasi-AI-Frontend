@@ -68,12 +68,12 @@
     </div>
 
     <!-- Why Choose Quasi AI Section -->
-    <div class="relative flex flex-col items-center bg-white px-4 lg:px-0">
+    <div class="relative flex flex-col items-center bg-white lg:px-0">
       <LandingUiIconsBrandsVideoplaceholder
         width="100%"
         class="animate-fade-in mt-0 h-[100%] lg:absolute lg:-top-[15vh] lg:left-0 lg:right-0 lg:z-10 lg:mt-10 lg:h-[30rem]"
       />
-      <div class="mt-4 lg:mt-[30rem]">
+      <div class="mt-4 px-4 lg:mt-[30rem] lg:px-0">
         <h2
           class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
         >
@@ -88,7 +88,9 @@
           fully learn and retain everything you learn.
         </p>
       </div>
-      <div class="mt-10 grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
+      <div
+        class="mt-10 grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3 lg:px-0"
+      >
         <div
           v-for="(item, index) in whyChooseItems"
           :key="index"
@@ -105,7 +107,7 @@
     </div>
 
     <!-- Our Top Features Section -->
-    <div class="flex flex-col items-center bg-white py-20">
+    <div class="flex flex-col items-center bg-white px-4 py-20 lg:px-0">
       <h2 class="animate-slide-up text-4xl font-bold text-[#5D3BEA]">
         Our top features
       </h2>
@@ -197,14 +199,14 @@
     </div>
 
     <!-- Learn from Experts -->
-    <div class="flex flex-col items-center gap-10 bg-white px-4 py-20">
+    <div class="flex flex-col items-center gap-2 bg-white px-4 py-20 lg:gap-10">
       <div
         class="animate-fade-in flex flex-col items-center justify-between gap-16 lg:flex-row"
       >
         <div class="animate-slide-up">
           <LandingUiIconsMoreinfoFirstUser
             width="100%"
-            class="transition duration-300 hover:scale-105"
+            class="h-[100%] transition duration-300 hover:scale-105 lg:h-[30rem]"
           />
         </div>
         <div class="w-[100%] lg:w-[50%] lg:text-left">
@@ -258,7 +260,7 @@
         <div class="animate-slide-up" style="animation-delay: 0.2s">
           <LandingUiIconsMoreinfoSecondUser
             width="100%"
-            class="transition duration-300 hover:scale-105"
+            class="h-[100%] transition duration-300 hover:scale-105 lg:h-[30rem]"
           />
         </div>
       </div>
