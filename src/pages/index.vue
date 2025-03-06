@@ -1,9 +1,7 @@
 <template>
   <NuxtLayout :name="'landing-wrapper'">
     <LandingNavigationHeader />
-    <LandingHero />
-    <LandingPartners />
-    <LandingAppLists />
+    <Landing />
     <LandingNavigationFooter />
   </NuxtLayout>
 </template>
