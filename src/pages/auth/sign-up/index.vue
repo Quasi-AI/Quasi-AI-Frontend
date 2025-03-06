@@ -11,7 +11,7 @@
         />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
-      <p class="mb-6 text-gray-500">
+      <p class="mb-6 text-center text-gray-500 lg:text-wrap">
         Create account for free to enjoy QUASI AI
       </p>
 
