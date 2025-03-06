@@ -5,11 +5,9 @@
       class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 pb-0 text-center lg:text-wrap lg:py-5"
     >
       <h1
-        class="animate-slide-up w-[100%] text-3xl font-bold leading-tight text-[#190A53] lg:w-[35%] lg:text-4xl"
-        style="animation-delay: 0.2s"
+        class="h-[120px] w-[100%] text-3xl font-bold leading-tight text-[#190A53] lg:h-[90px] lg:w-[35%] lg:text-4xl"
       >
-        Transform Your Learning Experience with
-        <span class="text-[#5D3BEA]">Quasi AI</span>
+        <span v-html="displayedText"></span>
       </h1>
       <p
         class="animate-slide-up mt-4 w-[100%] text-wrap text-sm text-gray-600 lg:w-[33%] lg:text-wrap"
@@ -36,32 +34,22 @@
         </NuxtLink>
       </div>
       <div
-        class="animate-slide-up mt-10 flex max-w-full gap-8 overflow-x-auto pb-2 lg:pb-10"
+        class="animate-slide-up mt-10 flex max-w-full gap-8 overflow-x-auto pb-0 lg:pb-10"
         style="animation-delay: 0.8s"
       >
         <LandingUiIconsBrandsAlphawave
-          height=""
-          width="100px"
           class="transition duration-300 hover:scale-110"
         />
         <LandingUiIconsBrandsFusionx
-          height=""
-          width="100px"
           class="transition duration-300 hover:scale-110"
         />
         <LandingUiIconsBrandsOpticore
-          height=""
-          width="100px"
           class="transition duration-300 hover:scale-110"
         />
         <LandingUiIconsBrandsMaxiwave
-          height=""
-          width="100px"
           class="transition duration-300 hover:scale-110"
         />
         <LandingUiIconsBrandsStellarcore
-          height=""
-          width="100px"
           class="transition duration-300 hover:scale-110"
         />
       </div>
@@ -129,18 +117,20 @@
           </div>
         </div>
       </div>
-      <p
-        class="animate-slide-up mt-10 flex items-center gap-2 text-gray-600"
+      <div
+        class="animate-slide-up mt-10 flex flex-col items-center gap-3 text-gray-600 lg:flex-row"
         style="animation-delay: 0.2s"
       >
         Sign up to see more
-        <a
-          href="/auth/sign-up"
-          class="text-[#FF6636] transition duration-300 hover:underline"
-          >Create account for free</a
-        >
-        <LandingUiIconsFeaturesArrowright width="14px" height="14px" />
-      </p>
+        <div class="flex items-center gap-2">
+          <a
+            href="/auth/sign-up"
+            class="text-[#FF6636] transition duration-300 hover:underline"
+            >Create account for free</a
+          >
+          <LandingUiIconsFeaturesArrowright width="14px" height="14px" />
+        </div>
+      </div>
     </div>
 
     <!-- How to Become a Successful Instructor -->
@@ -219,7 +209,7 @@
             And Learners
           </h2>
           <p
-            class="animate-slide-up mt-4 text-gray-600"
+            class="animate-slide-up mt-4 text-center text-gray-600 lg:text-wrap"
             style="animation-delay: 0.2s"
           >
             QUASI AI has a dynamic set of teaching tools built just for you,
@@ -312,6 +302,34 @@ const features = ref([
   }
 ])
 
+// Text Animation
+const fullText =
+  'Transform Your Learning Experience with <span style="color:#5D3BEA">Quasi AI</span>'
+const displayedText = ref('')
+let index = 0
+
+const typeEffect = () => {
+  displayedText.value = ''
+  index = 0
+
+  const tempDiv = document.createElement('div')
+  tempDiv.innerHTML = fullText
+  const characters = tempDiv.innerHTML.split('')
+
+  const interval = setInterval(() => {
+    if (index < characters.length) {
+      displayedText.value += characters[index]
+      index++
+    } else {
+      clearInterval(interval)
+      setTimeout(typeEffect, 1500)
+    }
+  }, 50)
+}
+
+onMounted(typeEffect)
+
+// Animation
 onMounted(() => {
   const observer = new IntersectionObserver(
     entries => {
