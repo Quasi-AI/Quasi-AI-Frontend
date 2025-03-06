@@ -40,7 +40,9 @@
         class="mt-0 h-[100%] lg:absolute lg:-top-[15vh] lg:left-0 lg:right-0 lg:z-10 lg:mt-10 lg:h-[30rem]"
       />
       <div class="mt-4 lg:mt-[30rem]">
-        <h2 class="text-4xl font-bold text-[#5D3BEA]">Why choose Quasi AI</h2>
+        <h2 class="text-center text-4xl font-bold text-[#5D3BEA]">
+          Why choose Quasi AI
+        </h2>
         <p class="mt-4 text-gray-600">
           QUASI AI is one powerful platform that combines all the tools needed
           to <br />
@@ -157,7 +159,7 @@
 
     <!-- How to Become a Successful Instructor -->
     <div class="flex flex-col items-center bg-[#F5F7FA] px-4 py-20 lg:px-0">
-      <h2 class="text-4xl font-bold text-[#5D3BEA]">
+      <h2 class="text-center text-4xl font-bold text-[#5D3BEA]">
         How you'll become a successful instructor
       </h2>
       <div class="mt-10 grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
@@ -198,9 +200,8 @@
       class="flex flex-col items-center justify-center gap-10 bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
     >
       <div class="flex flex-col items-center lg:items-start lg:text-left">
-        <h2 class="text-4xl font-bold text-white">
-          Start teaching with us <br />
-          and inspire others
+        <h2 class="text-center text-3xl font-bold text-white lg:text-left">
+          Start teaching with us and inspire others
         </h2>
         <p class="mt-4 text-white">
           Become an instructor & start teaching with other certified <br />
@@ -227,7 +228,9 @@
           <LandingUiIconsMoreinfoFirstUser width="100%" height="" />
         </div>
         <div class="lg:text-left">
-          <h2 class="text-4xl font-bold text-[#5D3BEA]">
+          <h2
+            class="text-center text-4xl font-bold text-[#5D3BEA] lg:text-left"
+          >
             <span class="text-[#F48C06]">Tools</span> For Teachers <br />
             And Learners
           </h2>
@@ -243,7 +246,9 @@
         class="mt-20 flex flex-col items-center justify-between gap-16 border-t border-gray-200 py-16 lg:flex-row lg:border-none"
       >
         <div class="lg:text-left">
-          <h2 class="text-4xl font-bold text-[#5D3BEA]">
+          <h2
+            class="text-center text-4xl font-bold text-[#5D3BEA] lg:text-left"
+          >
             Learn from 20+ Expert <br />
             Instructors
           </h2>
