@@ -11,7 +11,7 @@
         />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
-      <p class="mb-6 text-gray-500">
+      <p class="mb-6 text-center text-gray-500">
         We will send you reset instruction in your email
       </p>
 
