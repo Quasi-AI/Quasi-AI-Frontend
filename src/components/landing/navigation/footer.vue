@@ -31,25 +31,25 @@
       </NuxtLink>
       <NuxtLink
         to="/"
-        class="border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
+        class="ml-2 border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
       >
         Privacy Policy
       </NuxtLink>
       <NuxtLink
         to="/"
-        class="border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
+        class="ml-2 border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
       >
         Terms & Conditions
       </NuxtLink>
       <NuxtLink
         to="/"
-        class="border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
+        class="ml-2 border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
       >
-        Contact Us
+        About Us
       </NuxtLink>
       <NuxtLink
         to="/"
-        class="border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
+        class="ml-2 border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
       >
         FAQ
       </NuxtLink>
