@@ -75,7 +75,7 @@
         width="100%"
         class="animate-fade-in h-full cursor-pointer lg:absolute lg:top-[-50px] lg:h-[230px]"
       />
-      <div class="mt-4 bg-white px-4 lg:mt-[200px] lg:px-0">
+      <div class="mt-12 bg-white px-4 lg:mt-[200px] lg:px-0">
         <h2
           class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
         >
