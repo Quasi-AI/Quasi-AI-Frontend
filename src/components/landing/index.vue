@@ -34,7 +34,7 @@
         </NuxtLink>
       </div>
       <div
-        class="brand-slider-wrapper animate-slide-up mt-10 flex w-full items-center gap-8 overflow-x-auto pb-0 lg:w-[50%] lg:pb-10"
+        class="brand-slider-wrapper animate-slide-up mt-10 flex w-full items-center gap-8 pb-0 lg:w-[50%] lg:pb-10"
       >
         <div class="brand-slider">
           <LandingUiIconsBrandsAlphawave class="brand-icon" />
@@ -403,7 +403,6 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 40px;
-  width: max-content;
   animation: scroll 15s linear infinite;
 }
 
