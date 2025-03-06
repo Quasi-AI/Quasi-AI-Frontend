@@ -1,6 +1,6 @@
 <template>
   <div
-    class="z-50 flex items-center justify-between bg-[#E4E0F4] px-8 py-2 xl:mx-auto 2xl:w-[1440px]"
+    class="z-50 flex items-center justify-between bg-[#E4E0F4] p-4 xl:mx-auto 2xl:w-[1440px]"
   >
     <NuxtLink to="/" class="flex items-center justify-center gap-2">
       <img
