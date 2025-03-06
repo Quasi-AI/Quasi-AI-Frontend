@@ -252,12 +252,6 @@
             class="animate-slide-up mt-6"
             style="animation-delay: 0.4s"
           />
-          <div
-            class="animate-slide-up mt-2 flex items-center gap-4"
-            style="animation-delay: 0.6s"
-          >
-            <LandingUiIconsMoreinfoPaginations width="60px" height="" />
-          </div>
         </div>
         <div class="animate-slide-up" style="animation-delay: 0.2s">
           <LandingUiIconsMoreinfoSecondUser
