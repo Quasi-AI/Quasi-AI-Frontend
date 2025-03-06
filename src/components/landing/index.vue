@@ -73,9 +73,9 @@
     >
       <LandingUiIconsBrandsVideoplaceholder
         width="100%"
-        class="animate-fade-in mt-0 h-[100%] lg:absolute lg:-top-[15vh] lg:left-0 lg:right-0 lg:z-10 lg:mt-10 lg:h-[30rem]"
+        class="animate-fade-in h-full cursor-pointer lg:absolute lg:top-[-50px] lg:h-[230px]"
       />
-      <div class="mt-4 px-4 lg:mt-[30rem] lg:px-0">
+      <div class="mt-4 bg-white px-4 lg:mt-[200px] lg:px-0">
         <h2
           class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
         >
@@ -90,6 +90,7 @@
           fully learn and retain everything you learn.
         </p>
       </div>
+
       <div
         class="mt-10 grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3 lg:px-0"
       >
