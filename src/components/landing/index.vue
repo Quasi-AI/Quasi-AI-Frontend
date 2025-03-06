@@ -68,7 +68,9 @@
     </div>
 
     <!-- Why Choose Quasi AI Section -->
-    <div class="relative flex flex-col items-center bg-white lg:px-0">
+    <div
+      class="relative flex flex-col items-center rounded-t-md bg-white lg:px-0"
+    >
       <LandingUiIconsBrandsVideoplaceholder
         width="100%"
         class="animate-fade-in mt-0 h-[100%] lg:absolute lg:-top-[15vh] lg:left-0 lg:right-0 lg:z-10 lg:mt-10 lg:h-[30rem]"
@@ -166,7 +168,7 @@
 
     <!-- Start Teaching with Us -->
     <div
-      class="animate-fade-in flex flex-col items-center justify-center gap-10 bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
+      class="animate-fade-in flex flex-col items-center justify-center gap-10 rounded-b-md bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
     >
       <div
         class="flex w-[100%] flex-col items-center text-center lg:w-[50%] lg:items-start lg:text-wrap lg:text-left"

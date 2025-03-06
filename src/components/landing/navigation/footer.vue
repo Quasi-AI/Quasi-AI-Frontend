@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-center gap-6 bg-[#252641] px-6 py-8 text-center text-white lg:px-12 lg:py-6 xl:mx-auto 2xl:w-[1440px]"
+    class="flex flex-col items-center justify-center gap-6 rounded-t-md bg-[#252641] px-6 py-8 text-center text-white lg:px-12 lg:py-6 xl:mx-auto 2xl:w-[1440px]"
   >
     <!-- Newsletter Subscription Section -->
     <div class="mb-6 lg:mb-0">
@@ -12,7 +12,7 @@
           class="Lg:max-w-[250px] h-10 max-w-[200px] rounded-full border border-gray-500 bg-[#252641] px-4 text-sm text-gray-400 placeholder-gray-400 transition focus:outline-none focus:ring-2 focus:ring-[#5D3BEA] lg:w-[300px]"
         />
         <button
-          class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+          class="rounded-full bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
           Subscribe
         </button>
