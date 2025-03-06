@@ -1,12 +1,6 @@
 import LandingUiIconsServicesPeople from '@/components/landing/ui/icons/services/people.vue'
 import LandingUiIconsServicesCalender from '@/components/landing/ui/icons/services/calender.vue'
 import LandingUiIconsServicesDocument from '@/components/landing/ui/icons/services/document.vue'
-import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
-import LandingUiIconsFeaturesFlashcards from '@/components/landing/ui/icons/features/flashcards.vue'
-import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
-import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
-import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
-import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
 import LandingUiIconsInstructorsProfile from '@/components/landing/ui/icons/instructors/profile.vue'
 import LandingUiIconsInstructorsPlay from '@/components/landing/ui/icons/instructors/play.vue'
 import LandingUiIconsInstructorsHandshake from '@/components/landing/ui/icons/instructors/handshake.vue'
@@ -29,45 +23,6 @@ export const whyChooseItems = ref([
     title: 'Seamless Experience',
     description:
       'Enjoy a user-friendly platform designed for effective and engaging learning and retention.'
-  }
-])
-
-export const features = ref([
-  {
-    icon: LandingUiIconsFeaturesQuestions,
-    title: 'Questions',
-    description: '63,476 questions',
-    bgColor: '[#EBEBFF]'
-  },
-  {
-    icon: LandingUiIconsFeaturesFlashcards,
-    title: 'Smart Flashcards',
-    description: 'About 2,736 cards',
-    bgColor: '[#FFF2E5]'
-  },
-  {
-    icon: LandingUiIconsFeaturesTutors,
-    title: 'Tutors',
-    description: 'More than you imagine',
-    bgColor: '[#FFEEE8]'
-  },
-  {
-    icon: LandingUiIconsFeaturesAitutors,
-    title: 'AI Authors',
-    description: 'So many of them',
-    bgColor: '[#FFFFFF]'
-  },
-  {
-    icon: LandingUiIconsFeaturesQuizzes,
-    title: 'Quizzes',
-    description: 'About 13,932 quizzes',
-    bgColor: '[#F5F7FA]'
-  },
-  {
-    icon: LandingUiIconsFeaturesEssay,
-    title: 'Essay Analyzer',
-    description: '22,649 essays',
-    bgColor: '[#FFF0F0]'
   }
 ])
 
