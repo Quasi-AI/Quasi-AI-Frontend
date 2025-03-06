@@ -131,8 +131,14 @@ useHead({
     { key: 'theme-color', name: 'theme-color', content: color }
   ],
   link: [
+    {},
+    {
+      href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
+      rel: 'stylesheet'
+    },
     {
       rel: 'icon',
+      type: 'image/x-icon',
       href: 'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png'
     }
   ],
