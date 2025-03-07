@@ -49,6 +49,20 @@
           <LandingUiIconsBrandsOpticore class="brand-icon" />
           <LandingUiIconsBrandsMaxiwave class="brand-icon" />
           <LandingUiIconsBrandsStellarcore class="brand-icon" />
+
+          <!-- Duplicate -->
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
+
+          <!-- Duplicate -->
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
         </div>
       </div>
     </div>
