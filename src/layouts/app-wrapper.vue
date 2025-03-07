@@ -1,5 +1,6 @@
 <template>
   <ClientOnly>
+    <CommonNavbar />
     <div class="flex w-full bg-[#F4F7FE] dark:bg-[#0C1438]">
       <!-- Sidebar (Hidden on Mobile) -->
       <div
