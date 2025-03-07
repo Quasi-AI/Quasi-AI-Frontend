@@ -1,19 +1,17 @@
 <template>
-  <div class="flex flex-col items-center p-4 lg:px-0">
+  <div class="animate-fade-in flex flex-col items-center p-4 lg:px-0">
     <div class="grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2">
       <div
         v-for="(feature, index) in features"
         :key="index"
         @click="navigateTo(feature.route)"
-        class="flex cursor-pointer items-start gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-[#111C44]"
+        class="animate-slide-up flex cursor-pointer items-start gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-[#111C44]"
         :class="feature.bgColor"
-        :style="{ 'animation-delay': `${index * 0.2}s` }"
-        v-animate-onscroll="'slide-up'"
+        :style="{ animationDelay: `${index * 0.2}s` }"
       >
         <!-- Icon Container with Blur in Dark Mode -->
         <span
-          class="flex shrink-0 items-center justify-center rounded-lg"
-          :class="['dark:backdrop-blur-sm']"
+          class="flex shrink-0 items-center justify-center rounded-lg dark:backdrop-blur-sm"
         >
           <component :is="feature.icon" class="h-10 w-10" />
         </span>
@@ -31,7 +29,6 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
 import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
 import LandingUiIconsFeaturesFlashcards from '@/components/landing/ui/icons/features/flashcards.vue'
 import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
@@ -42,7 +39,7 @@ import LandingUiIconsFeaturesSpeech from '@/components/landing/ui/icons/features
 
 const router = useRouter()
 
-const features = [
+const features = ref([
   {
     icon: LandingUiIconsFeaturesQuestions,
     title: 'Questions',
@@ -67,7 +64,7 @@ const features = [
     bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]'
   },
   {
-    icon: LandingUiIconsFeaturesQuizzes,
+    icon: LandingUiIconsFeaturesEssay,
     title: 'Essay Analyzer',
     description:
       'Get feedback on your essays, including grammar and structure improvements.',
@@ -75,14 +72,13 @@ const features = [
     bgColor: 'bg-[#FFF0F0] dark:bg-[#352F44]'
   },
   {
-    icon: LandingUiIconsFeaturesEssay,
+    icon: LandingUiIconsFeaturesQuizzes,
     title: 'Practice Quizzes',
     description:
       'Automatically generated quizzes to test understanding and track progress.',
     route: '/apps/quizzes',
     bgColor: 'bg-[#F5F7FA] dark:bg-[#232D4B]'
   },
-
   {
     icon: LandingUiIconsFeaturesAitutors,
     title: 'AI Tutors',
@@ -107,7 +103,7 @@ const features = [
     route: '/other/support',
     bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]'
   }
-]
+])
 
 const navigateTo = route => {
   if (route) router.push(route)

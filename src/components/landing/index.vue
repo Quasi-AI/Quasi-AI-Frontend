@@ -49,20 +49,6 @@
           <LandingUiIconsBrandsOpticore class="brand-icon" />
           <LandingUiIconsBrandsMaxiwave class="brand-icon" />
           <LandingUiIconsBrandsStellarcore class="brand-icon" />
-
-          <!-- Duplicate -->
-          <LandingUiIconsBrandsAlphawave class="brand-icon" />
-          <LandingUiIconsBrandsFusionx class="brand-icon" />
-          <LandingUiIconsBrandsOpticore class="brand-icon" />
-          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
-          <LandingUiIconsBrandsStellarcore class="brand-icon" />
-
-          <!-- Duplicate -->
-          <LandingUiIconsBrandsAlphawave class="brand-icon" />
-          <LandingUiIconsBrandsFusionx class="brand-icon" />
-          <LandingUiIconsBrandsOpticore class="brand-icon" />
-          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
-          <LandingUiIconsBrandsStellarcore class="brand-icon" />
         </div>
       </div>
     </div>
@@ -371,69 +357,3 @@ useHead({
   ]
 })
 </script>
-
-<style scoped>
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 2s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 3s ease-out forwards;
-}
-
-/* Wrapper to enable overflow hidden */
-.brand-slider-wrapper {
-  overflow: hidden;
-  position: relative;
-}
-
-/* The flex container that will move left infinitely */
-.brand-slider {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  animation: scroll 15s linear infinite;
-}
-
-/* Individual brand icons */
-.brand-icon {
-  flex-shrink: 0;
-  width: 80px;
-  height: auto;
-  transition: transform 0.3s;
-}
-
-.brand-icon:hover {
-  transform: scale(1.1);
-}
-
-/* Keyframes animation */
-@keyframes scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-</style>
