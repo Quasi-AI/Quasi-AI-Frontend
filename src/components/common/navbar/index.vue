@@ -23,21 +23,24 @@
         class="cursor-pointer"
       />
 
-      <p class="flex items-center gap-1">
+      <div class="flex items-center gap-2">
         <UDropdown
           mode="click"
           :popper="{ placement: 'right-start' }"
           :items="profileList"
         >
-          <CommonProfileImage
-            :img-src="userInfo?.profileImage"
-            :name="userInfo?.name"
-            :scale="true"
-            baseClass="w-[30px] h-[30px]"
-            :class="[isUserRoute ? 'rounded-full ring-2 ring-blue-500' : '']"
-          />
+          <div class="flex items-center gap-2">
+            <CommonProfileImage
+              :img-src="userInfo?.profileImage"
+              :name="userInfo?.name"
+              :scale="true"
+              baseClass="w-[30px] h-[30px]"
+              :class="[isUserRoute ? 'rounded-full ring-2 ring-blue-500' : '']"
+            />
+            <ArrowDownLeftIcon class="h-5 w-5 cursor-pointer text-gray-500" />
+          </div>
         </UDropdown>
-      </p>
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +50,7 @@ import lightModeIcon from '@/assets/icons/light-mode.vue'
 import DarkModeIcon from '@/assets/icons/dark-mode.vue'
 import { useAuthenticationStore } from '@/store/auth'
 import { useUser } from '~/composables/useUser'
+import ArrowDownLeftIcon from '@/assets/icons/arrow-down.vue'
 
 const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
