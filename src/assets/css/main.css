@@ -5,6 +5,7 @@
 * {
   -ms-overflow-style: none;
   scrollbar-width: none;
+  font-family: 'JetBrains Mono', system-ui, sans-serif;
 }
 
 *::-webkit-scrollbar {

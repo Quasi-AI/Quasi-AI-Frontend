@@ -1,5 +1,7 @@
 <template>
-  <div class="flex items-center justify-between bg-white px-8 py-2">
+  <div
+    class="z-50 flex items-center justify-between bg-[#E4E0F4] p-4 xl:mx-auto 2xl:w-[1440px]"
+  >
     <NuxtLink to="/" class="flex items-center justify-center gap-2">
       <img
         src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
@@ -9,12 +11,15 @@
       <h1 class="text-2xl font-bold">QUASI AI</h1>
     </NuxtLink>
 
-    <Menu as="div" class="relative inline-block text-left">
-      <MenuButton class="px-4 py-2 text-gray-700 focus:outline-none lg:hidden">
+    <Menu as="div" class="relative block text-left lg:hidden">
+      <MenuButton
+        class="z-50 px-4 py-2 text-gray-700 focus:outline-none lg:hidden"
+      >
         ☰
       </MenuButton>
 
       <transition
+        class="z-50"
         enter-active-class="transition ease-out duration-100"
         enter-from-class="transform opacity-0 scale-95"
         enter-to-class="transform opacity-100 scale-100"
@@ -30,52 +35,41 @@
               :class="[active ? 'bg-gray-100' : '', 'px-4 py-2']"
               class="cursor-pointer"
             >
+              Home
+            </p>
+          </MenuItem>
+          <MenuItem v-slot="{ active }">
+            <p
+              :class="[active ? 'bg-gray-100' : '', 'px-4 py-2']"
+              class="cursor-pointer"
+            >
+              Why us
+            </p>
+          </MenuItem>
+          <MenuItem v-slot="{ active }">
+            <p
+              :class="[active ? 'bg-gray-100' : '', 'px-4 py-2']"
+              class="cursor-pointer"
+            >
               Features
             </p>
-          </MenuItem>
-          <MenuItem v-slot="{ active }">
-            <p
-              :class="[active ? 'bg-gray-100' : '', 'px-4 py-2']"
-              class="cursor-pointer"
-            >
-              How it works
-            </p>
-          </MenuItem>
-          <MenuItem v-slot="{ active }">
-            <p
-              :class="[active ? 'bg-gray-100' : '', 'px-4 py-2']"
-              class="cursor-pointer"
-            >
-              Pricing
-            </p>
-          </MenuItem>
-          <MenuItem v-slot="{ active }" class="flex justify-center border-t">
-            <NuxtLink
-              to="/auth/login"
-              :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2']"
-            >
-              <p
-                :class="[active ? 'bg-gray-100' : '', 'px-4 py-2']"
-                class="cursor-pointer text-[#5D3BEA]"
-              >
-                Get Started
-              </p>
-            </NuxtLink>
           </MenuItem>
         </MenuItems>
       </transition>
     </Menu>
 
-    <ul class="hidden flex-row items-center gap-4 lg:flex">
-      <li>Features</li>
-      <li>How it works</li>
-      <li>Pricing</li>
-      <NuxtLink to="/auth/login">
-        <UButton variant="" class="rounded-2xl bg-[#5D3BEA] text-white"
-          >Get Started</UButton
-        >
-      </NuxtLink>
-    </ul>
+    <div class="hidden flex-row items-center gap-4 lg:flex">
+      <NuxtLink to="/">Home</NuxtLink>
+      <NuxtLink to="/">Why us</NuxtLink>
+      <NuxtLink to="/">Features</NuxtLink>
+    </div>
+
+    <NuxtLink
+      to="/auth/sign-up"
+      class="hidden rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA] lg:block"
+    >
+      Start for free
+    </NuxtLink>
   </div>
 </template>
 

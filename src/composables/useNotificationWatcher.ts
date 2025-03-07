@@ -1,6 +1,5 @@
 import { useAuthenticationStore } from '@/store/auth'
-
-type NotificationColor = 'blue' | 'red' | 'green'
+import { TYPE, useToast } from 'vue-toastification'
 
 export function useNotificationWatcher() {
   const AuthStore = useAuthenticationStore()
@@ -8,19 +7,14 @@ export function useNotificationWatcher() {
 
   const watchNotifications = (
     store: any,
-    colorMap: { success: NotificationColor; error: NotificationColor }
+    _p0?: { success: string; error: string }
   ) => {
     watch(
       () => store.success || store.error,
       newToastNotification => {
         if (newToastNotification) {
-          toast.add({
-            title: newToastNotification,
-            icon: store.error
-              ? 'i-heroicons-x-circle'
-              : 'i-heroicons-check-circle',
-            timeout: 3000,
-            color: store.error ? colorMap.error : colorMap.success
+          toast(newToastNotification, {
+            type: store.error ? ('error' as TYPE) : ('success' as TYPE)
           })
           store.clearSuccessAfterDelay()
         }

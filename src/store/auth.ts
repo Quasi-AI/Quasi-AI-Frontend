@@ -53,13 +53,14 @@ export const useAuthenticationStore = defineStore('authentication', {
       )
     },
 
-    async login(email: string, password: string) {
+    async login(email: string, password: string, rememberMe: boolean) {
       await this.authenticateUser(
         API_PATHS.login,
         { email, password },
         STATUS_CODES.SUCCESS,
         'Login successful!',
-        '/dashboard'
+        '/dashboard',
+        rememberMe
       )
     },
 
@@ -73,7 +74,8 @@ export const useAuthenticationStore = defineStore('authentication', {
         | RouteLocationAsRelativeGeneric
         | RouteLocationAsPathGeneric
         | null
-        | undefined
+        | undefined,
+      rememberMe: boolean = false
     ) {
       try {
         this.error = ''
@@ -89,7 +91,11 @@ export const useAuthenticationStore = defineStore('authentication', {
         if (data.statusCode === successCode) {
           if ('token' in data && data.token) {
             this.token = data.token
-            localStorage.setItem('authToken', this.token)
+            if (rememberMe) {
+              localStorage.setItem('authToken', this.token)
+            } else {
+              sessionStorage.setItem('authToken', this.token)
+            }
           }
           if ('id' in data && data.id) {
             localStorage.setItem('user_id', data.id.toString())
@@ -312,7 +318,10 @@ export const useAuthenticationStore = defineStore('authentication', {
 
     loadToken() {
       if (import.meta.client) {
-        this.token = localStorage.getItem('authToken') ?? ''
+        this.token =
+          localStorage.getItem('authToken') ??
+          sessionStorage.getItem('authToken') ??
+          ''
       }
     },
 
