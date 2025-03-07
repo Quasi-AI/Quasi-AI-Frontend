@@ -59,7 +59,7 @@
           </h4>
           <p class="text-xs text-gray-500">{{ userInfo?.email }}</p>
         </div>
-        <ArrowRightOnRectangleIcon
+        <ArrowRightEndOnRectangleIcon
           class="h-5 w-5 cursor-pointer text-gray-500"
         />
       </div>
@@ -73,9 +73,9 @@ import {
   CubeIcon,
   AcademicCapIcon,
   DocumentTextIcon,
-  QuestionMarkCircleIcon,
-  ArrowRightOnRectangleIcon
+  QuestionMarkCircleIcon
 } from '@heroicons/vue/24/outline'
+import { ArrowRightEndOnRectangleIcon } from '@heroicons/vue/24/solid'
 import { useUser } from '~/composables/useUser'
 
 const route = useRoute()
