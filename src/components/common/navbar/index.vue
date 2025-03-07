@@ -1,64 +1,73 @@
 <template>
-  <div class="my-6 flex items-center justify-between gap-2 px-2 py-3 pl-6">
-    <div
-      class="m-2 ml-auto flex items-center justify-end gap-4 rounded-full p-4 py-1 shadow-md"
-      :class="
-        colorMode.value === 'dark' ? 'bg-[#111C44] text-white' : 'bg-white'
-      "
-    >
-      <div class="my-2 flex flex-col items-center justify-center gap-4">
-        <UInput
-          v-model="q"
-          name="q"
-          placeholder="Search..."
-          icon="i-heroicons-magnifying-glass-20-solid"
-          autocomplete="off"
-          :ui="{ icon: { trailing: { pointer: '' } } }"
-          variant="none"
-          class="rounded-2xl lg:w-40"
-          :class="colorMode.value === 'dark' ? 'bg-[#111C44]' : 'bg-[#F1F3FE]'"
+  <!-- Show brand on mobile only -->
+  <div
+    class="flex w-full items-center justify-center bg-white p-3 font-semibold lg:hidden dark:bg-[#111C44] dark:text-white"
+  >
+    <NuxtLink to="/" class="flex w-40 items-center gap-2 truncate">
+      <img
+        src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
+        alt="logo"
+        class="w-8"
+      />
+      <span>QUASI AI</span>
+    </NuxtLink>
+  </div>
+
+  <!-- Header -->
+  <div
+    class="p-2 flex w-full items-center justify-center bg-white lg:justify-end lg:p-5 dark:bg-[#111C44] dark:text-white"
+  >
+    <div class="mx-2 flex flex-col items-center justify-center">
+      <UInput
+        v-model="q"
+        name="q"
+        placeholder="Search..."
+        icon="i-heroicons-magnifying-glass-20-solid"
+        autocomplete="off"
+        :ui="{ icon: { trailing: { pointer: '' } } }"
+        variant="none"
+        class="rounded-2xl bg-[#F1F3FE] lg:w-40 dark:bg-[#0C1438] dark:text-white"
+      >
+        <template #trailing>
+          <UButton
+            v-show="q !== ''"
+            color="gray"
+            variant="link"
+            icon="i-heroicons-x-mark-20-solid"
+            :padded="false"
+            @click="q = ''"
+          />
+        </template>
+      </UInput>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <lightModeIcon
+        v-if="!isDark"
+        @click="isDark = !isDark"
+        class="cursor-pointer"
+      />
+      <DarkModeIcon
+        v-if="isDark"
+        @click="isDark = !isDark"
+        class="cursor-pointer"
+      />
+
+      <p class="flex items-center gap-1">
+        <UDropdown
+          mode="click"
+          :popper="{ placement: 'right-start' }"
+          :items="profileList"
         >
-          <template #trailing>
-            <UButton
-              v-show="q !== ''"
-              color="gray"
-              variant="link"
-              icon="i-heroicons-x-mark-20-solid"
-              :padded="false"
-              @click="q = ''"
-            />
-          </template>
-        </UInput>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <lightModeIcon
-          v-if="!isDark"
-          @click="isDark = !isDark"
-          class="cursor-pointer"
-        />
-        <DarkModeIcon
-          v-if="isDark"
-          @click="isDark = !isDark"
-          class="cursor-pointer"
-        />
-
-        <p class="flex items-center gap-1">
-          <UDropdown
-            mode="click"
-            :popper="{ placement: 'right-start' }"
-            :items="profileList"
-          >
-            <CommonProfileImage
-              :img-src="userInfo?.profileImage"
-              :name="userInfo?.name"
-              :scale="true"
-              baseClass="w-[30px] h-[30px]"
-              :class="[isUserRoute ? 'rounded-full ring-2 ring-blue-500' : '']"
-            />
-          </UDropdown>
-        </p>
-      </div>
+          <CommonProfileImage
+            :img-src="userInfo?.profileImage"
+            :name="userInfo?.name"
+            :scale="true"
+            baseClass="w-[30px] h-[30px]"
+            :class="[isUserRoute ? 'rounded-full ring-2 ring-blue-500' : '']"
+          />
+        </UDropdown>
+      </p>
     </div>
   </div>
 </template>
