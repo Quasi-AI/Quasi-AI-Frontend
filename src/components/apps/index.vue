@@ -16,7 +16,7 @@ import FindTutors from '@/components/apps/find-tutors/index.vue'
 import Essay from '@/components/apps/essay/index.vue'
 import SpeechToText from '@/components/apps/speech-to-text/index.vue'
 import Plan from '@/components/apps/plan/index.vue'
-import LearningGames from '@/components/apps/learning-games/index.vue'
+import LearningGames from '@/components/apps/games/index.vue'
 import Dashboard from '@/components/apps/lists.vue'
 
 const route = useRoute()
@@ -30,7 +30,7 @@ const componentsMap = {
   '/apps/essay': Essay,
   '/apps/speech-to-text': SpeechToText,
   '/plan': Plan,
-  '/learning-games': LearningGames,
+  '/games': LearningGames,
   '/smart-tutoring': SmartTuroting,
   '/past-questions?type=past-questions': Questions,
   '/apps': Dashboard
