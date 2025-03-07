@@ -22,8 +22,10 @@
         <li v-for="(item, index) in menuItems" :key="index">
           <NuxtLink
             :to="item.route"
-            class="flex items-center gap-3 rounded-lg p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-400 dark:hover:bg-gray-800"
-            :class="{ 'bg-[#5D3BEA] text-white': isActive(item.route) }"
+            class="flex items-center gap-3 rounded-lg p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-300 dark:hover:bg-gray-800"
+            :class="{
+              'bg-[#5D3BEA] text-white dark:text-gray-300': isActive(item.route)
+            }"
           >
             <component :is="item.icon" class="h-5 w-5" />
             <span class="text-sm font-medium">{{ item.label }}</span>
@@ -50,7 +52,7 @@
 
       <!-- User Profile -->
       <div
-        class="mt-4 flex items-center gap-3 rounded-lg bg-gray-100 p-3 dark:bg-gray-800"
+        class="mt-4 flex items-center gap-3 rounded-lg bg-gray-100 p-3 dark:bg-[#0C1438]"
       >
         <img
           src="https://randomuser.me/api/portraits/women/50.jpg"
