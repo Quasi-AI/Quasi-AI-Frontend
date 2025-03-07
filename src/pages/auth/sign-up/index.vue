@@ -164,7 +164,7 @@
 <script setup>
 import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
 import { isValidEmail } from '@/utils/isValidEmail'
-import Loader from '@/components/loader/Loader.vue'
+import Loader from '@/components/common/loader/Loader.vue'
 import { useAuthenticationStore } from '~/store/auth'
 import axios from 'axios'
 import { auth, provider, signInWithPopup } from '~/utils/firebase'
