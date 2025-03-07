@@ -16,7 +16,7 @@
 
       <!-- Contact Support -->
       <NuxtLink
-        to="/apps/support"
+        to="/other/support"
         class="flex flex-col items-center text-gray-600 dark:text-gray-300"
       >
         <QuestionMarkCircleIcon class="h-6 w-6" />
