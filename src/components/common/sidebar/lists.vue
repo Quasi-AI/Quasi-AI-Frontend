@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed left-0 top-0 hidden h-screen w-64 flex-col justify-between bg-white shadow-md md:flex dark:bg-[#111C44]"
+    class="fixed left-0 top-0 hidden h-screen w-64 flex-col justify-between bg-white shadow-sm md:flex dark:bg-[#111C44]"
   >
     <!-- Logo Section -->
     <div class="p-5">
