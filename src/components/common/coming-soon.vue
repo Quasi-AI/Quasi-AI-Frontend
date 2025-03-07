@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex h-screen items-center justify-center bg-[#F4F7FE] dark:bg-[#0C1438] mx-3"
+    class="mx-3 flex h-screen items-center justify-center bg-[#F4F7FE] dark:bg-[#0C1438]"
   >
     <div
       class="max-w-md rounded-2xl bg-white p-6 text-center shadow-lg dark:bg-[#111C44]"
