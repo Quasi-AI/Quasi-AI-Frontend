@@ -10,7 +10,7 @@
 
       <!-- Main Content (Pushes Right on Larger Screens) -->
       <div class="flex-1">
-        <div class="overflow-auto py-10">
+        <div class="overflow-y-auto overflow-x-hidden">
           <slot name="apps"></slot>
           <LayoutNavbarBottom />
         </div>
