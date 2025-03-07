@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-center justify-center gap-6 rounded-t-md bg-[#252641] px-6 py-8 text-center text-white lg:px-12 lg:py-6 xl:mx-auto 2xl:w-[1440px]"
+    class="flex flex-col items-center justify-center gap-6 rounded-t-3xl bg-[#252641] px-6 py-8 text-center text-white lg:rounded-none lg:px-12 lg:py-6 xl:mx-auto 2xl:w-[1440px]"
   >
     <!-- Newsletter Subscription Section -->
     <div class="mb-6 lg:mb-0">
