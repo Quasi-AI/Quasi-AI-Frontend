@@ -15,7 +15,7 @@
     </div>
 
     <!-- Menu Items -->
-    <nav class="flex-1">
+    <nav class="flex-1 pt-3">
       <ul class="space-y-2 px-4">
         <li v-for="(item, index) in menuItems" :key="index">
           <NuxtLink
