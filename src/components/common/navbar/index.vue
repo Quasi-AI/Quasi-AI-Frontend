@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full items-center justify-between bg-white p-2 lg:justify-end lg:p-5 dark:bg-[#111C44] dark:text-white"
+    class="flex w-full items-center justify-between bg-white p-5 lg:justify-end dark:bg-[#111C44] dark:text-white"
   >
     <NuxtLink to="/" class="flex w-40 items-center gap-2 truncate lg:hidden">
       <img
