@@ -4,7 +4,7 @@
       <CommonSidebar />
     </template>
     <template #apps>
-      <AppsPastQuestions />
+      <AppsPastQuestions class="m-4" />
     </template>
   </NuxtLayout>
 </template>
