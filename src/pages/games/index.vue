@@ -5,7 +5,7 @@
     </template>
     <template #apps>
       <LayoutNavbar />
-      <AppsLearningGames />
+      <AppsGames />
     </template>
   </NuxtLayout>
 </template>

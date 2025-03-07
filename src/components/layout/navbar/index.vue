@@ -1,8 +1,5 @@
 <template>
   <div class="my-6 flex items-center justify-between gap-2 px-2 py-3 pl-6">
-    <h1 class="trucnate hidden text-sm font-medium md:block md:text-xl">
-      {{ pageTitle }}
-    </h1>
     <div
       class="m-2 ml-auto flex items-center justify-end gap-4 rounded-full p-4 py-1 shadow-md"
       :class="
@@ -63,10 +60,6 @@
       </div>
     </div>
   </div>
-
-  <h1 class="mx-6 flex text-sm font-medium md:hidden md:text-xl">
-    {{ pageTitle }}
-  </h1>
 </template>
 
 <script setup lang="ts">
@@ -84,29 +77,6 @@ const isDark = computed({
   get: () => colorMode.value === 'dark',
   set: () =>
     (colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark')
-})
-
-// Route-based dynamic title
-const route = useRoute()
-const pageTitle = computed(() => {
-  const routeTitles: Record<string, string> = {
-    '/': 'Dashboard',
-    '/dashboard/questions': 'Questions',
-    '/dashboard/flashcards': 'Flashcards',
-    '/dashboard/quizzes': 'Quizzes',
-    '/dashboard/ai-tutor': 'AI Tutors',
-    '/dashboard/find-tutors': 'Find Tutors',
-    '/dashboard/essay': 'Essay',
-    '/dashboard/speech-to-text': 'Speech to Text',
-    '/dashboard/plagiarism': 'Plagiarism',
-    '/plan': 'Plan',
-    '/learning-games': 'Learning Games',
-    '/smart-tutoring': 'Smart Tutoring',
-    '/past-questions': 'Past Questions',
-    '/doctor-ai': 'Doctor AI',
-    '/user': 'User Profile'
-  }
-  return routeTitles[route.path] || 'Dashboard'
 })
 
 const profileList = [

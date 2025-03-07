@@ -15,29 +15,27 @@ import SmartTuroting from '@/components/apps/smart-tutoring/index.vue'
 import FindTutors from '@/components/apps/find-tutors/index.vue'
 import Essay from '@/components/apps/essay/index.vue'
 import SpeechToText from '@/components/apps/speech-to-text/index.vue'
-import Plagiarism from '@/components/apps/plagiarism/index.vue'
 import Plan from '@/components/apps/plan/index.vue'
-import LearningGames from '@/components/apps/learning-games/index.vue'
+import LearningGames from '@/components/apps/games/index.vue'
+import CustomerSupport from '@/components/apps/support/index.vue'
 import Dashboard from '@/components/apps/lists.vue'
-import Support from '@/components/apps/support/index.vue'
 
 const route = useRoute()
 
 const componentsMap = {
-  '/dashboard/questions': Questions,
-  '/dashboard/flashcards': FlashCards,
-  '/dashboard/quizzes': Quizzes,
-  '/dashboard/ai-tutor': AiTutor,
-  '/dashboard/find-tutors': FindTutors,
-  '/dashboard/essay': Essay,
-  '/dashboard/speech-to-text': SpeechToText,
-  '/dashboard/plagiarism': Plagiarism,
-  '/dashboard/support': Support,
+  '/apps/questions': Questions,
+  '/apps/flashcards': FlashCards,
+  '/apps/quizzes': Quizzes,
+  '/apps/ai-tutor': AiTutor,
+  '/apps/find-tutors': FindTutors,
+  '/apps/essay': Essay,
+  '/apps/speech-to-text': SpeechToText,
+  '/apps/support': CustomerSupport,
   '/plan': Plan,
-  '/learning-games': LearningGames,
+  '/games': LearningGames,
   '/smart-tutoring': SmartTuroting,
   '/past-questions?type=past-questions': Questions,
-  '/dashboard': Dashboard
+  '/apps': Dashboard
 }
 
 const currentComponent = computed(() => {

@@ -1,110 +1,117 @@
 <template>
-  <div
-    class="mt-5 grid grid-cols-1 gap-8 px-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-  >
+  <div class="flex flex-col items-center px-4 py-10 lg:px-0">
     <div
-      v-for="(feature, index) in features"
-      :key="index"
-      @click="navigateTo(feature.route)"
-      class="flex cursor-pointer flex-col gap-3 rounded-2xl bg-white p-4 transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+      class="mt-10 grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-2"
     >
-      <span
-        class="flex w-20 items-center justify-center rounded-full bg-[#F4F7FE] p-5 dark:bg-[#0C1438]"
+      <div
+        v-for="(feature, index) in features"
+        :key="index"
+        @click="navigateTo(feature.route)"
+        class="flex cursor-pointer items-start gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-[#111C44]"
+        :class="feature.bgColor"
+        :style="{ 'animation-delay': `${index * 0.2}s` }"
+        v-animate-onscroll="'slide-up'"
       >
-        <component
-          :is="feature.icon"
-          class="h-10 w-10 text-gray-700 dark:text-white"
-        />
-      </span>
-      <h1 class="font-medium dark:text-white">
-        {{ feature.label }}
-      </h1>
-      <p>{{ feature.description }}</p>
+        <!-- Icon Container with Blur in Dark Mode -->
+        <span
+          class="flex shrink-0 items-center justify-center rounded-lg"
+          :class="['dark:backdrop-blur-sm']"
+        >
+          <component :is="feature.icon" class="h-10 w-10" />
+        </span>
+
+        <!-- Content (Title + Description) -->
+        <div class="flex-1">
+          <h3 class="text-xl font-bold">{{ feature.title }}</h3>
+          <p class="text-gray-600 dark:text-gray-400">
+            {{ feature.description }}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useRouter } from 'vue-router'
-import {
-  DocumentTextIcon,
-  ClipboardIcon,
-  ChatBubbleBottomCenterTextIcon,
-  BoltIcon,
-  UserGroupIcon,
-  PencilSquareIcon,
-  MicrophoneIcon,
-  DocumentDuplicateIcon,
-  PhoneArrowDownLeftIcon
-} from '@heroicons/vue/24/outline'
+import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
+import LandingUiIconsFeaturesFlashcards from '@/components/landing/ui/icons/features/flashcards.vue'
+import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
+import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
+import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
+import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
+import LandingUiIconsFeaturesSpeech from '@/components/landing/ui/icons/features/speech.vue'
 
 const router = useRouter()
 
 const features = [
   {
-    label: 'Smart Flashcards',
-    icon: DocumentTextIcon,
-    route: '/dashboard/flashcards',
+    icon: LandingUiIconsFeaturesQuestions,
+    title: 'Questions',
+    description: 'Ask and answer questions from a large knowledge base.',
+    route: '/apps/questions',
+    bgColor: 'bg-[#EBEBFF] dark:bg-[#1E2A5A]'
+  },
+  {
+    icon: LandingUiIconsFeaturesFlashcards,
+    title: 'Smart Flashcards',
     description:
-      'AI-powered flashcard generation from your learning materials with spaced repetition.'
+      'AI-powered flashcard generation from your learning materials with spaced repetition.',
+    route: '/apps/flashcards',
+    bgColor: 'bg-[#FFF2E5] dark:bg-[#2C2C54]'
   },
   {
-    label: 'Practice Quizzes',
-    icon: ClipboardIcon,
-    route: '/dashboard/quizzes',
+    icon: LandingUiIconsFeaturesTutors,
+    title: 'Tutors',
     description:
-      'Automatically generated quizzes to test understanding and track progress.'
+      'Create expert tutors and connect them to students for personalized learning.',
+    route: '/apps/find-tutors',
+    bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]'
   },
   {
-    label: 'Questions',
-    icon: ChatBubbleBottomCenterTextIcon,
-    route: '/dashboard/questions',
-    description: 'Ask and answer questions from a large knowledge base.'
-  },
-  {
-    label: 'AI Tutors',
-    icon: BoltIcon,
-    route: '/dashboard/ai-tutor',
+    icon: LandingUiIconsFeaturesQuizzes,
+    title: 'Essay Analyzer',
     description:
-      'Get instant explanations and answers to your questions about the material.'
+      'Get feedback on your essays, including grammar and structure improvements.',
+    route: '/apps/essay',
+    bgColor: 'bg-[#FFF0F0] dark:bg-[#352F44]'
   },
   {
-    label: 'Find Tutors',
-    icon: UserGroupIcon,
-    route: '/dashboard/find-tutors',
-    description: 'Connect with expert tutors for personalized learning.'
-  },
-  {
-    label: 'Essay Analyzer',
-    icon: PencilSquareIcon,
-    route: '/dashboard/essay',
+    icon: LandingUiIconsFeaturesEssay,
+    title: 'Practice Quizzes',
     description:
-      'Get feedback on your essays, including grammar and structure improvements.'
+      'Automatically generated quizzes to test understanding and track progress.',
+    route: '/apps/quizzes',
+    bgColor: 'bg-[#F5F7FA] dark:bg-[#232D4B]'
+  },
+
+  {
+    icon: LandingUiIconsFeaturesAitutors,
+    title: 'AI Tutors',
+    description:
+      'Get instant explanations and answers to your questions about the material.',
+    route: '/apps/ai-tutor',
+    bgColor: 'bg-[#FFFFFF] dark:bg-[#21263A]'
   },
   {
-    label: 'Speech to Text',
-    icon: MicrophoneIcon,
-    route: '/dashboard/speech-to-text',
+    icon: LandingUiIconsFeaturesSpeech,
+    title: 'Text to Speech',
     description:
-      'Convert spoken words into accurate text for learning and note-taking.'
+      'Convert spoken words into accurate text for learning and note-taking purposes.',
+    route: '/apps/speech-to-text',
+    bgColor: 'bg-[#EBEBFF] dark:bg-[#1E2A5A]'
   },
   {
-    label: 'Plagiarism Checker',
-    icon: DocumentDuplicateIcon,
-    route: '/dashboard/plagiarism',
+    icon: LandingUiIconsFeaturesTutors,
+    title: 'Customer Support',
     description:
-      'Ensure originality in your writing with an AI-powered plagiarism detection tool.'
-  },
-  {
-    label: '24/7 Support',
-    icon: PhoneArrowDownLeftIcon,
-    route: '/dashboard/support',
-    description:
-      'We offer live chat support and encourage you to send us feedback to ensure uninterrupted service.'
+      'We offer live chat support and encourage you to send us feedback to ensure uninterrupted service.',
+    route: '/apps/support',
+    bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]'
   }
 ]
 
-const navigateTo = (route: string) => {
-  router.push(route)
+const navigateTo = route => {
+  if (route) router.push(route)
 }
 </script>

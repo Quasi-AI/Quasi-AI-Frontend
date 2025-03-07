@@ -5,7 +5,7 @@
     </template>
     <template #apps>
       <LayoutNavbar />
-      <CommonComingSoon />
+      <Apps />
     </template>
   </NuxtLayout>
 </template>

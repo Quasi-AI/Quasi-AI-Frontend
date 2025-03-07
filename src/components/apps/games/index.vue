@@ -56,7 +56,6 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue'
 import axios from 'axios'
 
 const selectedCategory = ref('')

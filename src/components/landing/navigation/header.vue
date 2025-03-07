@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-between bg-[#E4E0F4] px-8 py-2 xl:mx-auto 2xl:w-[1440px]"
+    class="z-50 flex items-center justify-between bg-[#E4E0F4] p-4 xl:mx-auto 2xl:w-[1440px]"
   >
     <NuxtLink to="/" class="flex items-center justify-center gap-2">
       <img
@@ -12,11 +12,14 @@
     </NuxtLink>
 
     <Menu as="div" class="relative block text-left lg:hidden">
-      <MenuButton class="px-4 py-2 text-gray-700 focus:outline-none lg:hidden">
+      <MenuButton
+        class="z-50 px-4 py-2 text-gray-700 focus:outline-none lg:hidden"
+      >
         ☰
       </MenuButton>
 
       <transition
+        class="z-50"
         enter-active-class="transition ease-out duration-100"
         enter-from-class="transform opacity-0 scale-95"
         enter-to-class="transform opacity-100 scale-100"
@@ -63,9 +66,10 @@
 
     <NuxtLink
       to="/auth/sign-up"
-      class="hidden rounded-lg bg-[#5D3BEA] px-8 py-2 text-white lg:block"
-      >Start for free</NuxtLink
+      class="hidden rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA] lg:block"
     >
+      Start for free
+    </NuxtLink>
   </div>
 </template>
 

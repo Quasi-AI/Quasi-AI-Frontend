@@ -71,7 +71,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import axios from 'axios'
 
 const name = ref('')
@@ -94,7 +93,7 @@ const submitFeedback = async () => {
   errorMessage.value = ''
 
   try {
-    const response = await axios.post(
+    await axios.post(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/create-feedback',
       {
         name: name.value,

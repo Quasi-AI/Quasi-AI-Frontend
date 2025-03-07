@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex h-screen flex-col items-center justify-between bg-gray-100 dark:bg-[#111C44]"
-  >
+  <div class="mx-auto flex h-screen flex-col items-center justify-center">
     <!-- Chat Messages -->
     <div
       ref="chatBodyRef"
@@ -12,7 +10,7 @@
         v-for="(chat, index) in chatHistory"
         :key="index"
         :class="[
-          'w-fit max-w-[75%] rounded-lg p-3',
+          'mb-2 w-fit max-w-[75%] rounded-lg p-3',
           chat.role === 'user'
             ? 'ml-auto bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
             : 'mr-auto text-black dark:text-white'
@@ -33,7 +31,7 @@
 
     <!-- Input Box -->
     <div
-      class="fixed bottom-0 left-1/2 w-full max-w-2xl -translate-x-1/2 transform bg-gray-100 p-4 dark:bg-[#111C44]"
+      class="fixed bottom-8 left-2/3 z-10 w-full max-w-2xl -translate-x-2/3 transform p-4 lg:bottom-0 lg:z-0 lg:max-w-[730px] xl:max-w-3xl"
     >
       <button
         v-if="showScrollButton"
@@ -87,7 +85,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
 import sendMsgIcon from '@/assets/icons/send-msg.vue'
 import uploadIcon from '@/assets/icons/upload.vue'
 import recordIcon from '@/assets/icons/mic.vue'

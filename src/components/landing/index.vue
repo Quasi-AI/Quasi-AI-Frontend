@@ -1,193 +1,169 @@
 <template>
-  <div class="xl:mx-auto 2xl:w-[1440px]">
+  <div class="z-10 xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 py-6 pb-0 text-center lg:py-12 lg:pb-[10rem]"
+      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 pb-0 text-center lg:text-wrap lg:py-5"
     >
-      <h1 class="text-4xl font-bold leading-tight">
-        Transform Your Learning <br />Experience with
-        <span class="text-[#5D3BEA]">Quasi AI</span>
+      <h1
+        class="h-[120px] w-[100%] text-3xl font-bold leading-tight text-[#190A53] lg:h-[80px] lg:w-[35%]"
+      >
+        <span v-html="displayedText"></span>
       </h1>
-      <p class="mt-4 text-gray-600">
+      <p
+        class="animate-slide-up mt-4 w-[100%] text-wrap text-sm text-gray-600 lg:w-[33%] lg:text-wrap"
+        style="animation-delay: 0.4s"
+      >
         Generate flashcards, quizzes, and study materials instantly from your
-        <br />
         lectures, notes, PDFs, and presentations.
       </p>
-      <div class="mt-10 flex space-x-4">
+      <div
+        class="animate-slide-up mt-5 flex space-x-4"
+        style="animation-delay: 0.6s"
+      >
         <NuxtLink
           to="/auth/sign-up"
-          class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:bg-[#4A2DCA]"
+          class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
           Start for free
         </NuxtLink>
-        <NuxtLink to="/" class="rounded-lg px-6 py-2 font-normal">
+        <NuxtLink
+          to="/"
+          class="rounded-lg px-6 py-2 font-normal transition duration-300 hover:text-[#5D3BEA]"
+        >
           Learn more
         </NuxtLink>
       </div>
-      <div class="mt-10 flex max-w-full space-x-4 overflow-x-auto">
-        <LandingUiIconsBrandsAlphawave height="" width="100px" />
-        <LandingUiIconsBrandsFusionx height="" width="100px" />
-        <LandingUiIconsBrandsOpticore height="" width="100px" />
-        <LandingUiIconsBrandsMaxiwave height="" width="100px" />
-        <LandingUiIconsBrandsStellarcore height="" width="100px" />
+      <div
+        class="brand-slider-wrapper animate-slide-up mt-10 flex w-full items-center gap-8 pb-0 lg:w-[50%] lg:pb-10"
+      >
+        <div class="brand-slider">
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
+
+          <!-- Duplicate -->
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
+
+          <!-- Duplicate -->
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
+
+          <!-- Duplicate -->
+          <LandingUiIconsBrandsAlphawave class="brand-icon" />
+          <LandingUiIconsBrandsFusionx class="brand-icon" />
+          <LandingUiIconsBrandsOpticore class="brand-icon" />
+          <LandingUiIconsBrandsMaxiwave class="brand-icon" />
+          <LandingUiIconsBrandsStellarcore class="brand-icon" />
+        </div>
       </div>
     </div>
 
     <!-- Why Choose Quasi AI Section -->
-    <div class="relative flex flex-col items-center bg-white px-4 lg:px-0">
+    <div
+      class="relative flex flex-col items-center rounded-t-md bg-white lg:px-0"
+    >
       <LandingUiIconsBrandsVideoplaceholder
         width="100%"
-        class="mt-0 h-[100%] lg:absolute lg:-top-[15vh] lg:left-0 lg:right-0 lg:z-10 lg:mt-10 lg:h-[30rem]"
+        class="animate-fade-in h-full cursor-pointer lg:absolute lg:top-[-50px] lg:h-[230px]"
       />
-      <div class="mt-4 lg:mt-[30rem]">
-        <h2 class="text-4xl font-bold text-[#5D3BEA]">Why choose Quasi AI</h2>
-        <p class="mt-4 text-gray-600">
+      <div class="mt-12 bg-white px-4 lg:mt-[200px] lg:px-0">
+        <h2
+          class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
+        >
+          Why choose Quasi AI
+        </h2>
+        <p
+          class="animate-slide-up mt-4 text-center text-gray-600 lg:text-wrap"
+          style="animation-delay: 0.2s"
+        >
           QUASI AI is one powerful platform that combines all the tools needed
           to <br />
           fully learn and retain everything you learn.
         </p>
       </div>
-      <div class="mt-10 grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
+
+      <div
+        class="mt-10 grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3 lg:px-0"
+      >
         <div
-          class="flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6"
+          v-for="(item, index) in whyChooseItems"
+          :key="index"
+          class="animate-slide-up flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 text-center lg:text-wrap"
+          :style="{ 'animation-delay': `${index * 0.2}s` }"
         >
-          <LandingUiIconsServicesPeople />
-          <h3 class="mt-4 text-2xl font-bold text-[#5D3BEA]">Expert Tutors</h3>
-          <p class="mt-2 text-gray-600">
-            Learn from industry professionals with years of experience in their
-            fields. Our expert tutors provide practical insights to help you
-            succeed in your learning.
-          </p>
-        </div>
-        <div
-          class="flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6"
-        >
-          <LandingUiIconsServicesCalender />
+          <component :is="item.icon" />
           <h3 class="mt-4 text-2xl font-bold text-[#5D3BEA]">
-            Innovative Resources
+            {{ item.title }}
           </h3>
-          <p class="mt-2 text-gray-600">
-            Access a vast collection of learning materials, including
-            interactive courses, real-world case studies, and hands-on projects
-            designed to enhance your skills.
-          </p>
-        </div>
-        <div
-          class="flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6"
-        >
-          <LandingUiIconsServicesDocument />
-          <h3 class="mt-4 text-2xl font-bold text-[#5D3BEA]">
-            Seamless Experience
-          </h3>
-          <p class="mt-2 text-gray-600">
-            Enjoy a user-friendly platform designed for effective and engaging
-            learning and retention.
-          </p>
+          <p class="mt-2 text-gray-600">{{ item.description }}</p>
         </div>
       </div>
     </div>
 
     <!-- Our Top Features Section -->
-    <div class="flex flex-col items-center bg-white py-20">
-      <h2 class="text-4xl font-bold text-[#5D3BEA]">Our top features</h2>
+    <div class="flex flex-col items-center bg-white px-4 py-20 lg:px-0">
+      <h2 class="animate-slide-up text-4xl font-bold text-[#5D3BEA]">
+        Our top features
+      </h2>
       <div class="mt-10 grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
         <div
-          class="flex items-center gap-4 rounded-lg bg-[#EBEBFF] p-6 hover:shadow-xl"
+          v-for="(feature, features) in features"
+          :key="features.title"
+          class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+          :class="feature.bgColor"
+          :style="{ 'animation-delay': `${features.title * 0.2}s` }"
+          v-animate-onscroll="'slide-up'"
         >
-          <LandingUiIconsFeaturesQuestions />
+          <component :is="feature.icon" />
           <div class="mt-4">
-            <h3 class="text-xl font-bold">Questions</h3>
-            <p class="text-gray-600">63,476 questions</p>
-          </div>
-        </div>
-        <div
-          class="flex items-center gap-4 rounded-lg bg-[#FFF2E5] p-6 hover:shadow-xl"
-        >
-          <LandingUiIconsFeaturesFlashcards />
-          <div class="mt-4">
-            <h3 class="text-xl font-bold">Smart Flashcards</h3>
-            <p class="text-gray-600">About 2,736 cards</p>
-          </div>
-        </div>
-        <div
-          class="flex items-center gap-4 rounded-lg bg-[#FFEEE8] p-6 hover:shadow-xl"
-        >
-          <LandingUiIconsFeaturesTutors />
-          <div class="mt-4">
-            <h3 class="text-xl font-bold">Tutors</h3>
-            <p class="text-gray-600">More than you imagine</p>
-          </div>
-        </div>
-        <div
-          class="flex items-center gap-4 rounded-lg bg-white p-6 hover:shadow-xl"
-        >
-          <LandingUiIconsFeaturesAitutors />
-          <div class="mt-4">
-            <h3 class="text-xl font-bold">AI Authors</h3>
-            <p class="text-gray-600">So many of them</p>
-          </div>
-        </div>
-        <div
-          class="flex items-center gap-4 rounded-lg bg-[#F5F7FA] p-6 hover:shadow-xl"
-        >
-          <LandingUiIconsFeaturesQuizzes />
-          <div class="mt-4">
-            <h3 class="text-xl font-bold">Quizzes</h3>
-            <p class="text-gray-600">About 13,932 quizzes</p>
-          </div>
-        </div>
-        <div
-          class="flex items-center gap-4 rounded-lg bg-[#FFF0F0] p-6 hover:shadow-xl"
-        >
-          <LandingUiIconsFeaturesEssay />
-          <div class="mt-4">
-            <h3 class="text-xl font-bold">Essay Analyzer</h3>
-            <p class="text-gray-600">22,649 essays</p>
+            <h3 class="text-xl font-bold">{{ feature.title }}</h3>
+            <p class="text-gray-600">{{ feature.description }}</p>
           </div>
         </div>
       </div>
-      <p class="mt-10 flex items-center gap-2 text-gray-600">
+      <div
+        class="animate-slide-up mt-10 flex flex-col items-center gap-3 text-gray-600 lg:flex-row"
+        style="animation-delay: 0.2s"
+      >
         Sign up to see more
-        <a href="/auth/sign-up" class="text-[#FF6636] hover:underline"
-          >Create account for free</a
-        >
-        <LandingUiIconsFeaturesArrowright width="14px" height="14px" />
-      </p>
+        <div class="flex items-center gap-2">
+          <a
+            href="/auth/sign-up"
+            class="text-[#FF6636] transition duration-300 hover:underline"
+            >Create account for free</a
+          >
+          <LandingUiIconsFeaturesArrowright width="14px" height="14px" />
+        </div>
+      </div>
     </div>
 
     <!-- How to Become a Successful Instructor -->
     <div class="flex flex-col items-center bg-[#F5F7FA] px-4 py-20 lg:px-0">
-      <h2 class="text-4xl font-bold text-[#5D3BEA]">
-        How you'll become a successful instructor
+      <h2
+        class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
+      >
+        How you'll become a <br />successful instructor
       </h2>
       <div class="mt-10 grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
-        <div class="flex flex-col items-center rounded bg-white p-6">
-          <LandingUiIconsInstructorsProfile />
-          <h3 class="mt-4 text-2xl font-bold text-black">
-            1. Apply to become instructor
-          </h3>
-          <p class="mt-2 text-gray-600">
-            Just create an account for free. Be sure to indicate that you want
-            to be an instructor.
-          </p>
-        </div>
-        <div class="flex flex-col items-center rounded bg-white p-6">
-          <LandingUiIconsInstructorsPlay />
-          <h3 class="mt-4 text-2xl font-bold text-black">
-            2. Create your new course
-          </h3>
-          <p class="mt-2 text-gray-600">
-            Start creating your study materials and assign students to them
-            right away.
-          </p>
-        </div>
-        <div class="flex flex-col items-center rounded bg-white p-6">
-          <LandingUiIconsInstructorsHandshake />
-          <h3 class="mt-4 text-2xl font-bold text-black">
-            3. Start teaching & earning
-          </h3>
-          <p class="mt-2 flex-wrap text-gray-600">
-            Right on! Yes, it’s that easy. You’re all set. Congratulations!
+        <div
+          v-for="(step, index) in instructorSteps"
+          :key="index"
+          class="animate-slide-up flex flex-col items-center rounded bg-white p-6 text-center lg:text-wrap"
+          :style="{ 'animation-delay': `${index * 0.2}s` }"
+        >
+          <component :is="step.icon" />
+          <h3 class="mt-4 text-xl font-bold text-black">{{ step.title }}</h3>
+          <p class="text-md mt-2 text-center text-gray-600">
+            {{ step.description }}
           </p>
         </div>
       </div>
@@ -195,83 +171,261 @@
 
     <!-- Start Teaching with Us -->
     <div
-      class="flex flex-col items-center justify-center gap-10 bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
+      class="animate-fade-in flex flex-col items-center justify-center gap-10 rounded-b-md bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
     >
-      <div class="flex flex-col items-center lg:items-start lg:text-left">
-        <h2 class="text-4xl font-bold text-white">
-          Start teaching with us <br />
-          and inspire others
+      <div
+        class="flex w-[100%] flex-col items-center text-center lg:w-[50%] lg:items-start lg:text-wrap lg:text-left"
+      >
+        <h2 class="animate-slide-up text-3xl font-bold text-white lg:text-left">
+          Start teaching with us and inspire others
         </h2>
-        <p class="mt-4 text-white">
-          Become an instructor & start teaching with other certified <br />
-          instructors. Create a success story with our dedicated <br />
-          learners — Grow yourself with from different countries.
-        </p>
-        <a
-          href="/auth/sign-up"
-          class="mt-8 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:bg-[#4A2DCA]"
-          >Sign up now</a
+        <p
+          class="animate-slide-up mt-4 text-white"
+          style="animation-delay: 0.2s"
         >
+          Become an instructor & start teaching with other certified
+          instructors. Create a success story with our dedicated learners — Grow
+          yourself with from different countries.
+        </p>
+        <NuxtLink
+          to="/auth/sign-up"
+          class="mt-10 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+        >
+          Sign up now
+        </NuxtLink>
       </div>
-      <div class="mt-10 lg:mt-0">
-        <LandingUiIconsTeachwithusAdimage width="100%" height="" />
+      <div class="animate-slide-up mt-10 lg:mt-0" style="animation-delay: 0.6s">
+        <LandingUiIconsTeachwithusAdimage
+          width="100%"
+          height=""
+          class="transition duration-300 hover:scale-105"
+        />
       </div>
     </div>
 
     <!-- Learn from Experts -->
-    <div class="flex flex-col items-center gap-10 bg-white px-4 py-20">
+    <div class="flex flex-col items-center gap-2 bg-white px-4 py-20 lg:gap-10">
       <div
-        class="flex flex-col items-center justify-between gap-16 lg:flex-row"
+        class="animate-fade-in flex flex-col items-center justify-between gap-16 lg:flex-row"
       >
-        <div>
-          <LandingUiIconsMoreinfoFirstUser width="100%" height="" />
+        <div class="animate-slide-up">
+          <LandingUiIconsMoreinfoFirstUser
+            width="100%"
+            class="h-[100%] transition duration-300 hover:scale-105 lg:h-[30rem]"
+          />
         </div>
-        <div class="lg:text-left">
-          <h2 class="text-4xl font-bold text-[#5D3BEA]">
+        <div class="w-[100%] lg:w-[50%] lg:text-left">
+          <h2
+            class="animate-slide-up text-center text-4xl font-bold text-[#5D3BEA] lg:text-wrap lg:text-left"
+          >
             <span class="text-[#F48C06]">Tools</span> For Teachers <br />
             And Learners
           </h2>
-          <p class="mt-4 text-gray-600">
-            QUASI AI has a dynamic set of teaching tools built <br />
-            just for you, whether you are a student or teacher. <br />
-            Teachers can handout assignments in real-time for <br />
-            students to complete and submit.
+          <p
+            class="animate-slide-up mt-4 text-center text-gray-600 lg:text-wrap"
+            style="animation-delay: 0.2s"
+          >
+            QUASI AI has a dynamic set of teaching tools built just for you,
+            whether you are a student or teacher. Teachers can handout
+            assignments in real-time for students to complete and submit.
           </p>
         </div>
       </div>
       <div
-        class="mt-20 flex flex-col items-center justify-between gap-16 border-t border-gray-200 py-16 lg:flex-row lg:border-none"
+        class="animate-fade-in mt-20 flex flex-col items-center justify-between gap-16 border-t border-gray-200 py-16 text-center lg:flex-row lg:text-wrap lg:border-none"
       >
-        <div class="lg:text-left">
-          <h2 class="text-4xl font-bold text-[#5D3BEA]">
-            Learn from 20+ Expert <br />
-            Instructors
+        <div class="w-[100%] lg:w-[50%] lg:text-left">
+          <h2
+            class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-left lg:text-4xl"
+          >
+            Learn from 20+ Expert <br />Instructors
           </h2>
-          <p class="mt-4 text-gray-600">
-            Gain knowledge from a diverse team of experienced <br />
-            professionals across various fields. Our instructors bring <br />
-            real-world expertise, ensuring you get the best guidance <br />
-            and insights to excel in your learning journey.
+          <p
+            class="animate-slide-up mt-4 text-gray-600"
+            style="animation-delay: 0.2s"
+          >
+            Gain knowledge from a diverse team of experienced professionals
+            across various fields. Our instructors bring real-world expertise,
+            ensuring you get the best guidance and insights to excel in your
+            learning journey.
           </p>
           <LandingUiIconsMoreinfoTestimonial
             width="100%"
             height=""
-            class="mt-6"
+            class="animate-slide-up mt-6"
+            style="animation-delay: 0.4s"
           />
-          <div class="mt-2 flex items-center gap-4">
-            <LandingUiIconsMoreinfoPaginations width="60px" height="" />
-          </div>
         </div>
-        <div>
-          <LandingUiIconsMoreinfoSecondUser width="100%" height="" />
+        <div class="animate-slide-up" style="animation-delay: 0.2s">
+          <LandingUiIconsMoreinfoSecondUser
+            width="100%"
+            class="h-[100%] transition duration-300 hover:scale-105 lg:h-[30rem]"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'LandingPage'
+<script setup>
+import { whyChooseItems, instructorSteps } from '@/constants/landing'
+import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
+import LandingUiIconsFeaturesFlashcards from '@/components/landing/ui/icons/features/flashcards.vue'
+import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
+import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
+import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
+import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
+
+const features = ref([
+  {
+    icon: LandingUiIconsFeaturesQuestions,
+    title: 'Questions',
+    description: '63,476 questions',
+    bgColor: 'bg-[#EBEBFF]'
+  },
+  {
+    icon: LandingUiIconsFeaturesFlashcards,
+    title: 'Smart Flashcards',
+    description: 'About 2,736 cards',
+    bgColor: 'bg-[#FFF2E5]'
+  },
+  {
+    icon: LandingUiIconsFeaturesTutors,
+    title: 'Tutors',
+    description: 'More than you imagine',
+    bgColor: 'bg-[#FFEEE8]'
+  },
+  {
+    icon: LandingUiIconsFeaturesAitutors,
+    title: 'AI Authors',
+    description: 'So many of them',
+    bgColor: 'bg-[#FFFFFF]'
+  },
+  {
+    icon: LandingUiIconsFeaturesQuizzes,
+    title: 'Quizzes',
+    description: 'About 13,932 quizzes',
+    bgColor: 'bg-[#F5F7FA]'
+  },
+  {
+    icon: LandingUiIconsFeaturesEssay,
+    title: 'Essay Analyzer',
+    description: '22,649 essays',
+    bgColor: 'bg-[#FFF0F0]'
+  }
+])
+
+// Text Animation
+const fullText =
+  'Transform Your Learning Experience with <span style="color:#5D3BEA">Quasi AI</span>'
+const displayedText = ref('')
+let index = 0
+
+const typeEffect = () => {
+  displayedText.value = ''
+  index = 0
+
+  const tempDiv = document.createElement('div')
+  tempDiv.innerHTML = fullText
+  const characters = tempDiv.innerHTML.split('')
+
+  const interval = setInterval(() => {
+    if (index < characters.length) {
+      displayedText.value += characters[index]
+      index++
+    } else {
+      clearInterval(interval)
+      setTimeout(typeEffect, 1500)
+    }
+  }, 50)
 }
+
+onMounted(typeEffect)
+
+// Animation
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(
+            `animate-${entry.target.dataset.animation}`
+          )
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { threshold: 0.1 }
+  )
+
+  document
+    .querySelectorAll('[data-animation]')
+    .forEach(el => observer.observe(el))
+})
 </script>
+
+<style scoped>
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 2s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 3s ease-out forwards;
+}
+
+/* Wrapper to enable overflow hidden */
+.brand-slider-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+/* The flex container that will move left infinitely */
+.brand-slider {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  animation: scroll 15s linear infinite;
+}
+
+/* Individual brand icons */
+.brand-icon {
+  flex-shrink: 0;
+  width: 80px;
+  height: auto;
+  transition: transform 0.3s;
+}
+
+.brand-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Keyframes animation */
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+</style>
