@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed left-0 top-0 flex h-screen w-64 flex-col justify-between bg-white shadow-md dark:bg-[#111C44]"
+    class="fixed left-0 top-0 hidden h-screen w-64 flex-col justify-between bg-white shadow-md md:flex dark:bg-[#111C44]"
   >
     <!-- Logo Section -->
     <div class="p-5">
@@ -23,12 +23,10 @@
           <NuxtLink
             :to="item.route"
             class="flex items-center gap-3 rounded-lg p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-300 dark:hover:bg-gray-800"
-            :class="{
-              'bg-[#5D3BEA] text-white dark:text-gray-300': isActive(item.route)
-            }"
+            :class="{ 'bg-[#5D3BEA] text-white': isActive(item.route) }"
           >
             <component :is="item.icon" class="h-5 w-5" />
-            <span class="text-sm font-medium">{{ item.label }}</span>
+            <span class="text-sm font-medium">{{ item.fullLabel }}</span>
           </NuxtLink>
         </li>
       </ul>
@@ -36,15 +34,17 @@
 
     <!-- Footer Section -->
     <div class="space-y-2 px-4 pb-4">
+      <!-- Dark Mode Toggle -->
       <button
-        class="flex items-center gap-3 text-gray-600 hover:text-[#5D3BEA] dark:text-gray-400"
+        class="flex w-full items-center gap-3 p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-400 dark:hover:bg-gray-800"
       >
         <MoonIcon class="h-5 w-5" />
         <span class="text-sm">Dark Mode</span>
       </button>
 
+      <!-- Contact Support -->
       <button
-        class="flex items-center gap-3 text-gray-600 hover:text-[#5D3BEA] dark:text-gray-400"
+        class="flex w-full items-center gap-3 p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-400 dark:hover:bg-gray-800"
       >
         <QuestionMarkCircleIcon class="h-5 w-5" />
         <span class="text-sm">Contact Support</span>
@@ -74,7 +74,6 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
 import {
   Squares2X2Icon,
   CubeIcon,
@@ -88,10 +87,14 @@ import {
 const route = useRoute()
 
 const menuItems = [
-  { label: 'Dashboard', route: '/dashboard', icon: Squares2X2Icon },
-  { label: 'Apps', route: '/apps', icon: CubeIcon },
-  { label: 'Games', route: '/games', icon: AcademicCapIcon },
-  { label: 'Past Questions', route: '/past-questions', icon: DocumentTextIcon }
+  { fullLabel: 'Dashboard', route: '/dashboard', icon: Squares2X2Icon },
+  { fullLabel: 'Apps', route: '/apps', icon: CubeIcon },
+  { fullLabel: 'Games', route: '/games', icon: AcademicCapIcon },
+  {
+    fullLabel: 'Past Questions',
+    route: '/past-questions',
+    icon: DocumentTextIcon
+  }
 ]
 
 const isActive = path => route.fullPath.startsWith(path)
