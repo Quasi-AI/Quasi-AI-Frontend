@@ -100,7 +100,7 @@
 </template>
 
 <script setup>
-import Loader from '@/components/loader/Loader.vue'
+import Loader from '@/components/common/loader/Loader.vue'
 import { useAuthenticationStore } from '~/store/auth'
 
 const password = ref('')
