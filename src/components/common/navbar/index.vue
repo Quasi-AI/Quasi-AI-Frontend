@@ -75,7 +75,7 @@ const profileList = [
   ]
 ]
 
-const color = computed(() => (colorMode.value === 'dark' ? '#0C1438' : 'white'))
+const color = computed(() => (colorMode.value === 'dark' ? '#111C44' : 'white'))
 
 useHead({
   meta: [
