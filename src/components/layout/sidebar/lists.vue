@@ -34,14 +34,6 @@
 
     <!-- Footer Section -->
     <div class="space-y-2 px-4 pb-4">
-      <!-- Dark Mode Toggle -->
-      <button
-        class="flex w-full items-center gap-3 p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-400 dark:hover:bg-gray-800"
-      >
-        <MoonIcon class="h-5 w-5" />
-        <span class="text-sm">Dark Mode</span>
-      </button>
-
       <!-- Contact Support -->
       <button
         class="flex w-full items-center gap-3 p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-400 dark:hover:bg-gray-800"
@@ -54,16 +46,17 @@
       <div
         class="mt-4 flex items-center gap-3 rounded-lg bg-gray-100 p-3 dark:bg-[#0C1438]"
       >
-        <img
-          src="https://randomuser.me/api/portraits/women/50.jpg"
-          alt="User"
-          class="h-10 w-10 rounded-full"
+        <LayoutProfileImage
+          :img-src="userInfo?.profileImage"
+          :name="userInfo?.name"
+          :scale="true"
+          baseClass="h-10 w-10"
         />
-        <div class="flex-1">
+        <div class="w-12 flex-1 truncate">
           <h4 class="text-sm font-semibold text-gray-800 dark:text-white">
-            Philomena
+            {{ userInfo?.name }}
           </h4>
-          <p class="text-xs text-gray-500">rexton@gmail.com</p>
+          <p class="text-xs text-gray-500">{{ userInfo?.email }}</p>
         </div>
         <ArrowRightOnRectangleIcon
           class="h-5 w-5 cursor-pointer text-gray-500"
@@ -79,12 +72,13 @@ import {
   CubeIcon,
   AcademicCapIcon,
   DocumentTextIcon,
-  MoonIcon,
   QuestionMarkCircleIcon,
   ArrowRightOnRectangleIcon
 } from '@heroicons/vue/24/outline'
+import { useUser } from '~/composables/useUser'
 
 const route = useRoute()
+const { userInfo } = useUser()
 
 const menuItems = [
   { fullLabel: 'Dashboard', route: '/dashboard', icon: Squares2X2Icon },
