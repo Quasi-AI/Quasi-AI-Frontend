@@ -11,7 +11,7 @@
       <h1 class="text-2xl font-bold">QUASI AI</h1>
     </NuxtLink>
 
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2">
       <lightModeIcon
         v-if="!isDark"
         @click="isDark = !isDark"
