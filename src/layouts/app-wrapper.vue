@@ -9,7 +9,7 @@
       </div>
 
       <!-- Main Content (Pushes Right) -->
-      <div class="ml-20 h-screen flex-1">
+      <div class="ml-20 flex-1">
         <div class="overflow-auto py-10">
           <slot name="apps"></slot>
         </div>
