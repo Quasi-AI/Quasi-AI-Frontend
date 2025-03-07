@@ -16,7 +16,7 @@
         to="/apps"
         class="mt-4 rounded-lg bg-[#5D3BEA] px-4 py-2 font-medium text-white transition hover:bg-[#4a2fba]"
       >
-        Go to apps
+        Go to Apps
       </NuxtLink>
     </div>
   </div>
