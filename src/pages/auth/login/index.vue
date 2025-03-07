@@ -92,7 +92,7 @@
         >
           <span v-if="!isLoading">Login</span>
           <span v-else class="flex items-center">
-            <Loader class="h-5 w-5 animate-spin" />
+            <CommonLoader class="h-5 w-5 animate-spin" />
           </span>
         </UButton>
         <div class="mb-4 flex items-center justify-center">

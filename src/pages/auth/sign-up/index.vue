@@ -101,7 +101,7 @@
         >
           <span v-if="!isLoading">Sign Up</span>
           <span v-else class="flex items-center">
-            <Loader class="h-5 w-5 animate-spin" />
+            <CommonLoader class="h-5 w-5 animate-spin" />
           </span>
         </UButton>
         <div class="mb-4 flex items-center justify-center">
@@ -164,7 +164,6 @@
 <script setup>
 import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
 import { isValidEmail } from '@/utils/isValidEmail'
-import Loader from '@/components/common/loader/Loader.vue'
 import { useAuthenticationStore } from '~/store/auth'
 import axios from 'axios'
 import { auth, provider, signInWithPopup } from '~/utils/firebase'
