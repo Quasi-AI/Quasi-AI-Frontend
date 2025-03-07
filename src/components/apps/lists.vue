@@ -1,24 +1,27 @@
 <template>
   <div class="flex flex-col items-center px-4 py-10 lg:px-0">
-    <div class="mt-10 grid max-w-6xl grid-cols-2 gap-8 lg:grid-cols-3">
+    <div
+      class="mt-10 grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-2"
+    >
       <div
         v-for="(feature, index) in features"
         :key="index"
         @click="navigateTo(feature.route)"
-        class="flex cursor-pointer items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-[#111C44]"
+        class="flex cursor-pointer items-start gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-[#111C44]"
         :class="feature.bgColor"
         :style="{ 'animation-delay': `${index * 0.2}s` }"
         v-animate-onscroll="'slide-up'"
       >
         <!-- Icon Container with Blur in Dark Mode -->
         <span
-          class="flex items-center justify-center rounded-lg"
+          class="flex shrink-0 items-center justify-center rounded-lg"
           :class="['dark:backdrop-blur-sm']"
         >
           <component :is="feature.icon" class="h-10 w-10" />
         </span>
 
-        <div class="mt-4">
+        <!-- Content (Title + Description) -->
+        <div class="flex-1">
           <h3 class="text-xl font-bold">{{ feature.title }}</h3>
           <p class="text-gray-600 dark:text-gray-400">
             {{ feature.description }}
@@ -66,12 +69,12 @@ const features = [
     bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]'
   },
   {
-    icon: LandingUiIconsFeaturesAitutors,
-    title: 'AI Tutors',
+    icon: LandingUiIconsFeaturesQuizzes,
+    title: 'Essay Analyzer',
     description:
-      'Get instant explanations and answers to your questions about the material.',
-    route: '/apps/ai-tutor',
-    bgColor: 'bg-[#FFFFFF] dark:bg-[#21263A]'
+      'Get feedback on your essays, including grammar and structure improvements.',
+    route: '/apps/essay',
+    bgColor: 'bg-[#FFF0F0] dark:bg-[#352F44]'
   },
   {
     icon: LandingUiIconsFeaturesEssay,
@@ -81,13 +84,14 @@ const features = [
     route: '/apps/quizzes',
     bgColor: 'bg-[#F5F7FA] dark:bg-[#232D4B]'
   },
+
   {
-    icon: LandingUiIconsFeaturesQuizzes,
-    title: 'Essay Analyzer',
+    icon: LandingUiIconsFeaturesAitutors,
+    title: 'AI Tutors',
     description:
-      'Get feedback on your essays, including grammar and structure improvements.',
-    route: '/apps/essay',
-    bgColor: 'bg-[#FFF0F0] dark:bg-[#352F44]'
+      'Get instant explanations and answers to your questions about the material.',
+    route: '/apps/ai-tutor',
+    bgColor: 'bg-[#FFFFFF] dark:bg-[#21263A]'
   },
   {
     icon: LandingUiIconsFeaturesSpeech,
