@@ -15,7 +15,7 @@
 
   <!-- Header -->
   <div
-    class="p-2 flex w-full items-center justify-center bg-white lg:justify-end lg:p-5 dark:bg-[#111C44] dark:text-white"
+    class="flex w-full items-center justify-center bg-white p-2 lg:justify-end lg:p-5 dark:bg-[#111C44] dark:text-white"
   >
     <div class="mx-2 flex flex-col items-center justify-center">
       <UInput
