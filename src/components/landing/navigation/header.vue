@@ -65,10 +65,10 @@
     </div>
 
     <NuxtLink
-      to="/auth/login"
+      to="/auth/sign-up"
       class="hidden rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA] lg:block"
     >
-     Log In
+      Start for free
     </NuxtLink>
   </div>
 </template>
