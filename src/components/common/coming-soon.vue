@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex h-full items-center justify-center bg-[#F4F7FE] md:h-screen dark:bg-[#0C1438]"
-  >
+  <div class="flex items-center justify-center bg-[#F4F7FE] dark:bg-[#0C1438]">
     <div
       class="max-w-md rounded-2xl bg-white p-6 text-center shadow-lg dark:bg-[#111C44]"
     >
