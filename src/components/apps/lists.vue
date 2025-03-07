@@ -33,9 +33,7 @@ import {
   BoltIcon,
   UserGroupIcon,
   PencilSquareIcon,
-  MicrophoneIcon,
-  DocumentDuplicateIcon,
-  PhoneArrowDownLeftIcon
+  MicrophoneIcon
 } from '@heroicons/vue/24/outline'
 
 const router = useRouter()
@@ -44,63 +42,49 @@ const features = [
   {
     label: 'Smart Flashcards',
     icon: DocumentTextIcon,
-    route: '/dashboard/flashcards',
+    route: '/apps/flashcards',
     description:
       'AI-powered flashcard generation from your learning materials with spaced repetition.'
   },
   {
     label: 'Practice Quizzes',
     icon: ClipboardIcon,
-    route: '/dashboard/quizzes',
+    route: '/apps/quizzes',
     description:
       'Automatically generated quizzes to test understanding and track progress.'
   },
   {
     label: 'Questions',
     icon: ChatBubbleBottomCenterTextIcon,
-    route: '/dashboard/questions',
+    route: '/apps/questions',
     description: 'Ask and answer questions from a large knowledge base.'
   },
   {
     label: 'AI Tutors',
     icon: BoltIcon,
-    route: '/dashboard/ai-tutor',
+    route: '/apps/ai-tutor',
     description:
       'Get instant explanations and answers to your questions about the material.'
   },
   {
     label: 'Find Tutors',
     icon: UserGroupIcon,
-    route: '/dashboard/find-tutors',
+    route: '/apps/find-tutors',
     description: 'Connect with expert tutors for personalized learning.'
   },
   {
     label: 'Essay Analyzer',
     icon: PencilSquareIcon,
-    route: '/dashboard/essay',
+    route: '/apps/essay',
     description:
       'Get feedback on your essays, including grammar and structure improvements.'
   },
   {
     label: 'Speech to Text',
     icon: MicrophoneIcon,
-    route: '/dashboard/speech-to-text',
+    route: '/apps/speech-to-text',
     description:
       'Convert spoken words into accurate text for learning and note-taking.'
-  },
-  {
-    label: 'Plagiarism Checker',
-    icon: DocumentDuplicateIcon,
-    route: '/dashboard/plagiarism',
-    description:
-      'Ensure originality in your writing with an AI-powered plagiarism detection tool.'
-  },
-  {
-    label: '24/7 Support',
-    icon: PhoneArrowDownLeftIcon,
-    route: '/dashboard/support',
-    description:
-      'We offer live chat support and encourage you to send us feedback to ensure uninterrupted service.'
   }
 ]
 
