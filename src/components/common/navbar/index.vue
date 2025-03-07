@@ -1,9 +1,8 @@
 <template>
-  <!-- Show brand on mobile only -->
   <div
-    class="flex w-full items-center justify-center bg-white p-3 font-semibold lg:hidden dark:bg-[#111C44] dark:text-white"
+    class="flex w-full items-center justify-between bg-white p-2 lg:justify-end lg:p-5 dark:bg-[#111C44] dark:text-white"
   >
-    <NuxtLink to="/" class="flex w-40 items-center gap-2 truncate">
+    <NuxtLink to="/" class="flex w-40 items-center gap-2 truncate lg:hidden">
       <img
         src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
         alt="logo"
@@ -11,37 +10,8 @@
       />
       <span>QUASI AI</span>
     </NuxtLink>
-  </div>
 
-  <!-- Header -->
-  <div
-    class="flex w-full items-center justify-center bg-white p-2 lg:justify-end lg:p-5 dark:bg-[#111C44] dark:text-white"
-  >
-    <div class="mx-2 flex flex-col items-center justify-center">
-      <UInput
-        v-model="q"
-        name="q"
-        placeholder="Search..."
-        icon="i-heroicons-magnifying-glass-20-solid"
-        autocomplete="off"
-        :ui="{ icon: { trailing: { pointer: '' } } }"
-        variant="none"
-        class="rounded-2xl bg-[#F1F3FE] lg:w-40 dark:bg-[#0C1438] dark:text-white"
-      >
-        <template #trailing>
-          <UButton
-            v-show="q !== ''"
-            color="gray"
-            variant="link"
-            icon="i-heroicons-x-mark-20-solid"
-            :padded="false"
-            @click="q = ''"
-          />
-        </template>
-      </UInput>
-    </div>
-
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-4">
       <lightModeIcon
         v-if="!isDark"
         @click="isDark = !isDark"
@@ -114,11 +84,6 @@ useHead({
     { key: 'theme-color', name: 'theme-color', content: color }
   ],
   link: [
-    {},
-    {
-      href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
-      rel: 'stylesheet'
-    },
     {
       rel: 'icon',
       type: 'image/x-icon',
