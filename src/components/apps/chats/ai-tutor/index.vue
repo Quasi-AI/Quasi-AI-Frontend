@@ -1,5 +1,5 @@
 <template>
-  <AppsChatbot
+  <AppsChatsChatbot
     :inputPlaceholder="'Ask Quasi ai...'"
     :initialMessage="quasiAiTutor"
   />

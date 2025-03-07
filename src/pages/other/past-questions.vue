@@ -5,7 +5,7 @@
     </template>
     <template #apps>
       <CommonNavbar />
-      <Apps />
+      <AppsPastQuestions />
     </template>
   </NuxtLayout>
 </template>

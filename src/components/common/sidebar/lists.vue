@@ -36,8 +36,9 @@
     <div class="space-y-2 px-4 pb-4">
       <!-- Contact Support -->
       <NuxtLink
-        to="/apps/support"
-        class="flex w-full items-center gap-3 p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-400 dark:hover:bg-gray-800"
+        to="/other/support"
+        class="flex items-center gap-3 rounded-lg p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-300 dark:hover:bg-gray-800"
+        :class="{ 'bg-[#5D3BEA] text-white': isActive('/other/support') }"
       >
         <QuestionMarkCircleIcon class="h-5 w-5" />
         <span class="text-sm">Contact Support</span>
@@ -47,11 +48,12 @@
       <div
         class="mt-4 flex items-center gap-3 rounded-lg bg-gray-100 p-3 dark:bg-[#0C1438]"
       >
-        <LayoutProfileImage
+        <CommonProfileImage
           :img-src="userInfo?.profileImage"
           :name="userInfo?.name"
           :scale="true"
           baseClass="h-10 w-10"
+          :class="[isUserRoute ? 'rounded-full ring-2 ring-blue-500' : '']"
         />
         <div class="w-12 flex-1 truncate">
           <h4 class="text-sm font-semibold text-gray-800 dark:text-white">
@@ -80,14 +82,15 @@ import { useUser } from '~/composables/useUser'
 
 const route = useRoute()
 const { userInfo } = useUser()
+const isUserRoute = computed(() => route.path === '/user')
 
 const menuItems = [
   { fullLabel: 'Dashboard', route: '/dashboard', icon: Squares2X2Icon },
   { fullLabel: 'Apps', route: '/apps', icon: CubeIcon },
-  { fullLabel: 'Games', route: '/games', icon: AcademicCapIcon },
+  { fullLabel: 'Games', route: '/other/games', icon: AcademicCapIcon },
   {
     fullLabel: 'Past Questions',
-    route: '/past-questions',
+    route: '/other/past-questions',
     icon: DocumentTextIcon
   }
 ]

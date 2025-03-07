@@ -1,5 +1,5 @@
 <template>
   <div>
-    <LayoutSidebarLists />
+    <CommonSidebarLists />
   </div>
 </template>

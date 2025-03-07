@@ -10,19 +10,19 @@
 import Questions from '@/components/apps/questions/index.vue'
 import FlashCards from '@/components/apps/flashcards/index.vue'
 import Quizzes from '@/components/apps/quizzes/index.vue'
-import AiTutor from '@/components/apps/ai-tutor/index.vue'
-import SmartTuroting from '@/components/apps/smart-tutoring/index.vue'
+import AiTutor from '@/components/apps/chats/ai-tutor/index.vue'
 import FindTutors from '@/components/apps/find-tutors/index.vue'
 import Essay from '@/components/apps/essay/index.vue'
 import SpeechToText from '@/components/apps/speech-to-text/index.vue'
-import Plan from '@/components/apps/plan/index.vue'
+import Plan from '@/components/apps/other/plan/index.vue'
 import LearningGames from '@/components/apps/games/index.vue'
-import CustomerSupport from '@/components/apps/support/index.vue'
+import CustomerSupport from '@/components/apps/other/support/index.vue'
 import Dashboard from '@/components/apps/lists.vue'
 
 const route = useRoute()
 
 const componentsMap = {
+  '/apps': Dashboard,
   '/apps/questions': Questions,
   '/apps/flashcards': FlashCards,
   '/apps/quizzes': Quizzes,
@@ -30,12 +30,10 @@ const componentsMap = {
   '/apps/find-tutors': FindTutors,
   '/apps/essay': Essay,
   '/apps/speech-to-text': SpeechToText,
-  '/apps/support': CustomerSupport,
-  '/plan': Plan,
-  '/games': LearningGames,
-  '/smart-tutoring': SmartTuroting,
-  '/past-questions?type=past-questions': Questions,
-  '/apps': Dashboard
+  '/other/support': CustomerSupport,
+  '/other/games': LearningGames,
+  '/other/past-questions?type=past-questions': Questions,
+  '/plan': Plan
 }
 
 const currentComponent = computed(() => {

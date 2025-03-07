@@ -1,6 +1,6 @@
 <template>
   <div class="my-6 flex flex-col items-center justify-center">
-    <LayoutProfileImage
+    <CommonProfileImage
       :img-src="profileImageSrc"
       :name="userInfo?.name"
       :scale="true"

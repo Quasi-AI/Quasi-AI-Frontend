@@ -48,13 +48,13 @@ const menuItems = [
   {
     fullLabel: 'Games',
     mobileLabel: 'Games',
-    route: '/games',
+    route: '/other/games',
     icon: AcademicCapIcon
   },
   {
     fullLabel: 'Past Questions',
     mobileLabel: 'Questions',
-    route: '/past-questions',
+    route: '/other/past-questions',
     icon: DocumentTextIcon
   }
 ]

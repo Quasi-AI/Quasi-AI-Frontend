@@ -49,11 +49,12 @@
             :popper="{ placement: 'right-start' }"
             :items="profileList"
           >
-            <LayoutProfileImage
+            <CommonProfileImage
               :img-src="userInfo?.profileImage"
               :name="userInfo?.name"
               :scale="true"
               baseClass="w-[30px] h-[30px]"
+              :class="[isUserRoute ? 'rounded-full ring-2 ring-blue-500' : '']"
             />
           </UDropdown>
         </p>
@@ -70,6 +71,9 @@ import { useUser } from '~/composables/useUser'
 
 const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
+const route = useRoute()
+
+const isUserRoute = computed(() => route.path === '/user')
 
 const q = ref('')
 const colorMode = useColorMode()

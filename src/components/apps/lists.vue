@@ -106,7 +106,7 @@ const features = [
     title: 'Customer Support',
     description:
       'We offer live chat support and encourage you to send us feedback to ensure uninterrupted service.',
-    route: '/apps/support',
+    route: '/other/support',
     bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]'
   }
 ]

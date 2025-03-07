@@ -12,7 +12,7 @@
       <div class="flex-1">
         <div class="overflow-y-auto overflow-x-hidden">
           <slot name="apps"></slot>
-          <LayoutNavbarBottom />
+          <CommonNavbarBottom />
         </div>
       </div>
     </div>

@@ -64,7 +64,7 @@
       >
         <span v-if="!isLoading">Generate Flashcards</span>
         <span v-else class="flex items-center rounded-2xl">
-          <Loader class="h-5 w-5" />
+          <CommonLoader class="h-5 w-5" />
         </span>
       </UButton>
 
@@ -122,7 +122,6 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import Loader from '@/components/loader/Loader.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import * as pdfjsLib from 'pdfjs-dist'
