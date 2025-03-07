@@ -36,8 +36,9 @@
     <div class="space-y-2 px-4 pb-4">
       <!-- Contact Support -->
       <NuxtLink
-        to="/apps/support"
-        class="flex w-full items-center gap-3 p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-400 dark:hover:bg-gray-800"
+        to="/other/support"
+        class="flex items-center gap-3 rounded-lg p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-300 dark:hover:bg-gray-800"
+        :class="{ 'bg-[#5D3BEA] text-white': isActive('/other/support') }"
       >
         <QuestionMarkCircleIcon class="h-5 w-5" />
         <span class="text-sm">Contact Support</span>
