@@ -1,8 +1,6 @@
 <template>
-  <div class="flex flex-col items-center px-4 py-10 lg:px-0">
-    <div
-      class="mt-10 grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-2"
-    >
+  <div class="flex flex-col items-center p-4 lg:px-0">
+    <div class="grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2">
       <div
         v-for="(feature, index) in features"
         :key="index"
