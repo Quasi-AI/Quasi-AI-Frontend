@@ -1,10 +1,10 @@
 <template>
   <NuxtLayout name="app-wrapper">
     <template #sidebar>
-      <LayoutSidebar />
+      <CommonSidebar />
     </template>
     <template #apps>
-      <LayoutNavbar />
+      <CommonNavbar />
       <CommonComingSoon />
     </template>
   </NuxtLayout>
