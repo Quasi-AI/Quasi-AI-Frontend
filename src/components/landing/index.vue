@@ -2,15 +2,15 @@
   <div class="z-10 xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 pb-0 text-center lg:text-wrap lg:py-5"
+      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] pb-0 text-center lg:text-wrap lg:py-5"
     >
       <h1
-        class="h-[120px] w-[100%] text-3xl font-bold leading-tight text-[#190A53] lg:h-[80px] lg:w-[35%]"
+        class="h-[120px] w-[100%] px-4 text-3xl font-bold leading-tight text-[#190A53] lg:h-[80px] lg:w-[35%]"
       >
         <span v-html="displayedText"></span>
       </h1>
       <p
-        class="animate-slide-up mt-4 w-[100%] text-wrap text-sm text-gray-600 lg:w-[33%] lg:text-wrap"
+        class="animate-slide-up mt-4 w-[100%] text-wrap px-4 text-sm text-gray-600 lg:w-[33%] lg:text-wrap"
         style="animation-delay: 0.4s"
       >
         Generate flashcards, quizzes, and study materials instantly from your
@@ -361,6 +361,14 @@ onMounted(() => {
   document
     .querySelectorAll('[data-animation]')
     .forEach(el => observer.observe(el))
+})
+
+useHead({
+  meta: [
+    { charset: 'utf-8' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { key: 'theme-color', name: 'theme-color', content: '#E4E0F4' }
+  ]
 })
 </script>
 
