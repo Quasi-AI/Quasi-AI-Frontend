@@ -4,21 +4,21 @@
     <div class="mb-4 flex flex-col gap-4 lg:flex-row">
       <UInput
         variant="none"
-        class="my-2 rounded-lg pr-6 bg-gray-200 p-2 dark:bg-[#111C44]"
+        class="my-2 rounded-lg bg-gray-200 p-2 pr-6 dark:bg-[#111C44]"
         placeholder="Enter Category, topic or subject"
         v-model="selectedCategory"
         maxLength="250"
       />
       <select
         v-model="selectedAge"
-        class="my-2 rounded-lg pr-6 bg-gray-200 p-2 dark:bg-[#111C44]"
+        class="my-2 rounded-lg bg-gray-200 p-2 pr-6 dark:bg-[#111C44]"
       >
         <option value="">All Ages</option>
         <option v-for="age in ages" :key="age" :value="age">{{ age }}</option>
       </select>
       <select
         v-model="selectedLevel"
-        class="my-2 rounded-lg pr-6 bg-gray-200 p-2 dark:bg-[#111C44]"
+        class="my-2 rounded-lg bg-gray-200 p-2 pr-6 dark:bg-[#111C44]"
       >
         <option value="">All Levels</option>
         <option v-for="level in levels" :key="level" :value="level">
@@ -27,7 +27,7 @@
       </select>
       <button
         @click="generateFlashcards"
-        class="my-2 rounded-lg pr-6 bg-[#2e51ce] p-2 text-white"
+        class="my-2 rounded-lg bg-[#2e51ce] p-2 pr-6 text-white"
       >
         Generate Games
       </button>
