@@ -57,7 +57,7 @@
 
       <!-- Submit Button -->
       <UButton
-        class="rounded-2xl bg-[#5D3BEA] text-white"
+        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         :disabled="loading"
         @click="generateFlashcards"
         variant="blue"
@@ -290,10 +290,13 @@ const generateFlashcards = async () => {
 <style scoped>
 .flip-card {
   width: 100%;
-  max-width: 250px; /* Adjust width */
-  height: 180px; /* Adjust height */
+  max-width: 250px;
+  /* Adjust width */
+  height: 180px;
+  /* Adjust height */
   perspective: 1000px;
-  margin: auto; /* Center cards */
+  margin: auto;
+  /* Center cards */
 }
 
 .flip-card-inner {
@@ -325,19 +328,23 @@ const generateFlashcards = async () => {
 }
 
 .flip-card-front {
-  background-color: #2b6cb0; /* Nice blue */
+  background-color: #2b6cb0;
+  /* Nice blue */
   color: white;
 }
 
 .flip-card-back {
-  background-color: #38a169; /* Nice green */
+  background-color: #38a169;
+  /* Nice green */
   color: white;
   transform: rotateY(180deg);
 }
 
 .grid {
   display: grid;
-  gap: 16px; /* Space between cards */
-  justify-content: center; /* Center grid items */
+  gap: 16px;
+  /* Space between cards */
+  justify-content: center;
+  /* Center grid items */
 }
 </style>
