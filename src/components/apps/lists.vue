@@ -1,30 +1,28 @@
 <template>
-  <div class="animate-fade-in flex flex-col items-center p-4 lg:px-0">
+  <div
+    class="animate-fade-in grid flex-1 grid-cols-1 gap-8 lg:grid-cols-2 2xl:grid-cols-3"
+  >
     <div
-      class="grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2 2xl:grid-cols-3"
+      v-for="(feature, index) in features"
+      :key="index"
+      @click="navigateTo(feature.route)"
+      class="animate-slide-up flex cursor-pointer items-start gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-[#111C44]"
+      :class="feature.bgColor"
+      :style="{ animationDelay: `${index * 0.2}s` }"
     >
-      <div
-        v-for="(feature, index) in features"
-        :key="index"
-        @click="navigateTo(feature.route)"
-        class="animate-slide-up flex cursor-pointer items-start gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-[#111C44]"
-        :class="feature.bgColor"
-        :style="{ animationDelay: `${index * 0.2}s` }"
+      <!-- Icon -->
+      <span
+        class="flex shrink-0 items-center justify-center rounded-lg dark:backdrop-blur-sm"
       >
-        <!-- Icon Container with Blur in Dark Mode -->
-        <span
-          class="flex shrink-0 items-center justify-center rounded-lg dark:backdrop-blur-sm"
-        >
-          <component :is="feature.icon" class="h-10 w-10" />
-        </span>
+        <component :is="feature.icon" class="h-10 w-10" />
+      </span>
 
-        <!-- Content (Title + Description) -->
-        <div class="flex-1">
-          <h3 class="text-xl font-bold">{{ feature.title }}</h3>
-          <p class="text-gray-600 dark:text-gray-400">
-            {{ feature.description }}
-          </p>
-        </div>
+      <!-- Content -->
+      <div class="flex-1">
+        <h3 class="text-xl font-bold">{{ feature.title }}</h3>
+        <p class="text-gray-600 dark:text-gray-400">
+          {{ feature.description }}
+        </p>
       </div>
     </div>
   </div>
