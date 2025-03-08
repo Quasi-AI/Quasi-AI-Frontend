@@ -4,16 +4,16 @@
     <div
       ref="chatBodyRef"
       @scroll="handleScroll"
-      class="relative w-full max-w-2xl flex-1 overflow-y-auto p-4 pb-20"
+      class="relative w-full max-w-4xl flex-1 overflow-y-auto rounded-xl bg-white p-4 pb-20 dark:bg-[#111C44]"
     >
       <div
         v-for="(chat, index) in chatHistory"
         :key="index"
         :class="[
-          'mb-2 w-fit max-w-[75%] rounded-lg p-3',
+          'mb-2 w-fit rounded-lg p-3',
           chat.role === 'user'
             ? 'ml-auto bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
-            : 'mr-auto text-black dark:text-white'
+            : 'mr-auto border text-black dark:border-[#1E2A50] dark:text-white'
         ]"
       >
         <!-- Render Markdown Content -->
@@ -31,7 +31,7 @@
 
     <!-- Input Box -->
     <div
-      class="fixed bottom-8 left-2/3 z-10 w-full max-w-2xl -translate-x-2/3 transform p-4 lg:bottom-0 lg:z-0 lg:max-w-[730px] xl:max-w-3xl"
+      class="fixed bottom-8 left-1/2 z-10 w-full max-w-2xl -translate-x-1/2 transform p-4 lg:bottom-0 lg:left-[58%] lg:z-0 lg:max-w-[650px] xl:max-w-3xl"
     >
       <button
         v-if="showScrollButton"
@@ -85,14 +85,14 @@
 </template>
 
 <script setup lang="ts">
+import { marked } from 'marked'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github-dark.css'
 import sendMsgIcon from '@/assets/icons/send-msg.vue'
 import uploadIcon from '@/assets/icons/upload.vue'
 import recordIcon from '@/assets/icons/mic.vue'
 import { generateBotResponse } from '@/utils/chatbot'
 import type { ChatMessage } from '~/types/chatbot'
-import { marked } from 'marked'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/github-dark.css'
 
 const props = defineProps({
   inputPlaceholder: { type: String, default: 'Type a message...' },
