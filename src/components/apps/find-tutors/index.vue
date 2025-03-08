@@ -8,7 +8,7 @@
         type="text"
         v-model="searchQuery"
         placeholder="Search tutors by name or subject"
-        class="bg-gray-white my-2 w-full lg:w-[350px] rounded-lg p-2 dark:bg-[#111C44]"
+        class="bg-gray-white my-2 w-full rounded-lg p-2 lg:w-[350px] dark:bg-[#111C44]"
       />
 
       <button
@@ -31,7 +31,7 @@
         <img
           :src="tutor.image"
           alt="Tutor"
-          class="h-80 lg:h-40 w-full rounded-t-lg object-cover"
+          class="h-80 w-full rounded-t-lg object-cover lg:h-40"
         />
         <div class="p-2">
           <h2 class="mt-3 text-lg font-semibold">{{ tutor.name }}</h2>
@@ -76,7 +76,7 @@
             alt="Tutor"
             class="h-80 rounded-t-lg transition hover:opacity-80"
           />
-          <p class="mt-2 cursor-pointer text-sm hover:underline">
+          <p class="mt-2 cursor-pointer text-sm underline">
             Click to change picture
           </p>
         </div>
@@ -102,9 +102,9 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="mb-20 mt-6 lg:mb-0 fixed bottom-8 right-8">
+        <div class="mb-30 fixed bottom-8 right-8 mt-6 lg:mb-0">
           <button
-            class="hidden rounded-full bg-blue-600 px-16 py-2 text-white transition hover:bg-blue-700 lg:flex"
+            class="hidden rounded-full border px-16 py-2 text-blue-700 transition lg:flex dark:border-[#5D3BEA]"
             @click="openChat"
           >
             Chat
