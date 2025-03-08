@@ -26,7 +26,8 @@
       <div
         v-for="tutor in filteredTutors"
         :key="tutor.id"
-        class="cursor-pointer rounded-lg bg-white transition hover:shadow-xl dark:bg-[#111C44]"
+        class="animate-slide-up cursor-pointer rounded-lg bg-white transition-all duration-300 hover:shadow-xl dark:bg-[#111C44]"
+        :style="{ animationDelay: `${index * 0.2}s` }"
       >
         <img
           :src="tutor.image"
@@ -41,13 +42,13 @@
           <div class="mt-6 flex items-center justify-between">
             <p
               @click="openModal(tutor)"
-              class="truncate text-xs text-blue-500 underline transition hover:text-blue-600"
+              class="truncate text-sm font-medium text-blue-500 underline transition hover:text-blue-600"
             >
               View biography
             </p>
             <div class="flex items-center space-x-2">
-              <EditIcon />
-              <DeleteIcon />
+              <EditIcon class="h-4 w-4 cursor-pointer" />
+              <DeleteIcon class="h-4 w-4 cursor-pointer" />
             </div>
           </div>
         </div>
@@ -57,10 +58,12 @@
     <!-- Modal -->
     <div
       v-if="showModal"
-      class="animate-fade-in fixed inset-0 flex items-center justify-end overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm"
+      class="fixed inset-0 flex items-center justify-end overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm"
+      @click.self="closeModal"
     >
       <div
         class="relative flex h-full max-h-full w-full max-w-lg flex-col overflow-y-auto bg-white p-6 shadow-2xl dark:bg-[#111C44]"
+        @click.stop
       >
         <!-- Close Button -->
         <button
@@ -143,7 +146,7 @@
             <font-awesome-icon :icon="['fas', 'fa-calendar-alt']" />
           </button>
 
-          <!-- Video Call Button (Using FontAwesome) -->
+          <!-- Video Call Button -->
           <button
             class="ml-3 rounded-full p-2 text-gray-600 transition"
             @click="startVideoCall"
