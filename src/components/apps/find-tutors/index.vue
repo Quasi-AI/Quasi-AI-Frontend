@@ -20,29 +20,35 @@
     </div>
 
     <!-- Cards Grid -->
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+    <div
+      class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+    >
       <div
         v-for="tutor in filteredTutors"
         :key="tutor.id"
-        class="cursor-pointer rounded-lg bg-white p-2 transition hover:shadow-xl dark:bg-[#111C44]"
-        @click="openModal(tutor)"
+        class="cursor-pointer rounded-lg bg-white transition hover:shadow-xl dark:bg-[#111C44]"
       >
         <img
           :src="tutor.image"
-          alt="Tutor Image"
-          class="mx-auto h-24 w-24 rounded-full border-4 border-gray-300"
+          alt="Tutor"
+          class="h-40 w-full rounded-t-lg object-cover"
         />
-        <h2 class="mt-3 text-center text-lg font-semibold">{{ tutor.name }}</h2>
-        <p class="text-center text-gray-500">Teaches: {{ tutor.subject }}</p>
-        <p class="text-center text-gray-400">
-          Experience: {{ tutor.experience }} years
-        </p>
+        <div class="p-2">
+          <h2 class="mt-3 text-lg font-semibold">{{ tutor.name }}</h2>
+          <p class="text-gray-500">{{ tutor.subject }}</p>
 
-        <!-- Star Rating -->
-        <div class="mt-2 flex justify-center">
-          <span v-for="star in 5" :key="star" class="text-yellow-500">
-            {{ star <= tutor.rating ? '★' : '☆' }}
-          </span>
+          <div class="mt-6 flex items-center justify-between">
+            <p
+              @click="openModal(tutor)"
+              class="truncate text-xs text-blue-500 underline transition hover:text-blue-600"
+            >
+              View biography
+            </p>
+            <div class="flex items-center space-x-2">
+              <EditIcon />
+              <DeleteIcon />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -64,7 +70,7 @@
 
         <img
           :src="selectedTutor.image"
-          alt="Tutor Image"
+          alt="Tutor"
           class="mx-auto h-32 w-32 rounded-full border-4 border-gray-300"
         />
         <h2 class="mt-3 text-center text-2xl font-bold">
@@ -83,103 +89,6 @@
           <span v-for="star in 5" :key="star" class="text-yellow-500">
             {{ star <= selectedTutor.rating ? '★' : '☆' }}
           </span>
-        </div>
-
-        <!-- Create Tutor Modal -->
-        <div
-          v-if="showCreateModal"
-          class="fixed inset-0 flex items-center justify-center bg-opacity-50"
-        >
-          <div
-            class="relative w-96 rounded-lg bg-white p-6 shadow-lg dark:bg-[#111C44]"
-          >
-            <button
-              class="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
-              @click="closeCreateModal"
-            >
-              &times;
-            </button>
-
-            <!-- Profile Image -->
-            <div class="mb-4 flex justify-center">
-              <label class="relative cursor-pointer">
-                <input type="file" class="hidden" @change="uploadImage" />
-                <img
-                  :src="newTutor.image || 'https://via.placeholder.com/100'"
-                  class="h-24 w-24 rounded-full border-2 border-gray-300 object-cover"
-                  alt="Tutor Profile"
-                />
-                <span
-                  class="absolute bottom-0 right-0 rounded-full bg-gray-700 px-2 py-1 text-xs text-white"
-                  >📷</span
-                >
-              </label>
-            </div>
-
-            <h2 class="mb-4 text-center text-2xl font-bold">Create Tutor</h2>
-
-            <div class="mb-2">
-              <label class="block font-semibold">Name:</label>
-              <input
-                v-model="newTutor.name"
-                type="text"
-                class="w-full rounded-lg border px-3 py-2"
-              />
-            </div>
-
-            <div class="mb-2">
-              <label class="block font-semibold">Subject:</label>
-              <input
-                v-model="newTutor.subject"
-                type="text"
-                class="w-full rounded-lg border px-3 py-2"
-              />
-            </div>
-
-            <div class="mb-2">
-              <label class="block font-semibold">Experience (years):</label>
-              <input
-                v-model="newTutor.experience"
-                type="number"
-                class="w-full rounded-lg border px-3 py-2"
-              />
-            </div>
-
-            <div class="mb-2">
-              <label class="block font-semibold">Rating (1-5):</label>
-              <input
-                v-model="newTutor.rating"
-                type="number"
-                min="1"
-                max="5"
-                class="w-full rounded-lg border px-3 py-2"
-              />
-            </div>
-
-            <div class="mb-2">
-              <label class="block font-semibold">Bio:</label>
-              <textarea
-                v-model="newTutor.bio"
-                class="w-full rounded-lg border px-3 py-2"
-              ></textarea>
-            </div>
-
-            <div class="mt-4 flex justify-center">
-              <button
-                class="rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                @click="addTutor"
-              >
-                Save Tutor
-              </button>
-
-              <button
-                class="ml-2 rounded-lg bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
-                @click="closeCreateModal"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
         </div>
 
         <div class="mt-4 flex justify-center">
@@ -276,7 +185,8 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { ref, computed } from 'vue'
+import EditIcon from '~/assets/icons/edit-icon.vue'
+import DeleteIcon from '~/assets/icons/delete-icon.vue'
 
 const tutors = ref([
   {
@@ -296,6 +206,78 @@ const tutors = ref([
     rating: 5,
     bio: 'English teacher specializing in literature and writing skills. Dedicated to improving student confidence.',
     image: 'https://randomuser.me/api/portraits/women/2.jpg'
+  },
+  {
+    id: 3,
+    name: 'Michael Johnson',
+    subject: 'Physics',
+    experience: 6,
+    rating: 4,
+    bio: 'Experienced physics tutor with a focus on mechanics and electromagnetism.',
+    image: 'https://randomuser.me/api/portraits/men/3.jpg'
+  },
+  {
+    id: 4,
+    name: 'Emily Davis',
+    subject: 'Chemistry',
+    experience: 7,
+    rating: 5,
+    bio: 'Chemistry tutor with a passion for organic chemistry and laboratory techniques.',
+    image: 'https://randomuser.me/api/portraits/women/4.jpg'
+  },
+  {
+    id: 5,
+    name: 'David Wilson',
+    subject: 'Biology',
+    experience: 4,
+    rating: 4,
+    bio: 'Biology tutor specializing in genetics and molecular biology.',
+    image: 'https://randomuser.me/api/portraits/men/5.jpg'
+  },
+  {
+    id: 6,
+    name: 'Sarah Brown',
+    subject: 'History',
+    experience: 9,
+    rating: 5,
+    bio: 'History tutor with expertise in world history and historical research methods.',
+    image: 'https://randomuser.me/api/portraits/women/6.jpg'
+  },
+  {
+    id: 7,
+    name: 'James Miller',
+    subject: 'Computer Science',
+    experience: 5,
+    rating: 4,
+    bio: 'Computer science tutor with a focus on programming and algorithms.',
+    image: 'https://randomuser.me/api/portraits/men/7.jpg'
+  },
+  {
+    id: 8,
+    name: 'Laura Garcia',
+    subject: 'Spanish',
+    experience: 10,
+    rating: 5,
+    bio: 'Spanish tutor with extensive experience in language instruction and cultural studies.',
+    image: 'https://randomuser.me/api/portraits/women/8.jpg'
+  },
+  {
+    id: 9,
+    name: 'Robert Martinez',
+    subject: 'Economics',
+    experience: 6,
+    rating: 4,
+    bio: 'Economics tutor with a focus on microeconomics and macroeconomic theory.',
+    image: 'https://randomuser.me/api/portraits/men/9.jpg'
+  },
+  {
+    id: 10,
+    name: 'Linda Hernandez',
+    subject: 'Art',
+    experience: 7,
+    rating: 5,
+    bio: 'Art tutor specializing in drawing, painting, and art history.',
+    image: 'https://randomuser.me/api/portraits/women/10.jpg'
   }
 ])
 
