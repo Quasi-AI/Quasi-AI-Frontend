@@ -7,7 +7,7 @@
       <CommonDashboardMockDashboard width="100%" height="100%" />
 
       <div
-        class="animate-fade-in grid flex-1 grid-cols-1 gap-8 lg:grid-cols-2 2xl:grid-cols-3"
+        class="animate-fade-in grid flex-1 grid-cols-1 gap-8 lg:grid-cols-3"
       >
         <div
           v-for="(feature, index) in features"
