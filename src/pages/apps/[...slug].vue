@@ -4,7 +4,7 @@
       <CommonSidebar />
     </template>
     <template #apps>
-      <Apps class="m-4" />
+      <Apps />
     </template>
   </NuxtLayout>
 </template>
