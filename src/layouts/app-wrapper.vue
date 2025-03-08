@@ -41,7 +41,7 @@ const titles = {
   '/apps/ai-tutor': 'AI Tutor',
   '/apps/speech-to-text': 'Speech to Text Converter',
   '/other/support': 'Customer Support',
-  '/other/games': 'Games',
+  '/other/games': 'Learning Games',
   '/other/past-questions': 'Past Questions',
   '/other/plan': 'Plan',
   '/user': 'Profile'

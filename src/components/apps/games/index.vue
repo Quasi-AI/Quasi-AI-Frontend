@@ -27,7 +27,7 @@
       </select>
       <button
         @click="generateFlashcards"
-        class="flex w-40 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
       >
         Generate Games
       </button>
@@ -39,8 +39,9 @@
         v-for="(card, index) in flashcards"
         :key="index"
         @click="flipCard(index)"
-        class="flex h-40 w-full transform cursor-pointer items-center justify-center rounded-xl bg-blue-500 p-4 text-center text-white transition-transform hover:scale-105 lg:w-64"
+        class="animate-slide-up flex h-40 w-full transform cursor-pointer items-center justify-center rounded-xl bg-blue-500 p-4 text-center text-white transition-transform hover:scale-105 lg:w-64"
         :class="{ 'bg-green-500': card.flipped }"
+        :style="{ animationDelay: `${index * 0.2}s` }"
       >
         <span v-if="!card.flipped">{{ card.front }}</span>
         <span v-else>{{ card.back }}</span>

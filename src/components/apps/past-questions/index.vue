@@ -58,7 +58,7 @@
 
       <!-- Generate Button -->
       <UButton
-        class="flex w-40 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         :disabled="loading"
         @click="generateQuestions"
         variant="blue"
