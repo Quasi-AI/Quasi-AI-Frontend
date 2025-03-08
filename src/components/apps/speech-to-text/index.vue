@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6 px-5 lg:flex-row">
+  <div class="flex flex-col gap-4 lg:flex-row">
     <div class="flex w-full flex-col items-center gap-4">
       <!-- Preview Section -->
       <div class="flex w-full flex-col">
