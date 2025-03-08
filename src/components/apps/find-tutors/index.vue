@@ -56,53 +56,58 @@
     <!-- Modal -->
     <div
       v-if="showModal"
-      class="fixed inset-0 flex items-center justify-center bg-opacity-50"
+      class="fixed inset-0 flex items-center justify-end overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm"
     >
       <div
-        class="relative w-96 rounded-lg bg-white p-6 shadow-lg dark:bg-[#111C44]"
+        class="relative h-full max-h-full w-full max-w-lg overflow-y-auto bg-white p-6 shadow-2xl dark:bg-[#111C44]"
       >
+        <!-- Close Button -->
         <button
-          class="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
+          class="absolute right-4 top-4 text-gray-500 transition hover:text-gray-700"
           @click="closeModal"
         >
           &times;
         </button>
 
-        <img
-          :src="selectedTutor.image"
-          alt="Tutor"
-          class="mx-auto h-32 w-32 rounded-full border-4 border-gray-300"
-        />
-        <h2 class="mt-3 text-center text-2xl font-bold">
-          {{ selectedTutor.name }}
-        </h2>
-        <p class="text-center text-gray-500">
-          Teaches: {{ selectedTutor.subject }}
-        </p>
-        <p class="text-center text-gray-400">
-          Experience: {{ selectedTutor.experience }} years
-        </p>
-        <p class="mt-4 text-center text-gray-500">{{ selectedTutor.bio }}</p>
-
-        <!-- Star Rating in Modal -->
-        <div class="mt-2 flex justify-center">
-          <span v-for="star in 5" :key="star" class="text-yellow-500">
-            {{ star <= selectedTutor.rating ? '★' : '☆' }}
-          </span>
+        <!-- Profile Image -->
+        <div class="flex flex-col items-center">
+          <img
+            :src="selectedTutor.image"
+            alt="Tutor"
+            class="h-80 rounded-t-lg transition hover:opacity-80"
+          />
+          <p class="mt-2 cursor-pointer text-sm hover:underline">
+            Click to change picture
+          </p>
         </div>
 
-        <div class="mt-4 flex justify-center">
+        <!-- Tutor Info -->
+        <div class="mt-4">
+          <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">
+            {{ selectedTutor.name }}
+          </h2>
+          <p class="mt-1 text-gray-500">Subject: {{ selectedTutor.subject }}</p>
+        </div>
+
+        <!-- Biography -->
+        <div class="mt-4">
+          <h3 class="text-lg font-medium text-gray-800 dark:text-gray-300">
+            Biography
+          </h3>
+          <p
+            class="mt-2 max-h-40 overflow-auto text-sm text-gray-600 dark:text-gray-400"
+          >
+            {{ selectedTutor.bio }}
+          </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mb-20 mt-6 flex justify-center space-x-3 lg:mb-0">
           <button
-            class="rounded-full bg-blue-600 px-8 py-1 text-white hover:bg-blue-700"
+            class="hidden rounded-full bg-blue-600 px-16 py-2 text-white transition hover:bg-blue-700 lg:flex"
             @click="openChat"
           >
             Chat
-          </button>
-          <button
-            class="ml-2 rounded-full bg-gray-600 px-8 py-1 text-white hover:bg-gray-700"
-            @click="closeModal"
-          >
-            Close
           </button>
         </div>
       </div>
