@@ -64,12 +64,20 @@
       <NuxtLink to="/">Features</NuxtLink>
     </div>
 
-    <NuxtLink
-      to="/auth/sign-up"
-      class="hidden rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA] lg:block"
-    >
-      Start for free
-    </NuxtLink>
+    <div class="hidden flex-row items-center gap-4 lg:flex">
+      <NuxtLink
+        to="/auth/login"
+        class="text-blue hidden rounded-lg bg-white px-6 py-1 transition duration-300 hover:scale-105 lg:block dark:bg-[#111C44] dark:text-white"
+      >
+        Login
+      </NuxtLink>
+      <NuxtLink
+        to="/auth/sign-up"
+        class="hidden rounded-lg bg-[#5D3BEA] px-6 py-1 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA] lg:block"
+      >
+        Sign up
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
