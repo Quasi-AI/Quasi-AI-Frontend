@@ -6,7 +6,7 @@
         <!-- Export Results -->
         <UButton
           v-if="score !== null"
-          class="rounded-2xl bg-[#5D3BEA] text-white"
+          class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
           :disabled="loading"
           variant="blue"
           @click="exportResults"
@@ -87,7 +87,7 @@
 
       <!-- Generate Button -->
       <UButton
-        class="rounded-2xl bg-[#5D3BEA] text-white"
+        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         :disabled="loading"
         variant="blue"
         @click="generateQuestions"
@@ -144,7 +144,7 @@
 
         <!-- Submit Button -->
         <UButton
-          class="rounded-2xl bg-[#5D3BEA] text-white"
+          class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
           @click="checkAnswers"
           variant="blue"
           :disabled="score !== null"
