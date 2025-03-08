@@ -6,9 +6,7 @@
     <template #apps>
       <CommonDashboardMockDashboard width="100%" height="100%" />
 
-      <div
-        class="animate-fade-in grid flex-1 grid-cols-1 gap-8 lg:grid-cols-3"
-      >
+      <div class="animate-fade-in grid flex-1 grid-cols-1 gap-8 lg:grid-cols-3">
         <div
           v-for="(feature, index) in features"
           :key="index"
