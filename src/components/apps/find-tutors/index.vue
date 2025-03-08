@@ -31,7 +31,7 @@
         <img
           :src="tutor.image"
           alt="Tutor"
-          class="h-40 w-full rounded-t-lg object-cover"
+          class="h-full lg:h-40 w-full rounded-t-lg object-cover"
         />
         <div class="p-2">
           <h2 class="mt-3 text-lg font-semibold">{{ tutor.name }}</h2>
