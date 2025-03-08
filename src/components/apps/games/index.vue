@@ -27,15 +27,15 @@
       </select>
       <button
         @click="generateFlashcards"
-        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-90 hover:bg-[#4A2DCA]"
         variant="blue"
       >
         Generate Games
       </button>
     </div>
 
-    <!-- Flashcards -->
-    <div class="flex flex-wrap gap-4">
+    <!-- Flashcards (Show only if flashcards exist) -->
+    <div v-if="flashcards.length > 0" class="flex flex-wrap gap-4">
       <div
         v-for="(card, index) in flashcards"
         :key="index"
@@ -47,6 +47,12 @@
         <span v-if="!card.flipped">{{ card.front }}</span>
         <span v-else>{{ card.back }}</span>
       </div>
+    </div>
+
+    <!-- Empty State (Show when no flashcards are available) -->
+    <div v-else-if="!loading" class="mt-4 text-center text-gray-500">
+      No games flashcards available.
+      <EmptyStateIcon width="100%" height="350px" />
     </div>
 
     <!-- Loading & Error Messages -->
@@ -61,6 +67,7 @@
 
 <script setup>
 import axios from 'axios'
+import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const selectedCategory = ref('')
 const selectedAge = ref('')
