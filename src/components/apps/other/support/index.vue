@@ -1,11 +1,7 @@
 <template>
-  <div class="flex flex-col gap-8 p-6 lg:flex-row">
+  <div class="flex flex-col gap-4 lg:flex-row">
     <!-- Feedback Form -->
     <div class="flex w-full flex-col items-center gap-6 lg:w-1/2">
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
-        Send Feedback
-      </h2>
-
       <input
         v-model="name"
         type="text"
@@ -39,7 +35,7 @@
     </div>
     <!-- Live Chat Section -->
     <div class="flex w-full flex-col lg:w-1/2">
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+      <h2 class="py-4 text-2xl font-bold text-gray-800 dark:text-white">
         Live Chat
       </h2>
 
