@@ -10,7 +10,7 @@
           alt="logo"
           class="w-6"
         />
-        <h1 class="text-xl font-medium">QUASI AI</h1>
+        <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
     </div>
 
