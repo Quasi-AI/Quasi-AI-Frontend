@@ -1,10 +1,28 @@
 <template>
+  <!-- Download Button -->
+  <div class="w-full">
+    <div
+      v-if="savedTranscripts.length > 0"
+      class="my-4 flex w-full justify-end"
+    >
+      <UButton
+        variant="blue"
+        class="flex w-[180px] items-center justify-end rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:bg-[#4A2DCA]"
+      >
+        Download transcript
+      </UButton>
+    </div>
+  </div>
+
   <div class="flex flex-col gap-6 lg:flex-row">
-    <!-- Speech-to-Text Section -->
     <div class="flex w-full flex-col items-center gap-4">
       <!-- Preview Section -->
       <div class="w-full rounded-lg bg-white p-6 dark:bg-[#111C44]">
-        <SpeechIcon v-if="messageContent.length === 0" />
+        <SpeechIcon
+          v-if="messageContent.length === 0"
+          width="100%"
+          height="100%"
+        />
         <div
           v-else
           class="rounded-lg bg-gray-100 p-4 dark:bg-[#0C1438] dark:text-white"
@@ -29,50 +47,36 @@
     </div>
 
     <!-- Saved Transcripts Section -->
-    <div class="w-full">
+    <div class="w-full rounded-lg bg-white p-6 dark:bg-[#111C44]">
+      <h2 class="mb-4 text-lg font-bold text-gray-700 dark:text-gray-300">
+        Saved Transcripts
+      </h2>
       <div
-        v-if="savedTranscripts.length > 0"
-        class="my-4 flex w-full justify-end"
+        v-if="savedTranscripts.length === 0"
+        class="text-gray-500 dark:text-gray-400"
       >
-        <UButton
-          variant="blue"
-          class="flex w-[180px] items-center justify-end rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:bg-[#4A2DCA]"
-        >
-          Download transcript
-        </UButton>
+        No transcripts saved yet.
       </div>
-
-      <div class="w-full rounded-lg bg-white p-6 dark:bg-[#111C44]">
-        <h2 class="mb-4 text-lg font-bold text-gray-700 dark:text-gray-300">
-          Saved Transcripts
-        </h2>
+      <div v-else class="space-y-4">
         <div
-          v-if="savedTranscripts.length === 0"
-          class="text-gray-500 dark:text-gray-400"
+          v-for="(transcript, index) in savedTranscripts"
+          :key="index"
+          class="cursor-pointer rounded-lg bg-[#EDEDF2] p-4 hover:bg-gray-200 dark:bg-[#0C1438] dark:text-white dark:hover:bg-gray-700"
         >
-          No transcripts saved yet.
-        </div>
-        <div v-else class="space-y-4">
-          <div
-            v-for="(transcript, index) in savedTranscripts"
-            :key="index"
-            class="cursor-pointer rounded-lg bg-[#EDEDF2] p-4 hover:bg-gray-200 dark:bg-[#0C1438] dark:text-white dark:hover:bg-gray-700"
-          >
-            <div class="flex items-center justify-between">
-              <div @click="viewTranscript(transcript)">
-                <p class="font-semibold">Transcript {{ index + 1 }}</p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                  {{ transcript.content.substring(0, 50) }}...
-                </p>
-              </div>
-              <button
-                class="text-red-500 transition hover:text-red-700"
-                @click="closeModal"
-                @click.stop="deleteTranscript(index)"
-              >
-                &times;
-              </button>
+          <div class="flex items-center justify-between">
+            <div @click="viewTranscript(transcript)">
+              <p class="font-semibold">Transcript {{ index + 1 }}</p>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ transcript.content.substring(0, 50) }}...
+              </p>
             </div>
+            <button
+              class="text-red-500 transition hover:text-red-700"
+              @click="closeModal"
+              @click.stop="deleteTranscript(index)"
+            >
+              &times;
+            </button>
           </div>
         </div>
       </div>
@@ -184,17 +188,3 @@ const deleteTranscript = index => {
   savedTranscripts.value = userTranscripts
 }
 </script>
-
-<style scoped>
-/* Custom scrollbar styles */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: #5d3be9;
-  border-radius: 10px;
-}
-</style>
