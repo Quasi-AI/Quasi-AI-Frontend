@@ -8,7 +8,7 @@
         type="text"
         v-model="searchQuery"
         placeholder="Search tutors by name or subject"
-        class="bg-gray-white my-2 w-full rounded-lg p-2 lg:w-[350px] dark:bg-[#111C44] border border-gray-300"
+        class="bg-gray-white my-2 w-full rounded-lg border p-2 lg:w-[350px] dark:border-gray-600 dark:bg-[#111C44]"
       />
 
       <button
@@ -76,7 +76,7 @@
             alt="Tutor"
             class="h-80 rounded-t-lg transition hover:opacity-80"
           />
-          <p class="mt-2 cursor-pointer text-sm underline">
+          <p class="mt-2 cursor-pointer text-sm text-gray-400 underline">
             Click to change picture
           </p>
         </div>
@@ -104,7 +104,7 @@
         <!-- Action Buttons -->
         <div class="mb-30 fixed bottom-8 right-8 mt-6 lg:mb-0">
           <button
-            class="hidden rounded-full border px-16 py-2 text-blue-700 transition lg:flex dark:border-[#5D3BEA]"
+            class="hidden rounded-full border px-16 py-2 text-blue-700 transition lg:flex dark:border-gray-600"
             @click="openChat"
           >
             Chat
@@ -283,6 +283,78 @@ const tutors = ref([
     rating: 5,
     bio: 'Art tutor specializing in drawing, painting, and art history.',
     image: 'https://randomuser.me/api/portraits/women/10.jpg'
+  },
+  {
+    id: 11,
+    name: 'William Taylor',
+    subject: 'Geography',
+    experience: 5,
+    rating: 4,
+    bio: 'Geography tutor with a focus on physical geography and environmental studies.',
+    image: 'https://randomuser.me/api/portraits/men/11.jpg'
+  },
+  {
+    id: 12,
+    name: 'Sophia Anderson',
+    subject: 'French',
+    experience: 6,
+    rating: 5,
+    bio: 'French tutor specializing in language proficiency and cultural immersion.',
+    image: 'https://randomuser.me/api/portraits/women/12.jpg'
+  },
+  {
+    id: 13,
+    name: 'Daniel Thomas',
+    subject: 'Statistics',
+    experience: 7,
+    rating: 4,
+    bio: 'Statistics tutor with expertise in data analysis and probability.',
+    image: 'https://randomuser.me/api/portraits/men/13.jpg'
+  },
+  {
+    id: 14,
+    name: 'Olivia Jackson',
+    subject: 'Psychology',
+    experience: 8,
+    rating: 5,
+    bio: 'Psychology tutor with a focus on cognitive and developmental psychology.',
+    image: 'https://randomuser.me/api/portraits/women/14.jpg'
+  },
+  {
+    id: 15,
+    name: 'Matthew White',
+    subject: 'Philosophy',
+    experience: 5,
+    rating: 4,
+    bio: 'Philosophy tutor specializing in ethics and classical philosophy.',
+    image: 'https://randomuser.me/api/portraits/men/15.jpg'
+  },
+  {
+    id: 16,
+    name: 'Ava Harris',
+    subject: 'Music',
+    experience: 9,
+    rating: 5,
+    bio: 'Music tutor with expertise in music theory and piano performance.',
+    image: 'https://randomuser.me/api/portraits/women/16.jpg'
+  },
+  {
+    id: 17,
+    name: 'Joseph Clark',
+    subject: 'Political Science',
+    experience: 6,
+    rating: 4,
+    bio: 'Political science tutor with a focus on international relations and political theory.',
+    image: 'https://randomuser.me/api/portraits/men/17.jpg'
+  },
+  {
+    id: 18,
+    name: 'Mia Lewis',
+    subject: 'Sociology',
+    experience: 7,
+    rating: 5,
+    bio: 'Sociology tutor specializing in social theory and research methods.',
+    image: 'https://randomuser.me/api/portraits/women/18.jpg'
   }
 ])
 
