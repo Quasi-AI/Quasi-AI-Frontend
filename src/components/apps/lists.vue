@@ -1,6 +1,8 @@
 <template>
   <div class="animate-fade-in flex flex-col items-center p-4 lg:px-0">
-    <div class="grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2">
+    <div
+      class="grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-2 2xl:grid-cols-3"
+    >
       <div
         v-for="(feature, index) in features"
         :key="index"
