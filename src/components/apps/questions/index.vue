@@ -1,21 +1,22 @@
 <template>
-  <div class="flex flex-col gap-4 lg:flex-row">
-    <!-- Input Section -->
-    <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
+  <div class="flex flex-col gap-4">
+    <!-- Form Container -->
+    <div
+      v-if="!showQuestionsContainer"
+      class="flex w-full flex-col items-center gap-4"
+    >
       <!-- Text Area -->
       <textarea
         v-model="messageContent"
         class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
-        placeholder="Type your content here"
+        placeholder="Type or upload a file to generate questions..."
       />
 
       <!-- File Upload Instructions -->
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
         <p>Please ensure your upload is in one of the following formats:</p>
         <div class="mt-2">
-          <p>
-            <strong>Accepted File Types: (.pdf *, .docx)</strong>
-          </p>
+          <p><strong>Accepted File Types: (.pdf, .docx)</strong></p>
         </div>
       </div>
 
@@ -28,11 +29,10 @@
           <font-awesome-icon :icon="['fas', 'upload']" />
         </UButton>
       </div>
-
       <input
         id="file-upload"
         type="file"
-        @change="handleFileUpload"
+        @change="e => handleFileUpload(e, updateMessageContent)"
         class="hidden"
       />
 
@@ -67,17 +67,18 @@
       </UButton>
     </div>
 
-    <!-- Preview Section -->
-    <div class="flex w-full flex-col lg:w-[50%]">
-      <h2 class="mb-2 text-lg font-bold">Preview</h2>
-      <div v-if="questions.length === 0" class="text-gray-500">
-        No questions generated yet.
-      </div>
-      <div v-else class="grid grid-cols-1 gap-4">
+    <!-- Questions Container (Visible only when questions are generated) -->
+    <div
+      v-if="showQuestionsContainer && questions.length > 0"
+      class="mt-6 w-full rounded-xl bg-white p-6 shadow-lg dark:bg-[#111C44] dark:text-white"
+    >
+      <h2 class="mb-4 text-lg font-bold">Generated Questions</h2>
+
+      <div class="grid grid-cols-1 gap-4">
         <div
           v-for="(item, index) in questions"
           :key="index"
-          class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
+          class="rounded-2xl bg-gray-100 p-4 shadow dark:bg-[#1E2A50] dark:text-white"
         >
           <p>
             <strong>Q{{ index + 1 }}:</strong> {{ item.question }}
@@ -91,15 +92,16 @@
 
 <script setup>
 import { ref } from 'vue'
-import * as pdfjsLib from 'pdfjs-dist'
+import { handleFileUpload } from '@/utils/extractText'
 
 const messageContent = ref('')
 const questions = ref([])
-const selectedLevel = ref('beginner') // Default level
-const numQuestions = ref(10) // Default number of questions
+const selectedLevel = ref('beginner')
+const numQuestions = ref(10)
 const loading = ref(false)
+const showQuestionsContainer = ref(false)
 
-// Generate Questions using the new API
+// Generate Questions using API
 const generateQuestions = async () => {
   if (!messageContent.value.trim()) {
     questions.value = [
@@ -125,7 +127,8 @@ const generateQuestions = async () => {
     )
 
     const data = await response.json()
-    if (Array.isArray(data.questions)) {
+    if (response.ok && Array.isArray(data.questions)) {
+      showQuestionsContainer.value = true
       questions.value = data.questions
     } else {
       questions.value = [
@@ -142,28 +145,13 @@ const generateQuestions = async () => {
   }
 }
 
-// Trigger the hidden file input when the button is clicked
+// Trigger the file input when the button is clicked
 const triggerFileInput = () => {
   document.getElementById('file-upload').click()
 }
 
-// Handle PDF file upload
-const handleFileUpload = async event => {
-  const file = event.target.files[0]
-  if (file && file.type === 'application/pdf') {
-    messageContent.value = await extractTextFromPDF(file)
-  }
-}
-
-// PDF Text Extraction Logic
-const extractTextFromPDF = async file => {
-  const pdf = await pdfjsLib.getDocument(URL.createObjectURL(file)).promise
-  let fullText = ''
-  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-    const page = await pdf.getPage(pageNum)
-    const text = await page.getTextContent()
-    fullText += text.items.map(item => item.str).join(' ') + '\n'
-  }
-  return fullText
+// Update message content when a file is uploaded
+const updateMessageContent = text => {
+  messageContent.value = text
 }
 </script>
