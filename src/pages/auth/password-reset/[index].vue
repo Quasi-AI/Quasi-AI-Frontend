@@ -76,7 +76,7 @@
         >
           <span v-if="!isLoading">Save new password</span>
           <span v-else class="flex items-center">
-            <Loader class="h-5 w-5 animate-spin" />
+            <CommonLoader class="h-5 w-5 animate-spin" />
           </span>
         </UButton>
       </form>
@@ -100,7 +100,6 @@
 </template>
 
 <script setup>
-import Loader from '@/components/common/loader/Loader.vue'
 import { useAuthenticationStore } from '~/store/auth'
 
 const password = ref('')

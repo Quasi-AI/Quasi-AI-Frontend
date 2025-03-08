@@ -4,7 +4,6 @@
       <CommonSidebar />
     </template>
     <template #apps>
-      <CommonNavbar />
       <Apps />
     </template>
   </NuxtLayout>

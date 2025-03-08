@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed left-0 top-0 hidden h-screen w-64 flex-col justify-between bg-white shadow-md md:flex dark:bg-[#111C44]"
+    class="fixed left-0 top-0 hidden h-screen w-64 flex-col justify-between bg-white shadow-sm md:flex dark:bg-[#111C44]"
   >
     <!-- Logo Section -->
     <div class="p-5">
@@ -8,16 +8,14 @@
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
           alt="logo"
-          class="w-8"
+          class="w-6"
         />
-        <span class="font-semibold text-gray-800 dark:text-white"
-          >QUASI AI</span
-        >
+        <h1 class="text-xl font-medium">QUASI AI</h1>
       </NuxtLink>
     </div>
 
     <!-- Menu Items -->
-    <nav class="flex-1">
+    <nav class="flex-1 pt-3">
       <ul class="space-y-2 px-4">
         <li v-for="(item, index) in menuItems" :key="index">
           <NuxtLink
@@ -61,7 +59,7 @@
           </h4>
           <p class="text-xs text-gray-500">{{ userInfo?.email }}</p>
         </div>
-        <ArrowRightOnRectangleIcon
+        <ArrowRightEndOnRectangleIcon
           class="h-5 w-5 cursor-pointer text-gray-500"
         />
       </div>
@@ -75,9 +73,9 @@ import {
   CubeIcon,
   AcademicCapIcon,
   DocumentTextIcon,
-  QuestionMarkCircleIcon,
-  ArrowRightOnRectangleIcon
+  QuestionMarkCircleIcon
 } from '@heroicons/vue/24/outline'
+import { ArrowRightEndOnRectangleIcon } from '@heroicons/vue/24/solid'
 import { useUser } from '~/composables/useUser'
 
 const route = useRoute()

@@ -1,54 +1,35 @@
 <template>
-  <div class="my-6 flex items-center justify-between gap-2 px-2 py-3 pl-6">
-    <div
-      class="m-2 ml-auto flex items-center justify-end gap-4 rounded-full p-4 py-1 shadow-md"
-      :class="
-        colorMode.value === 'dark' ? 'bg-[#111C44] text-white' : 'bg-white'
-      "
-    >
-      <div class="my-2 flex flex-col items-center justify-center gap-4">
-        <UInput
-          v-model="q"
-          name="q"
-          placeholder="Search..."
-          icon="i-heroicons-magnifying-glass-20-solid"
-          autocomplete="off"
-          :ui="{ icon: { trailing: { pointer: '' } } }"
-          variant="none"
-          class="rounded-2xl lg:w-40"
-          :class="colorMode.value === 'dark' ? 'bg-[#111C44]' : 'bg-[#F1F3FE]'"
-        >
-          <template #trailing>
-            <UButton
-              v-show="q !== ''"
-              color="gray"
-              variant="link"
-              icon="i-heroicons-x-mark-20-solid"
-              :padded="false"
-              @click="q = ''"
-            />
-          </template>
-        </UInput>
-      </div>
+  <div
+    class="flex w-full items-center justify-between bg-white p-5 lg:justify-end dark:bg-[#111C44] dark:text-white"
+  >
+    <NuxtLink to="/" class="flex w-40 items-center gap-2 truncate lg:hidden">
+      <img
+        src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
+        alt="logo"
+        class="w-6"
+      />
+      <h1 class="text-xl font-medium">QUASI AI</h1>
+    </NuxtLink>
+
+    <div class="flex items-center gap-2">
+      <lightModeIcon
+        v-if="!isDark"
+        @click="isDark = !isDark"
+        class="cursor-pointer"
+      />
+      <DarkModeIcon
+        v-if="isDark"
+        @click="isDark = !isDark"
+        class="cursor-pointer"
+      />
 
       <div class="flex items-center gap-2">
-        <lightModeIcon
-          v-if="!isDark"
-          @click="isDark = !isDark"
-          class="cursor-pointer"
-        />
-        <DarkModeIcon
-          v-if="isDark"
-          @click="isDark = !isDark"
-          class="cursor-pointer"
-        />
-
-        <p class="flex items-center gap-1">
-          <UDropdown
-            mode="click"
-            :popper="{ placement: 'right-start' }"
-            :items="profileList"
-          >
+        <UDropdown
+          mode="click"
+          :popper="{ placement: 'right-start' }"
+          :items="profileList"
+        >
+          <div class="flex items-center gap-2">
             <CommonProfileImage
               :img-src="userInfo?.profileImage"
               :name="userInfo?.name"
@@ -56,8 +37,9 @@
               baseClass="w-[30px] h-[30px]"
               :class="[isUserRoute ? 'rounded-full ring-2 ring-blue-500' : '']"
             />
-          </UDropdown>
-        </p>
+            <ArrowDownLeftIcon class="h-5 w-5 cursor-pointer text-gray-500" />
+          </div>
+        </UDropdown>
       </div>
     </div>
   </div>
@@ -68,6 +50,7 @@ import lightModeIcon from '@/assets/icons/light-mode.vue'
 import DarkModeIcon from '@/assets/icons/dark-mode.vue'
 import { useAuthenticationStore } from '@/store/auth'
 import { useUser } from '~/composables/useUser'
+import ArrowDownLeftIcon from '@/assets/icons/arrow-down.vue'
 
 const { userInfo } = useUser()
 const authStore = useAuthenticationStore()
@@ -85,7 +68,7 @@ const isDark = computed({
 
 const profileList = [
   [
-    { label: 'Go to profile', click: () => navigateTo('/user') },
+    { label: 'Profile', click: () => navigateTo('/user') },
     {
       label: 'Logout',
       click: () => {
@@ -96,7 +79,7 @@ const profileList = [
   ]
 ]
 
-const color = computed(() => (colorMode.value === 'dark' ? '#0C1438' : 'white'))
+const color = computed(() => (colorMode.value === 'dark' ? '#111C44' : 'white'))
 
 useHead({
   meta: [
@@ -105,11 +88,6 @@ useHead({
     { key: 'theme-color', name: 'theme-color', content: color }
   ],
   link: [
-    {},
-    {
-      href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
-      rel: 'stylesheet'
-    },
     {
       rel: 'icon',
       type: 'image/x-icon',

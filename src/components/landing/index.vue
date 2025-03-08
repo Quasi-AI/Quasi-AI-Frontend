@@ -2,15 +2,15 @@
   <div class="z-10 xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 pb-0 text-center lg:text-wrap lg:py-5"
+      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] pb-0 text-center lg:text-wrap lg:py-5"
     >
       <h1
-        class="h-[120px] w-[100%] text-3xl font-bold leading-tight text-[#190A53] lg:h-[80px] lg:w-[35%]"
+        class="h-[120px] w-[100%] px-4 text-3xl font-bold leading-tight text-[#190A53] lg:h-[80px] lg:w-[35%]"
       >
         <span v-html="displayedText"></span>
       </h1>
       <p
-        class="animate-slide-up mt-4 w-[100%] text-wrap text-sm text-gray-600 lg:w-[33%] lg:text-wrap"
+        class="animate-slide-up mt-4 w-[100%] text-wrap px-4 text-sm text-gray-600 lg:w-[33%] lg:text-wrap"
         style="animation-delay: 0.4s"
       >
         Generate flashcards, quizzes, and study materials instantly from your
@@ -69,7 +69,7 @@
 
     <!-- Why Choose Quasi AI Section -->
     <div
-      class="relative flex flex-col items-center rounded-t-md bg-white lg:px-0"
+      class="relative flex flex-col items-center rounded-t-3xl bg-white lg:rounded-none lg:px-0"
     >
       <LandingUiIconsBrandsVideoplaceholder
         width="100%"
@@ -171,7 +171,7 @@
 
     <!-- Start Teaching with Us -->
     <div
-      class="animate-fade-in flex flex-col items-center justify-center gap-10 rounded-b-md bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
+      class="animate-fade-in flex flex-col items-center justify-center gap-10 rounded-b-3xl bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12 lg:rounded-none"
     >
       <div
         class="flex w-[100%] flex-col items-center text-center lg:w-[50%] lg:items-start lg:text-wrap lg:text-left"
@@ -342,90 +342,11 @@ const typeEffect = () => {
 
 onMounted(typeEffect)
 
-// Animation
-onMounted(() => {
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(
-            `animate-${entry.target.dataset.animation}`
-          )
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-
-  document
-    .querySelectorAll('[data-animation]')
-    .forEach(el => observer.observe(el))
+useHead({
+  meta: [
+    { charset: 'utf-8' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { key: 'theme-color', name: 'theme-color', content: '#E4E0F4' }
+  ]
 })
 </script>
-
-<style scoped>
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 2s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 3s ease-out forwards;
-}
-
-/* Wrapper to enable overflow hidden */
-.brand-slider-wrapper {
-  overflow: hidden;
-  position: relative;
-}
-
-/* The flex container that will move left infinitely */
-.brand-slider {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  animation: scroll 15s linear infinite;
-}
-
-/* Individual brand icons */
-.brand-icon {
-  flex-shrink: 0;
-  width: 80px;
-  height: auto;
-  transition: transform 0.3s;
-}
-
-.brand-icon:hover {
-  transform: scale(1.1);
-}
-
-/* Keyframes animation */
-@keyframes scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-</style>

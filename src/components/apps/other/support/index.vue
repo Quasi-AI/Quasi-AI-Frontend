@@ -1,50 +1,49 @@
 <template>
-  <div class="flex flex-col gap-8 p-6 lg:flex-row">
+  <div class="flex flex-col gap-4 lg:flex-row">
     <!-- Feedback Form -->
-    <div class="flex w-full flex-col items-center gap-6 lg:w-1/2">
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
-        Send Feedback
-      </h2>
-
-      <input
+    <div class="flex w-full flex-col gap-6 lg:w-1/2">
+      <UInput
+        variant="none"
+        class="my-2 w-full rounded-lg bg-gray-200 p-2 pr-6 dark:bg-[#111C44]"
+        placeholder="Your name"
         v-model="name"
-        type="text"
-        placeholder="Your Name"
-        class="w-full rounded-lg border border-gray-300 p-3 text-gray-800 shadow focus:border-[#5D3BEA] focus:ring-2 focus:ring-[#5D3BEA] dark:bg-gray-900 dark:text-white"
+        maxLength="250"
       />
 
-      <input
+      <UInput
+        variant="none"
+        class="my-2 w-full rounded-lg bg-gray-200 p-2 pr-6 dark:bg-[#111C44]"
+        placeholder="Your email"
         v-model="email"
-        type="email"
-        placeholder="Your Email"
-        class="w-full rounded-lg border border-gray-300 p-3 text-gray-800 shadow focus:border-[#5D3BEA] focus:ring-2 focus:ring-[#5D3BEA] dark:bg-gray-900 dark:text-white"
+        maxLength="250"
       />
 
-      <textarea
+      <UTextarea
+        variant="none"
+        class="my-2 w-full rounded-lg bg-gray-200 p-2 pr-6 dark:bg-[#111C44]"
+        placeholder="Your message"
         v-model="message"
-        placeholder="Your Message"
-        class="min-h-[20vh] w-full rounded-lg border border-gray-300 p-3 text-gray-800 shadow focus:border-[#5D3BEA] focus:ring-2 focus:ring-[#5D3BEA] dark:bg-gray-900 dark:text-white"
-      ></textarea>
-
-      <button
-        :disabled="loading"
-        class="w-full rounded-lg bg-[#5D3BEA] p-3 text-white transition hover:bg-[#4C2DBE] disabled:bg-gray-400"
+        maxLength="250"
+      />
+      <UButton
+        variant="blue"
+        class="flex w-40 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         @click="submitFeedback"
       >
-        {{ loading ? 'Submitting...' : 'Submit Feedback' }}
-      </button>
+        {{ loading ? 'Sending...' : 'Send feedback' }}
+      </UButton>
 
       <p v-if="successMessage" class="text-green-600">{{ successMessage }}</p>
       <p v-if="errorMessage" class="text-red-600">{{ errorMessage }}</p>
     </div>
     <!-- Live Chat Section -->
     <div class="flex w-full flex-col lg:w-1/2">
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+      <h2 class="py-4 text-2xl font-bold text-gray-800 dark:text-white">
         Live Chat
       </h2>
 
       <div
-        class="h-[50vh] w-full overflow-y-auto rounded-lg bg-gray-100 p-4 shadow dark:bg-gray-800"
+        class="h-[50vh] w-full overflow-y-auto rounded-lg bg-gray-100 p-4 dark:bg-[#111C44]"
       >
         <div v-for="(chat, index) in chats" :key="index" class="mb-2">
           <span class="font-bold text-[#5D3BEA]">{{ chat.user }}:</span>
@@ -52,15 +51,17 @@
         </div>
       </div>
 
-      <div class="mt-4 flex gap-2">
-        <input
-          v-model="chatMessage"
-          type="text"
-          placeholder="Type your message..."
-          class="flex-1 rounded-lg border border-gray-300 p-3 text-gray-800 shadow focus:border-[#5D3BEA] focus:ring-2 focus:ring-[#5D3BEA] dark:bg-gray-900 dark:text-white"
+      <div class="mt-4 flex flex-col gap-2">
+        <UInput
+          variant="none"
+          class="my-2 rounded-lg bg-gray-200 p-2 pr-6 dark:bg-[#111C44]"
+          placeholder="Type your message"
+          v-model="ChatMessage"
+          maxLength="250"
         />
         <UButton
-          class="rounded-lg bg-[#5D3BEA] p-3 text-white"
+          variant="blue"
+          class="flex w-40 items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
           @click="sendMessage"
         >
           Send

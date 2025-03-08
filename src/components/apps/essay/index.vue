@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6 px-5 lg:flex-row">
+  <div class="flex flex-col gap-4 lg:flex-row">
     <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
       <textarea
         v-model="messageContent"
@@ -31,7 +31,7 @@
 
       <UButton
         variant="blue"
-        class="rounded-2xl bg-[#5D3BEA] text-white"
+        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         :disabled="isLoading"
         @click="analyzeEssay"
       >
@@ -46,7 +46,7 @@
 
     <!-- Results Section -->
     <div
-      class="flex w-full flex-col rounded-lg bg-white p-5 shadow-lg lg:w-[50%] dark:bg-gray-800"
+      class="flex w-full flex-col rounded-lg bg-white p-5 lg:w-[50%] dark:bg-gray-800"
     >
       <h2 class="mb-2 text-lg font-bold">Results</h2>
       <div v-if="!essay" class="text-center text-gray-500">

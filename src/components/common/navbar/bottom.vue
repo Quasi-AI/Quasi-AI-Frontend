@@ -1,4 +1,5 @@
 <template>
+  <div class="mt-20"></div>
   <div
     class="fixed bottom-0 left-0 flex w-full bg-white py-2 shadow-lg lg:hidden dark:bg-[#111C44]"
   >
@@ -16,7 +17,7 @@
 
       <!-- Contact Support -->
       <NuxtLink
-        to="/apps/support"
+        to="/other/support"
         class="flex flex-col items-center text-gray-600 dark:text-gray-300"
       >
         <QuestionMarkCircleIcon class="h-6 w-6" />

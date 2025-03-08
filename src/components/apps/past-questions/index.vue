@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6 px-5 lg:flex-row">
+  <div class="flex flex-col gap-4 lg:flex-row">
     <!-- Input Section -->
     <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
       <!-- Text Area -->
@@ -58,10 +58,10 @@
 
       <!-- Generate Button -->
       <UButton
-        class="rounded-2xl bg-[#5D3BEA] text-white"
+        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+        variant="blue"
         :disabled="loading"
         @click="generateQuestions"
-        variant="blue"
       >
         {{ loading ? 'Generating...' : 'Generate Questions' }}
       </UButton>
