@@ -19,7 +19,7 @@
       <div class="mt-2 flex gap-4">
         <UButton
           variant="blue"
-          class="rounded-md bg-blue-200 px-3 dark:bg-blue-500"
+          class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
           @click="toggleSpeechToText"
         >
           <font-awesome-icon :icon="['fas', 'microphone']" />
@@ -51,7 +51,7 @@
             </div>
             <UButton
               variant="none"
-              class="h-4 rounded-md bg-red-500 px-2 text-white"
+              class="flex w-[90px] items-center justify-center rounded-lg bg-red-500 px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-red-300"
               @click.stop="deleteTranscript(index)"
             >
               Remove
