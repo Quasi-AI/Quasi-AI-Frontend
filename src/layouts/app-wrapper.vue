@@ -12,7 +12,12 @@
         <div class="mx-4 overflow-y-auto overflow-x-hidden">
           <div class="mx-auto flex max-w-6xl flex-col items-center p-4 lg:px-0">
             <div class="flex w-full flex-col">
-              <h1 class="my-4 text-3xl font-medium">
+              <h1 class="my-4 flex items-center gap-3 text-3xl font-medium">
+                <template v-if="showBackIcon">
+                  <button @click="router.back()" class="focus:outline-none">
+                    <BackIcon />
+                  </button>
+                </template>
                 {{ pageTitle }}
               </h1>
 
@@ -27,7 +32,13 @@
 </template>
 
 <script setup>
+import BackIcon from '../assets/icons/back-icon.vue'
+
 const route = useRoute()
+const router = useRouter()
+const pageTitle = computed(() => titles[route.path] || 'Page not recognized')
+const hideBackIconRoutes = ['/dashboard', '/apps']
+const showBackIcon = computed(() => !hideBackIconRoutes.includes(route.path))
 
 // Define route-based titles
 const titles = {
@@ -46,7 +57,4 @@ const titles = {
   '/other/plan': 'Plan',
   '/user': 'Profile'
 }
-
-// Compute the page title dynamically
-const pageTitle = computed(() => titles[route.path] || 'Page not recognized')
 </script>
