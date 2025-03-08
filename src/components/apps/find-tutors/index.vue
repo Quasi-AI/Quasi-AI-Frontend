@@ -1,19 +1,22 @@
 <template>
-  <div class="container mx-auto p-6">
+  <div class="flex flex-col gap-4">
     <!-- Create Tutor & Search Bar -->
-    <div class="mb-6 flex items-center justify-between">
+    <div
+      class="mb-6 flex flex-col items-center justify-between gap-4 lg:flex-row"
+    >
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search tutors by name or subject"
+        class="bg-gray-white my-2 w-[350px] rounded-lg p-2 dark:bg-[#111C44]"
+      />
+
       <button
-        class="my-2 rounded-full bg-[#2e51ce] p-2 text-white"
+        class="mr-4 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         @click="openCreateModal"
       >
         Create Tutor
       </button>
-      <input
-        type="text"
-        v-model="searchQuery"
-        placeholder="Search by subject..."
-        class="my-2 rounded-full bg-gray-200 p-2 dark:bg-[#111C44]"
-      />
     </div>
 
     <!-- Cards Grid -->
