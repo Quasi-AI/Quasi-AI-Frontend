@@ -70,7 +70,7 @@
           :disabled="loading"
           @click="generateQuestions"
         >
-          {{ loading ? 'Generating...' : 'Generate past questions' }}
+          {{ loading ? 'Generating...' : 'Generate questions' }}
         </button>
       </div>
     </div>
