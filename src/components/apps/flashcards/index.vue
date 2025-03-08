@@ -14,10 +14,8 @@
 
       <!-- File Upload Instructions -->
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Please ensure your upload is in one of the following formats:</p>
-        <p class="mt-2 font-semibold">
-          Accepted File Types: (.pdf, .docx, .mp3, .wav)
-        </p>
+        <p>Upload a document:</p>
+        <strong>Accepted File Types: (.pdf, .docx)</strong>
       </div>
 
       <!-- File Upload Icon -->
@@ -62,7 +60,7 @@
 
       <!-- Submit Button -->
       <UButton
-        class="w-[200px] rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         variant="blue"
         :disabled="isLoading"
         @click="generateFlashcards"
@@ -139,9 +137,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { handleFileUpload } from '@/utils/extractText'
 
 const messageContent = ref('')
