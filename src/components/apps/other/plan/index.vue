@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6 px-5 lg:flex-row">
+  <div class="flex flex-col gap-4 lg:flex-row">
     <!-- Subscription Plans -->
     <div class="grid w-full gap-6 sm:grid-cols-1 md:grid-cols-3">
       <!-- Personal Plan -->
