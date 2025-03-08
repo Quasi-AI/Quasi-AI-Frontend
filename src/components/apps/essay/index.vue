@@ -1,12 +1,16 @@
 <template>
   <div class="flex flex-col gap-4 lg:flex-row">
-    <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
+    <div
+      v-if="!showEssaysContainer"
+      class="flex w-full flex-col items-center gap-4"
+    >
       <textarea
         v-model="messageContent"
         class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow dark:bg-[#111C44] dark:text-white"
         placeholder="Type your content here"
       />
 
+      <!-- File Upload Instructions -->
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
         <p>Upload a document:</p>
         <strong>Accepted File Types: (.pdf, .docx)</strong>
@@ -21,6 +25,12 @@
           <font-awesome-icon :icon="['fas', 'upload']" />
         </UButton>
       </div>
+      <input
+        id="file-upload"
+        type="file"
+        @change="e => handleFileUpload(e, updateMessageContent)"
+        class="hidden"
+      />
 
       <input
         type="file"
@@ -46,7 +56,8 @@
 
     <!-- Results Section -->
     <div
-      class="flex w-full flex-col rounded-lg bg-white p-5 lg:w-[50%] dark:bg-gray-800"
+      v-if="showEssaysContainer"
+      class="flex w-full flex-col rounded-lg bg-white p-5 dark:bg-gray-800"
     >
       <h2 class="mb-2 text-lg font-bold">Results</h2>
       <div v-if="!essay" class="text-center text-gray-500">
@@ -67,11 +78,10 @@
 </template>
 
 <script setup>
+import { handleFileUpload } from '@/utils/extractText'
 import { Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import axios from 'axios'
-import * as pdfjsLib from 'pdfjs-dist'
-import mammoth from 'mammoth'
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -81,6 +91,7 @@ const essay = ref('')
 const isLoading = ref(false)
 const mistakes = ref([])
 const errorMessage = ref('')
+const showEssaysContainer = ref(false)
 
 // Compute total words
 const totalWords = computed(() => {
@@ -113,56 +124,6 @@ const chartOptions = {
   }
 }
 
-// File Upload Trigger
-const triggerFileInput = () => {
-  document.getElementById('file-upload').click()
-}
-
-// Handle File Upload
-const handleFileChange = async event => {
-  const file = event.target.files[0]
-  if (!file) return
-
-  const fileType = file.type
-  errorMessage.value = ''
-
-  if (fileType === 'application/pdf') {
-    const reader = new FileReader()
-    reader.onload = async e => {
-      const pdfData = new Uint8Array(e.target.result)
-      const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise
-      let text = ''
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i)
-        const content = await page.getTextContent()
-        text += content.items.map(item => item.str).join(' ') + '\n'
-      }
-      messageContent.value = text
-    }
-    reader.readAsArrayBuffer(file)
-  } else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  ) {
-    const reader = new FileReader()
-    reader.onload = e => {
-      const arrayBuffer = e.target.result
-      mammoth
-        .extractRawText({ arrayBuffer })
-        .then(result => {
-          messageContent.value = result.value
-        })
-        .catch(err => {
-          console.error('Error extracting text from DOCX:', err)
-        })
-    }
-    reader.readAsArrayBuffer(file)
-  } else {
-    errorMessage.value =
-      'Unsupported file type. Please upload a PDF or DOCX file.'
-  }
-}
-
 // Analyze Essay API Call
 const analyzeEssay = async () => {
   try {
@@ -185,6 +146,7 @@ const analyzeEssay = async () => {
     if (response.data.message) {
       essay.value = response.data.message
       mistakes.value = response.data.mistakes || []
+      showEssaysContainer.value = true
     } else {
       errorMessage.value = 'Unexpected response from server.'
     }
@@ -213,6 +175,16 @@ const formattedEssay = computed(() => {
 
   return text
 })
+
+// Trigger the file input when the button is clicked
+const triggerFileInput = () => {
+  document.getElementById('file-upload').click()
+}
+
+// Update message content when a file is uploaded
+const updateMessageContent = text => {
+  messageContent.value = text
+}
 </script>
 
 <style>
