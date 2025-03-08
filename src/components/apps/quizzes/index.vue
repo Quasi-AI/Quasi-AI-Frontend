@@ -1,20 +1,22 @@
 <template>
   <div class="flex flex-col gap-4 lg:flex-row">
-    <!-- Input Section -->
-    <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
+    <!-- Form Container -->
+    <div
+      v-if="!showQuizzesContainer"
+      class="flex w-full flex-col items-center gap-4"
+    >
       <div class="flex items-center gap-4">
         <!-- Export Results -->
         <UButton
           v-if="score !== null"
-          class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-          variant="blue"
+          class="w-[200px] rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
           :disabled="loading"
           @click="exportResults"
         >
           Export Results
         </UButton>
 
-        <!-- Score -->
+        <!-- Score Display -->
         <div v-if="score !== null" class="text-lg font-bold">
           Your Score: {{ score }} / {{ quizes.length }}
         </div>
@@ -23,29 +25,29 @@
       <!-- Text Area -->
       <textarea
         v-model="messageContent"
-        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow-lg transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
         placeholder="Type your content here"
       />
 
       <!-- File Upload Instructions -->
       <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Please ensure your upload is in one of the following formats:</p>
-        <p>
-          <strong>Accepted File Types: (.pdf *, .docx)</strong>
-        </p>
+        <p>Upload a document:</p>
+        <strong>Accepted File Types: (.pdf, .docx)</strong>
       </div>
 
       <!-- File Upload Button -->
-      <UButton
-        class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
-        @click="triggerFileInput"
-      >
-        <font-awesome-icon :icon="['fas', 'upload']" />
-      </UButton>
+      <div class="mt-2 flex gap-4">
+        <UButton
+          class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
+          @click="triggerFileInput"
+        >
+          <font-awesome-icon :icon="['fas', 'upload']" />
+        </UButton>
+      </div>
       <input
         id="file-upload"
         type="file"
-        @change="handleFileChange"
+        @change="e => handleFileUpload(e, updateMessageContent)"
         class="hidden"
       />
 
@@ -74,7 +76,6 @@
         type="number"
         v-model="userTimer"
         min="1"
-        required
         :class="{
           'w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white': true,
           'border border-red-500': hasError
@@ -85,7 +86,7 @@
         Please specify a valid timer duration.
       </p>
 
-      <!-- Generate Button -->
+      <!-- Generate Quiz Button -->
       <UButton
         class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         variant="blue"
@@ -97,7 +98,7 @@
     </div>
 
     <!-- Quiz Section -->
-    <div class="flex w-full flex-col lg:w-[50%]">
+    <div v-if="showQuizzesContainer" class="flex w-full flex-col">
       <h2 class="mb-2 text-lg font-bold">Quiz</h2>
       <div v-if="quizes.length === 0" class="text-gray-500">
         No quiz generated yet.
@@ -112,13 +113,11 @@
         </div>
 
         <!-- Questions -->
-        <div
-          class="h-[60vh] space-y-4 overflow-y-auto p-2 md:h-[70vh] lg:h-[80vh]"
-        >
+        <div class="space-y-4 overflow-y-auto p-2">
           <div
             v-for="(quiz, index) in quizes"
             :key="index"
-            class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
+            class="rounded-2xl bg-white p-4 shadow-lg dark:bg-[#111C44] dark:text-white"
           >
             <p class="font-semibold">{{ index + 1 }}. {{ quiz.question }}</p>
             <div class="mt-2 flex flex-col gap-2">
@@ -142,10 +141,9 @@
           </div>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Submit Answers Button -->
         <UButton
-          class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-          variant="blue"
+          class="w-[200px] rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
           @click="checkAnswers"
           :disabled="score !== null"
         >
@@ -154,145 +152,33 @@
       </div>
     </div>
   </div>
-
-  <!-- Hidden File Input -->
-  <input
-    type="file"
-    id="file-upload"
-    style="display: none"
-    @change="handleFileChange"
-  />
 </template>
 
 <script setup>
-import * as pdfjsLib from 'pdfjs-dist'
-import mammoth from 'mammoth'
-import PPTX2Json from 'pptx2json'
-
-// Specify the worker source for PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
+import { handleFileUpload } from '@/utils/extractText'
 
 const messageContent = ref('')
 const quizes = ref([])
 const selectedLevel = ref('beginner')
 const numQuestions = ref(10)
 const loading = ref(false)
-const errorMessage = ref('')
 const score = ref(null)
-const userTimer = ref() // Default timer duration in minutes
-const timer = ref(0) // Timer in seconds
-const hasError = ref(false) // Track validation state
+const userTimer = ref()
+const timer = ref(0)
+const hasError = ref(false)
+const showQuizzesContainer = ref(false)
 
-// Timer Logic
 let timerInterval
+
 const startTimer = () => {
-  timer.value = userTimer.value * 60 // Convert minutes to seconds
+  timer.value = userTimer.value * 60
   timerInterval = setInterval(() => {
     if (timer.value > 0) timer.value--
     else {
       clearInterval(timerInterval)
-      checkAnswers() // Automatically submit answers when time runs out
+      checkAnswers()
     }
   }, 1000)
-}
-
-// Trigger the hidden file input when the button is clicked
-const triggerFileInput = () => {
-  document.getElementById('file-upload').click()
-}
-
-// Handle the file selection
-const handleFileChange = async event => {
-  const file = event.target.files[0]
-
-  if (!file) return
-
-  const fileType = file.type
-  errorMessage.value = '' // Clear previous error message
-
-  // PDF Handling
-  if (fileType === 'application/pdf') {
-    const reader = new FileReader()
-    reader.onload = async e => {
-      const pdfData = new Uint8Array(e.target.result)
-      const pdf = await pdfjsLib.getDocument(pdfData).promise
-      let text = ''
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i)
-        const content = await page.getTextContent()
-        text += content.items.map(item => item.str).join(' ') + '\n'
-      }
-      messageContent.value = text
-    }
-    reader.readAsArrayBuffer(file)
-  } else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  ) {
-    const reader = new FileReader()
-    reader.onload = e => {
-      const arrayBuffer = e.target.result
-
-      // Extract text from the Word document using Mammoth
-      mammoth
-        .extractRawText({ arrayBuffer: arrayBuffer })
-        .then(result => {
-          messageContent.value = result.value // Set the extracted text in the textarea
-        })
-        .catch(err => {
-          console.error('Error extracting text from DOCX:', err)
-        })
-    }
-    reader.readAsArrayBuffer(file)
-  }
-
-  // PPTX Handling (using pptx2json)
-  else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-  ) {
-    const reader = new FileReader()
-
-    reader.onload = async e => {
-      const arrayBuffer = e.target.result
-
-      try {
-        // Parse the PPTX file
-        const pptx = new PPTX2Json()
-        pptx.load(arrayBuffer)
-
-        // Extracting the slide content
-        pptx
-          .getSlides()
-          .then(slides => {
-            let text = ''
-            slides.forEach(slide => {
-              slide.texts.forEach(textItem => {
-                text += textItem.text + ' '
-              })
-            })
-            messageContent.value = text // Set the extracted text in the textarea
-          })
-          .catch(err => {
-            console.error('Error extracting slides:', err)
-          })
-      } catch (err) {
-        console.error('Error extracting text from PPTX:', err)
-      }
-    }
-    reader.readAsArrayBuffer(file)
-  }
-
-  // Audio Handling (basic example, can be expanded with speech-to-text libraries)
-  else if (fileType.startsWith('audio/')) {
-    // Example: Extract metadata or transcribe audio (e.g., using Google Speech API)
-    const text = 'Audio recording transcribed content'
-    messageContent.value = text
-  } else {
-    errorMessage.value =
-      'Unsupported file type. Please upload a PDF, DOCX, or Audio file.'
-  }
 }
 
 // Generate Quiz Questions using the new API
@@ -343,6 +229,7 @@ const generateQuestions = async () => {
         userAnswer: null
       }))
       startTimer() // Start timer
+      showQuizzesContainer.value = true
     } else {
       quizes.value = [
         {
@@ -387,5 +274,15 @@ const getAnswerClass = (quiz, option) => {
     }
   }
   return {}
+}
+
+// Trigger the file input when the button is clicked
+const triggerFileInput = () => {
+  document.getElementById('file-upload').click()
+}
+
+// Update message content when a file is uploaded
+const updateMessageContent = text => {
+  messageContent.value = text
 }
 </script>
