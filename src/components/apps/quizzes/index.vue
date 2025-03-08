@@ -7,8 +7,8 @@
         <UButton
           v-if="score !== null"
           class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-          :disabled="loading"
           variant="blue"
+          :disabled="loading"
           @click="exportResults"
         >
           Export Results
@@ -88,8 +88,8 @@
       <!-- Generate Button -->
       <UButton
         class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-        :disabled="loading"
         variant="blue"
+        :disabled="loading"
         @click="generateQuestions"
       >
         {{ loading ? 'Generating...' : 'Generate Quiz' }}
@@ -145,8 +145,8 @@
         <!-- Submit Button -->
         <UButton
           class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-          @click="checkAnswers"
           variant="blue"
+          @click="checkAnswers"
           :disabled="score !== null"
         >
           Submit Answers

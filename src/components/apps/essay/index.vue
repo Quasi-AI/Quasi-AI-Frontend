@@ -46,7 +46,7 @@
 
     <!-- Results Section -->
     <div
-      class="flex w-full flex-col rounded-lg bg-white p-5 shadow-lg lg:w-[50%] dark:bg-gray-800"
+      class="flex w-full flex-col rounded-lg bg-white p-5 lg:w-[50%] dark:bg-gray-800"
     >
       <h2 class="mb-2 text-lg font-bold">Results</h2>
       <div v-if="!essay" class="text-center text-gray-500">

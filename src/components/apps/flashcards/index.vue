@@ -58,9 +58,9 @@
       <!-- Submit Button -->
       <UButton
         class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+        variant="blue"
         :disabled="loading"
         @click="generateFlashcards"
-        variant="blue"
       >
         <span v-if="!isLoading">Generate Flashcards</span>
         <span v-else class="flex items-center rounded-2xl">
@@ -76,7 +76,7 @@
 
     <!-- Flashcards Preview -->
     <div
-      class="flex w-full flex-col overflow-y-auto md:h-[70vh] lg:h-[80vh] lg:w-[50%]"
+      class="flex w-full flex-col items-center overflow-y-auto md:h-[70vh] lg:h-[80vh] lg:w-[50%]"
     >
       <h2 class="mb-2 text-lg font-bold">Preview</h2>
 
@@ -84,28 +84,42 @@
         No flashcards generated yet.
       </div>
 
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div
-          v-for="(flashcard, index) in flashcards"
-          :key="index"
-          class="flip-card"
-          @click="toggleFlip(index)"
-        >
-          <div
-            class="flip-card-inner"
-            :class="{ flipped: flippedCards[index] }"
-          >
-            <!-- Front -->
+      <!-- Single Flashcard Display -->
+      <div v-if="flashcards.length > 0" class="w-full max-w-[300px]">
+        <div class="flip-card" @click="toggleFlip">
+          <div class="flip-card-inner" :class="{ flipped: isFlipped }">
+            <!-- Front (Question) -->
             <div class="flip-card-front">
               <h3 class="text-lg font-semibold text-white">
-                {{ flashcard.front }}
+                {{ flashcards[currentIndex].front }}
               </h3>
             </div>
-            <!-- Back -->
+            <!-- Back (Answer) -->
             <div class="flip-card-back">
-              <p class="text-lg text-white">{{ flashcard.back }}</p>
+              <p class="text-lg text-white">
+                {{ flashcards[currentIndex].back }}
+              </p>
             </div>
           </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="mt-4 flex justify-between">
+          <UButton
+            class="rounded-lg bg-gray-500 px-4 py-2 text-white"
+            @click="prevCard"
+            :disabled="currentIndex === 0"
+          >
+            Back
+          </UButton>
+          <UButton
+            class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+            variant="blue"
+            @click="nextCard"
+            :disabled="currentIndex === flashcards.length - 1"
+          >
+            Next
+          </UButton>
         </div>
       </div>
     </div>
@@ -121,13 +135,14 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import * as pdfjsLib from 'pdfjs-dist'
 import mammoth from 'mammoth'
 import PPTX2Json from 'pptx2json'
-import axios from 'axios' // Import axios
+import axios from 'axios'
 
 // Specify the worker source for PDF.js
 pdfjsLib.GlobalWorkerOptions.workerSrc =
@@ -140,14 +155,31 @@ const messageContent = ref('')
 const flashcards = ref([])
 const loading = ref(false)
 const isLoading = ref(false)
-const errorMessage = ref('') // New variable for error message
+const errorMessage = ref('')
 const level = ref('beginner')
 const totalQuestions = ref('')
+const isFlipped = ref(false) // Track flip state for the current card
+const currentIndex = ref(0) // Track the current flashcard index
 
-const flippedCards = ref([]) // Track flipped state
+// Toggle flip state for the current card
+const toggleFlip = () => {
+  isFlipped.value = !isFlipped.value
+}
 
-const toggleFlip = index => {
-  flippedCards.value[index] = !flippedCards.value[index] // Toggle flip state
+// Navigate to the previous card
+const prevCard = () => {
+  if (currentIndex.value > 0) {
+    currentIndex.value--
+    isFlipped.value = false // Reset flip state
+  }
+}
+
+// Navigate to the next card
+const nextCard = () => {
+  if (currentIndex.value < flashcards.value.length - 1) {
+    currentIndex.value++
+    isFlipped.value = false // Reset flip state
+  }
 }
 
 // Trigger the hidden file input when the button is clicked
@@ -276,11 +308,13 @@ const generateFlashcards = async () => {
     if (response.status === 200) {
       console.log('Flashcards generated:', response.data)
       flashcards.value = response.data.flashcards || []
+      currentIndex.value = 0 // Reset to the first card
+      isFlipped.value = false // Reset flip state
     } else {
       errorMessage.value = response.error
     }
   } catch (err) {
-    errorMessage.value = response.error
+    errorMessage.value = err.message
   } finally {
     isLoading.value = false
   }
@@ -290,13 +324,8 @@ const generateFlashcards = async () => {
 <style scoped>
 .flip-card {
   width: 100%;
-  max-width: 250px;
-  /* Adjust width */
-  height: 180px;
-  /* Adjust height */
+  height: 50vh;
   perspective: 1000px;
-  margin: auto;
-  /* Center cards */
 }
 
 .flip-card-inner {
@@ -325,26 +354,38 @@ const generateFlashcards = async () => {
   font-size: 1rem;
   text-align: center;
   padding: 15px;
+  overflow: auto;
+  /* Allow scrolling if content overflows */
+  word-wrap: break-word;
+  /* Break long words to prevent overflow */
 }
 
 .flip-card-front {
   background-color: #2b6cb0;
-  /* Nice blue */
+  /* Blue for the front (question) */
   color: white;
+  transform: rotateY(0deg);
+  /* Ensure front is visible by default */
 }
 
 .flip-card-back {
   background-color: #38a169;
-  /* Nice green */
+  /* Green for the back (answer) */
   color: white;
   transform: rotateY(180deg);
+  /* Ensure back is hidden by default */
 }
 
-.grid {
-  display: grid;
-  gap: 16px;
-  /* Space between cards */
-  justify-content: center;
-  /* Center grid items */
+/* Ensure text fits within the card */
+.flip-card-front h3,
+.flip-card-back p {
+  margin: 0;
+  padding: 10px;
+  max-width: 100%;
+  /* Ensure text doesn't overflow horizontally */
+  overflow-y: auto;
+  /* Allow vertical scrolling if needed */
+  word-break: break-word;
+  /* Break long words to prevent overflow */
 }
 </style>
