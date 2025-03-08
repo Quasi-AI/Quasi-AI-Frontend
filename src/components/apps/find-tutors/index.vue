@@ -102,7 +102,7 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="mb-20 mt-6 flex justify-center space-x-3 lg:mb-0">
+        <div class="mb-20 mt-6 lg:mb-0 fixed bottom-8 right-8">
           <button
             class="hidden rounded-full bg-blue-600 px-16 py-2 text-white transition hover:bg-blue-700 lg:flex"
             @click="openChat"
