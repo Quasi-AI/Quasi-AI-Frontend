@@ -2,12 +2,9 @@
   <div class="container mx-auto my-10 w-full">
     <template v-if="isLoggedIn">
       <div
-        class="item-center mx-8 flex flex-col gap-6 rounded-2xl bg-white p-4 lg:flex-row lg:items-start dark:bg-[#111C44]"
+        class="item-center mx-8 flex flex-col gap-6 rounded-2xl bg-white p-4 lg:items-start dark:bg-[#111C44]"
       >
-        <div>
-          <UserMe class="w-full" />
-        </div>
-
+        <UserMe class="w-full" />
         <div class="w-full flex-1">
           <UTabs :items="tabItems" class="my-5 rounded-2xl p-4">
             <template #name>
