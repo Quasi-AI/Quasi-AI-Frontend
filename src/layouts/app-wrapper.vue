@@ -9,11 +9,11 @@
       </div>
 
       <div class="flex-1">
-        <div class="overflow-y-auto overflow-x-hidden">
+        <div class="overflow-y-auto overflow-x-hidden mx-4">
           <div class="mx-auto flex max-w-6xl flex-col items-center p-4 lg:px-0">
             <div class="flex w-full flex-col">
               <h1
-                class="animate-slide-up my-4 text-3xl font-medium dark:text-gray-400"
+                class="animate-slide-up my-4 text-3xl font-medium"
               >
                 {{ pageTitle }}
               </h1>
