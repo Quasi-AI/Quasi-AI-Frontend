@@ -44,9 +44,11 @@ const titles = {
   '/apps/speech-to-text': 'Speech to Text Converter',
   '/other/support': 'Customer Support',
   '/other/games': 'Games',
-  '/other/past-questions': 'Past Questions'
+  '/other/past-questions': 'Past Questions',
+  '/other/plan': 'Plan',
+  '/user': 'Profile'
 }
 
 // Compute the page title dynamically
-const pageTitle = computed(() => titles[route.path] || 'Page not found')
+const pageTitle = computed(() => titles[route.path] || 'Page not recognized')
 </script>
