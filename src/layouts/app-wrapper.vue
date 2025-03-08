@@ -42,7 +42,7 @@ const showBackIcon = computed(() => !hideBackIconRoutes.includes(route.path))
 
 // Define route-based titles
 const titles = {
-  '/dashboard': 'Dashboard',
+  '/dashboard': 'Welcome',
   '/apps': 'Apps',
   '/apps/questions': 'Questions',
   '/apps/flashcards': 'Smart Flashcards',
