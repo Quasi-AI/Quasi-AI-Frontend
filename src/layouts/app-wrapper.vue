@@ -12,7 +12,7 @@
         <div class="mx-4 overflow-y-auto overflow-x-hidden">
           <div class="mx-auto flex max-w-6xl flex-col items-center p-4 lg:px-0">
             <div class="flex w-full flex-col">
-              <h1 class="animate-slide-up my-4 text-3xl font-medium">
+              <h1 class="my-4 text-3xl font-medium">
                 {{ pageTitle }}
               </h1>
 
