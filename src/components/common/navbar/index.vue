@@ -68,7 +68,7 @@ const isDark = computed({
 
 const profileList = [
   [
-    { label: 'Go to profile', click: () => navigateTo('/user') },
+    { label: 'Profile', click: () => navigateTo('/user') },
     {
       label: 'Logout',
       click: () => {
