@@ -83,18 +83,14 @@
     <!-- Flashcards Container -->
     <div
       v-if="showFlashcardsContainer"
-      class="w-full rounded-lg bg-white p-5 shadow-lg lg:w-[50%] dark:bg-[#111C44]"
+      class="w-full rounded-lg bg-white p-5 shadow-lg dark:bg-[#111C44]"
     >
-      <div class="mb-4 flex items-center justify-between">
-        <h2 class="text-lg font-bold">Flashcards Preview</h2>
-      </div>
-
       <div v-if="flashcards.length === 0" class="text-center text-gray-500">
         No flashcards generated yet.
       </div>
 
       <!-- Single Flashcard Display -->
-      <div v-if="flashcards.length > 0" class="mx-auto w-full max-w-[300px]">
+      <div v-if="flashcards.length > 0" class="mx-auto w-full">
         <div class="perspective relative h-[50vh] w-full" @click="toggleFlip">
           <div
             class="preserve-3d relative h-full w-full transform transition-transform duration-500"
@@ -123,7 +119,8 @@
         <!-- Navigation Buttons -->
         <div class="mt-4 flex justify-between">
           <UButton
-            class="rounded-lg bg-gray-500 px-4 py-2 text-white"
+            class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            variant="none"
             @click="prevCard"
             :disabled="currentIndex === 0"
           >
@@ -131,6 +128,7 @@
           </UButton>
           <UButton
             class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            variant="none"
             @click="nextCard"
             :disabled="currentIndex === flashcards.length - 1"
           >
