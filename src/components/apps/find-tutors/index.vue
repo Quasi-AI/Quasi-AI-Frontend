@@ -32,6 +32,7 @@
           :src="tutor.image"
           alt="Tutor"
           class="h-80 w-full rounded-t-lg object-cover lg:h-40"
+          @click="openModal(tutor)"
         />
         <div class="p-2">
           <h2 class="mt-3 text-lg font-semibold">{{ tutor.name }}</h2>
@@ -56,10 +57,10 @@
     <!-- Modal -->
     <div
       v-if="showModal"
-      class="fixed inset-0 flex items-center justify-end overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm"
+      class="animate-fade-in fixed inset-0 flex items-center justify-end overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm"
     >
       <div
-        class="relative h-full max-h-full w-full max-w-lg overflow-y-auto bg-white p-6 shadow-2xl dark:bg-[#111C44]"
+        class="relative flex h-full max-h-full w-full max-w-lg flex-col overflow-y-auto bg-white p-6 shadow-2xl dark:bg-[#111C44]"
       >
         <!-- Close Button -->
         <button
@@ -70,7 +71,7 @@
         </button>
 
         <!-- Profile Image -->
-        <div class="flex flex-col items-center">
+        <div class="mt-10 flex flex-col items-center">
           <img
             :src="selectedTutor.image"
             alt="Tutor"
@@ -90,7 +91,7 @@
         </div>
 
         <!-- Biography -->
-        <div class="mt-4">
+        <div class="mt-4 py-3">
           <h3 class="text-lg font-medium text-gray-800 dark:text-gray-300">
             Biography
           </h3>
@@ -101,88 +102,63 @@
           </p>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="mb-30 fixed bottom-8 right-8 mt-6 lg:mb-0">
-          <button
-            class="hidden rounded-full border px-16 py-2 text-blue-700 transition lg:flex dark:border-gray-600"
-            @click="openChat"
-          >
-            Chat
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Chat Area -->
-    <div
-      v-if="showChat"
-      class="fixed bottom-5 right-5 flex h-[400px] w-96 flex-col overflow-hidden rounded-lg bg-white shadow-xl dark:bg-[#111C44]"
-    >
-      <!-- Chat Header -->
-      <div
-        class="flex items-center justify-between bg-[#5D3BE9] px-4 py-3 text-white"
-      >
-        <h3 class="text-lg font-semibold">
-          Chat with {{ selectedTutor.name }}
-        </h3>
-        <button class="text-2xl text-white hover:opacity-80" @click="closeChat">
-          &times;
-        </button>
-      </div>
-
-      <!-- Chat Messages -->
-      <div class="flex flex-grow flex-col space-y-2 overflow-y-auto p-4">
-        <div
-          v-for="(msg, index) in chatMessages"
-          :key="index"
-          class="flex w-full"
-        >
+        <!-- Chat Messages -->
+        <div class="flex flex-grow flex-col space-y-2 overflow-y-auto p-4">
           <div
-            :class="{
-              'ml-auto bg-[#5D3BE9] text-white': msg.sender === 'user',
-              'mr-auto bg-gray-200 text-black': msg.sender === 'tutor'
-            }"
-            class="max-w-[80%] rounded-lg px-4 py-2"
+            v-for="(msg, index) in chatMessages"
+            :key="index"
+            class="flex w-full"
           >
-            {{ msg.text }}
+            <div
+              :class="{
+                'ml-auto bg-[#5D3BE9] text-white': msg.sender === 'user',
+                'mr-auto text-gray-500 dark:bg-[#0C1438]':
+                  msg.sender === 'tutor'
+              }"
+              class="max-w-[80%] rounded-lg px-4 py-2"
+            >
+              {{ msg.text }}
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Chat Input -->
-      <div class="flex items-center bg-white p-3 dark:bg-[#0C1438]">
-        <!-- Message Input -->
-        <input
-          v-model="newMessage"
-          type="text"
-          placeholder="Type a message..."
-          class="my-2 flex-grow rounded-full bg-gray-200 p-2 dark:bg-[#111C44]"
-          @keyup.enter="sendMessage"
-        />
-
-        <!-- Schedule Meeting Button -->
-        <button
-          class="ml-3 rounded-full p-2 text-gray-600 transition"
-          @click="openCalendar"
+        <!-- Chat Input -->
+        <div
+          class="mb-10 flex items-center rounded-full bg-white p-3 lg:mb-0 dark:bg-[#0C1438]"
         >
-          <font-awesome-icon :icon="['fas', 'fa-calendar-alt']" />
-        </button>
+          <!-- Message Input -->
+          <input
+            v-model="newMessage"
+            type="text"
+            placeholder="Type a message..."
+            class="my-2 flex-grow rounded-full bg-gray-200 p-2 dark:bg-[#0C1438]"
+            @keyup.enter="sendMessage"
+          />
 
-        <!-- Video Call Button (Using FontAwesome) -->
-        <button
-          class="ml-3 rounded-full p-2 text-gray-600 transition"
-          @click="startVideoCall"
-        >
-          <font-awesome-icon :icon="['fas', 'fa-video']" />
-        </button>
+          <!-- Schedule Meeting Button -->
+          <button
+            class="ml-3 rounded-full p-2 text-gray-600 transition"
+            @click="openCalendar"
+          >
+            <font-awesome-icon :icon="['fas', 'fa-calendar-alt']" />
+          </button>
 
-        <!-- Send Message Button -->
-        <button
-          class="ml-3 rounded-full p-2 text-blue-600 transition"
-          @click="sendMessage"
-        >
-          <font-awesome-icon :icon="['fas', 'fa-paper-plane']" />
-        </button>
+          <!-- Video Call Button (Using FontAwesome) -->
+          <button
+            class="ml-3 rounded-full p-2 text-gray-600 transition"
+            @click="startVideoCall"
+          >
+            <font-awesome-icon :icon="['fas', 'fa-video']" />
+          </button>
+
+          <!-- Send Message Button -->
+          <button
+            class="ml-3 rounded-full p-2 text-blue-600 transition"
+            @click="sendMessage"
+          >
+            <font-awesome-icon :icon="['fas', 'fa-paper-plane']" />
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -340,12 +316,12 @@ const tutors = ref([
   },
   {
     id: 17,
-    name: 'Joseph Clark',
+    name: 'Josephine Clark',
     subject: 'Political Science',
     experience: 6,
     rating: 4,
     bio: 'Political science tutor with a focus on international relations and political theory.',
-    image: 'https://randomuser.me/api/portraits/men/17.jpg'
+    image: 'https://randomuser.me/api/portraits/women/17.jpg'
   },
   {
     id: 18,
