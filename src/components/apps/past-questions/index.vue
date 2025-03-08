@@ -3,66 +3,76 @@
     <!-- Form Container -->
     <div
       v-if="!showQuestionsContainer"
-      class="flex w-full flex-col items-center gap-4"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-lg dark:bg-[#111C44] dark:text-white"
     >
-      <!-- Text Area -->
-      <textarea
-        v-model="messageContent"
-        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
-        placeholder="Type or upload a file to generate questions..."
-      />
-
-      <!-- File Upload Instructions -->
-      <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Upload a document:</p>
-        <strong>Accepted File Types: (.pdf, .docx)</strong>
-      </div>
-
-      <!-- File Upload Button -->
-      <div class="mt-2 flex gap-4">
-        <UButton
-          class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
-          @click="triggerFileInput"
-        >
-          <font-awesome-icon :icon="['fas', 'upload']" />
-        </UButton>
-      </div>
-      <input
-        id="file-upload"
-        type="file"
-        @change="e => handleFileUpload(e, updateMessageContent)"
-        class="hidden"
-      />
-
-      <!-- Level Selection -->
-      <select
-        v-model="selectedLevel"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
+      <!-- Upload File -->
+      <div
+        @click="triggerFileInput"
+        class="rounded-lg border-2 border-dashed border-gray-300 p-6 text-center"
       >
-        <option value="beginner">Beginner</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="advanced">Advanced</option>
-      </select>
+        <p class="font-medium text-gray-500">
+          Click or drag and drop to upload your document
+        </p>
+        <p class="mt-1 text-sm text-gray-400">
+          Accepted File Types: (.pdf, .docx)
+        </p>
+        <input
+          id="file-upload"
+          type="file"
+          class="hidden"
+          @change="handleFileUpload"
+        />
+      </div>
 
-      <!-- Number of Questions -->
-      <input
-        type="number"
-        v-model="numQuestions"
-        min="1"
-        max="20"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
-        placeholder="Number of questions"
-      />
+      <!-- Content Text Area -->
+      <div class="mt-6">
+        <p class="mb-2 block font-medium text-gray-500">Content</p>
+        <textarea
+          v-model="messageContent"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+          placeholder="Enter your detailed content here"
+        />
+      </div>
+
+      <!-- Difficulty & Number of Questions -->
+      <div class="mt-4 flex gap-4">
+        <div class="w-1/2">
+          <p class="mb-2 block font-medium text-gray-500">Difficulty level</p>
+          <select
+            v-model="selectedLevel"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="w-1/2">
+          <p class="mb-2 block font-medium text-gray-500">
+            Number of questions
+          </p>
+          <input
+            type="number"
+            v-model="numQuestions"
+            min="1"
+            max="20"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+            placeholder="Enter number of questions to generate"
+          />
+        </div>
+      </div>
 
       <!-- Generate Button -->
-      <UButton
-        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-        variant="blue"
-        :disabled="loading"
-        @click="generateQuestions"
-      >
-        {{ loading ? 'Generating...' : 'Generate Questions' }}
-      </UButton>
+      <div class="mt-6 flex justify-center">
+        <button
+          class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
+          :disabled="loading"
+          @click="generateQuestions"
+        >
+          {{ loading ? 'Generating...' : 'Generate past questions' }}
+        </button>
+      </div>
     </div>
 
     <!-- Questions Container (Visible only when questions are generated) -->

@@ -3,73 +3,79 @@
     <!-- Form Container -->
     <div
       v-if="!showFlashcardsContainer"
-      class="flex w-full flex-col items-center gap-4"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-lg dark:bg-[#111C44] dark:text-white"
     >
-      <!-- Text Area -->
-      <textarea
-        v-model="messageContent"
-        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
-        placeholder="Type your content here"
-      />
-
-      <!-- File Upload Instructions -->
-      <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Upload a document:</p>
-        <strong>Accepted File Types: (.pdf, .docx)</strong>
-      </div>
-
-      <!-- File Upload Icon -->
-      <div class="mt-2 flex gap-4">
-        <UButton
-          class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
-          @click="triggerFileInput"
-        >
-          <font-awesome-icon :icon="['fas', 'upload']" />
-        </UButton>
-      </div>
-      <input
-        type="file"
-        id="file-upload"
-        class="hidden"
-        @change="e => handleFileUpload(e, updateMessageContent)"
-      />
-
-      <!-- Dropdown for Level -->
-      <div class="mt-2 w-full">
-        <select
-          v-model="level"
-          class="w-full rounded-2xl bg-white p-3 shadow dark:bg-[#111C44] dark:text-white"
-        >
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-      </div>
-
-      <!-- Number Input for Total Questions -->
-      <div class="mt-2 w-full">
+      <!-- Upload File -->
+      <div
+        @click="triggerFileInput"
+        class="rounded-lg border-2 border-dashed border-gray-300 p-6 text-center"
+      >
+        <p class="font-medium text-gray-500">
+          Click or drag and drop to upload your document
+        </p>
+        <p class="mt-1 text-sm text-gray-400">
+          Accepted File Types: (.pdf, .docx)
+        </p>
         <input
-          v-model.number="totalQuestions"
-          type="number"
-          min="1"
-          max="50"
-          class="w-full rounded-2xl bg-white p-3 shadow dark:bg-[#111C44] dark:text-white"
-          placeholder="Enter total questions"
+          id="file-upload"
+          type="file"
+          class="hidden"
+          @change="handleFileUpload"
         />
       </div>
 
-      <!-- Submit Button -->
-      <UButton
-        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-        variant="blue"
-        :disabled="isLoading"
-        @click="generateFlashcards"
-      >
-        {{ isLoading ? 'Generating...' : 'Generate Flashcards' }}
-      </UButton>
+      <!-- Content Text Area -->
+      <div class="mt-6">
+        <p class="mb-2 block font-medium text-gray-500">Content</p>
+        <textarea
+          v-model="messageContent"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+          placeholder="Enter your detailed content here"
+        />
+      </div>
+
+      <!-- Difficulty & Number of Questions -->
+      <div class="mt-4 flex gap-4">
+        <div class="w-1/2">
+          <p class="mb-2 block font-medium text-gray-500">Difficulty level</p>
+          <select
+            v-model="level"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="w-1/2">
+          <p class="mb-2 block font-medium text-gray-500">
+            Number of questions
+          </p>
+          <input
+            type="number"
+            v-model.number="totalQuestions"
+            min="1"
+            max="50"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+            placeholder="Enter total questions"
+          />
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <div class="mt-6 flex justify-center">
+        <button
+          class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
+          :disabled="isLoading"
+          @click="generateFlashcards"
+        >
+          {{ isLoading ? 'Generating...' : 'Generate Flashcards' }}
+        </button>
+      </div>
 
       <!-- Error Message -->
-      <div v-if="errorMessage" class="mt-4 text-red-500">
+      <div v-if="errorMessage" class="mt-4 text-center text-red-500">
         {{ errorMessage }}
       </div>
     </div>
@@ -138,7 +144,6 @@
 
 <script setup>
 import axios from 'axios'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { handleFileUpload } from '@/utils/extractText'
 
 const messageContent = ref('')

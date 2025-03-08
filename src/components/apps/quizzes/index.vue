@@ -3,98 +3,110 @@
     <!-- Form Container -->
     <div
       v-if="!showQuizzesContainer"
-      class="flex w-full flex-col items-center gap-4"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-lg dark:bg-[#111C44] dark:text-white"
     >
-      <div class="flex items-center gap-4">
-        <!-- Export Results -->
-        <UButton
-          v-if="score !== null"
-          class="w-[200px] rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+      <!-- Export & Score Section -->
+      <div v-if="score !== null" class="mb-6 flex items-center justify-between">
+        <button
+          class="rounded-lg bg-[#5D3BEA] px-6 py-2 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
           :disabled="loading"
           @click="exportResults"
         >
           Export Results
-        </UButton>
-
-        <!-- Score Display -->
-        <div v-if="score !== null" class="text-lg font-bold">
-          Your Score: {{ score }} / {{ quizes.length }}
+        </button>
+        <div class="text-lg font-bold text-gray-800">
+          Your Score: {{ score }} / {{ quizzes.length }}
         </div>
       </div>
 
-      <!-- Text Area -->
-      <textarea
-        v-model="messageContent"
-        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow-lg transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
-        placeholder="Type your content here"
-      />
-
-      <!-- File Upload Instructions -->
-      <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Upload a document:</p>
-        <strong>Accepted File Types: (.pdf, .docx)</strong>
+      <!-- Text Area for Content -->
+      <div class="mb-6">
+        <p class="mb-2 block font-medium text-gray-500">Quiz Content</p>
+        <textarea
+          v-model="messageContent"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+          placeholder="Type your content here"
+        />
       </div>
 
-      <!-- File Upload Button -->
-      <div class="mt-2 flex gap-4">
-        <UButton
-          class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
-          @click="triggerFileInput"
-        >
-          <font-awesome-icon :icon="['fas', 'upload']" />
-        </UButton>
-      </div>
-      <input
-        id="file-upload"
-        type="file"
-        @change="e => handleFileUpload(e, updateMessageContent)"
-        class="hidden"
-      />
-
-      <!-- Level Selection -->
-      <select
-        v-model="selectedLevel"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
+      <!-- File Upload -->
+      <div
+        @click="triggerFileInput"
+        class="mb-6 rounded-lg border-2 border-dashed border-gray-300 p-6 text-center"
       >
-        <option value="beginner">Beginner</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="advanced">Advanced</option>
-      </select>
+        <p class="font-medium text-gray-500">
+          Click or drag and drop to upload a document
+        </p>
+        <p class="mt-1 text-sm text-gray-400">
+          Accepted File Types: (.pdf, .docx)
+        </p>
+        <input
+          id="file-upload"
+          type="file"
+          class="hidden"
+          @change="handleFileUpload"
+        />
+      </div>
 
-      <!-- Number of Questions -->
-      <input
-        type="number"
-        v-model="numQuestions"
-        min="1"
-        max="20"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
-        placeholder="Number of questions"
-      />
+      <!-- Quiz Settings -->
+      <div class="flex flex-col gap-4">
+        <!-- Difficulty Level -->
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">Difficulty Level</p>
+          <select
+            v-model="selectedLevel"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
 
-      <!-- Timer Input -->
-      <input
-        type="number"
-        v-model="userTimer"
-        min="1"
-        :class="{
-          'w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white': true,
-          'border border-red-500': hasError
-        }"
-        placeholder="Timer duration (minutes)"
-      />
-      <p v-if="hasError" class="mt-1 text-sm text-red-500">
-        Please specify a valid timer duration.
-      </p>
+        <!-- Number of Questions -->
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">
+            Number of Questions
+          </p>
+          <input
+            type="number"
+            v-model="numQuestions"
+            min="1"
+            max="20"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+            placeholder="Enter number of questions"
+          />
+        </div>
+
+        <!-- Timer Input -->
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">
+            Timer Duration (minutes)
+          </p>
+          <input
+            type="number"
+            v-model="userTimer"
+            min="1"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+            :class="{ 'border-red-500': hasError }"
+            placeholder="Enter timer duration"
+          />
+          <p v-if="hasError" class="mt-1 text-sm text-red-500">
+            Please specify a valid timer duration.
+          </p>
+        </div>
+      </div>
 
       <!-- Generate Quiz Button -->
-      <UButton
-        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-        variant="blue"
-        :disabled="loading"
-        @click="generateQuestions"
-      >
-        {{ loading ? 'Generating...' : 'Generate Quiz' }}
-      </UButton>
+      <div class="mt-6 flex justify-center">
+        <button
+          class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
+          :disabled="loading"
+          @click="generateQuestions"
+        >
+          {{ loading ? 'Generating...' : 'Generate Quiz' }}
+        </button>
+      </div>
     </div>
 
     <!-- Quiz Section -->

@@ -1,55 +1,52 @@
 <template>
   <div class="flex flex-col gap-4 lg:flex-row">
+    <!-- Form Container -->
     <div
       v-if="!showEssaysContainer"
-      class="flex w-full flex-col items-center gap-4"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-lg dark:bg-[#111C44] dark:text-white"
     >
-      <textarea
-        v-model="messageContent"
-        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow dark:bg-[#111C44] dark:text-white"
-        placeholder="Type your content here"
-      />
-
-      <!-- File Upload Instructions -->
-      <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Upload a document:</p>
-        <strong>Accepted File Types: (.pdf, .docx)</strong>
+      <!-- Text Area for Essay Content -->
+      <div class="mb-6">
+        <p class="mb-2 block font-medium text-gray-500">Essay Content</p>
+        <textarea
+          v-model="messageContent"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+          placeholder="Type or paste your essay here"
+        />
       </div>
 
-      <!-- File Upload Button -->
-      <div class="mt-2 flex gap-4">
-        <UButton
-          class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
-          @click="triggerFileInput"
-        >
-          <font-awesome-icon :icon="['fas', 'upload']" />
-        </UButton>
-      </div>
-      <input
-        id="file-upload"
-        type="file"
-        @change="e => handleFileUpload(e, updateMessageContent)"
-        class="hidden"
-      />
-
-      <input
-        type="file"
-        id="file-upload"
-        style="display: none"
-        @change="handleFileChange"
-      />
-
-      <UButton
-        variant="blue"
-        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-        :disabled="isLoading"
-        @click="analyzeEssay"
+      <!-- File Upload Section -->
+      <div
+        @click="triggerFileInput"
+        class="mb-6 rounded-lg border-2 border-dashed border-gray-300 p-6 text-center"
       >
-        <span v-if="!isLoading">Analyze Essay</span>
-        <span v-else>Loading...</span>
-      </UButton>
+        <p class="font-medium text-gray-500">
+          Click or drag and drop to upload an essay document
+        </p>
+        <p class="mt-1 text-sm text-gray-400">
+          Accepted File Types: (.pdf, .docx)
+        </p>
+        <input
+          id="file-upload"
+          type="file"
+          class="hidden"
+          @change="handleFileUpload"
+        />
+      </div>
 
-      <div v-if="errorMessage" class="mt-4 text-red-500">
+      <!-- Analyze Essay Button -->
+      <div class="mt-6 flex justify-center">
+        <button
+          class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
+          :disabled="isLoading"
+          @click="analyzeEssay"
+        >
+          {{ isLoading ? 'Analyzing...' : 'Analyze Essay' }}
+        </button>
+      </div>
+
+      <!-- Error Message Display -->
+      <div v-if="errorMessage" class="mt-4 text-center text-red-500">
         {{ errorMessage }}
       </div>
     </div>
