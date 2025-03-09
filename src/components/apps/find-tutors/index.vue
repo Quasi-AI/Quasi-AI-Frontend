@@ -102,7 +102,7 @@
         </div>
 
         <!-- Biography -->
-        <div class="mt-4 py-3">
+        <div class="mt-4 border-b py-4 dark:border-[#0C1438]">
           <h3 class="text-lg font-medium text-gray-800 dark:text-gray-300">
             Biography
           </h3>
@@ -118,7 +118,7 @@
           <p
             class="mt-2 max-h-40 overflow-auto text-sm text-gray-600 dark:text-gray-400"
           >
-            {{ selectedTutor.price }}
+            $ {{ selectedTutor.price }}
           </p>
         </div>
 
