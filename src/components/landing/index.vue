@@ -171,7 +171,7 @@
 
     <!-- Start Teaching with Us -->
     <div
-      class="animate-fade-in flex flex-col items-center justify-center gap-10 rounded-b-3xl bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12 lg:rounded-none"
+      class="animate-fade-in flex flex-col items-center justify-center gap-10 bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
     >
       <div
         class="flex w-[100%] flex-col items-center text-center lg:w-[50%] lg:items-start lg:text-wrap lg:text-left"
