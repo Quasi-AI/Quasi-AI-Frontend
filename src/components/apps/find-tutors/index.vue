@@ -47,8 +47,14 @@
               View biography
             </p>
             <div class="flex items-center space-x-2">
-              <EditIcon class="h-4 w-4 cursor-pointer" />
-              <DeleteIcon class="h-4 w-4 cursor-pointer" />
+              <EditIcon
+                @click="createEditTutorModal = true"
+                class="h-4 w-4 cursor-pointer"
+              />
+              <DeleteIcon
+                @click="deleteTutorModal = true"
+                class="h-4 w-4 cursor-pointer"
+              />
             </div>
           </div>
         </div>
@@ -160,6 +166,11 @@
     <!-- Modal for create or edit a tutor -->
     <UModal v-model="createEditTutorModal">
       <UCard class="p-6">
+        <template #header>
+          <h1 class="text-xl font-semibold">
+            {{ isEditing ? 'Edit Tutor' : 'Add Tutor' }}
+          </h1>
+        </template>
         <!-- Profile Picture Upload -->
         <div class="flex flex-col items-center">
           <label for="file-upload" class="relative cursor-pointer">
@@ -234,6 +245,36 @@
         </div>
       </UCard>
     </UModal>
+
+    <!-- Modal for deleting a tutor -->
+    <UModal v-model="deleteTutorModal">
+      <UCard class="p-6">
+        <template #header>
+          <h1 class="text-xl font-semibold">Delete Tutor</h1>
+        </template>
+        <p>
+          Are you sure you want to delete this tutor? <br />
+          Students will not be able to find this tutor anymore
+        </p>
+
+        <!-- Modal Actions -->
+        <div class="mt-6 flex justify-end space-x-2">
+          <UButton
+            color="gray"
+            @click="closeDeleteTutorModal"
+            variant="none"
+            class="flex w-[130px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
+            >Close modal</UButton
+          >
+          <UButton
+            @click="deleteTutor"
+            class="flex w-[150px] items-center justify-center rounded-md bg-[#5D3BEA] py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            variant="none"
+            >Delete tutor</UButton
+          >
+        </div>
+      </UCard>
+    </UModal>
   </div>
 </template>
 
@@ -244,6 +285,7 @@ import DeleteIcon from '~/assets/icons/delete-icon.vue'
 import { tutors } from '~/constants/tutors'
 
 const createEditTutorModal = ref(false)
+const deleteTutorModal = ref(false)
 const showModal = ref(false)
 const selectedTutor = ref({})
 const searchQuery = ref('')
@@ -297,9 +339,15 @@ const uploadImage = event => {
 }
 
 const closeCreateEditModal = () => (createEditTutorModal.value = false)
+const closeDeleteTutorModal = () => (deleteTutorModal.value = false)
 const saveTutor = () => {
   console.log('Tutor saved:', tutor.value)
   closeCreateEditModal()
+}
+
+const deleteTutor = () => {
+  console.log('Tutor deleted:', selectedTutor.value)
+  closeDeleteTutorModal()
 }
 </script>
 
