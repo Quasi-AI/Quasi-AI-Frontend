@@ -464,7 +464,7 @@ const closeDeleteTutorModal = () => {
 const fetchChatMessages = async (tutorId) => {
   try {
     const response = await axios.get(
-      `https://dark-caldron-448714-u5.uc.r.appspot.com/tutor-chat?tutor_id=${tutorId}&student_id=${localStorageUserId.value}`
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/tutor-chat`
     )
     chatMessages.value = response.data.chatHistory.map(msg => ({
       text: msg.content,
