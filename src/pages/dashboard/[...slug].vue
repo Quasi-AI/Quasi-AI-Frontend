@@ -46,7 +46,7 @@
 
 <script setup>
 import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
-import LandingUiIconsFeaturesFlashcards from '@/components/landing/ui/icons/features/flashcards.vue'
+import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
 import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
 
 const router = useRouter()
@@ -60,12 +60,12 @@ const features = ref([
     bgColor: 'bg-[#EBEBFF] dark:bg-[#1E2A5A]'
   },
   {
-    icon: LandingUiIconsFeaturesFlashcards,
-    title: 'Smart Flashcards',
+    icon: LandingUiIconsFeaturesQuizzes,
+    title: 'Practice Quizzes',
     description:
-      'AI-powered flashcard generation from your learning materials with spaced repetition.',
-    route: '/apps/flashcards',
-    bgColor: 'bg-[#FFF2E5] dark:bg-[#2C2C54]'
+      'Automatically generated quizzes to test understanding and track progress.',
+    route: '/apps/quizzes',
+    bgColor: 'bg-[#F5F7FA] dark:bg-[#232D4B]'
   },
   {
     icon: LandingUiIconsFeaturesTutors,
