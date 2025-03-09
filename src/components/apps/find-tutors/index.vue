@@ -260,8 +260,8 @@
         <h1 class="mb-4 text-xl font-semibold">Delete Tutor</h1>
         <p>
           Are you sure you want to delete
-          <span class="font-extrabold">{{ selectedTutor.name }}</span> from Quasi
-          AI? <br />
+          <span class="font-extrabold">{{ selectedTutor.name }}</span> from
+          Quasi AI? <br />
           Students will not be able to find and chat with this tutor anymore
         </p>
 

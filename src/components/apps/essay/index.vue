@@ -10,7 +10,7 @@
         <p class="mb-2 block font-medium text-gray-500">Essay Content</p>
         <textarea
           v-model="messageContent"
-          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-gray-600 dark:bg-[#111C44] dark:text-white"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
           placeholder="Type or paste your essay here"
         />
       </div>
