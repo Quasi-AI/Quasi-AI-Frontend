@@ -155,14 +155,6 @@
             @keyup.enter="sendMessage"
           />
 
-          <!-- Schedule Meeting Button -->
-          <button
-            class="ml-3 rounded-full p-2 text-gray-600 transition"
-            @click="openCalendar"
-          >
-            <font-awesome-icon :icon="['fas', 'fa-calendar-alt']" />
-          </button>
-
           <!-- Send Message Button -->
           <button
             class="ml-3 rounded-full p-2 text-blue-600 transition"
@@ -287,6 +279,7 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import EditIcon from '~/assets/icons/edit-icon.vue'
@@ -351,6 +344,7 @@ const openModal = tutor => {
   if (!tutor.status) {
     selectedTutor.value = tutor
     showModal.value = true
+    fetchChatMessages(tutor._id) // Fetch chat messages when modal opens
   }
 }
 
@@ -464,6 +458,52 @@ const closeCreateEditModal = () => {
 
 const closeDeleteTutorModal = () => {
   deleteTutorModal.value = false
+}
+
+// Fetch chat messages for a specific tutor
+const fetchChatMessages = async (tutorId) => {
+  try {
+    const response = await axios.get(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/tutor-chat?tutor_id=${tutorId}&student_id=${localStorageUserId.value}`
+    )
+    chatMessages.value = response.data.chatHistory.map(msg => ({
+      text: msg.content,
+      sender: msg.sender_id === localStorageUserId.value ? 'user' : 'tutor'
+    }))
+  } catch (error) {
+    console.error('Error fetching chat messages:', error)
+  }
+}
+
+// Send a new message
+const sendMessage = async () => {
+  if (newMessage.value.trim() === '') return
+
+  try {
+    const payload = {
+      tutor_id: selectedTutor.value._id,
+      student_id: localStorageUserId.value,
+      sender_id: localStorageUserId.value,
+      receiver_id: selectedTutor.value._id,
+      message: newMessage.value
+    }
+
+    await axios.post(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/tutor-chat',
+      payload
+    )
+
+    // Add the new message to the chat
+    chatMessages.value.push({
+      text: newMessage.value,
+      sender: 'user'
+    })
+
+    // Clear the input
+    newMessage.value = ''
+  } catch (error) {
+    console.error('Error sending message:', error)
+  }
 }
 </script>
 
