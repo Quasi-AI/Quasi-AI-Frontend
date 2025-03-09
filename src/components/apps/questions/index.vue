@@ -20,7 +20,7 @@
           id="file-upload"
           type="file"
           class="hidden"
-          @change="handleFileUpload"
+          @change="handleFileUploadWrapper"
         />
       </div>
 
@@ -160,5 +160,9 @@ const triggerFileInput = () => {
 // Update message content when a file is uploaded
 const updateMessageContent = text => {
   messageContent.value = text
+}
+
+const handleFileUploadWrapper = async event => {
+  await handleFileUpload(event, updateMessageContent)
 }
 </script>

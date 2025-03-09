@@ -57,7 +57,7 @@
           id="file-upload"
           type="file"
           class="hidden"
-          @change="handleFileUpload"
+          @change="handleFileUploadWrapper"
         />
       </div>
 
@@ -263,7 +263,7 @@ const generateFlashcards = async () => {
   }
 }
 
-// Trigger file input
+// Trigger the file input when the button is clicked
 const triggerFileInput = () => {
   document.getElementById('file-upload').click()
 }
@@ -271,5 +271,9 @@ const triggerFileInput = () => {
 // Update message content when a file is uploaded
 const updateMessageContent = text => {
   messageContent.value = text
+}
+
+const handleFileUploadWrapper = async event => {
+  await handleFileUpload(event, updateMessageContent)
 }
 </script>
