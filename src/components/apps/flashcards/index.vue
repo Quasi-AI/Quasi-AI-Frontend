@@ -1,8 +1,45 @@
 <template>
   <div class="flex flex-col gap-4 lg:flex-row">
+    <!-- Home -->
+    <div v-if="showHomeFlashcards" class="w-full">
+      <div
+        class="flex w-full flex-col items-center justify-end gap-2 p-8 lg:flex-row"
+      >
+        <UInput
+          variant="none"
+          class="my-2 w-full rounded-lg border bg-white p-1 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          placeholder="Search for flashcards by name"
+          v-model="selectedCategory"
+          maxLength="250"
+        />
+        <select
+          v-model="filterFlashcards"
+          class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+        >
+          <option value="">All Flashcards</option>
+          <option v-for="flash in flashcardsLists" :key="flash" :value="flash">
+            {{ flash }}
+          </option>
+        </select>
+        <button
+          @click="HandleCreateFlashcardsButton"
+          class="flex w-full items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-90 hover:bg-[#4A2DCA] lg:w-[200px]"
+          variant="blue"
+        >
+          Create flashcards
+        </button>
+      </div>
+
+      <!-- Empty State (Show when no flashcards are available) -->
+      <div class="mt-4 text-center text-gray-500">
+        No flashcards available.
+        <EmptyStateIcon width="100%" height="350px" />
+      </div>
+    </div>
+
     <!-- Form Container -->
     <div
-      v-if="!showFlashcardsContainer"
+      v-if="showCreateFlashcards"
       class="mx-auto w-full rounded-xl bg-white p-8 shadow-lg dark:bg-[#111C44] dark:text-white"
     >
       <!-- Upload File -->
@@ -82,7 +119,7 @@
 
     <!-- Flashcards Container -->
     <div
-      v-if="showFlashcardsContainer"
+      v-if="showPreviewFlashcards"
       class="w-full rounded-lg bg-white p-5 shadow-lg dark:bg-[#111C44]"
     >
       <div v-if="flashcards.length === 0" class="text-center text-gray-500">
@@ -143,6 +180,7 @@
 <script setup>
 import axios from 'axios'
 import { handleFileUpload } from '@/utils/extractText'
+import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const messageContent = ref('')
 const flashcards = ref([])
@@ -152,7 +190,13 @@ const level = ref('beginner')
 const totalQuestions = ref('')
 const isFlipped = ref(false)
 const currentIndex = ref(0)
-const showFlashcardsContainer = ref(false)
+const showCreateFlashcards = ref(false)
+const showPreviewFlashcards = ref(false)
+const showHomeFlashcards = ref(true)
+
+// Filters
+const filterFlashcards = ref('')
+const flashcardsLists = ['My flashcards']
 
 // Toggle flip state for the current card
 const toggleFlip = () => {
@@ -175,7 +219,15 @@ const nextCard = () => {
   }
 }
 
+const HandleCreateFlashcardsButton = async () => {
+  showHomeFlashcards.value = false
+  showCreateFlashcards.value = true
+  showPreviewFlashcards.value = false
+}
+
 const generateFlashcards = async () => {
+  showHomeFlashcards.value = false
+
   try {
     isLoading.value = true
 
@@ -198,7 +250,9 @@ const generateFlashcards = async () => {
       flashcards.value = response.data.flashcards || []
       currentIndex.value = 0
       isFlipped.value = false
-      showFlashcardsContainer.value = true
+      showPreviewFlashcards.value = true
+      showHomeFlashcards.value = false
+      showCreateFlashcards.value = false
     } else {
       errorMessage.value = response.error
     }

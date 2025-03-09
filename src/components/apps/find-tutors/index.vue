@@ -8,7 +8,7 @@
         type="text"
         v-model="searchQuery"
         placeholder="Search tutors by name or subject"
-        class="bg-gray-white my-2 w-full rounded-lg border p-2 lg:w-[350px] dark:border-none dark:bg-[#111C44]"
+        class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[350px] dark:border-none dark:bg-[#111C44]"
       />
 
       <button
