@@ -86,7 +86,7 @@
             alt="Tutor"
             class="h-80 rounded-t-lg transition hover:opacity-80"
           />
-          <p class="mt-2 cursor-pointer text-sm text-gray-400 underline">
+          <p  @click="createEditTutorModal = true" class="mt-2 cursor-pointer text-sm text-gray-400 underline">
             Click to change picture
           </p>
         </div>
