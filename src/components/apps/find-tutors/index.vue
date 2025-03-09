@@ -177,11 +177,9 @@
     <!-- Modal for create or edit a tutor -->
     <UModal v-model="createEditTutorModal">
       <UCard class="p-6">
-        <template #header>
-          <h1 class="text-xl font-semibold">
-            {{ isEditing ? 'Edit Tutor' : 'Add Tutor' }}
-          </h1>
-        </template>
+        <h1 class="mb-4 text-xl font-semibold">
+          {{ isEditing ? 'Edit Tutor' : 'Add Tutor' }}
+        </h1>
         <!-- Profile Picture Upload -->
         <div class="flex flex-col items-center">
           <label for="file-upload" class="relative cursor-pointer text-left">
@@ -259,12 +257,12 @@
     <!-- Modal for deleting a tutor -->
     <UModal v-model="deleteTutorModal">
       <UCard class="p-6">
-        <template #header>
-          <h1 class="text-xl font-semibold">Delete Tutor</h1>
-        </template>
+        <h1 class="mb-4 text-xl font-semibold">Delete Tutor</h1>
         <p>
-          Are you sure you want to delete this tutor? <br />
-          Students will not be able to find this tutor anymore
+          Are you sure you want to delete
+          <span class="font-extrabold">{{ selectedTutor.name }}</span> from Quasi
+          AI? <br />
+          Students will not be able to find and chat with this tutor anymore
         </p>
 
         <!-- Modal Actions -->
