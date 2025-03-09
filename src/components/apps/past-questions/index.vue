@@ -8,7 +8,7 @@
       <!-- Upload File -->
       <div
         @click="triggerFileInput"
-        class="rounded-lg border-2 border-dashed border-gray-300 p-6 text-center"
+        class="rounded-lg border-2 border-dashed border-blue-300 p-6 text-center"
       >
         <p class="font-medium text-gray-500">
           Click or drag and drop to upload your document
