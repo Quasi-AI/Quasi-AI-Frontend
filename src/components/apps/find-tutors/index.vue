@@ -460,12 +460,23 @@ const closeDeleteTutorModal = () => {
   deleteTutorModal.value = false
 }
 
-// Fetch chat messages for a specific tutor
-const fetchChatMessages = async (tutorId) => {
+// Fetch chat messages for a specific tutor using POST
+const fetchChatMessages = async tutorId => {
   try {
-    const response = await axios.get(
-      `https://dark-caldron-448714-u5.uc.r.appspot.com/tutor-chat`
+    const payload = {
+      tutor_id: tutorId,
+      student_id: localStorageUserId.value,
+      sender_id: localStorageUserId.value,
+      receiver_id: tutorId,
+      message: 'You opened the chat'
+    }
+
+    const response = await axios.post(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/tutor-chat',
+      payload
     )
+
+    // Map the chat history to the chatMessages array
     chatMessages.value = response.data.chatHistory.map(msg => ({
       text: msg.content,
       sender: msg.sender_id === localStorageUserId.value ? 'user' : 'tutor'
@@ -506,7 +517,6 @@ const sendMessage = async () => {
   }
 }
 </script>
-
 <style scoped>
 .container {
   max-width: 1000px;
