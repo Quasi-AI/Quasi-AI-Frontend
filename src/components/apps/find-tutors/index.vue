@@ -12,8 +12,8 @@
       />
 
       <button
-        class="mr-4 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-        @click="openCreateModal"
+        class="mr-4 rounded-lg bg-[#5D3BEA] px-6 py-1 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+        @click="createEditTutorModal = true"
       >
         Create Tutor
       </button>
@@ -156,6 +156,84 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal for create or edit a tutor -->
+    <UModal v-model="createEditTutorModal">
+      <UCard class="p-6">
+        <!-- Profile Picture Upload -->
+        <div class="flex flex-col items-center">
+          <label for="file-upload" class="relative cursor-pointer">
+            <img
+              :src="profileImage || defaultProfileImage"
+              class="h-24 w-24 rounded-full border-2 border-gray-300 object-cover"
+              alt="Profile"
+            />
+            <input
+              id="file-upload"
+              type="file"
+              class="hidden"
+              @change="uploadImage"
+            />
+          </label>
+          <p
+            class="mt-2 cursor-pointer text-sm text-blue-600"
+            @click="triggerFileUpload"
+          >
+            Click to upload picture
+          </p>
+        </div>
+
+        <!-- Form Fields -->
+        <div class="mt-6 space-y-4">
+          <UInput
+            v-model="tutor.name"
+            label="Name"
+            placeholder="Enter name"
+            variant="none"
+            class="my-2 w-full rounded-lg border bg-white p-2 dark:border-none dark:bg-[#111C44]"
+          />
+          <UInput
+            v-model="tutor.subjects"
+            label="Subjects"
+            placeholder="Enter subjects"
+            variant="none"
+            class="my-2 w-full rounded-lg border bg-white p-2 dark:border-none dark:bg-[#111C44]"
+          />
+          <UInput
+            v-model="tutor.price"
+            label="Price"
+            placeholder="Enter price"
+            type="number"
+            variant="none"
+            class="my-2 w-full rounded-lg border bg-white p-2 dark:border-none dark:bg-[#111C44]"
+          />
+          <UTextarea
+            v-model="tutor.biography"
+            label="Biography"
+            placeholder="Enter biography"
+            variant="none"
+            class="my-2 w-full rounded-lg border bg-white p-2 dark:border-none dark:bg-[#111C44]"
+          />
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="mt-6 flex justify-end space-x-2">
+          <UButton
+            color="gray"
+            @click="closeCreateEditModal"
+            variant="none"
+            class="flex w-[130px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
+            >Close modal</UButton
+          >
+          <UButton
+            @click="saveTutor"
+            class="flex w-[150px] items-center justify-center rounded-md bg-[#5D3BEA] py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            variant="none"
+            >Add tutor</UButton
+          >
+        </div>
+      </UCard>
+    </UModal>
   </div>
 </template>
 
@@ -163,189 +241,14 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import EditIcon from '~/assets/icons/edit-icon.vue'
 import DeleteIcon from '~/assets/icons/delete-icon.vue'
+import { tutors } from '~/constants/tutors'
 
-const tutors = ref([
-  {
-    id: 1,
-    name: 'John Doe',
-    subject: 'Mathematics',
-    experience: 5,
-    rating: 4,
-    bio: 'Passionate math tutor with 5 years of experience helping students excel in algebra and calculus.',
-    image: 'https://randomuser.me/api/portraits/men/1.jpg'
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    subject: 'English',
-    experience: 8,
-    rating: 5,
-    bio: 'English teacher specializing in literature and writing skills. Dedicated to improving student confidence.',
-    image: 'https://randomuser.me/api/portraits/women/2.jpg'
-  },
-  {
-    id: 3,
-    name: 'Michael Johnson',
-    subject: 'Physics',
-    experience: 6,
-    rating: 4,
-    bio: 'Experienced physics tutor with a focus on mechanics and electromagnetism.',
-    image: 'https://randomuser.me/api/portraits/men/3.jpg'
-  },
-  {
-    id: 4,
-    name: 'Emily Davis',
-    subject: 'Chemistry',
-    experience: 7,
-    rating: 5,
-    bio: 'Chemistry tutor with a passion for organic chemistry and laboratory techniques.',
-    image: 'https://randomuser.me/api/portraits/women/4.jpg'
-  },
-  {
-    id: 5,
-    name: 'David Wilson',
-    subject: 'Biology',
-    experience: 4,
-    rating: 4,
-    bio: 'Biology tutor specializing in genetics and molecular biology.',
-    image: 'https://randomuser.me/api/portraits/men/5.jpg'
-  },
-  {
-    id: 6,
-    name: 'Sarah Brown',
-    subject: 'History',
-    experience: 9,
-    rating: 5,
-    bio: 'History tutor with expertise in world history and historical research methods.',
-    image: 'https://randomuser.me/api/portraits/women/6.jpg'
-  },
-  {
-    id: 7,
-    name: 'James Miller',
-    subject: 'Computer Science',
-    experience: 5,
-    rating: 4,
-    bio: 'Computer science tutor with a focus on programming and algorithms.',
-    image: 'https://randomuser.me/api/portraits/men/7.jpg'
-  },
-  {
-    id: 8,
-    name: 'Laura Garcia',
-    subject: 'Spanish',
-    experience: 10,
-    rating: 5,
-    bio: 'Spanish tutor with extensive experience in language instruction and cultural studies.',
-    image: 'https://randomuser.me/api/portraits/women/8.jpg'
-  },
-  {
-    id: 9,
-    name: 'Robert Martinez',
-    subject: 'Economics',
-    experience: 6,
-    rating: 4,
-    bio: 'Economics tutor with a focus on microeconomics and macroeconomic theory.',
-    image: 'https://randomuser.me/api/portraits/men/9.jpg'
-  },
-  {
-    id: 10,
-    name: 'Linda Hernandez',
-    subject: 'Art',
-    experience: 7,
-    rating: 5,
-    bio: 'Art tutor specializing in drawing, painting, and art history.',
-    image: 'https://randomuser.me/api/portraits/women/10.jpg'
-  },
-  {
-    id: 11,
-    name: 'William Taylor',
-    subject: 'Geography',
-    experience: 5,
-    rating: 4,
-    bio: 'Geography tutor with a focus on physical geography and environmental studies.',
-    image: 'https://randomuser.me/api/portraits/men/11.jpg'
-  },
-  {
-    id: 12,
-    name: 'Sophia Anderson',
-    subject: 'French',
-    experience: 6,
-    rating: 5,
-    bio: 'French tutor specializing in language proficiency and cultural immersion.',
-    image: 'https://randomuser.me/api/portraits/women/12.jpg'
-  },
-  {
-    id: 13,
-    name: 'Daniel Thomas',
-    subject: 'Statistics',
-    experience: 7,
-    rating: 4,
-    bio: 'Statistics tutor with expertise in data analysis and probability.',
-    image: 'https://randomuser.me/api/portraits/men/13.jpg'
-  },
-  {
-    id: 14,
-    name: 'Olivia Jackson',
-    subject: 'Psychology',
-    experience: 8,
-    rating: 5,
-    bio: 'Psychology tutor with a focus on cognitive and developmental psychology.',
-    image: 'https://randomuser.me/api/portraits/women/14.jpg'
-  },
-  {
-    id: 15,
-    name: 'Matthew White',
-    subject: 'Philosophy',
-    experience: 5,
-    rating: 4,
-    bio: 'Philosophy tutor specializing in ethics and classical philosophy.',
-    image: 'https://randomuser.me/api/portraits/men/15.jpg'
-  },
-  {
-    id: 16,
-    name: 'Ava Harris',
-    subject: 'Music',
-    experience: 9,
-    rating: 5,
-    bio: 'Music tutor with expertise in music theory and piano performance.',
-    image: 'https://randomuser.me/api/portraits/women/16.jpg'
-  },
-  {
-    id: 17,
-    name: 'Josephine Clark',
-    subject: 'Political Science',
-    experience: 6,
-    rating: 4,
-    bio: 'Political science tutor with a focus on international relations and political theory.',
-    image: 'https://randomuser.me/api/portraits/women/17.jpg'
-  },
-  {
-    id: 18,
-    name: 'Mia Lewis',
-    subject: 'Sociology',
-    experience: 7,
-    rating: 5,
-    bio: 'Sociology tutor specializing in social theory and research methods.',
-    image: 'https://randomuser.me/api/portraits/women/18.jpg'
-  }
-])
-
+const createEditTutorModal = ref(false)
 const showModal = ref(false)
 const selectedTutor = ref({})
 const searchQuery = ref('')
-const showCreateModal = ref(false)
-// Chat Functionality
-const showChat = ref(false)
 const chatMessages = ref([])
 const newMessage = ref('')
-
-const newTutor = ref({
-  name: '',
-  subject: '',
-  experience: '',
-  rating: '',
-  bio: '',
-  image: ''
-})
 
 const filteredTutors = computed(() => {
   return tutors.value.filter(tutor =>
@@ -362,54 +265,6 @@ const closeModal = () => {
   showModal.value = false
 }
 
-const openCreateModal = () => {
-  selectedTutor.value = tutor
-  showCreateModal.value = true
-}
-
-const closeCreateModal = () => {
-  showCreateModal.value = false
-}
-
-// Add New Tutor
-const addTutor = () => {
-  if (
-    !newTutor.value.name ||
-    !newTutor.value.subject ||
-    !newTutor.value.image
-  ) {
-    alert('Please fill in all required fields.')
-    return
-  }
-
-  tutors.value.push({
-    id: tutors.value.length + 1, // Assign a new unique ID
-    ...newTutor.value,
-    experience: parseInt(newTutor.value.experience, 10) || 0,
-    rating: parseInt(newTutor.value.rating, 10) || 0
-  })
-
-  // Clear the form and close the modal
-  newTutor.value = {
-    name: '',
-    subject: '',
-    experience: '',
-    rating: '',
-    bio: '',
-    image: ''
-  }
-  closeCreateModal()
-}
-
-const openChat = () => {
-  showChat.value = true
-}
-
-const closeChat = () => {
-  showChat.value = false
-  chatMessages.value = []
-}
-
 const sendMessage = () => {
   if (newMessage.value.trim() !== '') {
     chatMessages.value.push({ sender: 'user', text: newMessage.value })
@@ -422,6 +277,29 @@ const sendMessage = () => {
     }, 1000)
     newMessage.value = ''
   }
+}
+
+const tutor = ref({
+  name: '',
+  subjects: '',
+  price: '',
+  biography: ''
+})
+const profileImage = ref(null)
+const defaultProfileImage =
+  'https://cdn-icons-png.flaticon.com/512/929/929422.png'
+
+const triggerFileUpload = () => document.getElementById('file-upload').click()
+
+const uploadImage = event => {
+  const file = event.target.files[0]
+  if (file) profileImage.value = URL.createObjectURL(file)
+}
+
+const closeCreateEditModal = () => (createEditTutorModal.value = false)
+const saveTutor = () => {
+  console.log('Tutor saved:', tutor.value)
+  closeCreateEditModal()
 }
 </script>
 
