@@ -162,28 +162,31 @@
         <div
           class="flex w-full flex-col items-center justify-center gap-5 lg:flex-row"
         >
-          <button
+          <UButton
             v-if="currentIndex > 0"
-            class="w-[200px] rounded-md border border-[#5D3BEA] bg-white px-6 py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
+            class="flex w-[200px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white px-6 py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
             @click="prevQuestion"
+            variant="none"
           >
             Previous
-          </button>
-          <button
+          </UButton>
+          <UButton
             v-if="currentIndex < quizes.length - 1"
-            class="w-[200px] rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            class="flex w-[200px] items-center justify-center rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
             @click="nextQuestion"
+            variant="none"
           >
             Continue
-          </button>
-          <button
+          </UButton>
+          <UButton
             v-if="currentIndex === quizes.length - 1"
-            class="w-[200px] rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            class="flex w-[200px] items-center justify-center rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
             @click="checkAnswers"
             :disabled="score !== null"
+            variant="none"
           >
             Submit Answers
-          </button>
+          </UButton>
         </div>
       </div>
     </div>
