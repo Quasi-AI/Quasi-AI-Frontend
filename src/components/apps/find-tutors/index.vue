@@ -279,7 +279,6 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import EditIcon from '~/assets/icons/edit-icon.vue'
@@ -476,11 +475,13 @@ const fetchChatMessages = async tutorId => {
       payload
     )
 
-    // Map the chat history to the chatMessages array
-    chatMessages.value = response.data.chatHistory.map(msg => ({
-      text: msg.content,
-      sender: msg.sender_id === localStorageUserId.value ? 'user' : 'tutor'
-    }))
+    // Map the chat history to the chatMessages array, filtering out "You opened the chat"
+    chatMessages.value = response.data.chatHistory
+      .filter(msg => msg.content !== 'You opened the chat')
+      .map(msg => ({
+        text: msg.content,
+        sender: msg.sender_id === localStorageUserId.value ? 'user' : 'tutor'
+      }))
   } catch (error) {
     console.error('Error fetching chat messages:', error)
   }
@@ -517,6 +518,7 @@ const sendMessage = async () => {
   }
 }
 </script>
+
 <style scoped>
 .container {
   max-width: 1000px;
