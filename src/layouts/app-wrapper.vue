@@ -50,7 +50,7 @@ const titles = {
   '/apps/essay': 'Essay Analyzer',
   '/apps/quizzes': 'Quizzes',
   '/apps/ai-tutor': 'AI Tutor',
-  '/apps/speech-to-text': 'Speech to Text Converter',
+  '/apps/speech-to-text': 'Speech to Text',
   '/other/support': 'Customer Support',
   '/other/games': 'Learning Games',
   '/other/past-questions': 'Past Questions',

@@ -146,14 +146,6 @@
             <font-awesome-icon :icon="['fas', 'fa-calendar-alt']" />
           </button>
 
-          <!-- Video Call Button -->
-          <button
-            class="ml-3 rounded-full p-2 text-gray-600 transition"
-            @click="startVideoCall"
-          >
-            <font-awesome-icon :icon="['fas', 'fa-video']" />
-          </button>
-
           <!-- Send Message Button -->
           <button
             class="ml-3 rounded-full p-2 text-blue-600 transition"

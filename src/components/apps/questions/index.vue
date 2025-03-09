@@ -35,8 +35,8 @@
       </div>
 
       <!-- Difficulty & Number of Questions -->
-      <div class="mt-4 flex gap-4">
-        <div class="w-1/2">
+      <div class="mt-4 flex flex-col gap-4 lg:flex-row">
+        <div class="w-full">
           <p class="mb-2 block font-medium text-gray-500">Difficulty level</p>
           <select
             v-model="selectedLevel"
@@ -48,7 +48,7 @@
           </select>
         </div>
 
-        <div class="w-1/2">
+        <div class="w-full">
           <p class="mb-2 block font-medium text-gray-500">
             Number of questions
           </p>
