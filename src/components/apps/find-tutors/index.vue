@@ -260,12 +260,14 @@
         </p>
 
         <!-- Modal Actions -->
-        <div class="mt-6 flex justify-end space-x-2">
+        <div
+          class="mt-6 flex flex-col items-center gap-3 lg:flex-row lg:justify-end"
+        >
           <UButton
             color="gray"
             @click="closeDeleteTutorModal"
             variant="none"
-            class="flex w-[130px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
+            class="flex w-[150px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300 lg:w-[150px]"
             >Close modal</UButton
           >
           <UButton

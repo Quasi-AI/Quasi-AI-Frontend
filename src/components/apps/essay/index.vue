@@ -3,7 +3,7 @@
     <!-- Form Container -->
     <div
       v-if="!showEssaysContainer"
-      class="mx-auto w-full rounded-xl bg-white p-8 dark:bg-[#111C44] dark:text-white"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
       <!-- Text Area for Essay Content -->
       <div class="mb-6">

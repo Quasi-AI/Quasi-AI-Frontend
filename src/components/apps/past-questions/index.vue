@@ -3,7 +3,7 @@
     <!-- Form Container -->
     <div
       v-if="!showQuestionsContainer"
-      class="mx-auto w-full rounded-xl bg-white p-8 dark:bg-[#111C44] dark:text-white"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
       <!-- Upload File -->
       <div
