@@ -78,20 +78,51 @@
     <!-- Questions Container (Visible only when questions are generated) -->
     <div
       v-if="showQuestionsContainer && questions.length > 0"
-      class="mt-6 w-full rounded-xl bg-white p-6 shadow-lg dark:bg-[#111C44] dark:text-white"
+      class="mt-6 w-full rounded-xl p-6"
     >
-      <h2 class="mb-4 text-lg font-bold">Generated Questions</h2>
+      <div
+        class="mb-6 flex flex-col items-center justify-between gap-4 lg:flex-row"
+      >
+        <div
+          class="flex gap-6 rounded-md bg-white px-4 py-2 text-sm dark:bg-[#1E2A50]"
+        >
+          <div>
+            <p><strong>Topic:</strong> Biology</p>
+          </div>
+          <div>
+            <p><strong>Difficulty Level:</strong> Intermediate</p>
+          </div>
+          <div>
+            <p><strong>No. of questions:</strong> {{ questions.length }}</p>
+          </div>
+        </div>
+        <button class="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white">
+          Share with students
+        </button>
+      </div>
 
-      <div class="grid grid-cols-1 gap-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div
           v-for="(item, index) in questions"
           :key="index"
-          class="rounded-2xl bg-gray-100 p-4 shadow dark:bg-[#1E2A50] dark:text-white"
+          class="flex flex-col justify-between rounded-lg bg-white p-4 text-center dark:bg-[#1E2A50] dark:text-white"
         >
-          <p>
-            <strong>Q{{ index + 1 }}:</strong> {{ item.question }}
-          </p>
-          <p><strong>Answer:</strong> {{ item.answer }}</p>
+          <div>
+            <div v-if="item.image" class="mb-4">
+              <img
+                :src="item.image"
+                alt="Question"
+                class="h-32 w-full rounded-lg object-cover"
+              />
+            </div>
+            <p class="text-wrap text-lg font-semibold">{{ item.question }}</p>
+            <p
+              v-if="item.answer"
+              class="mt-2 text-wrap text-sm text-gray-700 dark:text-gray-300"
+            >
+              {{ item.answer }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
