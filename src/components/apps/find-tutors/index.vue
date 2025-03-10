@@ -26,7 +26,7 @@
       <div
         v-for="(tutor, index) in filteredTutors"
         :key="tutor.id"
-        class="animate-slide-up cursor-pointer rounded-lg bg-white transition-all duration-300 hover:shadow-xl dark:bg-[#111C44]"
+        class="animate-slide-up flex h-full cursor-pointer flex-col rounded-lg bg-white transition-all duration-300 hover:shadow-xl dark:bg-[#111C44]"
         :style="{ animationDelay: `${index * 0.2}s` }"
         :class="{ 'pointer-events-none opacity-50': tutor.status }"
       >
@@ -36,11 +36,13 @@
           class="h-80 w-full rounded-t-lg object-cover lg:h-40"
           @click="openModal(tutor)"
         />
-        <div class="p-2">
+        <div class="flex flex-grow flex-col p-2">
           <h2 class="mt-3 text-lg font-semibold">{{ tutor.name }}</h2>
           <p class="text-gray-400">{{ tutor.subject }}</p>
+
+          <div class="flex-grow"></div>
           <p v-if="tutor.status" class="py-2 text-red-400">Inactive</p>
-          <div class="mt-6 flex items-center justify-between">
+          <div class="flex items-center justify-between">
             <p
               @click="openModal(tutor)"
               class="truncate text-sm font-medium text-blue-500 underline transition hover:text-blue-600"
