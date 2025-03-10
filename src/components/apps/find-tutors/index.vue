@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 lg:h-screen">
     <!-- Create Tutor & Search Bar -->
     <div
       class="mb-6 flex flex-col items-center justify-between gap-4 lg:flex-row"
