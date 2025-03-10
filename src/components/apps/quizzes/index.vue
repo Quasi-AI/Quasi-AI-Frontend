@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col gap-4 lg:flex-row">
+  <div class="flex flex-col gap-4 lg:h-screen">
     <!-- Form Container -->
     <div
       v-if="showHomeQuizzes"
-      class="mx-auto w-full rounded-xl bg-white p-8 shadow-lg dark:bg-[#111C44] dark:text-white"
+      class="mx-auto w-full rounded-xl bg-white p-8 dark:bg-[#111C44] dark:text-white"
     >
       <!-- Export & Score Section -->
       <div v-if="score !== null" class="mb-6 flex items-center justify-between">
