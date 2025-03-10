@@ -21,7 +21,7 @@
 
     <!-- Cards Grid -->
     <div
-      class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+      class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
     >
       <div
         v-for="(tutor, index) in filteredTutors"
@@ -33,10 +33,10 @@
         <img
           :src="tutor.image || defaultProfileImage"
           alt="Tutor"
-          class="h-80 w-full rounded-t-lg object-cover lg:h-40"
+          class="h-80 w-full rounded-t-lg object-cover lg:h-60"
           @click="openModal(tutor)"
         />
-        <div class="flex flex-grow flex-col p-2">
+        <div class="flex flex-grow flex-col px-5 pb-5 pt-3">
           <h2 class="mt-3 text-lg font-semibold">{{ tutor.name }}</h2>
           <p class="text-gray-400">{{ tutor.subject }}</p>
 
@@ -236,7 +236,8 @@
             @click="closeCreateEditModal"
             variant="none"
             class="flex w-[150px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300 lg:w-[150px]"
-            >Close modal</UButton
+          >
+            Close modal</UButton
           >
           <UButton
             @click="saveTutor"
@@ -268,7 +269,8 @@
             @click="closeDeleteTutorModal"
             variant="none"
             class="flex w-[150px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300 lg:w-[150px]"
-            >Close modal</UButton
+          >
+            Close modal</UButton
           >
           <UButton
             @click="deleteTutor"
@@ -539,9 +541,11 @@ const sendMessage = async () => {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #5d3be9;
   border-radius: 10px;
