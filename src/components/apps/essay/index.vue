@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col gap-4 lg:flex-row">
+  <div class="flex flex-col gap-4 lg:h-screen">
     <!-- Form Container -->
     <div
       v-if="!showEssaysContainer"
-      class="mx-auto w-full rounded-xl bg-white p-8 shadow-lg dark:bg-[#111C44] dark:text-white"
+      class="mx-auto w-full rounded-xl bg-white p-8 dark:bg-[#111C44] dark:text-white"
     >
       <!-- Text Area for Essay Content -->
       <div class="mb-6">
