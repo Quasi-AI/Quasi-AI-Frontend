@@ -267,9 +267,11 @@
 
     <!-- Pricing -->
     <div
-      class="mb-4 flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 lg:mb-12 dark:bg-[#1E2A5A]"
+      class="mb-4 flex flex-col items-center justify-center gap-4 rounded-lg border-t border-gray-200 bg-white p-6 pt-24 lg:mb-12 lg:border-none lg:pt-0 dark:bg-[#1E2A5A]"
     >
-      <h1 class="text-3xl font-bold text-slate-800 dark:text-gray-300">
+      <h1
+        class="text-center text-3xl font-bold text-slate-800 dark:text-gray-300"
+      >
         Choose the plan that's right for you
       </h1>
 
@@ -356,7 +358,7 @@
               Premium plan
             </h3>
             <span
-              class="block rounded-full bg-blue-800 px-3 py-1 text-sm font-bold text-white lg:hidden"
+              class="block rounded-full bg-[#5D3BEA] px-3 py-1 text-sm font-bold text-white lg:hidden"
               >Most Popular</span
             >
           </div>
