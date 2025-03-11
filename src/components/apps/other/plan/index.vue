@@ -140,6 +140,15 @@
         </NuxtLink>
       </div>
     </div>
+    <div class="flex flex-col items-center justify-center gap-4 p-6">
+      <NuxtLink to="/other/support"
+        ><button
+          class="mt-4 w-[200px] rounded-full border bg-white p-2 font-bold text-black"
+        >
+          Contact Support
+        </button></NuxtLink
+      >
+    </div>
   </div>
 </template>
 
