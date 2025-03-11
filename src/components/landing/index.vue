@@ -272,6 +272,33 @@
       <h1 class="text-3xl font-bold text-slate-800 dark:text-gray-300">
         Choose the plan that's right for you
       </h1>
+
+      <!-- Tabs -->
+      <div class="flex gap-2 rounded-lg bg-gray-200 p-1 dark:bg-[#0C1438]">
+        <button
+          @click="billingCycle = 'monthly'"
+          :class="
+            billingCycle === 'monthly'
+              ? 'bg-[#5D3BEA] text-white'
+              : 'text-gray-600 dark:text-gray-300'
+          "
+          class="rounded-md px-4 py-2 font-bold"
+        >
+          Monthly
+        </button>
+        <button
+          @click="billingCycle = 'yearly'"
+          :class="
+            billingCycle === 'yearly'
+              ? 'bg-[#5D3BEA] text-white'
+              : 'text-gray-600 dark:text-gray-300'
+          "
+          class="rounded-md px-4 py-2 font-bold"
+        >
+          Yearly (5% off)
+        </button>
+      </div>
+
       <div class="grid w-full gap-3 sm:grid-cols-1 md:grid-cols-2 lg:max-w-4xl">
         <!-- Free Plan -->
         <div
@@ -305,7 +332,6 @@
             <li>❌ Personalized AI suggestions</li>
             <li>❌ API access for seamless integration</li>
           </ul>
-
           <NuxtLink to="/auth/sign-up">
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
@@ -335,9 +361,15 @@
             >
           </div>
           <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
-            $15
+            ${{ premiumPrice }}
           </p>
-          <p class="text-gray-600 dark:text-gray-300">per user per month</p>
+          <p class="text-gray-600 dark:text-gray-300">
+            {{
+              billingCycle === 'monthly'
+                ? 'per user per month'
+                : 'billed annually'
+            }}
+          </p>
           <p class="mt-2 text-gray-600 dark:text-gray-300">
             Advanced features for power users.
           </p>
@@ -363,7 +395,6 @@
               integration
             </li>
           </ul>
-
           <NuxtLink to="/auth/sign-up">
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
@@ -385,6 +416,12 @@ import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features
 import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
 import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
 import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
+
+const billingCycle = ref('monthly')
+
+const premiumPrice = computed(() => {
+  return billingCycle.value === 'monthly' ? 5 : (5 * 12 * 0.95).toFixed(2)
+})
 
 const features = ref([
   {

@@ -1,11 +1,39 @@
 <template>
+  <!-- Pricing -->
   <div
-    class="flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 dark:bg-[#1E2A5A]"
+    class="mb-4 flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 lg:mb-12 dark:bg-[#1E2A5A]"
   >
     <h1 class="text-3xl font-bold text-slate-800 dark:text-gray-300">
       Choose the plan that's right for you
     </h1>
-    <div class="grid w-full max-w-3xl gap-3 sm:grid-cols-1 md:grid-cols-2">
+
+    <!-- Tabs -->
+    <div class="flex gap-2 rounded-lg bg-gray-200 p-1 dark:bg-[#0C1438]">
+      <button
+        @click="billingCycle = 'monthly'"
+        :class="
+          billingCycle === 'monthly'
+            ? 'bg-[#5D3BEA] text-white'
+            : 'text-gray-600 dark:text-gray-300'
+        "
+        class="rounded-md px-4 py-2 font-bold"
+      >
+        Monthly
+      </button>
+      <button
+        @click="billingCycle = 'yearly'"
+        :class="
+          billingCycle === 'yearly'
+            ? 'bg-[#5D3BEA] text-white'
+            : 'text-gray-600 dark:text-gray-300'
+        "
+        class="rounded-md px-4 py-2 font-bold"
+      >
+        Yearly (5% off)
+      </button>
+    </div>
+
+    <div class="grid w-full gap-3 sm:grid-cols-1 md:grid-cols-2 lg:max-w-4xl">
       <!-- Free Plan -->
       <div
         class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
@@ -20,12 +48,6 @@
         <p class="mt-2 text-gray-600 dark:text-gray-300">
           Essential features for individuals.
         </p>
-        <button
-          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 font-bold text-white"
-          disabled
-        >
-          Current Plan
-        </button>
         <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
           <li class="flex gap-2">
             <LandingUiIconsPricingChecked /> Access to Quasi AI basic features
@@ -44,33 +66,47 @@
           <li>❌ Personalized AI suggestions</li>
           <li>❌ API access for seamless integration</li>
         </ul>
+        <NuxtLink to="/auth/sign-up">
+          <button
+            class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+          >
+            Get started
+          </button>
+        </NuxtLink>
       </div>
 
       <!-- Premium Plan -->
       <div
-        class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+        class="relative w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
       >
+        <LandingUiIconsPricingWords
+          class="absolute -right-24 -top-4 hidden lg:block"
+        />
+        <LandingUiIconsPricingArrow
+          class="absolute -right-5 -top-4 hidden lg:block"
+        />
         <div class="flex items-center justify-between">
           <h3 class="text-xl font-bold text-gray-800 dark:text-white">
             Premium plan
           </h3>
           <span
-            class="rounded-full bg-blue-800 px-3 py-1 text-sm font-bold text-white"
-            >Best Value</span
+            class="block rounded-full bg-blue-800 px-3 py-1 text-sm font-bold text-white lg:hidden"
+            >Most Popular</span
           >
         </div>
         <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
-          $15
+          ${{ premiumPrice }}
         </p>
-        <p class="text-gray-600 dark:text-gray-300">per user per month</p>
+        <p class="text-gray-600 dark:text-gray-300">
+          {{
+            billingCycle === 'monthly'
+              ? 'per user per month'
+              : 'billed annually'
+          }}
+        </p>
         <p class="mt-2 text-gray-600 dark:text-gray-300">
           Advanced features for power users.
         </p>
-        <button
-          class="mt-4 w-full rounded-lg bg-blue-500 p-2 font-bold text-white"
-        >
-          Get started
-        </button>
         <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
           <li class="flex gap-2">
             <LandingUiIconsPricingChecked /> Everything in Free Plan
@@ -92,17 +128,22 @@
             <LandingUiIconsPricingChecked /> API access for seamless integration
           </li>
         </ul>
+        <NuxtLink to="/auth/sign-up">
+          <button
+            class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+          >
+            Get started
+          </button>
+        </NuxtLink>
       </div>
-    </div>
-
-    <div class="flex flex-col items-center justify-center gap-4 p-6">
-      <NuxtLink to="/other/support"
-        ><button
-          class="mt-4 w-[200px] rounded-full border bg-white p-2 font-bold text-black"
-        >
-          Contact Support
-        </button></NuxtLink
-      >
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+const billingCycle = ref('monthly')
+
+const premiumPrice = computed(() => {
+  return billingCycle.value === 'monthly' ? 5 : (5 * 12 * 0.95).toFixed(2)
+})
+</script>
