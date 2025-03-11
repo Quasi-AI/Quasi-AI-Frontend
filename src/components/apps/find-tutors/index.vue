@@ -30,19 +30,25 @@
         :style="{ animationDelay: `${index * 0.2}s` }"
         :class="{ 'pointer-events-none opacity-50': tutor.status }"
       >
-        <img
-          :src="tutor.image || defaultProfileImage"
-          alt="Tutor"
-          class="h-80 w-full rounded-t-lg object-cover lg:h-60"
-          :class="{ 'grayscale': tutor.status }"
-          @click="openModal(tutor)"
-        />
+        <div class="relative overflow-hidden">
+          <img
+            :src="tutor.image || defaultProfileImage"
+            alt="Tutor"
+            class="h-80 w-full rounded-t-lg object-cover lg:h-60"
+            :class="{ grayscale: tutor.status }"
+            @click="openModal(tutor)"
+          />
+          <span
+            v-if="tutor.status"
+            class="absolute right-0 top-0 rounded-bl-xl rounded-tr-lg bg-white px-2 py-2 text-sm text-gray-400"
+            >Inactive</span
+          >
+        </div>
         <div class="flex flex-grow flex-col px-5 pb-5 pt-3">
           <h2 class="mt-3 text-lg font-semibold">{{ tutor.name }}</h2>
           <p class="text-gray-400">{{ tutor.subject }}</p>
 
           <div class="flex-grow"></div>
-          <p v-if="tutor.status" class="py-2 text-red-400">Inactive</p>
           <div class="flex items-center justify-between">
             <p
               @click="openModal(tutor)"
