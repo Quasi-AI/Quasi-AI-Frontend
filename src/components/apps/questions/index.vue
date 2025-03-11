@@ -1,8 +1,49 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Home -->
+    <div v-if="showHomeQuestions" class="w-full">
+      <div
+        class="flex w-full flex-col items-center justify-end gap-2 p-8 lg:flex-row"
+      >
+        <UInput
+          variant="none"
+          class="my-2 w-full rounded-lg border bg-white p-1 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          placeholder="Search for questions by name"
+          v-model="selectedCategory"
+          maxLength="250"
+        />
+        <select
+          v-model="filterQuestions"
+          class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+        >
+          <option value="">All Questions</option>
+          <option
+            v-for="question in questionsLists"
+            :key="question"
+            :value="question"
+          >
+            {{ question }}
+          </option>
+        </select>
+        <button
+          @click="HandleCreateQuestionsButton"
+          class="flex w-full items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-90 hover:bg-[#4A2DCA] lg:w-[200px]"
+          variant="blue"
+        >
+          Create questions
+        </button>
+      </div>
+
+      <!-- Empty State (Show when no questions are available) -->
+      <div class="mt-4 text-center text-gray-500">
+        No questions available.
+        <EmptyStateIcon width="100%" height="350px" />
+      </div>
+    </div>
+
     <!-- Form Container -->
     <div
-      v-if="!showQuestionsContainer"
+      v-if="showCreateQuestions"
       class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
       <!-- Upload File -->
@@ -79,7 +120,7 @@
 
     <!-- Questions Container (Visible only when questions are generated) -->
     <div
-      v-if="showQuestionsContainer && questions.length > 0"
+      v-if="showPreviewQuestions && questions.length > 0"
       class="mt-6 w-full rounded-xl p-6"
     >
       <div
@@ -134,13 +175,26 @@
 <script setup>
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
+import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const messageContent = ref('')
 const questions = ref([])
 const selectedLevel = ref('beginner')
 const numQuestions = ref(10)
 const loading = ref(false)
-const showQuestionsContainer = ref(false)
+const showCreateQuestions = ref(false)
+const showPreviewQuestions = ref(false)
+const showHomeQuestions = ref(true)
+
+// Filters
+const filterQuestions = ref('')
+const questionsLists = ['My questions']
+
+const HandleCreateQuestionsButton = async () => {
+  showHomeQuestions.value = false
+  showCreateQuestions.value = true
+  showPreviewQuestions.value = false
+}
 
 // Generate Questions using API
 const generateQuestions = async () => {
@@ -152,6 +206,7 @@ const generateQuestions = async () => {
   }
 
   loading.value = true
+  showHomeQuestions.value = false
   try {
     const response = await fetch(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/question/generate',
@@ -169,7 +224,9 @@ const generateQuestions = async () => {
 
     const data = await response.json()
     if (response.ok && Array.isArray(data.questions)) {
-      showQuestionsContainer.value = true
+      showHomeQuestions.value = false
+      showCreateQuestions.value = false
+      showPreviewQuestions.value = true
       questions.value = data.questions
     } else {
       questions.value = [
