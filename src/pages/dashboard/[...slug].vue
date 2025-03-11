@@ -7,8 +7,32 @@
       <div
         class="mb-6 flex flex-col rounded-lg bg-[#fff] p-6 shadow-sm dark:bg-[#111C44] dark:text-white"
       >
-        <div>
-          <h1 class="mb-4 text-2xl font-bold">Learning Progress</h1>
+        <div class="mb-4 flex items-center justify-between">
+          <h1 class="text-2xl font-bold">Learning Progress</h1>
+          <div class="flex gap-4">
+            <select
+              v-model="selectedStudent"
+              class="rounded-lg border border-gray-300 p-2 dark:border-gray-600 dark:bg-[#1E2A5A]"
+            >
+              <option value="">Select Student</option>
+              <option
+                v-for="student in students"
+                :key="student.id"
+                :value="student.id"
+              >
+                {{ student.name }}
+              </option>
+            </select>
+            <select
+              v-model="selectedYear"
+              class="rounded-lg border border-gray-300 p-2 dark:border-gray-600 dark:bg-[#1E2A5A]"
+            >
+              <option value="">Select Year</option>
+              <option v-for="year in years" :key="year" :value="year">
+                {{ year }}
+              </option>
+            </select>
+          </div>
         </div>
         <div>
           <VueApexCharts
@@ -59,13 +83,23 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, computed, ref } from 'vue'
 import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
 import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
 import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
 const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
 
 const router = useRouter()
+const selectedStudent = ref('')
+const selectedYear = ref('')
+
+const students = ref([
+  { id: 1, name: 'John Doe' },
+  { id: 2, name: 'Jane Smith' },
+  { id: 3, name: 'Alice Johnson' }
+])
+
+const years = ref([2021, 2022, 2023, 2024])
+
 const chartOptions = computed(() => ({
   chart: { type: 'line', toolbar: { show: false } },
   stroke: { curve: 'smooth', width: 2 },
