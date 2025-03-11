@@ -272,7 +272,7 @@
       <h1 class="text-3xl font-bold text-slate-800 dark:text-gray-300">
         Choose the plan that's right for you
       </h1>
-      <div class="grid w-full max-w-3xl gap-3 sm:grid-cols-1 md:grid-cols-2">
+      <div class="grid w-full gap-3 sm:grid-cols-1 md:grid-cols-2 lg:max-w-4xl">
         <!-- Free Plan -->
         <div
           class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
@@ -317,14 +317,20 @@
 
         <!-- Premium Plan -->
         <div
-          class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+          class="relative w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
         >
+          <LandingUiIconsPricingWords
+            class="absolute -right-24 -top-4 hidden lg:block"
+          />
+          <LandingUiIconsPricingArrow
+            class="absolute -right-5 -top-4 hidden lg:block"
+          />
           <div class="flex items-center justify-between">
             <h3 class="text-xl font-bold text-gray-800 dark:text-white">
               Premium plan
             </h3>
             <span
-              class="rounded-full bg-blue-800 px-3 py-1 text-sm font-bold text-white"
+              class="block rounded-full bg-blue-800 px-3 py-1 text-sm font-bold text-white lg:hidden"
               >Most Popular</span
             >
           </div>
