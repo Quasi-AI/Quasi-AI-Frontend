@@ -242,7 +242,7 @@
             color="gray"
             @click="closeCreateEditModal"
             variant="none"
-            class="flex w-[150px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300 lg:w-[150px]"
+            class="flex w-[150px] items-center justify-center rounded-md bg-white py-2 text-[#4A2DCA] transition hover:scale-105 hover:bg-gray-300 lg:w-[150px]"
           >
             Close modal</UButton
           >
@@ -275,7 +275,7 @@
             color="gray"
             @click="closeDeleteTutorModal"
             variant="none"
-            class="flex w-[150px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300 lg:w-[150px]"
+            class="flex w-[150px] items-center justify-center rounded-md bg-white py-2 text-[#4A2DCA] transition hover:scale-105 hover:bg-gray-300 lg:w-[150px]"
           >
             Close modal</UButton
           >
