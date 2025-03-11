@@ -1,8 +1,45 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Home -->
+    <div v-if="showHomeQuizzes" class="w-full">
+      <div
+        class="flex w-full flex-col items-center justify-end gap-2 p-8 lg:flex-row"
+      >
+        <UInput
+          variant="none"
+          class="my-2 w-full rounded-lg border bg-white p-1 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          placeholder="Search for quizzes by name"
+          v-model="selectedCategory"
+          maxLength="250"
+        />
+        <select
+          v-model="filterQuizes"
+          class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+        >
+          <option value="">All Quizzes</option>
+          <option v-for="quizz in quizzcardsLists" :key="quizz" :value="quiz">
+            {{ quizz }}
+          </option>
+        </select>
+        <button
+          @click="HandleCreateFlashcardsButton"
+          class="flex w-full items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-90 hover:bg-[#4A2DCA] lg:w-[200px]"
+          variant="blue"
+        >
+          Create flashcards
+        </button>
+      </div>
+
+      <!-- Empty State (Show when no flashcards are available) -->
+      <div class="mt-4 text-center text-gray-500">
+        No flashcards available.
+        <EmptyStateIcon width="100%" height="350px" />
+      </div>
+    </div>
+
     <!-- Form Container -->
     <div
-      v-if="showHomeQuizzes"
+      v-if="showCreateQuizzes"
       class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
       <!-- Text Area for Content -->
@@ -89,7 +126,7 @@
     </div>
 
     <!-- Quiz Section -->
-    <div v-if="showGeneratedQuizzes" class="flex w-full flex-col text-center">
+    <div v-if="showPreviewQuizzes" class="flex w-full flex-col text-center">
       <div v-if="quizes.length === 0" class="text-gray-500">
         No quiz generated yet.
       </div>
@@ -239,6 +276,7 @@
 import { ref } from 'vue'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
+import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const messageContent = ref('')
 const quizes = ref([])
@@ -248,10 +286,17 @@ const loading = ref(false)
 const score = ref(null)
 const userTimer = ref()
 const timer = ref(0)
+const showCreateQuizzes = ref(false)
+const showPreviewQuizzes = ref(false)
 const showHomeQuizzes = ref(true)
 const showGeneratedQuizzes = ref(false)
 const showPostSubmission = ref(false)
 const currentIndex = ref(0)
+
+// Filters
+const filterQuizes = ref('')
+const quizzcardsLists = ['My quizzes']
+
 const prevQuestion = () => {
   if (currentIndex.value > 0) currentIndex.value--
 }
@@ -271,6 +316,12 @@ const startTimer = () => {
       checkAnswers()
     }
   }, 1000)
+}
+
+const HandleCreateFlashcardsButton = async () => {
+  showHomeQuizzes.value = false
+  showCreateQuizzes.value = true
+  showPreviewQuizzes.value = false
 }
 
 // Generate Quiz Questions using the new API
@@ -293,6 +344,7 @@ const generateQuestions = async () => {
   }
 
   loading.value = true
+  showHomeQuizzes.value = false
   try {
     const response = await fetch(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/quizes/generate',
@@ -321,8 +373,9 @@ const generateQuestions = async () => {
         userAnswer: null
       }))
       startTimer() // Start timer
+      showPreviewQuizzes.value = true
       showHomeQuizzes.value = false
-      showGeneratedQuizzes.value = true
+      showCreateQuizzes.value = false
     } else {
       quizes.value = [
         {
@@ -382,7 +435,7 @@ const retakeQuiz = () => {
 
 const viewPerformance = () => {
   showPostSubmission.value = false
-  showGeneratedQuizzes.value = true
+  showPreviewQuizzes.value = true
 }
 
 // Trigger the file input when the button is clicked
