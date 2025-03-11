@@ -197,14 +197,17 @@
       </div>
     </div>
 
-    <div v-if="showPostSubmission" class="mx-auto w-full rounded-xl">
-      <div class="text-center">
+    <div
+      v-if="showPostSubmission"
+      class="mx-auto flex w-full flex-col items-center justify-center rounded-xl"
+    >
+      <div class="w-[280px] text-center">
         <h2 class="mb-4 text-4xl font-extrabold text-[#5D3BEA]">
           Congratulations
         </h2>
         <p class="mb-6">
-          Awesome job completing your quiz. You can review <br />
-          your performance or take a new quiz.
+          Awesome job completing your quiz. You can review your performance or
+          take a new quiz.
         </p>
         <div class="mb-6 flex items-center justify-center text-4xl">
           <img
