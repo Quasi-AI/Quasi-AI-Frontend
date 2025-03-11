@@ -1,14 +1,26 @@
 <template>
-  <div class="flex flex-col gap-4 lg:flex-row">
-    <!-- Subscription Plans -->
-    <div class="grid w-full gap-6 sm:grid-cols-1 md:grid-cols-3">
-      <!-- Personal Plan -->
+  <div class="flex flex-col items-center justify-center gap-4 p-6">
+    <div class="grid w-full max-w-5xl gap-6 sm:grid-cols-1 md:grid-cols-3">
+      <!-- Basic Plan -->
       <div
-        class="rounded-2xl bg-white p-6 shadow hover:shadow-md dark:bg-[#111C44] dark:text-white"
+        class="rounded-2xl bg-white p-6 shadow-lg hover:shadow-xl dark:bg-[#1E2A5A] dark:text-white"
       >
-        <h3 class="text-xl font-bold">Personal</h3>
-        <p class="mt-2 text-gray-600 dark:text-gray-300">For individuals.</p>
-        <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
+        <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+          Basic plan
+        </h3>
+        <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
+          $10
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">per user per month</p>
+        <p class="mt-2 text-gray-600 dark:text-gray-300">
+          Basic features for up to 10 users.
+        </p>
+        <button
+          class="mt-4 w-full rounded-lg bg-black p-2 font-bold text-white"
+        >
+          Get started
+        </button>
+        <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
           <li>✅ Access to Quasi AI basic features</li>
           <li>✅ Up to 50 AI-generated responses per month</li>
           <li>✅ Personalized AI suggestions</li>
@@ -19,22 +31,28 @@
           <li>❌ On-premise or private cloud deployment</li>
           <li>❌ Custom API integrations & workflow automation</li>
         </ul>
-        <p class="mt-2 text-2xl font-bold">$5 / month</p>
-        <button
-          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 text-white"
-          disabled
-        >
-          Subscribe
-        </button>
       </div>
 
       <!-- Business Plan -->
       <div
-        class="rounded-2xl bg-white p-6 shadow hover:shadow-md dark:bg-[#111C44] dark:text-white"
+        class="rounded-2xl border-2 border-yellow-400 bg-black p-6 text-white shadow-lg hover:shadow-xl"
       >
-        <h3 class="text-xl font-bold">Business</h3>
-        <p class="mt-2 text-gray-600 dark:text-gray-300">For small teams.</p>
-        <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold">Business plan</h3>
+          <span
+            class="rounded-full bg-yellow-400 px-3 py-1 text-sm font-bold text-black"
+            >Popular</span
+          >
+        </div>
+        <p class="mt-2 text-4xl font-extrabold">$20</p>
+        <p class="text-gray-300">per user per month</p>
+        <p class="mt-2 text-gray-300">Growing teams up to 20 users.</p>
+        <button
+          class="mt-4 w-full rounded-lg bg-green-500 p-2 font-bold text-white"
+        >
+          Get started
+        </button>
+        <ul class="mt-4 space-y-2 text-gray-300">
           <li>✅ Everything in Personal Plan</li>
           <li>✅ Up to 500 AI-generated responses per month</li>
           <li>✅ Priority email & chat support</li>
@@ -45,24 +63,29 @@
           <li>❌ On-premise or private cloud deployment</li>
           <li>❌ Custom API integrations & workflow automation</li>
         </ul>
-        <p class="mt-2 text-2xl font-bold">$15 / month</p>
-        <button
-          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 text-white"
-          disabled
-        >
-          Subscribe
-        </button>
       </div>
 
       <!-- Enterprise Plan -->
       <div
-        class="rounded-2xl bg-white p-6 shadow hover:shadow-md dark:bg-[#111C44] dark:text-white"
+        class="rounded-2xl bg-white p-6 shadow-lg hover:shadow-xl dark:bg-[#1E2A5A] dark:text-white"
       >
-        <h3 class="text-xl font-bold">Enterprise</h3>
-        <p class="mt-2 text-gray-600 dark:text-gray-300">
-          For large organizations.
+        <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+          Enterprise plan
+        </h3>
+        <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
+          $40
         </p>
-        <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
+        <p class="text-gray-600 dark:text-gray-300">per user per month</p>
+        <p class="mt-2 text-gray-600 dark:text-gray-300">
+          Advanced features + unlimited users.
+        </p>
+
+        <button
+          class="mt-4 w-full rounded-lg bg-black p-2 font-bold text-white"
+        >
+          Get started
+        </button>
+        <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
           <li>✅ Everything in Business Plan</li>
           <li>✅ Unlimited AI-generated responses</li>
           <li>✅ Dedicated account manager</li>
@@ -73,21 +96,17 @@
           <li>✅ On-premise or private cloud deployment</li>
           <li>✅ Custom API integrations & workflow automation</li>
         </ul>
-        <p class="mt-2 text-2xl font-bold">$25 / month</p>
-        <button
-          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 text-white"
-          disabled
-        >
-          Subscribe
-        </button>
       </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-center gap-4 p-6">
+      <NuxtLink to="/other/support"
+        ><button
+          class="mt-4 w-[200px] rounded-lg bg-white p-2 font-bold text-black"
+        >
+          Chat to sales
+        </button></NuxtLink
+      >
     </div>
   </div>
 </template>
-
-<style scoped>
-button:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-</style>
