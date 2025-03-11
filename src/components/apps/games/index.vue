@@ -45,7 +45,7 @@
         v-for="(card, index) in flashcards"
         :key="index"
         @click="flipCard(index)"
-        class="animate-slide-up flex h-40 w-full transform cursor-pointer items-center justify-center rounded-xl bg-blue-500 p-4 text-center text-white transition-transform hover:scale-105"
+        class="flex h-40 w-full transform cursor-pointer items-center justify-center rounded-xl bg-blue-500 p-4 text-center text-white transition-transform"
         :class="{ 'bg-green-500': card.flipped }"
         :style="{ animationDelay: `${index * 0.2}s` }"
       >
