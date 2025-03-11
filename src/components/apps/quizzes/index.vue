@@ -5,20 +5,6 @@
       v-if="showHomeQuizzes"
       class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
-      <!-- Export & Score Section -->
-      <div v-if="score !== null" class="mb-6 flex items-center justify-between">
-        <button
-          class="rounded-lg bg-[#5D3BEA] px-6 py-2 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
-          :disabled="loading"
-          @click="exportResults"
-        >
-          Export Results
-        </button>
-        <div class="text-lg font-bold text-gray-800">
-          Your Score: {{ score }} / {{ quizes.length }}
-        </div>
-      </div>
-
       <!-- Text Area for Content -->
       <div class="mb-6">
         <p class="mb-2 block font-medium text-gray-500">Quiz Content</p>
@@ -105,12 +91,25 @@
       <div v-if="quizes.length === 0" class="text-gray-500">
         No quiz generated yet.
       </div>
+
       <div v-else class="space-y-4">
-        <div class="flex items-center justify-between p-4">
-          <div v-if="timer > 0" class="text-lg font-bold">
-            Time Remaining: {{ Math.floor(timer / 60) }}:{{
-              timer % 60 < 10 ? '0' : ''
-            }}{{ timer % 60 }}
+        <div
+          class="flex flex-col items-center justify-between gap-4 py-4 lg:flex-row"
+        >
+          <div class="flex items-center justify-between gap-6">
+            <div v-if="timer > 0" class="text-lg font-bold">
+              Time: {{ Math.floor(timer / 60) }}:{{ timer % 60 < 10 ? '0' : ''
+              }}{{ timer % 60 }}
+            </div>
+
+            <div
+              v-if="score !== null"
+              class="flex items-center justify-between"
+            >
+              <div class="text-lg font-bold">
+                Your Score: {{ score }} / {{ quizes.length }}
+              </div>
+            </div>
           </div>
 
           <!-- Share Button -->
