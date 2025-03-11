@@ -144,6 +144,7 @@
               :key="index"
               class="flex cursor-pointer items-center gap-2 rounded-lg border p-2 hover:bg-gray-100 dark:border-[#0C1438] dark:hover:bg-gray-700"
               :class="getAnswerClass(quizes[currentIndex], option)"
+              @click="selectAnswer(quizes[currentIndex], option)"
             >
               <input
                 type="radio"
@@ -394,5 +395,12 @@ const handleFileUploadWrapper = async event => {
 // Wrapper for handleDrop to pass the callback
 const handleDropWrapper = async event => {
   await handleDrop(event, handleFileUploadWrapper)
+}
+
+// Select answer for a question
+const selectAnswer = (quiz, option) => {
+  if (score.value === null) {
+    quiz.userAnswer = option
+  }
 }
 </script>
