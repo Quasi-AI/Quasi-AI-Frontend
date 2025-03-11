@@ -70,9 +70,10 @@
         </ul>
         <NuxtLink to="/auth/sign-up">
           <button
-            class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+            class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 font-bold text-white"
+            disabled
           >
-            Get started
+            Current Plan
           </button>
         </NuxtLink>
       </div>
