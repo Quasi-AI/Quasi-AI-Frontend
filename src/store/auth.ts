@@ -32,14 +32,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       email: '',
       profileImage: ''
     },
-    users: [] as Array<{
-      id: number
-      name: string
-      profileImage: string
-      email: string
-      created_at: string
-      updated_at: string
-    }>
+    users: [] as Array
   }),
 
   actions: {
@@ -155,14 +148,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       try {
         const data = await $fetch<{
           statusCode: number
-          users?: Array<{
-            id: number
-            name: string
-            profileImage: string
-            email: string
-            created_at: string
-            updated_at: string
-          }>
+          users?: Array
           message?: string
         }>(API_PATHS.getAllUsers, {
           method: 'GET',
@@ -219,7 +205,9 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateEmail(newEmail: string) {
-      const apiUrl = `${API_PATHS.updateEmail}${localStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.updateEmail}${localStorage.getItem(
+        'user_id'
+      )}`
       await this.updateUserData(
         apiUrl,
         { email: newEmail },
@@ -230,7 +218,9 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateProfileImage(imageUrl: string) {
-      const apiUrl = `${API_PATHS.updateProfileImage}${localStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.updateProfileImage}${localStorage.getItem(
+        'user_id'
+      )}`
       await this.updateUserData(
         apiUrl,
         { profileImage: imageUrl },

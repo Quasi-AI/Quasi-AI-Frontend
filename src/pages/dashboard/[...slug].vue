@@ -4,7 +4,21 @@
       <CommonSidebar />
     </template>
     <template #apps>
-      <CommonDashboardMockDashboard width="100%" height="100%" />
+      <div
+        class="mb-6 flex flex-col dark:text-white rounded-lg bg-[#fff] p-2 dark:bg-[#111C44]"
+      >
+        <div>
+          <h1 class="text-2xl font-bold">Learning Progress</h1>
+        </div>
+        <div>
+          <VueApexCharts
+            type="line"
+            :options="chartOptions"
+            :series="chartSeries"
+            height="350"
+          />
+        </div>
+      </div>
 
       <div class="grid flex-1 grid-cols-1 gap-8 lg:grid-cols-3">
         <div
@@ -45,11 +59,35 @@
 </template>
 
 <script setup>
+import { defineAsyncComponent } from 'vue'
 import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
 import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
 import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
+const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
 
 const router = useRouter()
+const chartOptions = computed(() => ({
+  chart: { type: 'line', toolbar: { show: false } },
+  stroke: { curve: 'smooth' },
+  tooltip: { enabled: true }
+}))
+
+const chartSeries = [
+  {
+    name: 'Quizzes taken',
+    data: [
+      1000, 1500, 5000, 1000, 4000, 4031, 3200, 2700, 3800, 2500, 4200, 3900,
+      4500, 4700, 4300
+    ]
+  },
+  {
+    name: 'Flashcards created',
+    data: [
+      900, 1400, 1800, 1500, 2300, 2335, 2100, 1900, 2600, 2200, 3100, 2900,
+      3300, 3500, 3100
+    ]
+  }
+]
 
 const features = ref([
   {

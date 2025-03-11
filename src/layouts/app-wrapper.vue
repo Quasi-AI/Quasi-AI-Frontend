@@ -40,9 +40,17 @@ const pageTitle = computed(() => titles[route.path] || 'Page not recognized')
 const hideBackIconRoutes = ['/dashboard', '/apps']
 const showBackIcon = computed(() => !hideBackIconRoutes.includes(route.path))
 
+// Greeting
+const greeting = computed(() => {
+  const hours = new Date().getHours()
+  if (hours < 12) return 'Good morning'
+  if (hours < 18) return 'Good afternoon'
+  return 'Good evening'
+})
+
 // Define route-based titles
 const titles = {
-  '/dashboard': 'Welcome',
+  '/dashboard': greeting,
   '/apps': 'Apps',
   '/apps/questions': 'Questions',
   '/apps/flashcards': 'Smart Flashcards',
