@@ -1,9 +1,15 @@
 <template>
-  <div class="flex flex-col items-center justify-center gap-4 p-6">
+  <div
+    class="flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 dark:bg-[#1E2A5A]"
+  >
+    <h1 class="text-4xl font-bold text-slate-800 dark:text-gray-300">
+      We've got a plan <br />
+      that's perfect for you
+    </h1>
     <div class="grid w-full max-w-5xl gap-6 sm:grid-cols-1 md:grid-cols-3">
       <!-- Basic Plan -->
       <div
-        class="rounded-2xl bg-white p-6 shadow-lg hover:shadow-xl dark:bg-[#1E2A5A] dark:text-white"
+        class="rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
       >
         <h3 class="text-xl font-bold text-gray-800 dark:text-white">
           Basic plan
@@ -26,21 +32,19 @@
           <li>✅ Personalized AI suggestions</li>
           <li>✅ Email support</li>
           <li>✅ Secure cloud storage for AI-generated content</li>
-          <li>❌ Custom AI training for your business needs</li>
+          <li>❌ Custom AI training for your needs</li>
           <li>❌ API access for seamless integration</li>
-          <li>❌ On-premise or private cloud deployment</li>
-          <li>❌ Custom API integrations & workflow automation</li>
         </ul>
       </div>
 
       <!-- Business Plan -->
       <div
-        class="rounded-2xl border-2 border-yellow-400 bg-black p-6 text-white shadow-lg hover:shadow-xl"
+        class="rounded-2xl border-4 border-blue-400 bg-black p-6 text-white hover:shadow-xl"
       >
         <div class="flex items-center justify-between">
           <h3 class="text-xl font-bold">Business plan</h3>
           <span
-            class="rounded-full bg-yellow-400 px-3 py-1 text-sm font-bold text-black"
+            class="rounded-full bg-blue-600 px-3 py-1 text-sm font-bold text-white"
             >Popular</span
           >
         </div>
@@ -48,7 +52,7 @@
         <p class="text-gray-300">per user per month</p>
         <p class="mt-2 text-gray-300">Growing teams up to 20 users.</p>
         <button
-          class="mt-4 w-full rounded-lg bg-green-500 p-2 font-bold text-white"
+          class="mt-4 w-full rounded-lg bg-blue-500 p-2 font-bold text-white"
         >
           Get started
         </button>
@@ -58,7 +62,6 @@
           <li>✅ Priority email & chat support</li>
           <li>✅ Team collaboration tools</li>
           <li>✅ AI-powered analytics & insights</li>
-          <li>✅ Custom AI training for your business needs</li>
           <li>✅ API access for seamless integration</li>
           <li>❌ On-premise or private cloud deployment</li>
           <li>❌ Custom API integrations & workflow automation</li>
@@ -67,7 +70,7 @@
 
       <!-- Enterprise Plan -->
       <div
-        class="rounded-2xl bg-white p-6 shadow-lg hover:shadow-xl dark:bg-[#1E2A5A] dark:text-white"
+        class="rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
       >
         <h3 class="text-xl font-bold text-gray-800 dark:text-white">
           Enterprise plan
@@ -102,7 +105,7 @@
     <div class="flex flex-col items-center justify-center gap-4 p-6">
       <NuxtLink to="/other/support"
         ><button
-          class="mt-4 w-[200px] rounded-lg bg-white p-2 font-bold text-black"
+          class="mt-4 w-[200px] rounded-lg border bg-white p-2 font-bold text-black"
         >
           Chat to sales
         </button></NuxtLink
