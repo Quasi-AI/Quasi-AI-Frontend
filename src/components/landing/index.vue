@@ -264,6 +264,111 @@
         </div>
       </div>
     </div>
+
+    <!-- Pricing -->
+    <div
+      class="mb-4 flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 lg:mb-12 dark:bg-[#1E2A5A]"
+    >
+      <h1 class="text-3xl font-bold text-slate-800 dark:text-gray-300">
+        Choose the plan that's right for you
+      </h1>
+      <div class="grid w-full max-w-3xl gap-3 sm:grid-cols-1 md:grid-cols-2">
+        <!-- Free Plan -->
+        <div
+          class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+        >
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+            Free plan
+          </h3>
+          <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
+            $0
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">Forever free</p>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">
+            Essential features for individuals.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> Access to Quasi AI basic
+              features
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> Up to 20 AI-generated responses
+              per month
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> Email support
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> Secure cloud storage for
+              AI-generated content
+            </li>
+            <li>❌ Personalized AI suggestions</li>
+            <li>❌ API access for seamless integration</li>
+          </ul>
+
+          <NuxtLink to="/auth/sign-up">
+            <button
+              class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+            >
+              Get started
+            </button>
+          </NuxtLink>
+        </div>
+
+        <!-- Premium Plan -->
+        <div
+          class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+              Premium plan
+            </h3>
+            <span
+              class="rounded-full bg-blue-800 px-3 py-1 text-sm font-bold text-white"
+              >Most Popular</span
+            >
+          </div>
+          <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
+            $15
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">per user per month</p>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">
+            Advanced features for power users.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> Everything in Free Plan
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> Up to 500 AI-generated responses
+              per month
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> Personalized AI suggestions
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> Priority email & chat support
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> AI-powered analytics & insights
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsServicesChecked /> API access for seamless
+              integration
+            </li>
+          </ul>
+
+          <NuxtLink to="/auth/sign-up">
+            <button
+              class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+            >
+              Get started
+            </button>
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
