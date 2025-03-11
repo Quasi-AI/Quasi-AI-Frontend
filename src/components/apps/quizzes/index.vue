@@ -143,7 +143,11 @@
               v-for="(option, index) in quizes[currentIndex].options"
               :key="index"
               class="flex cursor-pointer items-center gap-2 rounded-lg border p-2 hover:bg-gray-100 dark:border-[#0C1438] dark:hover:bg-gray-700"
-              :class="getAnswerClass(quizes[currentIndex], option)"
+              :class="{
+                'border-2 border-[#5D3BEA]':
+                  option === quizes[currentIndex].userAnswer,
+                ...getAnswerClass(quizes[currentIndex], option)
+              }"
               @click="selectAnswer(quizes[currentIndex], option)"
             >
               <input
