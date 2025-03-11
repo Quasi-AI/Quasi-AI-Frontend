@@ -153,7 +153,7 @@
 
         <!-- Chat Input -->
         <div
-          class="mb-10 flex items-center rounded-full bg-white p-3 lg:mb-0 dark:bg-[#0C1438]"
+          class="mb-10 flex items-center rounded-full bg-white px-3 lg:mb-0 dark:bg-[#0C1438]"
         >
           <!-- Message Input -->
           <input

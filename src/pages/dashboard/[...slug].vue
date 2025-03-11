@@ -14,7 +14,7 @@
           <div class="flex gap-4">
             <select
               v-model="selectedStudent"
-              class="rounded-lg border border-gray-300 p-2 dark:border-gray-600 dark:bg-[#1E2A5A]"
+              class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
             >
               <option value="">Select Student</option>
               <option
@@ -27,7 +27,7 @@
             </select>
             <select
               v-model="selectedYear"
-              class="rounded-lg border border-gray-300 p-2 dark:border-gray-600 dark:bg-[#1E2A5A]"
+              class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
             >
               <option value="">Select Year</option>
               <option v-for="year in years" :key="year" :value="year">
