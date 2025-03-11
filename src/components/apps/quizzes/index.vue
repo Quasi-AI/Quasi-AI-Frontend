@@ -18,6 +18,8 @@
       <!-- File Upload -->
       <div
         @click="triggerFileInput"
+        @dragover.prevent="handleDragOver"
+        @drop.prevent="handleDropWrapper"
         class="mb-6 cursor-pointer rounded-lg border-2 border-dashed border-blue-300 p-6 text-center"
       >
         <p class="font-medium text-gray-500">
@@ -228,6 +230,7 @@
 <script setup>
 import { ref } from 'vue'
 import { handleFileUpload } from '@/utils/extractText'
+import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 
 const messageContent = ref('')
 const quizes = ref([])
@@ -386,5 +389,10 @@ const updateMessageContent = text => {
 
 const handleFileUploadWrapper = async event => {
   await handleFileUpload(event, updateMessageContent)
+}
+
+// Wrapper for handleDrop to pass the callback
+const handleDropWrapper = async event => {
+  await handleDrop(event, handleFileUploadWrapper)
 }
 </script>

@@ -18,6 +18,8 @@
       <!-- File Upload Section -->
       <div
         @click="triggerFileInput"
+        @dragover.prevent="handleDragOver"
+        @drop.prevent="handleDropWrapper"
         class="mb-6 rounded-lg border-2 border-dashed border-blue-300 p-6 text-center"
       >
         <p class="font-medium text-gray-500">
@@ -76,6 +78,7 @@
 
 <script setup>
 import { handleFileUpload } from '@/utils/extractText'
+import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import { Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import axios from 'axios'
@@ -185,6 +188,11 @@ const updateMessageContent = text => {
 
 const handleFileUploadWrapper = async event => {
   await handleFileUpload(event, updateMessageContent)
+}
+
+// Wrapper for handleDrop to pass the callback
+const handleDropWrapper = async event => {
+  await handleDrop(event, handleFileUploadWrapper)
 }
 </script>
 
