@@ -1,19 +1,4 @@
 <template>
-  <!-- Download Button -->
-  <div class="w-full">
-    <div
-      v-if="savedTranscripts.length > 0"
-      class="my-4 flex w-full justify-end"
-    >
-      <UButton
-        variant="blue"
-        class="flex w-[180px] items-center justify-end rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:bg-[#4A2DCA]"
-      >
-        Download transcript
-      </UButton>
-    </div>
-  </div>
-
   <div class="flex flex-col gap-6 lg:flex-row">
     <div class="flex w-full flex-col items-center gap-4">
       <!-- Preview Section -->
@@ -70,13 +55,23 @@
                 {{ transcript.content.substring(0, 50) }}...
               </p>
             </div>
-            <button
-              class="text-red-500 transition hover:text-red-700"
-              @click="closeModal"
-              @click.stop="deleteTranscript(index)"
-            >
-              &times;
-            </button>
+            <div class="flex gap-3">
+              <!-- Download button -->
+              <button
+                class="text-blue-500 transition hover:text-blue-700"
+                @click.stop="downloadTranscript(transcript)"
+              >
+                Download
+              </button>
+
+              <!-- Delete button -->
+              <button
+                class="text-red-500 transition hover:text-red-700"
+                @click.stop="deleteTranscript(index)"
+              >
+                &times;
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -93,6 +88,17 @@ const savedTranscripts = ref([])
 const finalizedText = ref('')
 const user_id = localStorage.getItem('user_id')
 
+// Function to check speech recognition support
+const isSpeechRecognitionSupported = () => {
+  return 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window
+}
+
+if (!isSpeechRecognitionSupported()) {
+  alert(
+    'Speech-to-text is not supported in this browser. Please use Chrome or Edge.'
+  )
+}
+
 // Load saved transcripts for the current user
 onMounted(() => {
   const saved = localStorage.getItem('savedTranscripts')
@@ -104,41 +110,59 @@ onMounted(() => {
 })
 
 // Speech Recognition Setup
-const recognition = new (window.SpeechRecognition ||
-  window.webkitSpeechRecognition)()
-recognition.continuous = true
-recognition.interimResults = true
-recognition.lang = 'en-US'
+let recognition = null
+if (isSpeechRecognitionSupported()) {
+  recognition = new (window.SpeechRecognition ||
+    window.webkitSpeechRecognition)()
+  recognition.continuous = true
+  recognition.interimResults = true
+  recognition.lang = 'en-US'
 
-// Handle speech recognition results
-recognition.onresult = event => {
-  let interimTranscript = ''
+  // Handle speech recognition results
+  recognition.onresult = event => {
+    let interimTranscript = ''
 
-  for (let i = event.resultIndex; i < event.results.length; i++) {
-    const transcript = event.results[i][0].transcript
-    if (event.results[i].isFinal) {
-      finalizedText.value += transcript + ' '
-    } else {
-      interimTranscript += transcript
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript
+      if (event.results[i].isFinal) {
+        finalizedText.value += formatTranscript(transcript)
+      } else {
+        interimTranscript += transcript
+      }
     }
+
+    messageContent.value = finalizedText.value + interimTranscript
   }
 
-  messageContent.value = finalizedText.value + interimTranscript
+  // Handle errors and end of recognition
+  recognition.onerror = event => {
+    console.error('Speech recognition error:', event.error)
+    isListening.value = false
+  }
+
+  recognition.onend = () => {
+    isListening.value = false
+    saveTranscript()
+  }
 }
 
-// Handle errors and end of recognition
-recognition.onerror = event => {
-  console.error('Speech recognition error:', event.error)
-  isListening.value = false
-}
+// Format transcript by adding punctuation
+const formatTranscript = text => {
+  text = text.trim()
 
-recognition.onend = () => {
-  isListening.value = false
-  saveTranscript()
+  // Add punctuation based on common speech patterns
+  if (text.endsWith(' ')) {
+    return text + ', '
+  } else if (text.length > 0) {
+    return text.charAt(0).toUpperCase() + text.slice(1) + '. '
+  }
+  return text
 }
 
 // Toggle speech-to-text
 const toggleSpeechToText = () => {
+  if (!isSpeechRecognitionSupported()) return
+
   if (isListening.value) {
     recognition.stop()
   } else {
@@ -186,5 +210,20 @@ const deleteTranscript = index => {
   localStorage.setItem('savedTranscripts', JSON.stringify(allTranscripts))
 
   savedTranscripts.value = userTranscripts
+}
+
+// Download transcript as a .txt file
+const downloadTranscript = transcript => {
+  const blob = new Blob([transcript.content], { type: 'text/plain' })
+  const url = URL.createObjectURL(blob)
+
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `transcript-${new Date().toISOString()}.txt`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+
+  URL.revokeObjectURL(url)
 }
 </script>
