@@ -118,7 +118,7 @@
         <div
           v-for="(feature, features) in features"
           :key="features.title"
-          class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+          class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-md"
           :class="feature.bgColor"
           :style="{ 'animation-delay': `${features.title * 0.2}s` }"
           v-animate-onscroll="'slide-up'"
