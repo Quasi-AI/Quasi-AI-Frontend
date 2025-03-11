@@ -83,17 +83,17 @@
         class="relative w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
       >
         <LandingUiIconsPricingWords
-          class="absolute -right-24 -top-4 hidden lg:block"
+          class="absolute -right-24 -top-4 hidden 2xl:block"
         />
         <LandingUiIconsPricingArrow
-          class="absolute -right-5 -top-4 hidden lg:block"
+          class="absolute -right-5 -top-4 hidden 2xl:block"
         />
         <div class="flex items-center justify-between">
           <h3 class="text-xl font-bold text-gray-800 dark:text-white">
             Premium plan
           </h3>
           <span
-            class="block rounded-full bg-[#5D3BEA] px-3 py-1 text-sm font-bold text-white lg:hidden"
+            class="block rounded-full bg-[#5D3BEA] px-3 py-1 text-sm font-bold text-white 2xl:hidden"
             >Most Popular</span
           >
         </div>
