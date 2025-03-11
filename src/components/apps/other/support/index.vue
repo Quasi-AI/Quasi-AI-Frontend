@@ -130,7 +130,7 @@ onMounted(() => {
     name.value = userInfo.value.name || ''
     email.value = userInfo.value.email || ''
   }
-  triggerToast('Hello! How can we help you?')
+  triggerToast('Hello! How can I help you?')
 })
 
 watchEffect(() => {

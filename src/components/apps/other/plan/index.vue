@@ -38,9 +38,7 @@
       </div>
 
       <!-- Premium Plan -->
-      <div
-        class="w-fit rounded-2xl bg-blue-700 p-6 hover:shadow-xl"
-      >
+      <div class="w-fit rounded-2xl bg-blue-700 p-6 hover:shadow-xl">
         <div class="flex items-center justify-between">
           <h3 class="text-xl font-bold text-white">Premium plan</h3>
           <span
@@ -50,9 +48,7 @@
         </div>
         <p class="mt-2 text-4xl font-extrabold text-white">$15</p>
         <p class="text-gray-300">per user per month</p>
-        <p class="mt-2 text-gray-300">
-          Advanced features for power users.
-        </p>
+        <p class="mt-2 text-gray-300">Advanced features for power users.</p>
         <button
           class="mt-4 w-full rounded-lg bg-blue-500 p-2 font-bold text-white"
         >
@@ -72,9 +68,9 @@
     <div class="flex flex-col items-center justify-center gap-4 p-6">
       <NuxtLink to="/other/support"
         ><button
-          class="mt-4 w-[200px] rounded-lg border bg-white p-2 font-bold text-black"
+          class="mt-4 w-[200px] rounded-full border bg-white p-2 font-bold text-black"
         >
-          Chat to sales
+          Contact Support
         </button></NuxtLink
       >
     </div>
