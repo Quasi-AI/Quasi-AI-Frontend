@@ -7,8 +7,10 @@
       <div
         class="mb-6 flex flex-col rounded-lg bg-[#fff] p-6 shadow-sm dark:bg-[#111C44] dark:text-white"
       >
-        <div class="mb-4 flex items-center justify-between">
-          <h1 class="text-2xl font-bold">Learning Progress</h1>
+        <div
+          class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row"
+        >
+          <h1 class="text-2xl font-medium">Learning Progress</h1>
           <div class="flex gap-4">
             <select
               v-model="selectedStudent"
