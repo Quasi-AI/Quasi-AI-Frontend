@@ -39,24 +39,24 @@
 
       <!-- Premium Plan -->
       <div
-        class="w-fit rounded-2xl border-4 border-blue-400 bg-black p-6 text-white hover:shadow-xl"
+        class="w-fit rounded-2xl border-4 border-blue-500 bg-blue-200 dark:bg-blue-700 p-6 hover:shadow-xl"
       >
         <div class="flex items-center justify-between">
           <h3 class="text-xl font-bold">Premium plan</h3>
           <span
-            class="rounded-full bg-blue-600 px-3 py-1 text-sm font-bold text-white"
+            class="rounded-full bg-blue-800 px-3 py-1 text-sm font-bold text-white"
             >Best Value</span
           >
         </div>
         <p class="mt-2 text-4xl font-extrabold">$15</p>
-        <p class="text-gray-300">per user per month</p>
-        <p class="mt-2 text-gray-300">Advanced features for power users.</p>
+        <p class="dark:text-gray-300 text-gray-500">per user per month</p>
+        <p class="mt-2 dark:text-gray-300 text-gray-500">Advanced features for power users.</p>
         <button
           class="mt-4 w-full rounded-lg bg-blue-500 p-2 font-bold text-white"
         >
           Get started
         </button>
-        <ul class="mt-4 space-y-2 text-gray-300">
+        <ul class="mt-4 space-y-2 dark:text-gray-300 text-gray-500">
           <li>✅ Everything in Free Plan</li>
           <li>✅ Up to 500 AI-generated responses per month</li>
           <li>✅ Personalized AI suggestions</li>
