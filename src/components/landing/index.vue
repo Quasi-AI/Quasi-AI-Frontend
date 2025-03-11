@@ -289,18 +289,17 @@
           </p>
           <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> Access to Quasi AI basic
-              features
+              <LandingUiIconsPricingChecked /> Access to Quasi AI basic features
             </li>
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> Up to 20 AI-generated responses
+              <LandingUiIconsPricingChecked /> Up to 20 AI-generated responses
               per month
             </li>
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> Email support
+              <LandingUiIconsPricingChecked /> Email support
             </li>
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> Secure cloud storage for
+              <LandingUiIconsPricingChecked /> Secure cloud storage for
               AI-generated content
             </li>
             <li>❌ Personalized AI suggestions</li>
@@ -338,23 +337,23 @@
           </p>
           <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> Everything in Free Plan
+              <LandingUiIconsPricingChecked /> Everything in Free Plan
             </li>
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> Up to 500 AI-generated responses
+              <LandingUiIconsPricingChecked /> Up to 500 AI-generated responses
               per month
             </li>
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> Personalized AI suggestions
+              <LandingUiIconsPricingChecked /> Personalized AI suggestions
             </li>
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> Priority email & chat support
+              <LandingUiIconsPricingChecked /> Priority email & chat support
             </li>
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> AI-powered analytics & insights
+              <LandingUiIconsPricingChecked /> AI-powered analytics & insights
             </li>
             <li class="flex gap-2">
-              <LandingUiIconsServicesChecked /> API access for seamless
+              <LandingUiIconsPricingChecked /> API access for seamless
               integration
             </li>
           </ul>
