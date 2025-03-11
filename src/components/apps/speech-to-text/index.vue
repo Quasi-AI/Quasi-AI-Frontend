@@ -50,7 +50,9 @@
         >
           <div class="flex items-center justify-between">
             <div @click="viewTranscript(transcript)">
-              <p class="font-semibold">Transcript {{ index + 1 }}</p>
+              <p class="font-semibold">
+                {{ formatTranscriptTitle(transcript) }}
+              </p>
               <p class="text-sm text-gray-500 dark:text-gray-400">
                 {{ transcript.content.substring(0, 50) }}...
               </p>
@@ -149,14 +151,23 @@ if (isSpeechRecognitionSupported()) {
 // Format transcript by adding punctuation
 const formatTranscript = text => {
   text = text.trim()
-
-  // Add punctuation based on common speech patterns
-  if (text.endsWith(' ')) {
-    return text + ', '
-  } else if (text.length > 0) {
+  if (text.length > 0) {
     return text.charAt(0).toUpperCase() + text.slice(1) + '. '
   }
   return text
+}
+
+// Generate a title for each transcript using date and content snippet
+const formatTranscriptTitle = transcript => {
+  const date = new Date(transcript.timestamp).toLocaleString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+  const snippet = transcript.content.substring(0, 20) + '...'
+  return `${date} - ${snippet}`
 }
 
 // Toggle speech-to-text
@@ -171,11 +182,12 @@ const toggleSpeechToText = () => {
   isListening.value = !isListening.value
 }
 
-// Save transcript with user_id
+// Save transcript with user_id and timestamp
 const saveTranscript = () => {
   if (messageContent.value.trim()) {
     const transcript = {
       user_id: user_id,
+      timestamp: Date.now(),
       content: messageContent.value
     }
 
@@ -214,12 +226,18 @@ const deleteTranscript = index => {
 
 // Download transcript as a .txt file
 const downloadTranscript = transcript => {
+  const formattedDate = new Date(transcript.timestamp)
+    .toISOString()
+    .replace(/[:.]/g, '-')
+  const snippet = transcript.content.substring(0, 20).replace(/\s+/g, '_')
+  const filename = `transcript-${formattedDate}-${snippet}.txt`
+
   const blob = new Blob([transcript.content], { type: 'text/plain' })
   const url = URL.createObjectURL(blob)
 
   const link = document.createElement('a')
   link.href = url
-  link.download = `transcript-${new Date().toISOString()}.txt`
+  link.download = filename
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
