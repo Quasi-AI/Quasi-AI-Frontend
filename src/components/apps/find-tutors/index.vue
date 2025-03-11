@@ -34,6 +34,7 @@
           :src="tutor.image || defaultProfileImage"
           alt="Tutor"
           class="h-80 w-full rounded-t-lg object-cover lg:h-60"
+          :class="{ 'grayscale': tutor.status }"
           @click="openModal(tutor)"
         />
         <div class="flex flex-grow flex-col px-5 pb-5 pt-3">
