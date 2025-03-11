@@ -5,10 +5,10 @@
     </template>
     <template #apps>
       <div
-        class="mb-6 flex flex-col dark:text-white rounded-lg bg-[#fff] p-2 dark:bg-[#111C44]"
+        class="mb-6 flex flex-col rounded-lg bg-[#fff] p-6 shadow-sm dark:bg-[#111C44] dark:text-white"
       >
         <div>
-          <h1 class="text-2xl font-bold">Learning Progress</h1>
+          <h1 class="mb-4 text-2xl font-bold">Learning Progress</h1>
         </div>
         <div>
           <VueApexCharts
@@ -38,7 +38,7 @@
 
           <!-- Content -->
           <div class="flex-1">
-            <h3 class="text-xl font-bold">{{ feature.title }}</h3>
+            <h3 class="mb-2 text-xl font-bold">{{ feature.title }}</h3>
             <p class="text-gray-600 dark:text-gray-400">
               {{ feature.description }}
             </p>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, computed, ref } from 'vue'
 import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
 import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
 import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
@@ -68,23 +68,42 @@ const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
 const router = useRouter()
 const chartOptions = computed(() => ({
   chart: { type: 'line', toolbar: { show: false } },
-  stroke: { curve: 'smooth' },
-  tooltip: { enabled: true }
+  stroke: { curve: 'smooth', width: 2 },
+  tooltip: { enabled: true },
+  xaxis: {
+    categories: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ]
+  },
+  colors: ['#FF6636', '#1E2A5A'],
+  legend: {
+    position: 'top',
+    horizontalAlign: 'right'
+  }
 }))
 
 const chartSeries = [
   {
     name: 'Quizzes taken',
     data: [
-      1000, 1500, 5000, 1000, 4000, 4031, 3200, 2700, 3800, 2500, 4200, 3900,
-      4500, 4700, 4300
+      1000, 1500, 5000, 1000, 4000, 4031, 3200, 2700, 3800, 2500, 4200, 3900
     ]
   },
   {
     name: 'Flashcards created',
     data: [
-      900, 1400, 1800, 1500, 2300, 2335, 2100, 1900, 2600, 2200, 3100, 2900,
-      3300, 3500, 3100
+      900, 1400, 1800, 1500, 2300, 2335, 2100, 1900, 2600, 2200, 3100, 2900
     ]
   }
 ]
@@ -95,7 +114,8 @@ const features = ref([
     title: 'Questions',
     description: 'Ask and answer questions from a large knowledge base.',
     route: '/apps/questions',
-    bgColor: 'bg-[#EBEBFF] dark:bg-[#1E2A5A]'
+    bgColor: 'bg-[#EBEBFF] dark:bg-[#1E2A5A]',
+    iconBgColor: 'bg-[#D6D6FF] dark:bg-[#2A3A6E]'
   },
   {
     icon: LandingUiIconsFeaturesQuizzes,
@@ -103,7 +123,8 @@ const features = ref([
     description:
       'Automatically generated quizzes to test understanding and track progress.',
     route: '/apps/quizzes',
-    bgColor: 'bg-[#F5F7FA] dark:bg-[#232D4B]'
+    bgColor: 'bg-[#F5F7FA] dark:bg-[#232D4B]',
+    iconBgColor: 'bg-[#E0E5EB] dark:bg-[#2E3A5F]'
   },
   {
     icon: LandingUiIconsFeaturesTutors,
@@ -111,7 +132,8 @@ const features = ref([
     description:
       'Create expert tutors and connect them to students for personalized learning.',
     route: '/apps/find-tutors',
-    bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]'
+    bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]',
+    iconBgColor: 'bg-[#FFD9CC] dark:bg-[#4A4A7A]'
   }
 ])
 
