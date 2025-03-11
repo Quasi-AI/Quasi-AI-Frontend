@@ -4,7 +4,7 @@
     <div class="grid w-full gap-6 sm:grid-cols-1 md:grid-cols-3">
       <!-- Personal Plan -->
       <div
-        class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+        class="rounded-2xl bg-white p-6 shadow hover:shadow-md dark:bg-[#111C44] dark:text-white"
       >
         <h3 class="text-xl font-bold">Personal</h3>
         <p class="mt-2 text-gray-600 dark:text-gray-300">For individuals.</p>
@@ -30,7 +30,7 @@
 
       <!-- Business Plan -->
       <div
-        class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+        class="rounded-2xl bg-white p-6 shadow hover:shadow-md dark:bg-[#111C44] dark:text-white"
       >
         <h3 class="text-xl font-bold">Business</h3>
         <p class="mt-2 text-gray-600 dark:text-gray-300">For small teams.</p>
@@ -56,7 +56,7 @@
 
       <!-- Enterprise Plan -->
       <div
-        class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+        class="rounded-2xl bg-white p-6 shadow hover:shadow-md dark:bg-[#111C44] dark:text-white"
       >
         <h3 class="text-xl font-bold">Enterprise</h3>
         <p class="mt-2 text-gray-600 dark:text-gray-300">
