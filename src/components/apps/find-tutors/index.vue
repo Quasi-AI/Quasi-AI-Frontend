@@ -26,7 +26,7 @@
       <div
         v-for="(tutor, index) in filteredTutors"
         :key="tutor.id"
-        class="animate-slide-up flex h-full cursor-pointer flex-col rounded-lg bg-white transition-all duration-300 hover:shadow-xl dark:bg-[#111C44]"
+        class="flex h-full cursor-pointer flex-col rounded-lg bg-white hover:shadow-md dark:bg-[#111C44]"
         :style="{ animationDelay: `${index * 0.2}s` }"
         :class="{ 'pointer-events-none opacity-50': tutor.status }"
       >
