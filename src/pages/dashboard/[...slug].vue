@@ -3,96 +3,107 @@
     <template #sidebar>
       <CommonSidebar />
     </template>
+    
     <template #apps>
-      <div
-        class="mb-6 flex flex-col rounded-lg bg-[#fff] p-6 shadow-sm dark:bg-[#111C44] dark:text-white"
-      >
-        <div
-          class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row"
-        >
-          <h1 class="text-2xl font-medium">Learning Progress</h1>
-          <div class="flex gap-4">
-            <select
-              v-model="selectedStudent"
-              class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
-            >
-              <option value="">Select Student</option>
-              <option
-                v-for="student in students"
-                :key="student.id"
-                :value="student.id"
-              >
-                {{ student.name }}
-              </option>
-            </select>
-            <select
-              v-model="selectedYear"
-              class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
-            >
-              <option value="">Select Year</option>
-              <option v-for="year in years" :key="year" :value="year">
-                {{ year }}
-              </option>
-            </select>
+      <div class="mb-6 flex items-center justify-between rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white">
+        <div class="flex items-center gap-4">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-[#6366F1] text-white text-lg font-bold">
+            {{ initials }}
+          </div>
+          <div>
+              <h2 class="text-lg font-semibold">{{ name }}</h2>
+              <p class="text-sm text-gray-400">{{ email }}</p>
           </div>
         </div>
-        <div>
-          <VueApexCharts
-            type="line"
-            :options="chartOptions"
-            :series="chartSeries"
-            height="350"
-          />
-        </div>
+        <NuxtLink to="/apps" class="bg-[#6366F1] text-white px-4 py-2 rounded-md hover:bg-[#4F46E5]">Go to Apps</NuxtLink>
       </div>
 
-      <div class="grid flex-1 grid-cols-1 gap-8 lg:grid-cols-3">
-        <div
-          v-for="(feature, index) in features"
-          :key="index"
-          @click="navigateTo(feature.route)"
-          class="flex cursor-pointer items-start gap-4 rounded-lg p-6 hover:shadow-md dark:bg-[#111C44]"
-          :class="feature.bgColor"
-          :style="{ animationDelay: `${index * 0.2}s` }"
-        >
-          <!-- Icon -->
-          <span
-            class="flex shrink-0 items-center justify-center rounded-lg dark:backdrop-blur-sm"
-          >
-            <component :is="feature.icon" class="h-10 w-10" />
-          </span>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+  <StatCard 
+    title="Total Flashcards" 
+    value="189" 
+    trend="0.5% Down" 
+    trendColor="text-red-500" 
+    :svg="BookOpenIcon" 
+  />
+  <StatCard 
+    title="Total Questions" 
+    value="40" 
+    trend="8.5% Up" 
+    trendColor="text-green-500" 
+    :svg="QuestionMarkCircleIcon" 
+  />
+  <StatCard 
+    title="Total Learners" 
+    value="46" 
+    trend="8.5% Up" 
+    trendColor="text-green-500" 
+    :svg="UsersIcon" 
+  />
+  <StatCard 
+    title="No. of Tutors" 
+    value="90" 
+    trend="8.5% Up" 
+    trendColor="text-green-500" 
+    :svg="UserGroupIcon" 
+  />
+</div>
 
-          <!-- Content -->
-          <div class="flex-1">
-            <h3 class="mb-2 text-xl font-bold">{{ feature.title }}</h3>
-            <p class="text-gray-600 dark:text-gray-400">
-              {{ feature.description }}
-            </p>
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mt-6">
+        <div class="lg:col-span-2 flex flex-col gap-6">
+          <div class="bg-white p-6 rounded-lg shadow-sm dark:bg-[#111C44] dark:text-white">
+            <div class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row">
+              <h1 class="text-2xl font-medium">Learning Progress</h1>
+              <div class="flex gap-4">
+                <select v-model="selectedStudent" class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]">
+                  <option value="">Select Student</option>
+                  <option v-for="student in students" :key="student.id" :value="student.id">{{ student.name }}</option>
+                </select>
+                <select v-model="selectedYear" class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]">
+                  <option value="">Select Year</option>
+                  <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+                </select>
+              </div>
+            </div>
+            <VueApexCharts type="line" :options="chartOptions" :series="chartSeries" height="350" />
+          </div>
+
+          <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <ChartCard :chartOptions="learningChartOptions" :chartSeries="learningChartSeries" />
+            <ChartCard title="Quiz Created vs Taken" :chartOptions="quizChartOptions" :chartSeries="quizChartSeries" />
           </div>
         </div>
-      </div>
-      <div class="my-4 mt-10 flex items-center justify-center gap-2">
-        <NuxtLink
-          to="/apps"
-          class="text-[#FF6636] transition duration-300 hover:underline"
-        >
-          See all apps
-        </NuxtLink>
-        <LandingUiIconsFeaturesArrowright width="14px" height="14px" />
+
+        <div class="lg:row-span-2 bg-white p-6 rounded-lg shadow-sm dark:bg-[#111C44] dark:text-white flex flex-col">
+          <h2 class="text-lg font-semibold mb-4">Recent Flashcards</h2>
+          <ul class="flex-1">
+            <li v-for="(flashcard, index) in recentFlashcards" :key="index" 
+                class="border-b border-gray-300 dark:border-gray-700 py-2 text-sm flex justify-between">
+              <span>{{ flashcard.title }}</span>
+              <span class="text-gray-400 dark:text-gray-300 text-xs">{{ flashcard.time }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </template>
   </NuxtLayout>
 </template>
 
 <script setup>
-import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
-import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
-import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
+import StatCard from '@/components/StatCard.vue'
+const ChartCard = defineAsyncComponent(() => import('@/components/ChartCard.vue'))
+import { BookOpenIcon, QuestionMarkCircleIcon, UsersIcon, UserGroupIcon } from '@heroicons/vue/24/solid'
 const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
-
-const router = useRouter()
 const selectedStudent = ref('')
 const selectedYear = ref('')
+const { userInfo } = useUser()
+import { ref, onMounted } from 'vue';
+
+const name = ref('');
+const email = ref('');
+const initials = ref('');
+
+
 
 const students = ref([
   { id: 1, name: 'John Doe' },
@@ -140,36 +151,49 @@ const chartSeries = [
   }
 ]
 
-const features = ref([
-  {
-    icon: LandingUiIconsFeaturesQuestions,
-    title: 'Questions',
-    description: 'Ask and answer questions from a large knowledge base.',
-    route: '/apps/questions',
-    bgColor: 'bg-[#EBEBFF] dark:bg-[#1E2A5A]',
-    iconBgColor: 'bg-[#D6D6FF] dark:bg-[#2A3A6E]'
-  },
-  {
-    icon: LandingUiIconsFeaturesQuizzes,
-    title: 'Practice Quizzes',
-    description:
-      'Automatically generated quizzes to test understanding and track progress.',
-    route: '/apps/quizzes',
-    bgColor: 'bg-[#F5F7FA] dark:bg-[#232D4B]',
-    iconBgColor: 'bg-[#E0E5EB] dark:bg-[#2E3A5F]'
-  },
-  {
-    icon: LandingUiIconsFeaturesTutors,
-    title: 'Tutors',
-    description:
-      'Create expert tutors and connect them to students for personalized learning.',
-    route: '/apps/find-tutors',
-    bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]',
-    iconBgColor: 'bg-[#FFD9CC] dark:bg-[#4A4A7A]'
-  }
+const learningChartOptions = computed(() => ({
+  chart: { type: 'line', toolbar: { show: false } },
+  xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] },
+  colors: ['#6366F1'],
+}))
+
+const learningChartSeries = [{ name: 'Progress', data: [20, 30, 40, 50, 60, 70, 80, 70, 65, 75, 85, 90] }]
+
+const quizChartOptions = computed(() => ({
+  chart: { type: 'bar', toolbar: { show: false } },
+  xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] },
+  colors: ['#FF6636', '#1E2A5A'],
+}))
+
+const quizChartSeries = [
+  { name: 'Created', data: [50, 100, 75, 200, 175, 150, 125, 140, 160, 190, 220, 250] },
+  { name: 'Taken', data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230] },
+]
+
+const recentFlashcards = ref([
+  { title: 'Generated Flashcard - Biology Chapter 3', time: '2 mins ago' },
+  { title: 'Generated Flashcard - Biology Chapter 3', time: '3 hours ago' },
+  { title: 'Generated Flashcard - Biology Chapter 3', time: '6 hours ago' },
+  { title: 'Generated Flashcard - Biology Chapter 3', time: '10 hours ago' },
+  { title: 'Generated Flashcard - Biology Chapter 3', time: '12 hours ago' },
+  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
 ])
 
-const navigateTo = route => {
-  if (route) router.push(route)
-}
+
+onMounted(() => {
+  name.value = localStorage.getItem("name") || "Default Name";
+  email.value = localStorage.getItem("email") || "default@example.com";
+
+  const words = name.value.trim().split(" ");
+  initials.value = words.length > 1 
+    ? words[0][0].toUpperCase() + words[1][0].toUpperCase() 
+    : words[0][0].toUpperCase();
+
+});
 </script>
+
+<style scoped>
+.dark-bg {
+  background-color: #111C44;
+}
+</style>
