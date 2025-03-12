@@ -9,21 +9,16 @@
           variant="none"
           class="my-2 w-full rounded-lg border bg-white p-1 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
           placeholder="Search for questions by name"
-          v-model="selectedCategory"
+          v-model="searchQuery"
           maxLength="250"
         />
         <select
           v-model="filterQuestions"
           class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          @change="handleFilterChange"
         >
-          <option value="">All Questions</option>
-          <option
-            v-for="question in questionsLists"
-            :key="question"
-            :value="question"
-          >
-            {{ question }}
-          </option>
+          <option value="all">All Questions</option>
+          <option value="my">My Questions</option>
         </select>
         <button
           @click="HandleCreateQuestionsButton"
@@ -34,10 +29,93 @@
         </button>
       </div>
 
+      <!-- Questions List -->
+      <div v-if="homeQuestions.length > 0" class="mt-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div
+            v-for="(questionSet, index) in homeQuestions"
+            :key="index"
+            class="cursor-pointer rounded-lg bg-white p-4 shadow-sm transition duration-300 hover:scale-105 dark:bg-[#1E2A50] dark:text-white"
+            @click="openQuestionSet(questionSet)"
+          >
+            <div class="mb-4 flex items-center gap-3">
+              <img
+                :src="questionSet.created_by.profile"
+                alt="Profile"
+                class="h-10 w-10 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-semibold">{{ questionSet.created_by.name }}</p>
+                <p class="text-sm text-gray-500">
+                  {{ formatDate(questionSet.created_by.created_at) }}
+                </p>
+              </div>
+            </div>
+            <p class="text-lg font-semibold">{{ questionSet.message }}</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Empty State (Show when no questions are available) -->
-      <div class="mt-4 text-center text-gray-500">
+      <div v-else class="mt-4 text-center text-gray-500">
         No questions available.
         <EmptyStateIcon width="100%" height="350px" />
+      </div>
+    </div>
+
+    <!-- Detailed Question Set Container -->
+    <div
+      v-if="showQuestionSetDetail && selectedQuestionSet"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
+    >
+      <button
+        @click="closeQuestionSetDetail"
+        class="mb-4 flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Back to Questions
+      </button>
+
+      <div class="mb-6 flex items-center gap-3">
+        <img
+          :src="selectedQuestionSet.created_by.profile"
+          alt="Profile"
+          class="h-12 w-12 rounded-full object-cover"
+        />
+        <div>
+          <p class="text-lg font-semibold">
+            {{ selectedQuestionSet.created_by.name }}
+          </p>
+          <p class="text-sm text-gray-500">
+            {{ formatDate(selectedQuestionSet.created_by.created_at) }}
+          </p>
+        </div>
+      </div>
+
+      <p class="mb-6 text-xl font-bold">{{ selectedQuestionSet.message }}</p>
+
+      <div class="space-y-4">
+        <div
+          v-for="(question, qIndex) in selectedQuestionSet.questions"
+          :key="qIndex"
+          class="rounded-lg bg-gray-100 p-4 dark:bg-[#0C1438]"
+        >
+          <p class="font-medium">{{ question.question }}</p>
+          <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+            {{ question.answer }}
+          </p>
+        </div>
       </div>
     </div>
 
@@ -173,30 +251,91 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const messageContent = ref('')
 const questions = ref([])
+const homeQuestions = ref([])
 const selectedLevel = ref('beginner')
 const numQuestions = ref(10)
 const loading = ref(false)
 const showCreateQuestions = ref(false)
 const showPreviewQuestions = ref(false)
 const showHomeQuestions = ref(true)
+const filterQuestions = ref('all')
+const searchQuery = ref('')
 
-// Filters
-const filterQuestions = ref('')
-const questionsLists = ['My questions']
+// For detailed question set view
+const showQuestionSetDetail = ref(false)
+const selectedQuestionSet = ref(null)
 
+// Fetch questions on component mount
+onMounted(async () => {
+  await fetchHomeQuestions()
+})
+
+// Fetch questions based on the selected filter
+const fetchHomeQuestions = async () => {
+  const endpoint =
+    filterQuestions.value === 'all'
+      ? 'https://dark-caldron-448714-u5.uc.r.appspot.com/question/all'
+      : `https://dark-caldron-448714-u5.uc.r.appspot.com/question/${localStorage.getItem(
+          'user_id'
+        )}`
+
+  try {
+    const response = await fetch(endpoint)
+    const data = await response.json()
+    if (response.ok && data.success) {
+      homeQuestions.value = data.Questions
+    } else {
+      homeQuestions.value = []
+    }
+  } catch (error) {
+    console.error('Error fetching questions:', error)
+    homeQuestions.value = []
+  }
+}
+
+// Handle filter change
+const handleFilterChange = () => {
+  fetchHomeQuestions()
+}
+
+// Open detailed view for a question set
+const openQuestionSet = questionSet => {
+  selectedQuestionSet.value = questionSet
+  showQuestionSetDetail.value = true
+  showHomeQuestions.value = false
+}
+
+// Close detailed view
+const closeQuestionSetDetail = () => {
+  selectedQuestionSet.value = null
+  showQuestionSetDetail.value = false
+  showHomeQuestions.value = true
+}
+
+// Format date
+const formatDate = dateString => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
+// Other functions remain unchanged
 const HandleCreateQuestionsButton = async () => {
   showHomeQuestions.value = false
   showCreateQuestions.value = true
   showPreviewQuestions.value = false
 }
 
-// Generate Questions using API
 const generateQuestions = async () => {
   if (!messageContent.value.trim()) {
     questions.value = [
@@ -243,22 +382,18 @@ const generateQuestions = async () => {
   }
 }
 
-// Trigger the file input when the button is clicked
 const triggerFileInput = () => {
   document.getElementById('file-upload').click()
 }
 
-// Update message content when a file is uploaded
 const updateMessageContent = text => {
   messageContent.value = text
 }
 
-// Handle file upload via input
 const handleFileUploadWrapper = async event => {
   await handleFileUpload(event, updateMessageContent)
 }
 
-// Wrapper for handleDrop to pass the callback
 const handleDropWrapper = async event => {
   await handleDrop(event, handleFileUploadWrapper)
 }
