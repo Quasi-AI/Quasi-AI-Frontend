@@ -72,8 +72,8 @@
           </div>
 
           <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <ChartCard :chartOptions="learningChartOptions" :chartSeries="learningChartSeries" />
-            <ChartCard title="Quiz Created vs Taken" :chartOptions="quizChartOptions" :chartSeries="quizChartSeries" />
+            <PieChart title="Users" :series="pieChartSeries" :chartOptions="pieChartOptions" />
+            <ChartCard title="Quiz Created vs Taken" :chartOptions="quizChartOptions" :series="quizChartSeries" />
           </div>
         </div>
 
@@ -98,6 +98,7 @@
 
 <script setup>
 import StatCard from '@/components/StatCard.vue'
+import PieChart from '@/components/PieChart.vue'
 const ChartCard = defineAsyncComponent(() => import('@/components/ChartCard.vue'))
 const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
 const selectedStudent = ref('')
@@ -161,24 +162,48 @@ const chartSeries = [
   }
 ]
 
-const learningChartOptions = computed(() => ({
-  chart: { type: 'line', toolbar: { show: false } },
-  xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] },
-  colors: ['#6366F1'],
-}))
+const pieChartOptions = computed(() => ({
+  chart: { type: 'donut' },
+  labels: ['Educators', 'Learners'],
+  colors: ['#EF4444', '#6366F1'],
+  legend: { show: false },
+  dataLabels: { enabled: false }
+}));
 
-const learningChartSeries = [{ name: 'Progress', data: [20, 30, 40, 50, 60, 70, 80, 70, 65, 75, 85, 90] }]
+const pieChartSeries = [12, 230]; // Educators & Learners
+
 
 const quizChartOptions = computed(() => ({
-  chart: { type: 'bar', toolbar: { show: false } },
-  xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] },
-  colors: ['#FF6636', '#1E2A5A'],
-}))
+  chart: { 
+    type: 'bar', 
+    toolbar: { show: false } 
+  },
+  xaxis: { 
+    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: { style: { colors: '#6B7280', fontSize: '12px' } } // Improve readability
+  },
+  plotOptions: {
+    bar: { 
+      horizontal: false, 
+      columnWidth: '55%', 
+      borderRadius: 4 // Rounded corners
+    }
+  },
+  colors: ['#4F46E5', '#22C55E'], // Blue for Created, Green for Taken
+  dataLabels: { enabled: false }, // Hide labels for cleaner UI
+  grid: { borderColor: '#E5E7EB', strokeDashArray: 3 }, // Light grid lines
+  tooltip: { theme: 'dark' }, // Dark mode tooltip
+  legend: {
+    position: 'top',
+    labels: { colors: '#374151' } // Improve legend text visibility
+  }
+}));
 
 const quizChartSeries = [
   { name: 'Created', data: [50, 100, 75, 200, 175, 150, 125, 140, 160, 190, 220, 250] },
-  { name: 'Taken', data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230] },
-]
+  { name: 'Taken', data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230] }
+];
+
 
 const recentFlashcards = ref([
   { title: 'Generated Flashcard - Biology Chapter 3', time: '2 mins ago' },
