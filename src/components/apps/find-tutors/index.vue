@@ -288,6 +288,15 @@
         </div>
       </UCard>
     </UModal>
+
+    <!-- Empty State (Show when no tutors are available) -->
+    <div
+      v-if="filteredTutors.length === 0"
+      class="mt-4 flex flex-col items-center justify-center gap-4 text-center text-gray-500"
+    >
+      No tutors available.
+      <EmptyStateIcon width="100%" height="350px" />
+    </div>
   </div>
 </template>
 
@@ -302,6 +311,7 @@ import {
   uploadBytes,
   getDownloadURL
 } from '~/utils/firebase'
+import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const createEditTutorModal = ref(false)
 const deleteTutorModal = ref(false)
