@@ -21,11 +21,11 @@
           <option value="my">My Quizzes</option>
         </select>
         <button
-          @click="HandleCreateFlashcardsButton"
+          @click="HandleCreateQuizzesButton"
           class="flex w-full items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-90 hover:bg-[#4A2DCA] lg:w-[200px]"
           variant="blue"
         >
-          Create flashcards
+          Create quizzes
         </button>
       </div>
 
@@ -384,6 +384,25 @@ const selectedQuiz = ref(null)
 const searchQuery = ref('')
 const filterQuizes = ref('all')
 const hasError = ref(false)
+let timerInterval
+
+const prevQuestion = () => {
+  if (currentIndex.value > 0) currentIndex.value--
+}
+const nextQuestion = () => {
+  if (currentIndex.value < quizes.value.length - 1) currentIndex.value++
+}
+
+const startTimer = () => {
+  timer.value = userTimer.value * 60
+  timerInterval = setInterval(() => {
+    if (timer.value > 0) timer.value--
+    else {
+      clearInterval(timerInterval)
+      checkAnswers()
+    }
+  }, 1000)
+}
 
 // Fetch quizzes on component mount
 onMounted(() => {
@@ -440,7 +459,7 @@ const formatDate = dateString => {
 }
 
 // Handle create flashcards button
-const HandleCreateFlashcardsButton = async () => {
+const HandleCreateQuizzesButton = async () => {
   showHomeQuizzes.value = false
   showCreateQuizzes.value = true
   showPreviewQuizzes.value = false
@@ -530,6 +549,7 @@ const checkAnswers = () => {
   score.value = correctCount
   clearInterval(timerInterval) // Stop timer
   showGeneratedQuizzes.value = false
+  showPreviewQuizzes.value = false
   showPostSubmission.value = true
 }
 
