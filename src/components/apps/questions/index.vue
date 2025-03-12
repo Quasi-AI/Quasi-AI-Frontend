@@ -35,10 +35,16 @@
           <div
             v-for="(questionSet, index) in homeQuestions"
             :key="index"
-            class="cursor-pointer rounded-lg bg-white p-4 shadow-sm transition duration-300 hover:scale-105 dark:bg-[#1E2A50] dark:text-white"
+            class="flex h-full flex-col justify-between rounded-lg bg-white p-4 shadow-sm transition duration-300 hover:scale-105 dark:bg-[#1E2A50] dark:text-white"
             @click="openQuestionSet(questionSet)"
           >
-            <div class="mb-4 flex items-center gap-3">
+            <!-- Message at the top -->
+            <p class="text-lg font-semibold">
+              {{ truncateText(questionSet.message) }}
+            </p>
+
+            <!-- User details always at the bottom -->
+            <div class="mt-auto flex items-center gap-3 pt-3">
               <img
                 :src="questionSet.created_by.profile"
                 alt="Profile"
@@ -51,7 +57,6 @@
                 </p>
               </div>
             </div>
-            <p class="text-lg font-semibold">{{ questionSet.message }}</p>
           </div>
         </div>
       </div>
@@ -255,6 +260,7 @@ import { ref, onMounted } from 'vue'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
+import { truncateText } from '@/utils/truncateText'
 
 const messageContent = ref('')
 const questions = ref([])
