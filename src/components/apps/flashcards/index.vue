@@ -69,100 +69,88 @@
     </div>
 
     <!-- Detailed Flashcard Set Container -->
-    <div
-      v-if="showFlashcardSetDetail && selectedFlashcardSet"
-      class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
-    >
-      <button
-        @click="closeFlashcardSetDetail"
-        class="mb-4 flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          viewBox="0 0 20 20"
-          fill="currentColor"
+    <div v-if="showFlashcardSetDetail && selectedFlashcardSet" class="w-full">
+      <div class="flex items-center justify-between py-8">
+        <button
+          @click="closeFlashcardSetDetail"
+          class="flex items-center gap-2 rounded-full bg-[#5D3BEA] px-4 py-1 text-white transition duration-300 hover:bg-[#4A2DCA]"
         >
-          <path
-            fill-rule="evenodd"
-            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        Back to Flashcards
-      </button>
-
-      <div class="mb-6 flex items-center gap-3">
-        <img
-          :src="selectedFlashcardSet.created_by.profile"
-          alt="Profile"
-          class="h-12 w-12 rounded-full object-cover"
-        />
-        <div>
-          <p class="text-lg font-semibold">
-            {{ selectedFlashcardSet.created_by.name }}
-          </p>
-          <p class="text-sm text-gray-500">
-            {{ formatDate(selectedFlashcardSet.created_by.created_at) }}
-          </p>
-        </div>
+          <span>Close</span>
+        </button>
       </div>
 
-      <p class="mb-6 text-xl font-bold">{{ selectedFlashcardSet.message }}</p>
-
-      <!-- Flashcards Carousel -->
-      <div class="w-full">
-        <div class="perspective relative h-[50vh] w-full" @click="toggleFlip">
-          <div
-            class="preserve-3d relative h-full w-full transform transition-transform duration-500"
-            :class="{ 'rotate-y-180': isFlipped }"
-          >
-            <!-- Front (Question) -->
-            <div
-              class="backface-hidden absolute inset-0 flex h-full w-full items-center justify-center rounded-lg bg-blue-600 p-5 text-white transition-transform"
-              :class="{ hidden: isFlipped, block: !isFlipped }"
-            >
-              <h3 class="text-lg font-semibold">
-                {{ selectedFlashcardSet?.flashcards?.[currentIndex]?.front }}
-              </h3>
-            </div>
-
-            <!-- Back (Answer) -->
-            <div
-              class="backface-hidden rotate-y-180 absolute inset-0 flex h-full w-full items-center justify-center rounded-lg bg-green-600 p-5 text-white transition-transform"
-              :class="{ hidden: !isFlipped, block: isFlipped }"
-            >
-              <p class="text-lg">
-                {{ selectedFlashcardSet?.flashcards?.[currentIndex]?.back }}
-              </p>
-            </div>
+      <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
+        <div>
+          <img
+            :src="selectedFlashcardSet.created_by.profile"
+            alt="Profile"
+            class="h-12 w-12 rounded-full object-cover"
+          />
+          <div>
+            <p class="text-lg font-semibold">
+              {{ selectedFlashcardSet.created_by.name }}
+            </p>
+            <p class="text-sm text-gray-500">
+              {{ formatDate(selectedFlashcardSet.created_by.created_at) }}
+            </p>
           </div>
         </div>
 
-        <!-- Navigation Buttons -->
-        <div class="mt-4 flex justify-between">
-          <UButton
-            class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
-            variant="none"
-            @click="prevCard"
-            :disabled="currentIndex === 0"
-          >
-            Back
-          </UButton>
-          <UButton
-            class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
-            variant="none"
-            @click="nextCard"
-            :disabled="
-              currentIndex === selectedFlashcardSet?.flashcards?.length - 1
-            "
-          >
-            Next
-          </UButton>
+        <p class="mb-6 text-xl font-bold">{{ selectedFlashcardSet.message }}</p>
+
+        <!-- Flashcards Carousel -->
+        <div class="w-full">
+          <div class="perspective relative h-[50vh] w-full" @click="toggleFlip">
+            <div
+              class="preserve-3d relative h-full w-full transform transition-transform duration-500"
+              :class="{ 'rotate-y-180': isFlipped }"
+            >
+              <!-- Front (Question) -->
+              <div
+                class="backface-hidden absolute inset-0 flex h-full w-full items-center justify-center rounded-lg bg-blue-600 p-5 text-white transition-transform"
+                :class="{ hidden: isFlipped, block: !isFlipped }"
+              >
+                <h3 class="text-lg font-semibold">
+                  {{ selectedFlashcardSet?.flashcards?.[currentIndex]?.front }}
+                </h3>
+              </div>
+
+              <!-- Back (Answer) -->
+              <div
+                class="backface-hidden rotate-y-180 absolute inset-0 flex h-full w-full items-center justify-center rounded-lg bg-green-600 p-5 text-white transition-transform"
+                :class="{ hidden: !isFlipped, block: isFlipped }"
+              >
+                <p class="text-lg">
+                  {{ selectedFlashcardSet?.flashcards?.[currentIndex]?.back }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="mt-4 flex justify-between">
+            <UButton
+              class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+              variant="none"
+              @click="prevCard"
+              :disabled="currentIndex === 0"
+            >
+              Back
+            </UButton>
+            <UButton
+              class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+              variant="none"
+              @click="nextCard"
+              :disabled="
+                currentIndex === selectedFlashcardSet?.flashcards?.length - 1
+              "
+            >
+              Next
+            </UButton>
+          </div>
         </div>
       </div>
     </div>
-
     <!-- Form Container -->
     <div
       v-if="showCreateFlashcards"

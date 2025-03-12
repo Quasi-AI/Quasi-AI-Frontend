@@ -9,17 +9,16 @@
           variant="none"
           class="my-2 w-full rounded-lg border bg-white p-1 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
           placeholder="Search for quizzes by name"
-          v-model="selectedCategory"
+          v-model="searchQuery"
           maxLength="250"
         />
         <select
           v-model="filterQuizes"
           class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          @change="fetchQuizzes"
         >
-          <option value="">All Quizzes</option>
-          <option v-for="quizz in quizzcardsLists" :key="quizz" :value="quiz">
-            {{ quizz }}
-          </option>
+          <option value="all">All Quizzes</option>
+          <option value="my">My Quizzes</option>
         </select>
         <button
           @click="HandleCreateFlashcardsButton"
@@ -30,10 +29,83 @@
         </button>
       </div>
 
-      <!-- Empty State (Show when no flashcards are available) -->
-      <div class="mt-4 text-center text-gray-500">
-        No flashcards available.
+      <!-- Questions List -->
+      <div v-if="quizzes.length > 0" class="mt-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div
+            v-for="quiz in filteredQuizzes"
+            :key="quiz.message"
+            class="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-white p-4 shadow-sm hover:shadow-md dark:bg-[#1E2A50] dark:text-white"
+            @click="openQuiz(quiz)"
+          >
+            <!-- Message at the top -->
+            <p class="text-lg font-semibold">
+              {{ quiz.message }}
+            </p>
+
+            <!-- User details always at the bottom -->
+            <div class="mt-auto flex items-center gap-3 pt-3">
+              <img
+                :src="quiz.created_by.profile"
+                alt="Profile"
+                class="h-10 w-10 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-semibold">{{ quiz.created_by.name }}</p>
+                <p class="text-sm text-gray-500">
+                  {{ formatDate(quiz.created_by.created_at) }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State (Show when no questions are available) -->
+      <div v-else class="mt-4 text-center text-gray-500">
+        No questions available.
         <EmptyStateIcon width="100%" height="350px" />
+      </div>
+    </div>
+
+    <!-- Quiz Detail View -->
+    <div v-if="showQuizDetail" class="w-full">
+      <div class="flex items-center justify-between py-8">
+        <button
+          @click="closeQuizzesSetDetail"
+          class="flex items-center gap-2 rounded-full bg-[#5D3BEA] px-4 py-1 text-white transition duration-300 hover:bg-[#4A2DCA]"
+        >
+          <span>Close</span>
+        </button>
+      </div>
+
+      <div class="p-4">
+        <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
+          <p class="text-center text-2xl font-semibold">
+            {{ selectedQuiz.message }}
+          </p>
+          <div class="mt-4 space-y-4">
+            <div
+              v-for="(question, index) in selectedQuiz.quizes"
+              :key="index"
+              class="rounded-lg border p-4 dark:border-[#0C1438]"
+            >
+              <p class="font-medium">{{ question.question }}</p>
+              <div class="mt-2 grid grid-cols-2 gap-2">
+                <p
+                  v-for="(option, optIndex) in question.options"
+                  :key="optIndex"
+                  class="rounded-lg border p-2 dark:border-[#0C1438]"
+                >
+                  {{ option }}
+                </p>
+              </div>
+              <p class="mt-2 text-sm text-gray-500">
+                Correct Answer: {{ question.correctAnswer }}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -273,7 +345,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
@@ -291,33 +362,65 @@ const showPreviewQuizzes = ref(false)
 const showHomeQuizzes = ref(true)
 const showGeneratedQuizzes = ref(false)
 const showPostSubmission = ref(false)
+const showQuizDetail = ref(false)
 const currentIndex = ref(0)
-
-// Filters
-const filterQuizes = ref('')
-const quizzcardsLists = ['My quizzes']
-
-const prevQuestion = () => {
-  if (currentIndex.value > 0) currentIndex.value--
-}
-const nextQuestion = () => {
-  if (currentIndex.value < quizes.value.length - 1) currentIndex.value++
-}
+const quizzes = ref([])
+const selectedQuiz = ref(null)
+const searchQuery = ref('')
+const filterQuizes = ref('all')
 const hasError = ref(false)
 
-let timerInterval
+// Fetch quizzes on component mount
+onMounted(() => {
+  fetchQuizzes()
+})
 
-const startTimer = () => {
-  timer.value = userTimer.value * 60
-  timerInterval = setInterval(() => {
-    if (timer.value > 0) timer.value--
-    else {
-      clearInterval(timerInterval)
-      checkAnswers()
-    }
-  }, 1000)
+// Fetch quizzes based on filter
+const fetchQuizzes = async () => {
+  try {
+    const endpoint =
+      filterQuizes.value === 'my'
+        ? `/quiz/${localStorage.getItem('user_id')}`
+        : '/quiz/all'
+    const response = await fetch(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com${endpoint}`
+    )
+    if (!response.ok) throw new Error('Failed to fetch quizzes')
+    const data = await response.json()
+    quizzes.value = data.Quizes
+  } catch (error) {
+    console.error('Error fetching quizzes:', error)
+  }
 }
 
+// Filter quizzes based on search query
+const filteredQuizzes = computed(() => {
+  return quizzes.value.filter(quiz =>
+    quiz.message.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
+
+// Open quiz detail view
+const openQuiz = quiz => {
+  selectedQuiz.value = quiz
+  showQuizDetail.value = true
+  showHomeQuizzes.value = false
+}
+
+// Close detailed view
+const closeQuizzesSetDetail = () => {
+  selectedQuiz.value = null
+  showQuizDetail.value = false
+  showHomeQuizzes.value = true
+}
+
+// Format date
+const formatDate = dateString => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString()
+}
+
+// Handle create flashcards button
 const HandleCreateFlashcardsButton = async () => {
   showHomeQuizzes.value = false
   showCreateQuizzes.value = true

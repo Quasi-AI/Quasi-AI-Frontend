@@ -69,57 +69,46 @@
     </div>
 
     <!-- Detailed Question Set Container -->
-    <div
-      v-if="showQuestionSetDetail && selectedQuestionSet"
-      class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
-    >
-      <button
-        @click="closeQuestionSetDetail"
-        class="mb-4 flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          viewBox="0 0 20 20"
-          fill="currentColor"
+    <div v-if="showQuestionSetDetail && selectedQuestionSet" class="w-full">
+      <div class="flex items-center justify-between py-8">
+        <button
+          @click="closeQuestionSetDetail"
+          class="flex items-center gap-2 rounded-full bg-[#5D3BEA] px-4 py-1 text-white transition duration-300 hover:bg-[#4A2DCA]"
         >
-          <path
-            fill-rule="evenodd"
-            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        Back to Questions
-      </button>
-
-      <div class="mb-6 flex items-center gap-3">
-        <img
-          :src="selectedQuestionSet.created_by.profile"
-          alt="Profile"
-          class="h-12 w-12 rounded-full object-cover"
-        />
-        <div>
-          <p class="text-lg font-semibold">
-            {{ selectedQuestionSet.created_by.name }}
-          </p>
-          <p class="text-sm text-gray-500">
-            {{ formatDate(selectedQuestionSet.created_by.created_at) }}
-          </p>
-        </div>
+          <span>Close</span>
+        </button>
       </div>
 
-      <p class="mb-6 text-xl font-bold">{{ selectedQuestionSet.message }}</p>
+      <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
+        <div>
+          <img
+            :src="selectedQuestionSet.created_by.profile"
+            alt="Profile"
+            class="h-12 w-12 rounded-full object-cover"
+          />
+          <div>
+            <p class="text-lg font-semibold">
+              {{ selectedQuestionSet.created_by.name }}
+            </p>
+            <p class="text-sm text-gray-500">
+              {{ formatDate(selectedQuestionSet.created_by.created_at) }}
+            </p>
+          </div>
+        </div>
 
-      <div class="space-y-4">
-        <div
-          v-for="(question, qIndex) in selectedQuestionSet.questions"
-          :key="qIndex"
-          class="rounded-lg bg-gray-100 p-4 dark:bg-[#0C1438]"
-        >
-          <p class="font-medium">{{ question.question }}</p>
-          <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
-            {{ question.answer }}
-          </p>
+        <p class="mb-6 text-xl font-bold">{{ selectedQuestionSet.message }}</p>
+
+        <div class="space-y-4">
+          <div
+            v-for="(question, qIndex) in selectedQuestionSet.questions"
+            :key="qIndex"
+            class="rounded-lg bg-gray-100 p-4 dark:bg-[#0C1438]"
+          >
+            <p class="font-medium">{{ question.question }}</p>
+            <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+              {{ question.answer }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
