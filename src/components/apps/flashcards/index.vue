@@ -71,8 +71,12 @@
     <!-- Detailed Flashcard Set Container -->
     <div v-if="showFlashcardSetDetail && selectedFlashcardSet" class="w-full">
       <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
-        <div class="mb-6 flex items-center justify-between gap-4">
-          <div class="flex flex-col items-center gap-4 md:flex-row">
+        <div
+          class="mb-6 flex items-start justify-between gap-4 md:items-center"
+        >
+          <div
+            class="flex flex-col items-start gap-4 md:flex-row md:items-center"
+          >
             <img
               :src="selectedFlashcardSet.created_by.profile"
               alt="Profile"
