@@ -30,22 +30,24 @@ defineProps({
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  padding: 1.25rem;
+  padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 280px;
-  min-height: 100px;
+  min-height: 120px;
   transition: all 0.3s ease-in-out;
 }
 
+/* Hover Effect */
 .stat-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* Flex adjustments */
 .stat-info {
   flex: 1;
+  min-width: 0;
 }
 
 .stat-label {
@@ -55,9 +57,12 @@ defineProps({
 }
 
 .stat-value {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .trend {
@@ -72,18 +77,59 @@ defineProps({
   color: #6b7280;
 }
 
+/* Icon container */
 .icon-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   background-color: #eef2ff;
   border-radius: 12px;
 }
 
+/* Icon */
 .icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
+}
+
+/* 🌍 Responsive Adjustments */
+@media (max-width: 768px) {
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .icon-container {
+    width: 40px;
+    height: 40px;
+    margin-top: 8px;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-card {
+    min-height: auto;
+    padding: 0.75rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+  }
+
+  .trend {
+    font-size: 0.7rem;
+  }
 }
 </style>
