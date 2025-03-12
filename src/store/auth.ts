@@ -73,6 +73,8 @@ export const useAuthenticationStore = defineStore('authentication', {
       try {
         this.error = ''
         const data = await $fetch<{
+          name: any
+          email: any
           statusCode: number
           token?: string
           id?: number
@@ -92,6 +94,8 @@ export const useAuthenticationStore = defineStore('authentication', {
           }
           if ('id' in data && data.id) {
             localStorage.setItem('user_id', data.id.toString())
+            localStorage.setItem('name', data.name.toString())
+            localStorage.setItem('email', data.email.toString())
           }
           this.success = successMessage
           navigateTo(redirectPath)
