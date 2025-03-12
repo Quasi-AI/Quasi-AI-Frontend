@@ -70,7 +70,7 @@
 
     <!-- Quiz Detail View -->
     <div v-if="showQuizDetail" class="w-full">
-      <div class="flex items-center justify-between py-8">
+      <div class="flex items-center justify-end py-8">
         <button
           @click="closeQuizzesSetDetail"
           class="flex items-center gap-2 rounded-full bg-[#5D3BEA] px-4 py-1 text-white transition duration-300 hover:bg-[#4A2DCA]"
