@@ -3,11 +3,15 @@
     <template #sidebar>
       <CommonSidebar />
     </template>
-    
+
     <template #apps>
-      <div class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white">
-        <div class="flex items-center gap-4 w-full md:w-auto">
-          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-[#6366F1] text-white text-lg font-bold">
+      <div
+        class="mb-6 flex flex-col items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-sm md:flex-row dark:bg-[#111C44] dark:text-white"
+      >
+        <div class="flex w-full items-center gap-4 md:w-auto">
+          <div
+            class="flex h-12 w-12 items-center justify-center rounded-full bg-[#6366F1] text-lg font-bold text-white"
+          >
             {{ initials }}
           </div>
           <div class="text-center md:text-left">
@@ -15,82 +19,123 @@
             <p class="text-sm text-gray-400">{{ email }}</p>
           </div>
         </div>
-        <NuxtLink to="/apps" 
-          class="bg-[#6366F1] text-white px-4 py-2 rounded-md hover:bg-[#4F46E5] w-full md:w-auto text-center">
+        <NuxtLink
+          to="/apps"
+          class="w-full rounded-md bg-[#6366F1] px-4 py-2 text-center text-white hover:bg-[#4F46E5] md:w-auto"
+        >
           Go to Apps
         </NuxtLink>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-        <StatCard 
-          title="Total Flashcards" 
-          value="189" 
-          trend="0.5% Down" 
-          trendColor="text-red-500 dark:text-red-400" 
-          :svg="FlashcardSvg" 
+      <div
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
+      >
+        <StatCard
+          title="Total Flashcards"
+          value="189"
+          trend="0.5% Down"
+          trendColor="text-red-500 dark:text-red-400"
+          :svg="FlashcardSvg"
         />
-        <StatCard 
-          title="Total Questions" 
-          value="40" 
-          trend="8.5% Up" 
-          trendColor="text-green-500 dark:text-green-400" 
-          :svg="QuestionSvg" 
+        <StatCard
+          title="Total Questions"
+          value="40"
+          trend="8.5% Up"
+          trendColor="text-green-500 dark:text-green-400"
+          :svg="QuestionSvg"
         />
-        <StatCard 
-          title="Total Learners" 
-          value="46" 
-          trend="8.5% Up" 
-          trendColor="text-green-500 dark:text-green-400" 
-          :svg="TotalLearnersSvg" 
+        <StatCard
+          title="Total Learners"
+          value="46"
+          trend="8.5% Up"
+          trendColor="text-green-500 dark:text-green-400"
+          :svg="TotalLearnersSvg"
         />
-        <StatCard 
-          title="No. of Tutors" 
-          value="90" 
-          trend="8.5% Up" 
-          trendColor="text-green-500 dark:text-green-400" 
-          :svg="TutorsSvg" 
+        <StatCard
+          title="No. of Tutors"
+          value="90"
+          trend="8.5% Up"
+          trendColor="text-green-500 dark:text-green-400"
+          :svg="TutorsSvg"
         />
       </div>
 
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mt-6">
-        <div class="lg:col-span-2 flex flex-col gap-6">
-          <div class="bg-white p-6 rounded-lg shadow-sm dark:bg-[#111C44] dark:text-white">
-            <div class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row">
+      <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div class="flex flex-col gap-6 lg:col-span-2">
+          <div
+            class="rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white"
+          >
+            <div
+              class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row"
+            >
               <h1 class="text-2xl font-medium">Learning Progress</h1>
               <div class="flex gap-4">
-                <select v-model="selectedStudent" class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]">
+                <select
+                  v-model="selectedStudent"
+                  class="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
+                >
                   <option value="">Select Student</option>
-                  <option v-for="student in students" :key="student.id" :value="student.id">{{ student.name }}</option>
+                  <option
+                    v-for="student in students"
+                    :key="student.id"
+                    :value="student.id"
+                  >
+                    {{ student.name }}
+                  </option>
                 </select>
-                <select v-model="selectedYear" class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]">
+                <select
+                  v-model="selectedYear"
+                  class="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
+                >
                   <option value="">Select Year</option>
-                  <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+                  <option v-for="year in years" :key="year" :value="year">
+                    {{ year }}
+                  </option>
                 </select>
               </div>
             </div>
-            <VueApexCharts type="line" :options="chartOptions" :series="chartSeries" height="350" />
+            <VueApexCharts
+              type="line"
+              :options="chartOptions"
+              :series="chartSeries"
+              height="350"
+            />
           </div>
 
           <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <PieChart title="Users" :series="pieChartSeries" :chartOptions="pieChartOptions" />
-            <ChartCard title="Quiz Created vs Taken" :chartOptions="quizChartOptions" :series="quizChartSeries" />
+            <PieChart
+              title="Users"
+              :series="pieChartSeries"
+              :chartOptions="pieChartOptions"
+            />
+            <ChartCard
+              title="Quiz Created vs Taken"
+              :chartOptions="quizChartOptions"
+              :series="quizChartSeries"
+            />
           </div>
         </div>
 
-        <div class="lg:row-span-2 bg-white p-6 rounded-lg shadow-sm dark:bg-[#111C44] dark:text-white flex flex-col max-h-[880px] overflow-y-auto">
-          <h2 class="text-lg font-semibold mb-4">Recent Flashcards</h2>
+        <div
+          class="flex max-h-[880px] flex-col overflow-y-auto rounded-lg bg-white p-6 shadow-sm lg:row-span-2 dark:bg-[#111C44] dark:text-white"
+        >
+          <h2 class="mb-4 text-lg font-semibold">Recent Flashcards</h2>
           <ul class="flex-1 overflow-y-auto">
-            <li v-for="(flashcard, index) in recentFlashcards" :key="index" 
-                class="border-b border-gray-300 dark:border-gray-700 py-2 text-sm flex justify-between items-center">
+            <li
+              v-for="(flashcard, index) in recentFlashcards"
+              :key="index"
+              class="flex items-center justify-between border-b border-gray-300 py-2 text-sm dark:border-gray-700"
+            >
               <div class="flex items-center gap-2">
-                <TutorsSvg class="w-4 h-4 text-gray-500 dark:text-gray-300" />
+                <TutorsSvg class="h-4 w-4 text-gray-500 dark:text-gray-300" />
                 <span>{{ flashcard.title }}</span>
               </div>
-              <span class="text-gray-400 dark:text-gray-300 text-xs">{{ flashcard.time }}</span>
+              <span class="text-xs text-gray-400 dark:text-gray-300">{{
+                flashcard.time
+              }}</span>
             </li>
           </ul>
         </div>
-
       </div>
     </template>
   </NuxtLayout>
@@ -99,22 +144,21 @@
 <script setup>
 import StatCard from '@/components/StatCard.vue'
 import PieChart from '@/components/PieChart.vue'
-const ChartCard = defineAsyncComponent(() => import('@/components/ChartCard.vue'))
+const ChartCard = defineAsyncComponent(
+  () => import('@/components/ChartCard.vue')
+)
 const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
 const selectedStudent = ref('')
 const selectedYear = ref('')
-import { ref, onMounted } from 'vue';
 
-import QuestionSvg from '@/components/icons/questionSvg.vue';
-import FlashcardSvg from '@/components/icons/flashcardSvg.vue';
-import TotalLearnersSvg from '@/components/icons/totallearnersSvg.vue';
-import TutorsSvg from '@/components/icons/tutorsSvg.vue';
+import QuestionSvg from '@/components/icons/questionSvg.vue'
+import FlashcardSvg from '@/components/icons/flashcardSvg.vue'
+import TotalLearnersSvg from '@/components/icons/totallearnersSvg.vue'
+import TutorsSvg from '@/components/icons/tutorsSvg.vue'
 
-const name = ref('');
-const email = ref('');
-const initials = ref('');
-
-
+const name = ref('')
+const email = ref('')
+const initials = ref('')
 
 const students = ref([
   { id: 1, name: 'John Doe' },
@@ -168,24 +212,36 @@ const pieChartOptions = computed(() => ({
   colors: ['#EF4444', '#6366F1'],
   legend: { show: false },
   dataLabels: { enabled: false }
-}));
+}))
 
-const pieChartSeries = [12, 230]; // Educators & Learners
-
+const pieChartSeries = [12, 230] // Educators & Learners
 
 const quizChartOptions = computed(() => ({
-  chart: { 
-    type: 'bar', 
-    toolbar: { show: false } 
+  chart: {
+    type: 'bar',
+    toolbar: { show: false }
   },
-  xaxis: { 
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  xaxis: {
+    categories: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ],
     labels: { style: { colors: '#6B7280', fontSize: '12px' } } // Improve readability
   },
   plotOptions: {
-    bar: { 
-      horizontal: false, 
-      columnWidth: '55%', 
+    bar: {
+      horizontal: false,
+      columnWidth: '55%',
       borderRadius: 4 // Rounded corners
     }
   },
@@ -197,13 +253,18 @@ const quizChartOptions = computed(() => ({
     position: 'top',
     labels: { colors: '#374151' } // Improve legend text visibility
   }
-}));
+}))
 
 const quizChartSeries = [
-  { name: 'Created', data: [50, 100, 75, 200, 175, 150, 125, 140, 160, 190, 220, 250] },
-  { name: 'Taken', data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230] }
-];
-
+  {
+    name: 'Created',
+    data: [50, 100, 75, 200, 175, 150, 125, 140, 160, 190, 220, 250]
+  },
+  {
+    name: 'Taken',
+    data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230]
+  }
+]
 
 const recentFlashcards = ref([
   { title: 'Generated Flashcard - Biology Chapter 3', time: '2 mins ago' },
@@ -220,24 +281,23 @@ const recentFlashcards = ref([
   { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
   { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
   { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
+  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' }
 ])
 
-
 onMounted(() => {
-  name.value = localStorage.getItem("name") || "Default Name";
-  email.value = localStorage.getItem("email") || "default@example.com";
+  name.value = localStorage.getItem('name') || 'Default Name'
+  email.value = localStorage.getItem('email') || 'default@example.com'
 
-  const words = name.value.trim().split(" ");
-  initials.value = words.length > 1 
-    ? words[0][0].toUpperCase() + words[1][0].toUpperCase() 
-    : words[0][0].toUpperCase();
-
-});
+  const words = name.value.trim().split(' ')
+  initials.value =
+    words.length > 1
+      ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
+      : words[0][0].toUpperCase()
+})
 </script>
 
 <style scoped>
 .dark-bg {
-  background-color: #111C44;
+  background-color: #111c44;
 }
 </style>

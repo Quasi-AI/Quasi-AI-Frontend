@@ -20,8 +20,8 @@ defineProps({
   value: [String, Number],
   trend: String,
   trendColor: String,
-  svg: Object, // SVG component passed as a prop
-});
+  svg: Object // SVG component passed as a prop
+})
 </script>
 
 <style scoped>
@@ -36,9 +36,9 @@ defineProps({
   width: 100%;
   min-height: 120px;
   transition: all 0.3s ease-in-out;
-  
+
   /* 🌙 Dark mode support */
-  @apply dark:bg-gray-800 dark:border dark:border-gray-700 dark:shadow-lg;
+  @apply dark:border dark:border-gray-700 dark:bg-gray-800 dark:shadow-lg;
 }
 
 /* Hover Effect */
