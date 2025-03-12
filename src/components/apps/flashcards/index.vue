@@ -33,7 +33,7 @@
       <div v-if="homeFlashcards?.length > 0" class="mt-4">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div
-            v-for="(flashcardSet, index) in homeFlashcards"
+            v-for="(flashcardSet, index) in filteredFlashcards"
             :key="index"
             class="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-white p-4 shadow-sm hover:shadow-md dark:bg-[#1E2A50] dark:text-white"
             @click="openFlashcardSet(flashcardSet)"
@@ -353,6 +353,13 @@ const fetchHomeFlashcards = async () => {
 const handleFilterChange = () => {
   fetchHomeFlashcards()
 }
+
+// Filter flashcards based on search query
+const filteredFlashcards = computed(() => {
+  return homeFlashcards.value.filter(flashcard =>
+    flashcard.message.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
 
 // Open detailed view for a flashcard set
 const openFlashcardSet = flashcardSet => {

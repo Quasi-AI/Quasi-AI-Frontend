@@ -33,7 +33,7 @@
       <div v-if="homeQuestions.length > 0" class="mt-4">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div
-            v-for="(questionSet, index) in homeQuestions"
+            v-for="(questionSet, index) in filteredQuestions"
             :key="index"
             class="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-white p-4 shadow-sm hover:shadow-md dark:bg-[#1E2A50] dark:text-white"
             @click="openQuestionSet(questionSet)"
@@ -301,6 +301,13 @@ const fetchHomeQuestions = async () => {
 const handleFilterChange = () => {
   fetchHomeQuestions()
 }
+
+// Filter questions based on search query
+const filteredQuestions = computed(() => {
+  return homeQuestions.value.filter(question =>
+    question.message.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
 
 // Open detailed view for a question set
 const openQuestionSet = questionSet => {
