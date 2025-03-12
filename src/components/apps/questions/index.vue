@@ -35,7 +35,7 @@
           <div
             v-for="(questionSet, index) in homeQuestions"
             :key="index"
-            class="flex h-full flex-col justify-between rounded-lg bg-white p-4 shadow-sm transition duration-300 hover:scale-105 dark:bg-[#1E2A50] dark:text-white"
+            class="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-white p-4 shadow-sm hover:shadow-md dark:bg-[#1E2A50] dark:text-white"
             @click="openQuestionSet(questionSet)"
           >
             <!-- Message at the top -->
