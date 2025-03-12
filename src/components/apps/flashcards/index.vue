@@ -70,30 +70,29 @@
 
     <!-- Detailed Flashcard Set Container -->
     <div v-if="showFlashcardSetDetail && selectedFlashcardSet" class="w-full">
-      <div class="flex items-center justify-end py-8">
-        <button
-          @click="closeFlashcardSetDetail"
-          class="flex items-center gap-2 rounded-full bg-[#5D3BEA] px-4 py-1 text-white transition duration-300 hover:bg-[#4A2DCA]"
-        >
-          <span>Close</span>
-        </button>
-      </div>
-
       <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
-        <div class="mb-6 flex items-center gap-4">
-          <img
-            :src="selectedFlashcardSet.created_by.profile"
-            alt="Profile"
-            class="h-12 w-12 rounded-full object-cover"
-          />
-          <div>
-            <p class="text-lg font-semibold">
-              {{ selectedFlashcardSet.created_by.name }}
-            </p>
-            <p class="text-sm text-gray-500">
-              {{ formatDate(selectedFlashcardSet.created_by.created_at) }}
-            </p>
+        <div class="mb-6 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <img
+              :src="selectedFlashcardSet.created_by.profile"
+              alt="Profile"
+              class="h-12 w-12 rounded-full object-cover"
+            />
+            <div>
+              <p class="text-lg font-semibold">
+                {{ selectedFlashcardSet.created_by.name }}
+              </p>
+              <p class="text-sm text-gray-500">
+                {{ formatDate(selectedFlashcardSet.created_by.created_at) }}
+              </p>
+            </div>
           </div>
+          <button
+            @click="closeFlashcardSetDetail"
+            class="flex items-center gap-2 rounded-full bg-[#5D3BEA] px-4 py-1 text-white transition duration-300 hover:bg-[#4A2DCA]"
+          >
+            <span>Close</span>
+          </button>
         </div>
 
         <p class="mb-6 text-xl font-medium">
