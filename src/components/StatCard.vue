@@ -20,7 +20,7 @@ defineProps({
   value: [String, Number],
   trend: String,
   trendColor: String,
-  svg: Object // SVG component passed as a prop
+  svg: Object, // SVG component passed as a prop
 });
 </script>
 
@@ -36,12 +36,16 @@ defineProps({
   width: 100%;
   min-height: 120px;
   transition: all 0.3s ease-in-out;
+  
+  /* 🌙 Dark mode support */
+  @apply dark:bg-gray-800 dark:border dark:border-gray-700 dark:shadow-lg;
 }
 
 /* Hover Effect */
 .stat-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  @apply dark:shadow-xl;
 }
 
 /* Flex adjustments */
@@ -54,6 +58,9 @@ defineProps({
   font-size: 0.875rem;
   color: #6b7280;
   font-weight: 500;
+
+  /* Dark mode text */
+  @apply dark:text-gray-400;
 }
 
 .stat-value {
@@ -63,6 +70,9 @@ defineProps({
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  /* Dark mode text */
+  @apply dark:text-white;
 }
 
 .trend {
@@ -75,6 +85,9 @@ defineProps({
 
 .trend-text {
   color: #6b7280;
+
+  /* Dark mode text */
+  @apply dark:text-gray-400;
 }
 
 /* Icon container */
@@ -86,12 +99,18 @@ defineProps({
   height: 48px;
   background-color: #eef2ff;
   border-radius: 12px;
+
+  /* Dark mode background */
+  @apply dark:bg-gray-700;
 }
 
 /* Icon */
 .icon {
   width: 24px;
   height: 24px;
+
+  /* Dark mode SVG color */
+  @apply dark:text-white;
 }
 
 /* 🌍 Responsive Adjustments */

@@ -26,28 +26,28 @@
           title="Total Flashcards" 
           value="189" 
           trend="0.5% Down" 
-          trendColor="text-red-500" 
+          trendColor="text-red-500 dark:text-red-400" 
           :svg="FlashcardSvg" 
         />
         <StatCard 
           title="Total Questions" 
           value="40" 
           trend="8.5% Up" 
-          trendColor="text-green-500" 
+          trendColor="text-green-500 dark:text-green-400" 
           :svg="QuestionSvg" 
         />
         <StatCard 
           title="Total Learners" 
           value="46" 
           trend="8.5% Up" 
-          trendColor="text-green-500" 
+          trendColor="text-green-500 dark:text-green-400" 
           :svg="TotalLearnersSvg" 
         />
         <StatCard 
           title="No. of Tutors" 
           value="90" 
           trend="8.5% Up" 
-          trendColor="text-green-500" 
+          trendColor="text-green-500 dark:text-green-400" 
           :svg="TutorsSvg" 
         />
       </div>
