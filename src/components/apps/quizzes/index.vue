@@ -81,7 +81,22 @@
 
       <div class="p-4">
         <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
-          <p class="text-center text-2xl font-semibold">
+          <div class="mb-6 flex items-center gap-4">
+            <img
+              :src="selectedQuiz.created_by.profile"
+              alt="Profile"
+              class="h-12 w-12 rounded-full object-cover"
+            />
+            <div>
+              <p class="text-lg font-semibold">
+                {{ selectedQuiz.created_by.name }}
+              </p>
+              <p class="text-sm text-gray-500">
+                {{ formatDate(selectedQuiz.created_by.created_at) }}
+              </p>
+            </div>
+          </div>
+          <p class="mb-6 text-xl font-medium">
             {{ selectedQuiz.message }}
           </p>
           <div class="mt-4 space-y-4">
@@ -417,7 +432,11 @@ const closeQuizzesSetDetail = () => {
 // Format date
 const formatDate = dateString => {
   const date = new Date(dateString)
-  return date.toLocaleDateString()
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
 }
 
 // Handle create flashcards button

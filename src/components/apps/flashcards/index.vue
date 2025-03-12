@@ -80,7 +80,7 @@
       </div>
 
       <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
-        <div>
+        <div class="mb-6 flex items-center gap-4">
           <img
             :src="selectedFlashcardSet.created_by.profile"
             alt="Profile"
@@ -96,7 +96,9 @@
           </div>
         </div>
 
-        <p class="mb-6 text-xl font-bold">{{ selectedFlashcardSet.message }}</p>
+        <p class="mb-6 text-xl font-medium">
+          {{ selectedFlashcardSet.message }}
+        </p>
 
         <!-- Flashcards Carousel -->
         <div class="w-full">
