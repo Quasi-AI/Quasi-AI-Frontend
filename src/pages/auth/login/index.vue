@@ -199,6 +199,8 @@ const signInWithGoogle = async () => {
 
     if (response.data && response.data.token) {
       localStorage.setItem('authToken', response.data.token)
+      localStorage.setItem('name', response.data.name)
+      localStorage.setItem('email', response.data.email)
       localStorage.setItem('user_id', result.user.uid)
       router.push('/dashboard')
     }

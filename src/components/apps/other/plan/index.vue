@@ -1,93 +1,161 @@
 <template>
-  <div class="flex flex-col gap-4 lg:flex-row">
-    <!-- Subscription Plans -->
-    <div class="grid w-full gap-6 sm:grid-cols-1 md:grid-cols-3">
-      <!-- Personal Plan -->
-      <div
-        class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white"
-      >
-        <h3 class="text-xl font-bold">Personal</h3>
-        <p class="mt-2 text-gray-600 dark:text-gray-300">For individuals.</p>
-        <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
-          <li>✅ Access to Quasi AI basic features</li>
-          <li>✅ Up to 50 AI-generated responses per month</li>
-          <li>✅ Personalized AI suggestions</li>
-          <li>✅ Email support</li>
-          <li>✅ Secure cloud storage for AI-generated content</li>
-          <li>❌ Custom AI training for your business needs</li>
-          <li>❌ API access for seamless integration</li>
-          <li>❌ On-premise or private cloud deployment</li>
-          <li>❌ Custom API integrations & workflow automation</li>
-        </ul>
-        <p class="mt-2 text-2xl font-bold">$5 / month</p>
-        <button
-          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 text-white"
-          disabled
-        >
-          Subscribe
-        </button>
-      </div>
+  <!-- Pricing -->
+  <div
+    class="mb-4 flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 lg:mb-12 dark:bg-[#1E2A5A]"
+  >
+    <h1
+      class="text-center text-3xl font-bold text-slate-800 dark:text-gray-300"
+    >
+      Choose the plan that's right for you
+    </h1>
 
-      <!-- Business Plan -->
-      <div
-        class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+    <!-- Tabs -->
+    <div class="flex gap-2 rounded-lg bg-gray-200 p-1 dark:bg-[#0C1438]">
+      <button
+        @click="billingCycle = 'monthly'"
+        :class="
+          billingCycle === 'monthly'
+            ? 'bg-[#5D3BEA] text-white'
+            : 'text-gray-600 dark:text-gray-300'
+        "
+        class="rounded-md px-4 py-2 font-bold"
       >
-        <h3 class="text-xl font-bold">Business</h3>
-        <p class="mt-2 text-gray-600 dark:text-gray-300">For small teams.</p>
-        <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
-          <li>✅ Everything in Personal Plan</li>
-          <li>✅ Up to 500 AI-generated responses per month</li>
-          <li>✅ Priority email & chat support</li>
-          <li>✅ Team collaboration tools</li>
-          <li>✅ AI-powered analytics & insights</li>
-          <li>✅ Custom AI training for your business needs</li>
-          <li>✅ API access for seamless integration</li>
-          <li>❌ On-premise or private cloud deployment</li>
-          <li>❌ Custom API integrations & workflow automation</li>
-        </ul>
-        <p class="mt-2 text-2xl font-bold">$15 / month</p>
-        <button
-          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 text-white"
-          disabled
-        >
-          Subscribe
-        </button>
-      </div>
+        Monthly
+      </button>
+      <button
+        @click="billingCycle = 'yearly'"
+        :class="
+          billingCycle === 'yearly'
+            ? 'bg-[#5D3BEA] text-white'
+            : 'text-gray-600 dark:text-gray-300'
+        "
+        class="rounded-md px-4 py-2 font-bold"
+      >
+        Yearly (5% off)
+      </button>
+    </div>
 
-      <!-- Enterprise Plan -->
+    <div class="grid w-full gap-3 sm:grid-cols-1 md:grid-cols-2 lg:max-w-4xl">
+      <!-- Free Plan -->
       <div
-        class="rounded-2xl bg-white p-6 shadow hover:shadow-xl dark:bg-[#111C44] dark:text-white"
+        class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
       >
-        <h3 class="text-xl font-bold">Enterprise</h3>
-        <p class="mt-2 text-gray-600 dark:text-gray-300">
-          For large organizations.
+        <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+          Free plan
+        </h3>
+        <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
+          $0
         </p>
-        <ul class="mt-2 space-y-2 text-gray-600 dark:text-gray-300">
-          <li>✅ Everything in Business Plan</li>
-          <li>✅ Unlimited AI-generated responses</li>
-          <li>✅ Dedicated account manager</li>
-          <li>✅ 24/7 premium support</li>
-          <li>✅ Custom AI solutions & fine-tuning</li>
-          <li>✅ Advanced security & compliance features</li>
-          <li>✅ Exclusive access to new AI features</li>
-          <li>✅ On-premise or private cloud deployment</li>
-          <li>✅ Custom API integrations & workflow automation</li>
+        <p class="text-gray-600 dark:text-gray-300">Forever free</p>
+        <p class="mt-2 text-gray-600 dark:text-gray-300">
+          Essential features for individuals.
+        </p>
+        <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Access to Quasi AI basic features
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Up to 20 AI-generated responses per
+            month
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Email support
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Secure cloud storage for
+            AI-generated content
+          </li>
+          <li>❌ Personalized AI suggestions</li>
+          <li>❌ API access for seamless integration</li>
         </ul>
-        <p class="mt-2 text-2xl font-bold">$25 / month</p>
-        <button
-          class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 text-white"
-          disabled
-        >
-          Subscribe
-        </button>
+        <NuxtLink to="/auth/sign-up">
+          <button
+            class="mt-4 w-full cursor-not-allowed rounded-lg bg-gray-400 p-2 font-bold text-white"
+            disabled
+          >
+            Current Plan
+          </button>
+        </NuxtLink>
       </div>
+
+      <!-- Premium Plan -->
+      <div
+        class="relative w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+      >
+        <LandingUiIconsPricingWords
+          class="absolute -right-24 -top-4 hidden 2xl:block"
+        />
+        <LandingUiIconsPricingArrow
+          class="absolute -right-5 -top-4 hidden 2xl:block"
+        />
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+            Premium plan
+          </h3>
+          <span
+            class="block rounded-full bg-[#5D3BEA] px-3 py-1 text-sm font-bold text-white 2xl:hidden"
+            >Most Popular</span
+          >
+        </div>
+        <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
+          ${{ premiumPrice }}
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          {{
+            billingCycle === 'monthly'
+              ? 'per user per month'
+              : 'billed annually'
+          }}
+        </p>
+        <p class="mt-2 text-gray-600 dark:text-gray-300">
+          Advanced features for power users.
+        </p>
+        <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Everything in Free Plan
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Up to 500 AI-generated responses
+            per month
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Personalized AI suggestions
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Priority email & chat support
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> AI-powered analytics & insights
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> API access for seamless integration
+          </li>
+        </ul>
+        <NuxtLink to="/auth/sign-up">
+          <button
+            class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+          >
+            Get started
+          </button>
+        </NuxtLink>
+      </div>
+    </div>
+    <div class="flex flex-col items-center justify-center gap-4 p-6">
+      <NuxtLink to="/other/support"
+        ><button
+          class="mt-4 w-[200px] rounded-full border bg-white p-2 font-bold text-black"
+        >
+          Contact Support
+        </button></NuxtLink
+      >
     </div>
   </div>
 </template>
 
-<style scoped>
-button:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-</style>
+<script lang="ts" setup>
+const billingCycle = ref('monthly')
+
+const premiumPrice = computed(() => {
+  return billingCycle.value === 'monthly' ? 5 : (5 * 12 * 0.95).toFixed(2)
+})
+</script>

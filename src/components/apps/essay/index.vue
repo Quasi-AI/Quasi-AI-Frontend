@@ -1,52 +1,62 @@
 <template>
-  <div class="flex flex-col gap-4 lg:flex-row">
-    <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
-      <textarea
-        v-model="messageContent"
-        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow dark:bg-[#111C44] dark:text-white"
-        placeholder="Type your content here"
-      />
-
-      <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Upload a document:</p>
-        <strong>Accepted File Types: (.pdf, .docx)</strong>
+  <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Form Container -->
+    <div
+      v-if="!showEssaysContainer"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
+    >
+      <!-- Text Area for Essay Content -->
+      <div class="mb-6">
+        <p class="mb-2 block font-medium text-gray-500">Essay Content</p>
+        <textarea
+          v-model="messageContent"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          placeholder="Type or paste your essay here"
+        />
       </div>
 
-      <!-- File Upload Button -->
-      <div class="mt-2 flex gap-4">
-        <UButton
-          class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
-          @click="triggerFileInput"
-        >
-          <font-awesome-icon :icon="['fas', 'upload']" />
-        </UButton>
-      </div>
-
-      <input
-        type="file"
-        id="file-upload"
-        style="display: none"
-        @change="handleFileChange"
-      />
-
-      <UButton
-        variant="blue"
-        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-        :disabled="isLoading"
-        @click="analyzeEssay"
+      <!-- File Upload Section -->
+      <div
+        @click="triggerFileInput"
+        @dragover.prevent="handleDragOver"
+        @drop.prevent="handleDropWrapper"
+        class="mb-6 rounded-lg border-2 border-dashed border-blue-300 p-6 text-center"
       >
-        <span v-if="!isLoading">Analyze Essay</span>
-        <span v-else>Loading...</span>
-      </UButton>
+        <p class="font-medium text-gray-500">
+          Click or drag and drop to upload an essay document
+        </p>
+        <p class="mt-1 text-sm text-gray-400">
+          Accepted File Types: (.pdf, .docx)
+        </p>
+        <input
+          id="file-upload"
+          type="file"
+          class="hidden"
+          @change="handleFileUploadWrapper"
+        />
+      </div>
 
-      <div v-if="errorMessage" class="mt-4 text-red-500">
+      <!-- Analyze Essay Button -->
+      <div class="mt-6 flex justify-center">
+        <button
+          class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
+          :disabled="isLoading"
+          @click="analyzeEssay"
+        >
+          {{ isLoading ? 'Analyzing...' : 'Analyze Essay' }}
+        </button>
+      </div>
+
+      <!-- Error Message Display -->
+      <div v-if="errorMessage" class="mt-4 text-center text-red-500">
         {{ errorMessage }}
       </div>
     </div>
 
     <!-- Results Section -->
     <div
-      class="flex w-full flex-col rounded-lg bg-white p-5 lg:w-[50%] dark:bg-gray-800"
+      v-if="showEssaysContainer"
+      class="flex w-full flex-col rounded-lg bg-white p-5 dark:bg-gray-800"
     >
       <h2 class="mb-2 text-lg font-bold">Results</h2>
       <div v-if="!essay" class="text-center text-gray-500">
@@ -67,11 +77,11 @@
 </template>
 
 <script setup>
+import { handleFileUpload } from '@/utils/extractText'
+import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import { Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import axios from 'axios'
-import * as pdfjsLib from 'pdfjs-dist'
-import mammoth from 'mammoth'
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -81,6 +91,7 @@ const essay = ref('')
 const isLoading = ref(false)
 const mistakes = ref([])
 const errorMessage = ref('')
+const showEssaysContainer = ref(false)
 
 // Compute total words
 const totalWords = computed(() => {
@@ -113,56 +124,6 @@ const chartOptions = {
   }
 }
 
-// File Upload Trigger
-const triggerFileInput = () => {
-  document.getElementById('file-upload').click()
-}
-
-// Handle File Upload
-const handleFileChange = async event => {
-  const file = event.target.files[0]
-  if (!file) return
-
-  const fileType = file.type
-  errorMessage.value = ''
-
-  if (fileType === 'application/pdf') {
-    const reader = new FileReader()
-    reader.onload = async e => {
-      const pdfData = new Uint8Array(e.target.result)
-      const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise
-      let text = ''
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i)
-        const content = await page.getTextContent()
-        text += content.items.map(item => item.str).join(' ') + '\n'
-      }
-      messageContent.value = text
-    }
-    reader.readAsArrayBuffer(file)
-  } else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  ) {
-    const reader = new FileReader()
-    reader.onload = e => {
-      const arrayBuffer = e.target.result
-      mammoth
-        .extractRawText({ arrayBuffer })
-        .then(result => {
-          messageContent.value = result.value
-        })
-        .catch(err => {
-          console.error('Error extracting text from DOCX:', err)
-        })
-    }
-    reader.readAsArrayBuffer(file)
-  } else {
-    errorMessage.value =
-      'Unsupported file type. Please upload a PDF or DOCX file.'
-  }
-}
-
 // Analyze Essay API Call
 const analyzeEssay = async () => {
   try {
@@ -185,6 +146,7 @@ const analyzeEssay = async () => {
     if (response.data.message) {
       essay.value = response.data.message
       mistakes.value = response.data.mistakes || []
+      showEssaysContainer.value = true
     } else {
       errorMessage.value = 'Unexpected response from server.'
     }
@@ -213,6 +175,25 @@ const formattedEssay = computed(() => {
 
   return text
 })
+
+// Trigger the file input when the button is clicked
+const triggerFileInput = () => {
+  document.getElementById('file-upload').click()
+}
+
+// Update message content when a file is uploaded
+const updateMessageContent = text => {
+  messageContent.value = text
+}
+
+const handleFileUploadWrapper = async event => {
+  await handleFileUpload(event, updateMessageContent)
+}
+
+// Wrapper for handleDrop to pass the callback
+const handleDropWrapper = async event => {
+  await handleDrop(event, handleFileUploadWrapper)
+}
 </script>
 
 <style>

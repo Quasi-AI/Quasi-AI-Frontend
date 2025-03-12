@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col lg:h-screen">
     <div class="flex-grow overflow-y-auto overflow-x-hidden">
       <component :is="currentComponent" />
     </div>

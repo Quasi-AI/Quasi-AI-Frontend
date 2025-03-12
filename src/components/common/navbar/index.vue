@@ -6,9 +6,9 @@
       <img
         src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
         alt="logo"
-        class="w-6"
+        class="w-10"
       />
-      <h1 class="text-xl font-medium">QUASI AI</h1>
+      <h1 class="text-2xl font-bold">QUASI AI</h1>
     </NuxtLink>
 
     <div class="flex items-center gap-2">
@@ -26,8 +26,9 @@
       <div class="flex items-center gap-2">
         <UDropdown
           mode="click"
-          :popper="{ placement: 'right-start' }"
+          :popper="{ placement: 'right-start', arrow: true }"
           :items="profileList"
+          class="w-fit dark:bg-[#111C44] dark:text-white"
         >
           <div class="flex items-center gap-2">
             <CommonProfileImage
@@ -68,7 +69,7 @@ const isDark = computed({
 
 const profileList = [
   [
-    { label: 'Profile', click: () => navigateTo('/user') },
+    { label: 'Go to Profile', click: () => navigateTo('/user') },
     {
       label: 'Logout',
       click: () => {

@@ -9,7 +9,7 @@
       </div>
 
       <div class="flex-1">
-        <div class="mx-4 overflow-y-auto overflow-x-hidden">
+        <div class="mx-0 overflow-y-auto overflow-x-hidden lg:mx-4">
           <div class="mx-auto flex max-w-6xl flex-col items-center p-4 lg:px-0">
             <div class="flex w-full flex-col">
               <h1 class="my-4 flex items-center gap-3 text-3xl font-medium">
@@ -40,17 +40,25 @@ const pageTitle = computed(() => titles[route.path] || 'Page not recognized')
 const hideBackIconRoutes = ['/dashboard', '/apps']
 const showBackIcon = computed(() => !hideBackIconRoutes.includes(route.path))
 
+// Greeting
+const greeting = computed(() => {
+  const hours = new Date().getHours()
+  if (hours < 12) return 'Good morning'
+  if (hours < 18) return 'Good afternoon'
+  return 'Good evening'
+})
+
 // Define route-based titles
 const titles = {
-  '/dashboard': 'Dashboard',
-  '/apps': 'Browse top apps',
+  '/dashboard': greeting,
+  '/apps': 'Apps',
   '/apps/questions': 'Questions',
   '/apps/flashcards': 'Smart Flashcards',
   '/apps/find-tutors': 'Tutors',
   '/apps/essay': 'Essay Analyzer',
   '/apps/quizzes': 'Quizzes',
   '/apps/ai-tutor': 'AI Tutor',
-  '/apps/speech-to-text': 'Speech to Text Converter',
+  '/apps/speech-to-text': 'Speech to Text',
   '/other/support': 'Customer Support',
   '/other/games': 'Learning Games',
   '/other/past-questions': 'Past Questions',

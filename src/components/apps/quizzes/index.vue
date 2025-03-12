@@ -1,298 +1,327 @@
 <template>
-  <div class="flex flex-col gap-4 lg:flex-row">
-    <!-- Input Section -->
-    <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
-      <div class="flex items-center gap-4">
-        <!-- Export Results -->
-        <UButton
-          v-if="score !== null"
-          class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-          variant="blue"
-          :disabled="loading"
-          @click="exportResults"
+  <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Home -->
+    <div v-if="showHomeQuizzes" class="w-full">
+      <div
+        class="flex w-full flex-col items-center justify-end gap-2 p-8 lg:flex-row"
+      >
+        <UInput
+          variant="none"
+          class="my-2 w-full rounded-lg border bg-white p-1 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          placeholder="Search for quizzes by name"
+          v-model="selectedCategory"
+          maxLength="250"
+        />
+        <select
+          v-model="filterQuizes"
+          class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
         >
-          Export Results
-        </UButton>
+          <option value="">All Quizzes</option>
+          <option v-for="quizz in quizzcardsLists" :key="quizz" :value="quiz">
+            {{ quizz }}
+          </option>
+        </select>
+        <button
+          @click="HandleCreateFlashcardsButton"
+          class="flex w-full items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-90 hover:bg-[#4A2DCA] lg:w-[200px]"
+          variant="blue"
+        >
+          Create flashcards
+        </button>
+      </div>
 
-        <!-- Score -->
-        <div v-if="score !== null" class="text-lg font-bold">
-          Your Score: {{ score }} / {{ quizes.length }}
+      <!-- Empty State (Show when no flashcards are available) -->
+      <div class="mt-4 text-center text-gray-500">
+        No flashcards available.
+        <EmptyStateIcon width="100%" height="350px" />
+      </div>
+    </div>
+
+    <!-- Form Container -->
+    <div
+      v-if="showCreateQuizzes"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
+    >
+      <!-- Text Area for Content -->
+      <div class="mb-6">
+        <p class="mb-2 block font-medium text-gray-500">Quiz Content</p>
+        <textarea
+          v-model="messageContent"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          placeholder="Type your content here"
+        />
+      </div>
+
+      <!-- File Upload -->
+      <div
+        @click="triggerFileInput"
+        @dragover.prevent="handleDragOver"
+        @drop.prevent="handleDropWrapper"
+        class="mb-6 cursor-pointer rounded-lg border-2 border-dashed border-blue-300 p-6 text-center"
+      >
+        <p class="font-medium text-gray-500">
+          Click or drag and drop to upload a document
+        </p>
+        <p class="mt-1 text-sm text-gray-400">
+          Accepted File Types: (.pdf, .docx)
+        </p>
+        <input
+          id="file-upload"
+          type="file"
+          class="hidden"
+          @change="handleFileUploadWrapper"
+        />
+      </div>
+
+      <!-- Quiz Settings -->
+      <div class="flex flex-col gap-4">
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">Difficulty Level</p>
+          <select
+            v-model="selectedLevel"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">
+            Number of Questions
+          </p>
+          <input
+            type="number"
+            v-model="numQuestions"
+            min="1"
+            max="20"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          />
+        </div>
+
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">
+            Timer Duration (minutes)
+          </p>
+          <input
+            type="number"
+            v-model="userTimer"
+            min="1"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          />
         </div>
       </div>
 
-      <!-- Text Area -->
-      <textarea
-        v-model="messageContent"
-        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
-        placeholder="Type your content here"
-      />
-
-      <!-- File Upload Instructions -->
-      <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Please ensure your upload is in one of the following formats:</p>
-        <p>
-          <strong>Accepted File Types: (.pdf *, .docx)</strong>
-        </p>
+      <!-- Generate Quiz Button -->
+      <div class="mt-6 flex justify-center">
+        <button
+          class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
+          :disabled="loading"
+          @click="generateQuestions"
+        >
+          {{ loading ? 'Generating...' : 'Generate Quiz' }}
+        </button>
       </div>
-
-      <!-- File Upload Button -->
-      <UButton
-        class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
-        @click="triggerFileInput"
-      >
-        <font-awesome-icon :icon="['fas', 'upload']" />
-      </UButton>
-      <input
-        id="file-upload"
-        type="file"
-        @change="handleFileChange"
-        class="hidden"
-      />
-
-      <!-- Level Selection -->
-      <select
-        v-model="selectedLevel"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
-      >
-        <option value="beginner">Beginner</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="advanced">Advanced</option>
-      </select>
-
-      <!-- Number of Questions -->
-      <input
-        type="number"
-        v-model="numQuestions"
-        min="1"
-        max="20"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
-        placeholder="Number of questions"
-      />
-
-      <!-- Timer Input -->
-      <input
-        type="number"
-        v-model="userTimer"
-        min="1"
-        required
-        :class="{
-          'w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white': true,
-          'border border-red-500': hasError
-        }"
-        placeholder="Timer duration (minutes)"
-      />
-      <p v-if="hasError" class="mt-1 text-sm text-red-500">
-        Please specify a valid timer duration.
-      </p>
-
-      <!-- Generate Button -->
-      <UButton
-        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-        variant="blue"
-        :disabled="loading"
-        @click="generateQuestions"
-      >
-        {{ loading ? 'Generating...' : 'Generate Quiz' }}
-      </UButton>
     </div>
 
     <!-- Quiz Section -->
-    <div class="flex w-full flex-col lg:w-[50%]">
-      <h2 class="mb-2 text-lg font-bold">Quiz</h2>
+    <div v-if="showPreviewQuizzes" class="flex w-full flex-col text-center">
       <div v-if="quizes.length === 0" class="text-gray-500">
         No quiz generated yet.
       </div>
 
       <div v-else class="space-y-4">
-        <!-- Timer -->
-        <div v-if="timer > 0" class="text-lg font-bold">
-          Time Remaining: {{ Math.floor(timer / 60) }}:{{
-            timer % 60 < 10 ? '0' : ''
-          }}{{ timer % 60 }}
-        </div>
-
-        <!-- Questions -->
         <div
-          class="h-[60vh] space-y-4 overflow-y-auto p-2 md:h-[70vh] lg:h-[80vh]"
+          class="flex flex-col items-center justify-between gap-4 py-4 lg:flex-row"
         >
-          <div
-            v-for="(quiz, index) in quizes"
-            :key="index"
-            class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
-          >
-            <p class="font-semibold">{{ index + 1 }}. {{ quiz.question }}</p>
-            <div class="mt-2 flex flex-col gap-2">
-              <label
-                v-for="(option, optIndex) in quiz.options"
-                :key="optIndex"
-                class="flex items-center gap-2"
+          <div class="flex items-center justify-between gap-6">
+            <div v-if="timer > 0" class="text-lg font-bold">
+              Time: {{ Math.floor(timer / 60) }}:{{ timer % 60 < 10 ? '0' : ''
+              }}{{ timer % 60 }}
+            </div>
+
+            <div
+              v-if="score !== null"
+              class="flex items-center justify-between"
+            >
+              <div class="text-lg font-bold">
+                Your Score: {{ score }} / {{ quizes.length }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Share Button -->
+          <div class="w-full">
+            <div v-if="score !== null" class="my-4 flex w-full justify-end">
+              <UButton
+                variant="blue"
+                class="flex w-[180px] items-center justify-end rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:bg-[#4A2DCA]"
               >
-                <input
-                  type="radio"
-                  :name="'question-' + index"
-                  :value="option"
-                  v-model="quiz.userAnswer"
-                  :disabled="score !== null"
-                />
-                <span :class="getAnswerClass(quiz, option)">
-                  {{ option }}
-                </span>
-              </label>
+                Share with students
+              </UButton>
             </div>
           </div>
         </div>
 
-        <!-- Submit Button -->
-        <UButton
-          class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-          variant="blue"
-          @click="checkAnswers"
-          :disabled="score !== null"
+        <div class="p-4">
+          <div
+            class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white"
+          >
+            <p class="text-center font-semibold">
+              {{ quizes[currentIndex].question }}
+            </p>
+          </div>
+
+          <div
+            class="mt-2 grid grid-cols-2 gap-2 rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white"
+          >
+            <p
+              v-for="(option, index) in quizes[currentIndex].options"
+              :key="index"
+              class="flex cursor-pointer items-center gap-2 rounded-lg border p-2 hover:bg-gray-100 dark:border-[#0C1438] dark:hover:bg-gray-700"
+              :class="{
+                'border-2 border-[#5D3BEA]':
+                  option === quizes[currentIndex].userAnswer && score === null,
+                ...getAnswerClass(quizes[currentIndex], option)
+              }"
+              @click="selectAnswer(quizes[currentIndex], option)"
+            >
+              <input
+                type="radio"
+                :name="'question-' + currentIndex"
+                :value="option"
+                v-model="quizes[currentIndex].userAnswer"
+                :disabled="score !== null"
+                class="hidden"
+              />
+              <span class="flex h-full w-full items-center justify-center">
+                {{ option }}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="flex w-full flex-col items-center justify-center gap-5 lg:flex-row"
         >
-          Submit Answers
-        </UButton>
+          <UButton
+            v-if="currentIndex > 0"
+            class="flex w-[200px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white px-6 py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
+            @click="prevQuestion"
+            variant="none"
+          >
+            Previous
+          </UButton>
+          <UButton
+            v-if="currentIndex < quizes.length - 1"
+            class="flex w-[200px] items-center justify-center rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            @click="nextQuestion"
+            variant="none"
+          >
+            Continue
+          </UButton>
+          <UButton
+            v-if="currentIndex === quizes.length - 1"
+            class="flex w-[200px] items-center justify-center rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            @click="checkAnswers"
+            :disabled="score !== null"
+            variant="none"
+          >
+            Submit Answers
+          </UButton>
+        </div>
+      </div>
+    </div>
+
+    <div
+      v-if="showPostSubmission"
+      class="mx-auto flex w-full flex-col items-center justify-center rounded-xl"
+    >
+      <div class="w-[280px] text-center">
+        <h2 class="mb-4 text-4xl font-extrabold text-[#5D3BEA]">
+          Congratulations
+        </h2>
+        <p class="mb-6">
+          Awesome job completing your quiz. You can review your performance or
+          take a new quiz.
+        </p>
+        <div class="mb-6 flex items-center justify-center text-4xl">
+          <img
+            src="~/assets/icons/congrats-icon.gif"
+            alt=""
+            class="w-[200px]"
+          />
+        </div>
+        <div class="flex flex-col items-center justify-center gap-4">
+          <button
+            class="w-[250px] rounded-md border border-[#5D3BEA] bg-white px-6 py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
+            @click="retakeQuiz"
+          >
+            Take a new quiz
+          </button>
+          <button
+            class="w-[250px] rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            @click="viewPerformance"
+          >
+            View My Performance
+          </button>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- Hidden File Input -->
-  <input
-    type="file"
-    id="file-upload"
-    style="display: none"
-    @change="handleFileChange"
-  />
 </template>
 
 <script setup>
-import * as pdfjsLib from 'pdfjs-dist'
-import mammoth from 'mammoth'
-import PPTX2Json from 'pptx2json'
-
-// Specify the worker source for PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
+import { ref } from 'vue'
+import { handleFileUpload } from '@/utils/extractText'
+import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
+import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const messageContent = ref('')
 const quizes = ref([])
 const selectedLevel = ref('beginner')
 const numQuestions = ref(10)
 const loading = ref(false)
-const errorMessage = ref('')
 const score = ref(null)
-const userTimer = ref() // Default timer duration in minutes
-const timer = ref(0) // Timer in seconds
-const hasError = ref(false) // Track validation state
+const userTimer = ref()
+const timer = ref(0)
+const showCreateQuizzes = ref(false)
+const showPreviewQuizzes = ref(false)
+const showHomeQuizzes = ref(true)
+const showGeneratedQuizzes = ref(false)
+const showPostSubmission = ref(false)
+const currentIndex = ref(0)
 
-// Timer Logic
+// Filters
+const filterQuizes = ref('')
+const quizzcardsLists = ['My quizzes']
+
+const prevQuestion = () => {
+  if (currentIndex.value > 0) currentIndex.value--
+}
+const nextQuestion = () => {
+  if (currentIndex.value < quizes.value.length - 1) currentIndex.value++
+}
+const hasError = ref(false)
+
 let timerInterval
+
 const startTimer = () => {
-  timer.value = userTimer.value * 60 // Convert minutes to seconds
+  timer.value = userTimer.value * 60
   timerInterval = setInterval(() => {
     if (timer.value > 0) timer.value--
     else {
       clearInterval(timerInterval)
-      checkAnswers() // Automatically submit answers when time runs out
+      checkAnswers()
     }
   }, 1000)
 }
 
-// Trigger the hidden file input when the button is clicked
-const triggerFileInput = () => {
-  document.getElementById('file-upload').click()
-}
-
-// Handle the file selection
-const handleFileChange = async event => {
-  const file = event.target.files[0]
-
-  if (!file) return
-
-  const fileType = file.type
-  errorMessage.value = '' // Clear previous error message
-
-  // PDF Handling
-  if (fileType === 'application/pdf') {
-    const reader = new FileReader()
-    reader.onload = async e => {
-      const pdfData = new Uint8Array(e.target.result)
-      const pdf = await pdfjsLib.getDocument(pdfData).promise
-      let text = ''
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i)
-        const content = await page.getTextContent()
-        text += content.items.map(item => item.str).join(' ') + '\n'
-      }
-      messageContent.value = text
-    }
-    reader.readAsArrayBuffer(file)
-  } else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  ) {
-    const reader = new FileReader()
-    reader.onload = e => {
-      const arrayBuffer = e.target.result
-
-      // Extract text from the Word document using Mammoth
-      mammoth
-        .extractRawText({ arrayBuffer: arrayBuffer })
-        .then(result => {
-          messageContent.value = result.value // Set the extracted text in the textarea
-        })
-        .catch(err => {
-          console.error('Error extracting text from DOCX:', err)
-        })
-    }
-    reader.readAsArrayBuffer(file)
-  }
-
-  // PPTX Handling (using pptx2json)
-  else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-  ) {
-    const reader = new FileReader()
-
-    reader.onload = async e => {
-      const arrayBuffer = e.target.result
-
-      try {
-        // Parse the PPTX file
-        const pptx = new PPTX2Json()
-        pptx.load(arrayBuffer)
-
-        // Extracting the slide content
-        pptx
-          .getSlides()
-          .then(slides => {
-            let text = ''
-            slides.forEach(slide => {
-              slide.texts.forEach(textItem => {
-                text += textItem.text + ' '
-              })
-            })
-            messageContent.value = text // Set the extracted text in the textarea
-          })
-          .catch(err => {
-            console.error('Error extracting slides:', err)
-          })
-      } catch (err) {
-        console.error('Error extracting text from PPTX:', err)
-      }
-    }
-    reader.readAsArrayBuffer(file)
-  }
-
-  // Audio Handling (basic example, can be expanded with speech-to-text libraries)
-  else if (fileType.startsWith('audio/')) {
-    // Example: Extract metadata or transcribe audio (e.g., using Google Speech API)
-    const text = 'Audio recording transcribed content'
-    messageContent.value = text
-  } else {
-    errorMessage.value =
-      'Unsupported file type. Please upload a PDF, DOCX, or Audio file.'
-  }
+const HandleCreateFlashcardsButton = async () => {
+  showHomeQuizzes.value = false
+  showCreateQuizzes.value = true
+  showPreviewQuizzes.value = false
 }
 
 // Generate Quiz Questions using the new API
@@ -315,6 +344,7 @@ const generateQuestions = async () => {
   }
 
   loading.value = true
+  showHomeQuizzes.value = false
   try {
     const response = await fetch(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/quizes/generate',
@@ -343,6 +373,9 @@ const generateQuestions = async () => {
         userAnswer: null
       }))
       startTimer() // Start timer
+      showPreviewQuizzes.value = true
+      showHomeQuizzes.value = false
+      showCreateQuizzes.value = false
     } else {
       quizes.value = [
         {
@@ -374,18 +407,60 @@ const checkAnswers = () => {
   })
   score.value = correctCount
   clearInterval(timerInterval) // Stop timer
+  showGeneratedQuizzes.value = false
+  showPostSubmission.value = true
 }
 
 // Highlight correct and incorrect answers
 const getAnswerClass = (quiz, option) => {
   if (score.value !== null) {
-    const isCorrect = option === quiz.correctAnswer
-    const isWrong = option === quiz.userAnswer && !isCorrect
+    const isCorrect = option === quiz.correctAnswer // Correct answer
+    const isUserAnswer = option === quiz.userAnswer // User's selected answer
+    const isWrong = isUserAnswer && !isCorrect // User selected the wrong answer
+
     return {
-      'text-green-600 font-bold': isCorrect,
-      'text-red-600': isWrong
+      'bg-[#284E3E] text-[#29DA30] font-bold': isCorrect, // Correct answer
+      'bg-[#4E2828] text-[#D44D4D]': isWrong // Wrong answer selected by user
     }
   }
   return {}
+}
+
+const retakeQuiz = () => {
+  showPostSubmission.value = false
+  showHomeQuizzes.value = true
+  quizes.value = []
+  score.value = null
+}
+
+const viewPerformance = () => {
+  showPostSubmission.value = false
+  showPreviewQuizzes.value = true
+}
+
+// Trigger the file input when the button is clicked
+const triggerFileInput = () => {
+  document.getElementById('file-upload').click()
+}
+
+// Update message content when a file is uploaded
+const updateMessageContent = text => {
+  messageContent.value = text
+}
+
+const handleFileUploadWrapper = async event => {
+  await handleFileUpload(event, updateMessageContent)
+}
+
+// Wrapper for handleDrop to pass the callback
+const handleDropWrapper = async event => {
+  await handleDrop(event, handleFileUploadWrapper)
+}
+
+// Select answer for a question
+const selectAnswer = (quiz, option) => {
+  if (score.value === null) {
+    quiz.userAnswer = option
+  }
 }
 </script>

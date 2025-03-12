@@ -8,9 +8,9 @@
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
           alt="logo"
-          class="w-6"
+          class="w-10"
         />
-        <h1 class="text-xl font-medium">QUASI AI</h1>
+        <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
     </div>
 
@@ -32,6 +32,17 @@
 
     <!-- Footer Section -->
     <div class="space-y-2 px-4 pb-4">
+      <!-- Plan -->
+      <NuxtLink
+        to="/other/plan"
+        class="flex items-center gap-3 rounded-lg p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-300 dark:hover:bg-gray-800"
+        :class="{ 'bg-[#5D3BEA] text-white': isActive('/other/plan') }"
+      >
+        <StarIcon v-if="userInfo?.isPremium" class="h-5 w-5 text-yellow-400" />
+        <SparklesIcon v-else class="h-5 w-5" />
+        <span class="text-sm">Plan</span>
+      </NuxtLink>
+
       <!-- Contact Support -->
       <NuxtLink
         to="/other/support"
@@ -73,7 +84,9 @@ import {
   CubeIcon,
   AcademicCapIcon,
   DocumentTextIcon,
-  QuestionMarkCircleIcon
+  QuestionMarkCircleIcon,
+  StarIcon,
+  SparklesIcon
 } from '@heroicons/vue/24/outline'
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/vue/24/solid'
 import { useUser } from '~/composables/useUser'

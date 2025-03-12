@@ -118,7 +118,7 @@
         <div
           v-for="(feature, features) in features"
           :key="features.title"
-          class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+          class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-md"
           :class="feature.bgColor"
           :style="{ 'animation-delay': `${features.title * 0.2}s` }"
           v-animate-onscroll="'slide-up'"
@@ -171,7 +171,7 @@
 
     <!-- Start Teaching with Us -->
     <div
-      class="animate-fade-in flex flex-col items-center justify-center gap-10 rounded-b-3xl bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12 lg:rounded-none"
+      class="animate-fade-in flex flex-col items-center justify-center gap-10 bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
     >
       <div
         class="flex w-[100%] flex-col items-center text-center lg:w-[50%] lg:items-start lg:text-wrap lg:text-left"
@@ -264,6 +264,149 @@
         </div>
       </div>
     </div>
+
+    <!-- Pricing -->
+    <div
+      class="mb-4 flex flex-col items-center justify-center gap-4 rounded-lg border-t border-gray-200 bg-white p-6 pt-24 lg:mb-12 lg:border-none lg:pt-0 dark:bg-[#1E2A5A]"
+    >
+      <h1
+        class="text-center text-3xl font-bold text-slate-800 dark:text-gray-300"
+      >
+        Choose the plan that's right for you
+      </h1>
+
+      <!-- Tabs -->
+      <div class="flex gap-2 rounded-lg bg-gray-200 p-1 dark:bg-[#0C1438]">
+        <button
+          @click="billingCycle = 'monthly'"
+          :class="
+            billingCycle === 'monthly'
+              ? 'bg-[#5D3BEA] text-white'
+              : 'text-gray-600 dark:text-gray-300'
+          "
+          class="rounded-md px-4 py-2 font-bold"
+        >
+          Monthly
+        </button>
+        <button
+          @click="billingCycle = 'yearly'"
+          :class="
+            billingCycle === 'yearly'
+              ? 'bg-[#5D3BEA] text-white'
+              : 'text-gray-600 dark:text-gray-300'
+          "
+          class="rounded-md px-4 py-2 font-bold"
+        >
+          Yearly (5% off)
+        </button>
+      </div>
+
+      <div class="grid w-full gap-3 sm:grid-cols-1 md:grid-cols-2 lg:max-w-4xl">
+        <!-- Free Plan -->
+        <div
+          class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+        >
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+            Free plan
+          </h3>
+          <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
+            $0
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">Forever free</p>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">
+            Essential features for individuals.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> Access to Quasi AI basic features
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> Up to 20 AI-generated responses
+              per month
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> Email support
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> Secure cloud storage for
+              AI-generated content
+            </li>
+            <li>❌ Personalized AI suggestions</li>
+            <li>❌ API access for seamless integration</li>
+          </ul>
+          <NuxtLink to="/auth/sign-up">
+            <button
+              class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+            >
+              Get started
+            </button>
+          </NuxtLink>
+        </div>
+
+        <!-- Premium Plan -->
+        <div
+          class="relative w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+        >
+          <LandingUiIconsPricingWords
+            class="absolute -right-24 -top-4 hidden lg:block"
+          />
+          <LandingUiIconsPricingArrow
+            class="absolute -right-5 -top-4 hidden lg:block"
+          />
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+              Premium plan
+            </h3>
+            <span
+              class="block rounded-full bg-[#5D3BEA] px-3 py-1 text-sm font-bold text-white lg:hidden"
+              >Most Popular</span
+            >
+          </div>
+          <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
+            ${{ premiumPrice }}
+          </p>
+          <p class="text-gray-600 dark:text-gray-300">
+            {{
+              billingCycle === 'monthly'
+                ? 'per user per month'
+                : 'billed annually'
+            }}
+          </p>
+          <p class="mt-2 text-gray-600 dark:text-gray-300">
+            Advanced features for power users.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> Everything in Free Plan
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> Up to 500 AI-generated responses
+              per month
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> Personalized AI suggestions
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> Priority email & chat support
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> AI-powered analytics & insights
+            </li>
+            <li class="flex gap-2">
+              <LandingUiIconsPricingChecked /> API access for seamless
+              integration
+            </li>
+          </ul>
+          <NuxtLink to="/auth/sign-up">
+            <button
+              class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+            >
+              Get started
+            </button>
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -275,6 +418,12 @@ import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features
 import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
 import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
 import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
+
+const billingCycle = ref('monthly')
+
+const premiumPrice = computed(() => {
+  return billingCycle.value === 'monthly' ? 5 : (5 * 12 * 0.95).toFixed(2)
+})
 
 const features = ref([
   {

@@ -1,83 +1,94 @@
 <template>
-  <div class="flex flex-col gap-4 lg:flex-row">
-    <!-- Input Section -->
-    <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
-      <!-- Text Area -->
-      <textarea
-        v-model="messageContent"
-        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
-        placeholder="Type your content here"
-      />
+  <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Form Container -->
+    <div
+      v-if="!showQuestionsContainer"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
+    >
+      <!-- Upload File -->
+      <div
+        @click="triggerFileInput"
+        @dragover.prevent="handleDragOver"
+        @drop.prevent="handleDropWrapper"
+        class="rounded-lg border-2 border-dashed border-blue-300 p-6 text-center"
+      >
+        <p class="font-medium text-gray-500">
+          Click or drag and drop to upload your document
+        </p>
+        <p class="mt-1 text-sm text-gray-400">
+          Accepted File Types: (.pdf, .docx)
+        </p>
+        <input
+          id="file-upload"
+          type="file"
+          class="hidden"
+          @change="handleFileUploadWrapper"
+        />
+      </div>
 
-      <!-- File Upload Instructions -->
-      <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Please ensure your upload is in one of the following formats:</p>
-        <div class="mt-2">
-          <p>
-            <strong>Accepted File Types: (.pdf *, .docx)</strong>
+      <!-- Content Text Area -->
+      <div class="mt-6">
+        <p class="mb-2 block font-medium text-gray-500">Content</p>
+        <textarea
+          v-model="messageContent"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          placeholder="Enter your detailed content here"
+        />
+      </div>
+
+      <!-- Difficulty & Number of Questions -->
+      <div class="mt-4 flex flex-col gap-4 lg:flex-row">
+        <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">Difficulty level</p>
+          <select
+            v-model="selectedLevel"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">
+            Number of questions
           </p>
+          <input
+            type="number"
+            v-model="numQuestions"
+            min="1"
+            max="20"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+            placeholder="Enter number of questions to generate"
+          />
         </div>
       </div>
 
-      <!-- File Upload Button -->
-      <div class="mt-2 flex gap-4">
-        <UButton
-          class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
-          @click="triggerFileInput"
-        >
-          <font-awesome-icon :icon="['fas', 'upload']" />
-        </UButton>
-      </div>
-
-      <input
-        id="file-upload"
-        type="file"
-        @change="handleFileUpload"
-        class="hidden"
-      />
-
-      <!-- Level Selection -->
-      <select
-        v-model="selectedLevel"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
-      >
-        <option value="beginner">Beginner</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="advanced">Advanced</option>
-      </select>
-
-      <!-- Number of Questions -->
-      <input
-        type="number"
-        v-model="numQuestions"
-        min="1"
-        max="20"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
-        placeholder="Number of questions"
-      />
-
       <!-- Generate Button -->
-      <UButton
-        class="flex w-[200px] items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
-        variant="blue"
-        :disabled="loading"
-        @click="generateQuestions"
-      >
-        {{ loading ? 'Generating...' : 'Generate Questions' }}
-      </UButton>
+      <div class="mt-6 flex justify-center">
+        <button
+          class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
+          :disabled="loading"
+          @click="generateQuestions"
+        >
+          {{ loading ? 'Generating...' : 'Generate questions' }}
+        </button>
+      </div>
     </div>
 
-    <!-- Preview Section -->
-    <div class="flex w-full flex-col lg:w-[50%]">
-      <h2 class="mb-2 text-lg font-bold">Preview</h2>
-      <div v-if="questions.length === 0" class="text-gray-500">
-        No questions generated yet.
-      </div>
-      <div v-else class="grid grid-cols-1 gap-4">
+    <!-- Questions Container (Visible only when questions are generated) -->
+    <div
+      v-if="showQuestionsContainer && questions.length > 0"
+      class="mt-6 w-full rounded-xl bg-white p-6 shadow-lg dark:bg-[#111C44] dark:text-white"
+    >
+      <h2 class="mb-4 text-lg font-bold">Generated Questions</h2>
+
+      <div class="grid grid-cols-1 gap-4">
         <div
           v-for="(item, index) in questions"
           :key="index"
-          class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
+          class="rounded-2xl bg-gray-100 p-4 shadow dark:bg-[#1E2A50] dark:text-white"
         >
           <p>
             <strong>Q{{ index + 1 }}:</strong> {{ item.question }}
@@ -90,16 +101,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import * as pdfjsLib from 'pdfjs-dist'
+import { handleFileUpload } from '@/utils/extractText'
+import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 
 const messageContent = ref('')
 const questions = ref([])
-const selectedLevel = ref('beginner') // Default level
-const numQuestions = ref(10) // Default number of questions
+const selectedLevel = ref('beginner')
+const numQuestions = ref(10)
 const loading = ref(false)
+const showQuestionsContainer = ref(false)
 
-// Generate Questions using the new API
+// Generate Questions using API
 const generateQuestions = async () => {
   if (!messageContent.value.trim()) {
     questions.value = [
@@ -125,7 +137,8 @@ const generateQuestions = async () => {
     )
 
     const data = await response.json()
-    if (Array.isArray(data.questions)) {
+    if (response.ok && Array.isArray(data.questions)) {
+      showQuestionsContainer.value = true
       questions.value = data.questions
     } else {
       questions.value = [
@@ -142,28 +155,22 @@ const generateQuestions = async () => {
   }
 }
 
-// Trigger the hidden file input when the button is clicked
+// Trigger the file input when the button is clicked
 const triggerFileInput = () => {
   document.getElementById('file-upload').click()
 }
 
-// Handle PDF file upload
-const handleFileUpload = async event => {
-  const file = event.target.files[0]
-  if (file && file.type === 'application/pdf') {
-    messageContent.value = await extractTextFromPDF(file)
-  }
+// Update message content when a file is uploaded
+const updateMessageContent = text => {
+  messageContent.value = text
 }
 
-// PDF Text Extraction Logic
-const extractTextFromPDF = async file => {
-  const pdf = await pdfjsLib.getDocument(URL.createObjectURL(file)).promise
-  let fullText = ''
-  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-    const page = await pdf.getPage(pageNum)
-    const text = await page.getTextContent()
-    fullText += text.items.map(item => item.str).join(' ') + '\n'
-  }
-  return fullText
+const handleFileUploadWrapper = async event => {
+  await handleFileUpload(event, updateMessageContent)
+}
+
+// Wrapper for handleDrop to pass the callback
+const handleDropWrapper = async event => {
+  await handleDrop(event, handleFileUploadWrapper)
 }
 </script>

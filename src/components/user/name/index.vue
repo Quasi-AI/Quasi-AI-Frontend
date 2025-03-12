@@ -21,7 +21,7 @@
   <div class="my-5 flex items-center justify-end">
     <UDropdown
       mode="click"
-      :popper="{ placement: 'right-start' }"
+      :popper="{ placement: 'right-start', arrow: true }"
       :items="deleteLists"
     >
       <UBadge label="Delete Account!" color="red" class="mt-4 cursor-pointer" />
