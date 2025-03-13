@@ -21,10 +21,10 @@
         style="animation-delay: 0.6s"
       >
         <NuxtLink
-          to="/auth/sign-up"
+          :to="userInfo ? '/dashboard' : '/auth/login'"
           class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
-          Start for free
+          {{ userInfo ? 'Dashboard' : 'Login' }}
         </NuxtLink>
         <NuxtLink
           to="/"
@@ -188,10 +188,10 @@
           yourself with from different countries.
         </p>
         <NuxtLink
-          to="/auth/sign-up"
+          :to="userInfo ? '/dashboard' : '/auth/sign-up'"
           class="mt-10 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
-          Sign up now
+          {{ userInfo ? 'Dashboard' : 'Sign up now' }}
         </NuxtLink>
       </div>
       <div class="animate-slide-up mt-10 lg:mt-0" style="animation-delay: 0.6s">
@@ -334,7 +334,7 @@
             <li>❌ Personalized AI suggestions</li>
             <li>❌ API access for seamless integration</li>
           </ul>
-          <NuxtLink to="/auth/sign-up">
+          <NuxtLink :to="userInfo ? '/other/plan' : '/auth/sign-up'">
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
             >
@@ -397,7 +397,7 @@
               integration
             </li>
           </ul>
-          <NuxtLink to="/auth/sign-up">
+          <NuxtLink :to="userInfo ? '/other/plan' : '/auth/sign-up'">
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
             >
@@ -418,7 +418,9 @@ import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features
 import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
 import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
 import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
+import { useUser } from '~/composables/useUser'
 
+const { userInfo } = useUser()
 const billingCycle = ref('monthly')
 
 const premiumPrice = computed(() => {
