@@ -32,31 +32,31 @@
         class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
       >
         <StatCard
-          :title="card1?.card_title"
-          :value="card1?.card_value"
-          :trend="card1?.card_trend"
-          :trendColor="card1?.card_trend_color"
+          :title="card1.card_title"
+          :value="card1.card_value"
+          :trend="card1.card_trend"
+          :trendColor="card1.card_trend_color"
           :svg="FlashcardSvg"
         />
         <StatCard
-          :title="card2?.card_title"
-          :value="card2?.card_value"
-          :trend="card2?.card_trend"
-          :trendColor="card2?.card_trend_color"
+          :title="card2.card_title"
+          :value="card2.card_value"
+          :trend="card2.card_trend"
+          :trendColor="card2.card_trend_color"
           :svg="QuestionSvg"
         />
         <StatCard
-          :title="card3?.card_title"
-          :value="card3?.card_value"
-          :trend="card3?.card_trend"
-          :trendColor="card3?.card_trend_color"
+          :title="card3.card_title"
+          :value="card3.card_value"
+          :trend="card3.card_trend"
+          :trendColor="card3.card_trend_color"
           :svg="TotalLearnersSvg"
         />
         <StatCard
-          :title="card4?.card_title"
-          :value="card4?.card_value"
-          :trend="card4?.card_trend"
-          :trendColor="card4?.card_trend_color"
+          :title="card4.card_title"
+          :value="card4.card_value"
+          :trend="card4.card_trend"
+          :trendColor="card4.card_trend_color"
           :svg="TutorsSvg"
         />
       </div>
@@ -122,20 +122,27 @@
         >
           <h2 class="mb-4 text-lg font-semibold">Recent Flashcards</h2>
           <ul class="flex-1 overflow-y-auto">
-            <li
-              v-for="(flashcard, index) in recentFlashcards"
-              :key="index"
-              class="flex items-center justify-between border-b border-gray-300 py-2 text-sm dark:border-gray-700"
-            >
-              <div class="flex items-center gap-2">
-                <TutorsSvg class="h-4 w-4 text-gray-500 dark:text-gray-300" />
-                <span>{{ flashcard.title }}</span>
+              <template v-if="recentFlashcards?.length">
+                <li
+                  v-for="(flashcard, index) in recentFlashcards"
+                  :key="index"
+                  class="flex items-center justify-between border-b border-gray-300 py-2 text-sm dark:border-gray-700"
+                >
+                  <div class="flex items-center gap-2">
+                    <TutorsSvg class="h-4 w-4 text-gray-500 dark:text-gray-300" />
+                    <span>{{ flashcard.title }}</span>
+                  </div>
+                  <span class="text-xs text-gray-400 dark:text-gray-300">
+                    {{ formatTimeAgo(flashcard.createdAt) }}
+                  </span>
+                </li>
+              </template>
+              <div v-else class="mt-4 text-center text-gray-500">
+                No Flashcard
+                <EmptyStateIcon width="100%" height="350px" />
               </div>
-              <span class="text-xs text-gray-400 dark:text-gray-300">{{
-                flashcard.time
-              }}</span>
-            </li>
           </ul>
+
         </div>
       </div>
     </template>
@@ -145,6 +152,7 @@
 <script setup>
 import StatCard from '@/components/StatCard.vue'
 import PieChart from '@/components/PieChart.vue'
+import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 import { ref, onMounted } from "vue";
 import axios from "axios";
 const ChartCard = defineAsyncComponent(
@@ -153,6 +161,8 @@ const ChartCard = defineAsyncComponent(
 const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
 const selectedStudent = ref('')
 const selectedYear = ref('')
+
+import { formatTimeAgo } from '@/utils/timeAgo.ts';
 
 import QuestionSvg from '@/components/icons/questionSvg.vue'
 import FlashcardSvg from '@/components/icons/flashcardSvg.vue'
@@ -163,8 +173,7 @@ const card1 = ref({});
 const card2 = ref({});
 const card3 = ref({});
 const card4 = ref({});
-
-
+const recentFlashcards = ref([]);
 const name = ref('')
 const email = ref('')
 const initials = ref('')
@@ -187,17 +196,48 @@ const fetchStats = async () => {
 
     const data = response.data;
 
-    card1.value = data[0] || {};
-    card2.value = data[1] || {};
-    card3.value = data[2] || {};
-    card4.value = data[3] || {};
+    card1.value = data[0];
+    card2.value = data[1];
+    card3.value = data[2];
+    card4.value = data[3];
+  } catch (error) {
+    console.error("Failed to fetch dashboard data:", error);
+  }
+};
+
+const fetchFlashCards = async () => {
+  try {
+    const response = await fetch(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcards/${localStorage.getItem("user_id")}`
+    );
+
+    if (!response.ok) throw new Error("Failed to fetch flashcards");
+
+    const data = await response.json(); // Parse JSON
+    recentFlashcards.value = data.flashCards; // Correct way to update ref
   } catch (error) {
     console.error("Failed to fetch dashboard data:", error);
   }
 };
 
 
-onMounted(fetchStats);
+onMounted(() => {
+  name.value = localStorage.getItem('name') || 'Default Name'
+  email.value = localStorage.getItem('email') || 'default@example.com'
+
+  fetchStats()
+  fetchFlashCards()
+
+  const words = name.value.trim().split(' ')
+  initials.value =
+    words.length > 1
+      ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
+      : words[0][0].toUpperCase()
+})
+
+
+
+
 
 const students = ref([
   { id: 1, name: 'John Doe' },
@@ -305,34 +345,6 @@ const quizChartSeries = [
   }
 ]
 
-const recentFlashcards = ref([
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '2 mins ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '3 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '6 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '10 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '12 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' }
-])
-
-onMounted(() => {
-  name.value = localStorage.getItem('name') || 'Default Name'
-  email.value = localStorage.getItem('email') || 'default@example.com'
-
-  const words = name.value.trim().split(' ')
-  initials.value =
-    words.length > 1
-      ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
-      : words[0][0].toUpperCase()
-})
 </script>
 
 <style scoped>
