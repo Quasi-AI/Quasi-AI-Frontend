@@ -19,7 +19,7 @@
 
     <div>
       <div
-        v-if="!useAuthToken"
+        v-if="!isLoggedIn"
         class="hidden flex-row items-center gap-4 lg:flex"
       >
         <NuxtLink
@@ -83,7 +83,7 @@
         </transition>
       </Menu>
 
-      <NuxtLink to="/user" v-if="useAuthToken" class="flex items-center gap-2">
+      <NuxtLink to="/user" v-if="isLoggedIn" class="flex items-center gap-2">
         <CommonProfileImage
           :img-src="userInfo?.profileImage"
           :name="userInfo?.name"
@@ -101,6 +101,6 @@ import { useUser } from '~/composables/useUser'
 import { useAuth } from '~/composables/useAuth'
 
 const { userInfo } = useUser()
-const { useAuthToken } = useAuth()
+const { isLoggedIn } = useAuth()
 const route = useRoute()
 </script>

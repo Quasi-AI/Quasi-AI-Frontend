@@ -21,10 +21,10 @@
         style="animation-delay: 0.6s"
       >
         <NuxtLink
-          :to="useAuthToken ? '/dashboard' : '/auth/sign-up'"
+          :to="isLoggedIn ? '/dashboard' : '/auth/sign-up'"
           class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
-          {{ useAuthToken ? 'Dashboard' : 'Sign up for free' }}
+          {{ isLoggedIn ? 'Dashboard' : 'Sign up for free' }}
         </NuxtLink>
         <NuxtLink
           to="/"
@@ -188,10 +188,10 @@
           yourself with from different countries.
         </p>
         <NuxtLink
-          :to="useAuthToken ? '/dashboard' : '/auth/sign-up'"
+          :to="isLoggedIn ? '/dashboard' : '/auth/sign-up'"
           class="mt-10 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
-          {{ useAuthToken ? 'Dashboard' : 'Sign up now' }}
+          {{ isLoggedIn ? 'Go to Dashboard' : 'Sign up now' }}
         </NuxtLink>
       </div>
       <div class="animate-slide-up mt-10 lg:mt-0" style="animation-delay: 0.6s">
@@ -334,7 +334,7 @@
             <li>❌ Personalized AI suggestions</li>
             <li>❌ API access for seamless integration</li>
           </ul>
-          <NuxtLink :to="useAuthToken ? '/other/plan' : '/auth/sign-up'">
+          <NuxtLink :to="isLoggedIn ? '/other/plan' : '/auth/sign-up'">
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
             >
@@ -397,7 +397,7 @@
               integration
             </li>
           </ul>
-          <NuxtLink :to="useAuthToken ? '/other/plan' : '/auth/sign-up'">
+          <NuxtLink :to="isLoggedIn ? '/other/plan' : '/auth/sign-up'">
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
             >
@@ -422,7 +422,7 @@ import { useUser } from '~/composables/useUser'
 import { useAuth } from '~/composables/useAuth'
 
 const { userInfo } = useUser()
-const { useAuthToken } = useAuth()
+const { isLoggedIn } = useAuth()
 const billingCycle = ref('monthly')
 
 const premiumPrice = computed(() => {
