@@ -177,6 +177,8 @@ const recentFlashcards = ref([]);
 const name = ref('')
 const email = ref('')
 const initials = ref('')
+const studentCount = ref(0);
+const educatorCount = ref(0);
 
 
 const fetchStats = async () => {
@@ -221,12 +223,37 @@ const fetchFlashCards = async () => {
 };
 
 
+const fetchUsersData = async () => {
+  try {
+    const studentResponse = await axios.get("https://dark-caldron-448714-u5.uc.r.appspot.com/students/");
+    const educatorResponse = await axios.get("https://dark-caldron-448714-u5.uc.r.appspot.com/educators/");
+
+    // Assign the fetched values to reactive variables
+    studentCount.value = studentResponse.data.totalStudents;
+    educatorCount.value = educatorResponse.data.totalEducators;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+
+// Computed property to update pie chart series reactively
+const pieChartSeries = computed(() => [studentCount.value, educatorCount.value]);
+
+const pieChartOptions = computed(() => ({
+  chart: { type: "donut" },
+  labels: ["Students", "Educators"],
+  colors: ["#EF4444", "#6366F1"],
+  legend: { show: false },
+  dataLabels: { enabled: false },
+}));
+
 onMounted(() => {
   name.value = localStorage.getItem('name') || 'Default Name'
   email.value = localStorage.getItem('email') || 'default@example.com'
 
   fetchStats()
   fetchFlashCards()
+  fetchUsersData()
 
   const words = name.value.trim().split(' ')
   initials.value =
@@ -285,15 +312,7 @@ const chartSeries = [
   }
 ]
 
-const pieChartOptions = computed(() => ({
-  chart: { type: 'donut' },
-  labels: ['Educators', 'Learners'],
-  colors: ['#EF4444', '#6366F1'],
-  legend: { show: false },
-  dataLabels: { enabled: false }
-}))
 
-const pieChartSeries = [12, 230] // Educators & Learners
 
 const quizChartOptions = computed(() => ({
   chart: {

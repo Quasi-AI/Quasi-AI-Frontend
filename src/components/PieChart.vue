@@ -10,12 +10,12 @@
     <!-- Custom legend -->
     <div class="legend">
       <div class="legend-item">
-        <span class="dot" style="background-color: #ef4444"></span> Educators
+        <span class="dot" style="background-color: #ef4444"></span>
         <strong>{{ series[0] }}</strong>
         <span class="percentage">({{ percentages[0] }}%)</span>
       </div>
       <div class="legend-item">
-        <span class="dot" style="background-color: #6366f1"></span> Learners
+        <span class="dot" style="background-color: #6366f1"></span>
         <strong>{{ series[1] }}</strong>
         <span class="percentage">({{ percentages[1] }}%)</span>
       </div>
