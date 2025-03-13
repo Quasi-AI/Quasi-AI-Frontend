@@ -214,7 +214,7 @@ const fetchFlashCards = async () => {
     if (!response.ok) throw new Error("Failed to fetch flashcards");
 
     const data = await response.json(); // Parse JSON
-    recentFlashcards.value = data.flashCards; // Correct way to update ref
+    recentFlashcards.value = data.flashcards; // Correct way to update ref
   } catch (error) {
     console.error("Failed to fetch dashboard data:", error);
   }
