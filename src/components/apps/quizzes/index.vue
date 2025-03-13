@@ -115,7 +115,7 @@
               <img
                 v-if="question.image"
                 :src="question.image"
-                alt="Question Image"
+                alt="Question"
                 class="mt-2 max-h-48 w-full rounded-lg object-cover"
               />
 

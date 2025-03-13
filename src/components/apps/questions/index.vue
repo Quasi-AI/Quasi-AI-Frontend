@@ -72,7 +72,7 @@
     <div v-if="showQuestionSetDetail && selectedQuestionSet" class="w-full">
       <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
         <div
-          class="mb-6 flex items-start justify-between gap-4 md:items-center"
+          class="mb-6 flex flex-wrap items-start justify-between gap-4 md:items-center"
         >
           <div
             class="flex flex-col items-start gap-4 md:flex-row md:items-center"
@@ -103,11 +103,11 @@
           {{ selectedQuestionSet.message }}
         </p>
 
-        <div class="space-y-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div
             v-for="(question, qIndex) in selectedQuestionSet.questions"
             :key="qIndex"
-            class="rounded-lg bg-gray-100 p-4 dark:bg-[#0C1438]"
+            class="rounded-lg border bg-gray-100 p-4 dark:border-[#0A122E] dark:bg-[#0C1438]"
           >
             <p class="font-medium">{{ question.question }}</p>
             <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
