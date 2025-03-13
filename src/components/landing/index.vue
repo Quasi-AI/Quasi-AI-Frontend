@@ -276,7 +276,7 @@
       </h1>
 
       <!-- Tabs -->
-      <div class="flex gap-2 rounded-lg bg-gray-200 p-1 dark:bg-[#0C1438]">
+      <div class="flex gap-2 rounded-full bg-gray-200 p-1 dark:bg-[#0C1438]">
         <button
           @click="billingCycle = 'monthly'"
           :class="
@@ -284,7 +284,7 @@
               ? 'bg-[#5D3BEA] text-white'
               : 'text-gray-600 dark:text-gray-300'
           "
-          class="rounded-md px-4 py-2 font-bold"
+          class="rounded-full px-4 py-2 font-bold"
         >
           Monthly
         </button>
@@ -295,7 +295,7 @@
               ? 'bg-[#5D3BEA] text-white'
               : 'text-gray-600 dark:text-gray-300'
           "
-          class="rounded-md px-4 py-2 font-bold"
+          class="rounded-full px-4 py-2 font-bold"
         >
           Yearly (5% off)
         </button>
