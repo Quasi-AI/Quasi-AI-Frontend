@@ -73,7 +73,7 @@
       <div class="p-4">
         <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
           <div
-            class="mb-6 flex items-start justify-between gap-4 md:items-center"
+            class="mb-6 flex flex-wrap items-start justify-between gap-4 md:items-center"
           >
             <div
               class="flex flex-col items-start gap-4 md:flex-row md:items-center"
@@ -99,10 +99,12 @@
               <span>Close</span>
             </button>
           </div>
+
           <p class="mb-6 text-xl font-medium">
             {{ selectedQuiz.message }}
           </p>
-          <div class="mt-4 space-y-4">
+
+          <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
             <div
               v-for="(question, index) in selectedQuiz.quizes"
               :key="index"
@@ -110,7 +112,6 @@
             >
               <p class="font-medium">{{ question.question }}</p>
 
-              <!-- Image with proper styling -->
               <img
                 v-if="question.image"
                 :src="question.image"
@@ -118,7 +119,7 @@
                 class="mt-2 max-h-48 w-full rounded-lg object-cover"
               />
 
-              <div class="mt-2 grid grid-cols-2 gap-2">
+              <div class="mt-2 grid grid-cols-1 gap-2 md:grid-cols-2">
                 <p
                   v-for="(option, optIndex) in question.options"
                   :key="optIndex"
