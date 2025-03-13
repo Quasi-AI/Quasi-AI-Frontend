@@ -94,6 +94,7 @@ export const useAuthenticationStore = defineStore('authentication', {
           }
           if ('id' in data && data.id) {
             localStorage.setItem('user_id', data.id.toString())
+            localStorage.setItem('role', data.role.toString())
             localStorage.setItem('name', data.name.toString())
             localStorage.setItem('email', data.email.toString())
           }

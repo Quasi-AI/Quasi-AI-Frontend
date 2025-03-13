@@ -4,10 +4,15 @@
       <CommonSidebar />
     </template>
     
+
     <template #apps>
-      <div class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white">
-        <div class="flex items-center gap-4 w-full md:w-auto">
-          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-[#6366F1] text-white text-lg font-bold">
+      <div
+        class="mb-6 flex flex-col items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-sm md:flex-row dark:bg-[#111C44] dark:text-white"
+      >
+        <div class="flex w-full items-center gap-4 md:w-auto">
+          <div
+            class="flex h-12 w-12 items-center justify-center rounded-full bg-[#6366F1] text-lg font-bold text-white"
+          >
             {{ initials }}
           </div>
           <div class="text-center md:text-left">
@@ -15,82 +20,130 @@
             <p class="text-sm text-gray-400">{{ email }}</p>
           </div>
         </div>
-        <NuxtLink to="/apps" 
-          class="bg-[#6366F1] text-white px-4 py-2 rounded-md hover:bg-[#4F46E5] w-full md:w-auto text-center">
+        <NuxtLink
+          to="/apps"
+          class="w-full rounded-md bg-[#6366F1] px-4 py-2 text-center text-white hover:bg-[#4F46E5] md:w-auto"
+        >
           Go to Apps
         </NuxtLink>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-        <StatCard 
-          title="Total Flashcards" 
-          value="189" 
-          trend="0.5% Down" 
-          trendColor="text-red-500 dark:text-red-400" 
-          :svg="FlashcardSvg" 
+      <div
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
+      >
+        <StatCard
+          :title="card1.card_title"
+          :value="card1.card_value"
+          :trend="card1.card_trend"
+          :trendColor="card1.card_trend_color"
+          :svg="FlashcardSvg"
         />
-        <StatCard 
-          title="Total Questions" 
-          value="40" 
-          trend="8.5% Up" 
-          trendColor="text-green-500 dark:text-green-400" 
-          :svg="QuestionSvg" 
+        <StatCard
+          :title="card2.card_title"
+          :value="card2.card_value"
+          :trend="card2.card_trend"
+          :trendColor="card2.card_trend_color"
+          :svg="QuestionSvg"
         />
-        <StatCard 
-          title="Total Learners" 
-          value="46" 
-          trend="8.5% Up" 
-          trendColor="text-green-500 dark:text-green-400" 
-          :svg="TotalLearnersSvg" 
+        <StatCard
+          :title="card3.card_title"
+          :value="card3.card_value"
+          :trend="card3.card_trend"
+          :trendColor="card3.card_trend_color"
+          :svg="TotalLearnersSvg"
         />
-        <StatCard 
-          title="No. of Tutors" 
-          value="90" 
-          trend="8.5% Up" 
-          trendColor="text-green-500 dark:text-green-400" 
-          :svg="TutorsSvg" 
+        <StatCard
+          :title="card4.card_title"
+          :value="card4.card_value"
+          :trend="card4.card_trend"
+          :trendColor="card4.card_trend_color"
+          :svg="TutorsSvg"
         />
       </div>
 
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mt-6">
-        <div class="lg:col-span-2 flex flex-col gap-6">
-          <div class="bg-white p-6 rounded-lg shadow-sm dark:bg-[#111C44] dark:text-white">
-            <div class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row">
+      <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div class="flex flex-col gap-6 lg:col-span-2">
+          <div
+            class="rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white"
+          >
+            <div
+              class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row"
+            >
               <h1 class="text-2xl font-medium">Learning Progress</h1>
               <div class="flex gap-4">
-                <select v-model="selectedStudent" class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]">
+                <select
+                  v-model="selectedStudent"
+                  class="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
+                >
                   <option value="">Select Student</option>
-                  <option v-for="student in students" :key="student.id" :value="student.id">{{ student.name }}</option>
+                  <option
+                    v-for="student in students"
+                    :key="student.id"
+                    :value="student.id"
+                  >
+                    {{ student.name }}
+                  </option>
                 </select>
-                <select v-model="selectedYear" class="cursor-pointer rounded-2xl border border-gray-300 p-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]">
+                <select
+                  v-model="selectedYear"
+                  class="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
+                >
                   <option value="">Select Year</option>
-                  <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+                  <option v-for="year in years" :key="year" :value="year">
+                    {{ year }}
+                  </option>
                 </select>
               </div>
             </div>
-            <VueApexCharts type="line" :options="chartOptions" :series="chartSeries" height="350" />
+            <VueApexCharts
+              type="line"
+              :options="chartOptions"
+              :series="chartSeries"
+              height="350"
+            />
           </div>
 
           <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <PieChart title="Users" :series="pieChartSeries" :chartOptions="pieChartOptions" />
-            <ChartCard title="Quiz Created vs Taken" :chartOptions="quizChartOptions" :series="quizChartSeries" />
+            <PieChart
+              title="Users"
+              :series="pieChartSeries"
+              :chartOptions="pieChartOptions"
+            />
+            <ChartCard
+              title="Quiz Created vs Taken"
+              :chartOptions="quizChartOptions"
+              :series="quizChartSeries"
+            />
           </div>
         </div>
 
-        <div class="lg:row-span-2 bg-white p-6 rounded-lg shadow-sm dark:bg-[#111C44] dark:text-white flex flex-col max-h-[880px] overflow-y-auto">
-          <h2 class="text-lg font-semibold mb-4">Recent Flashcards</h2>
+        <div
+          class="flex max-h-[880px] flex-col overflow-y-auto rounded-lg bg-white p-6 shadow-sm lg:row-span-2 dark:bg-[#111C44] dark:text-white"
+        >
+          <h2 class="mb-4 text-lg font-semibold">Recent Flashcards</h2>
           <ul class="flex-1 overflow-y-auto">
-            <li v-for="(flashcard, index) in recentFlashcards" :key="index" 
-                class="border-b border-gray-300 dark:border-gray-700 py-2 text-sm flex justify-between items-center">
-              <div class="flex items-center gap-2">
-                <TutorsSvg class="w-4 h-4 text-gray-500 dark:text-gray-300" />
-                <span>{{ flashcard.title }}</span>
+              <template v-if="recentFlashcards?.length">
+                <li
+                  v-for="(flashcard, index) in recentFlashcards"
+                  :key="index"
+                  class="flex items-center justify-between border-b border-gray-300 py-2 text-sm dark:border-gray-700"
+                >
+                  <div class="flex items-center gap-2">
+                    <TutorsSvg class="h-4 w-4 text-gray-500 dark:text-gray-300" />
+                    <span>{{ flashcard.title }}</span>
+                  </div>
+                  <span class="text-xs text-gray-400 dark:text-gray-300">
+                    {{ formatTimeAgo(flashcard.createdAt) }}
+                  </span>
+                </li>
+              </template>
+              <div v-else class="mt-4 text-center text-gray-500">
+                No Flashcard
+                <EmptyStateIcon width="100%" height="350px" />
               </div>
-              <span class="text-gray-400 dark:text-gray-300 text-xs">{{ flashcard.time }}</span>
-            </li>
           </ul>
-        </div>
 
+        </div>
       </div>
     </template>
   </NuxtLayout>
@@ -99,20 +152,117 @@
 <script setup>
 import StatCard from '@/components/StatCard.vue'
 import PieChart from '@/components/PieChart.vue'
-const ChartCard = defineAsyncComponent(() => import('@/components/ChartCard.vue'))
+import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
+import { ref, onMounted } from "vue";
+import axios from "axios";
+const ChartCard = defineAsyncComponent(
+  () => import('@/components/ChartCard.vue')
+)
 const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
 const selectedStudent = ref('')
 const selectedYear = ref('')
-import { ref, onMounted } from 'vue';
 
-import QuestionSvg from '@/components/icons/questionSvg.vue';
-import FlashcardSvg from '@/components/icons/flashcardSvg.vue';
-import TotalLearnersSvg from '@/components/icons/totallearnersSvg.vue';
-import TutorsSvg from '@/components/icons/tutorsSvg.vue';
+import { formatTimeAgo } from '@/utils/timeAgo.ts';
 
-const name = ref('');
-const email = ref('');
-const initials = ref('');
+import QuestionSvg from '@/components/icons/questionSvg.vue'
+import FlashcardSvg from '@/components/icons/flashcardSvg.vue'
+import TotalLearnersSvg from '@/components/icons/totallearnersSvg.vue'
+import TutorsSvg from '@/components/icons/tutorsSvg.vue'
+
+const card1 = ref({});
+const card2 = ref({});
+const card3 = ref({});
+const card4 = ref({});
+const recentFlashcards = ref([]);
+const name = ref('')
+const email = ref('')
+const initials = ref('')
+const studentCount = ref(0);
+const educatorCount = ref(0);
+
+
+const fetchStats = async () => {
+  try {
+    const response = await axios.post(
+      "https://dark-caldron-448714-u5.uc.r.appspot.com/dashboard",
+      {
+        role: localStorage.getItem("role"),
+        user_id: localStorage.getItem("user_id"),
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = response.data;
+
+    card1.value = data[0];
+    card2.value = data[1];
+    card3.value = data[2];
+    card4.value = data[3];
+  } catch (error) {
+    console.error("Failed to fetch dashboard data:", error);
+  }
+};
+
+const fetchFlashCards = async () => {
+  try {
+    const response = await fetch(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcards/${localStorage.getItem("user_id")}`
+    );
+
+    if (!response.ok) throw new Error("Failed to fetch flashcards");
+
+    const data = await response.json(); // Parse JSON
+    recentFlashcards.value = data.flashcards; // Correct way to update ref
+  } catch (error) {
+    console.error("Failed to fetch dashboard data:", error);
+  }
+};
+
+
+const fetchUsersData = async () => {
+  try {
+    const studentResponse = await axios.get("https://dark-caldron-448714-u5.uc.r.appspot.com/students/");
+    const educatorResponse = await axios.get("https://dark-caldron-448714-u5.uc.r.appspot.com/educators/");
+
+    // Assign the fetched values to reactive variables
+    studentCount.value = studentResponse.data.totalStudents;
+    educatorCount.value = educatorResponse.data.totalEducators;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+
+// Computed property to update pie chart series reactively
+const pieChartSeries = computed(() => [studentCount.value, educatorCount.value]);
+
+const pieChartOptions = computed(() => ({
+  chart: { type: "donut" },
+  labels: ["Students", "Educators"],
+  colors: ["#EF4444", "#6366F1"],
+  legend: { show: false },
+  dataLabels: { enabled: false },
+}));
+
+onMounted(() => {
+  name.value = localStorage.getItem('name') || 'Default Name'
+  email.value = localStorage.getItem('email') || 'default@example.com'
+
+  fetchStats()
+  fetchFlashCards()
+  fetchUsersData()
+
+  const words = name.value.trim().split(' ')
+  initials.value =
+    words.length > 1
+      ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
+      : words[0][0].toUpperCase()
+})
+
+
 
 
 
@@ -162,30 +312,34 @@ const chartSeries = [
   }
 ]
 
-const pieChartOptions = computed(() => ({
-  chart: { type: 'donut' },
-  labels: ['Educators', 'Learners'],
-  colors: ['#EF4444', '#6366F1'],
-  legend: { show: false },
-  dataLabels: { enabled: false }
-}));
-
-const pieChartSeries = [12, 230]; // Educators & Learners
 
 
 const quizChartOptions = computed(() => ({
-  chart: { 
-    type: 'bar', 
-    toolbar: { show: false } 
+  chart: {
+    type: 'bar',
+    toolbar: { show: false }
   },
-  xaxis: { 
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  xaxis: {
+    categories: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ],
     labels: { style: { colors: '#6B7280', fontSize: '12px' } } // Improve readability
   },
   plotOptions: {
-    bar: { 
-      horizontal: false, 
-      columnWidth: '55%', 
+    bar: {
+      horizontal: false,
+      columnWidth: '55%',
       borderRadius: 4 // Rounded corners
     }
   },
@@ -197,47 +351,23 @@ const quizChartOptions = computed(() => ({
     position: 'top',
     labels: { colors: '#374151' } // Improve legend text visibility
   }
-}));
+}))
 
 const quizChartSeries = [
-  { name: 'Created', data: [50, 100, 75, 200, 175, 150, 125, 140, 160, 190, 220, 250] },
-  { name: 'Taken', data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230] }
-];
+  {
+    name: 'Created',
+    data: [50, 100, 75, 200, 175, 150, 125, 140, 160, 190, 220, 250]
+  },
+  {
+    name: 'Taken',
+    data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230]
+  }
+]
 
-
-const recentFlashcards = ref([
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '2 mins ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '3 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '6 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '10 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '12 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-  { title: 'Generated Flashcard - Biology Chapter 3', time: '24 hours ago' },
-])
-
-
-onMounted(() => {
-  name.value = localStorage.getItem("name") || "Default Name";
-  email.value = localStorage.getItem("email") || "default@example.com";
-
-  const words = name.value.trim().split(" ");
-  initials.value = words.length > 1 
-    ? words[0][0].toUpperCase() + words[1][0].toUpperCase() 
-    : words[0][0].toUpperCase();
-
-});
 </script>
 
 <style scoped>
 .dark-bg {
-  background-color: #111C44;
+  background-color: #111c44;
 }
 </style>

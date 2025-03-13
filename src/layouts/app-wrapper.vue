@@ -43,9 +43,9 @@ const showBackIcon = computed(() => !hideBackIconRoutes.includes(route.path))
 // Greeting
 const greeting = computed(() => {
   const hours = new Date().getHours()
-  if (hours < 12) return 'Good morning'
-  if (hours < 18) return 'Good afternoon'
-  return 'Good evening'
+  if (hours < 12) return 'Good Morning 🌞'
+  if (hours < 18) return 'Good Afternoon 🌤️'
+  return 'Good evening 🌙 '
 })
 
 // Define route-based titles

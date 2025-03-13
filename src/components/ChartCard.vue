@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import VueApexCharts from "vue3-apexcharts";
+import VueApexCharts from 'vue3-apexcharts'
 
 export default {
   components: { VueApexCharts },
@@ -20,7 +20,7 @@ export default {
     series: { type: Array, required: true },
     chartOptions: { type: Object, required: true }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -31,7 +31,7 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   /* 🌙 Dark mode support */
-  @apply dark:bg-gray-800 dark:text-white dark:border dark:border-gray-700;
+  @apply dark:border dark:border-gray-700 dark:bg-gray-800 dark:text-white;
 }
 .title {
   margin-bottom: 12px;
