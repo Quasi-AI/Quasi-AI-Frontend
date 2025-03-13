@@ -222,6 +222,17 @@
         </div>
 
         <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">Private or Public</p>
+          <select
+            v-model="selectedPublicity"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="private">Private</option>
+            <option value="public">Public</option>
+          </select>
+        </div>
+
+        <div class="w-full">
           <p class="mb-2 block font-medium text-gray-500">
             Number of questions
           </p>
@@ -322,6 +333,7 @@ import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 import { truncateText } from '@/utils/truncateText'
 
 const messageContent = ref('')
+const selectedPublicity = ref('private')
 const SubjectTitle = ref('')
 const flashcards = ref([])
 const homeFlashcards = ref([])
@@ -442,6 +454,7 @@ const generateFlashcards = async () => {
 
     const requestBody = {
       title: SubjectTitle.value,
+      visible: selectedPublicity.value,
       user_id: localStorage.getItem('user_id'),
       message: messageContent.value,
       level: level.value,

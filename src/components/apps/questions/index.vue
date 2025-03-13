@@ -173,6 +173,17 @@
         </div>
 
         <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">Public or Private</p>
+          <select
+            v-model="selectedPublicity"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="private">Private</option>
+            <option value="public">Public</option>
+          </select>
+        </div>
+
+        <div class="w-full">
           <p class="mb-2 block font-medium text-gray-500">Difficulty level</p>
           <select
             v-model="selectedLevel"
@@ -288,6 +299,7 @@ const messageContent = ref('')
 const questions = ref([])
 const homeQuestions = ref([])
 const selectedLevel = ref('beginner')
+const selectedPublicity = ref('private')
 const selectedQuestionType = ref('Theory')
 const numQuestions = ref(10)
 const loading = ref(false)
@@ -392,6 +404,7 @@ const generateQuestions = async () => {
           title: SubjectTitle.value,
           question_type: selectedQuestionType.value,
           message: messageContent.value,
+          visible: selectedPublicity.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
           user_id: localStorage.getItem('user_id')
