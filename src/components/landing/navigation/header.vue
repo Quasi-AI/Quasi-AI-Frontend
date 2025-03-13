@@ -18,7 +18,10 @@
     </div>
 
     <div>
-      <div v-if="!userInfo" class="hidden flex-row items-center gap-4 lg:flex">
+      <div
+        v-if="!useAuthToken"
+        class="hidden flex-row items-center gap-4 lg:flex"
+      >
         <NuxtLink
           to="/auth/login"
           class="text-blue hidden rounded-lg bg-white px-6 py-1 transition duration-300 hover:scale-105 lg:block dark:bg-[#111C44] dark:text-white"
@@ -80,7 +83,7 @@
         </transition>
       </Menu>
 
-      <NuxtLink to="/user" v-if="userInfo" class="flex items-center gap-2">
+      <NuxtLink to="/user" v-if="useAuthToken" class="flex items-center gap-2">
         <CommonProfileImage
           :img-src="userInfo?.profileImage"
           :name="userInfo?.name"
@@ -95,7 +98,9 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useUser } from '~/composables/useUser'
+import { useAuth } from '~/composables/useAuth'
 
 const { userInfo } = useUser()
+const { useAuthToken } = useAuth()
 const route = useRoute()
 </script>
