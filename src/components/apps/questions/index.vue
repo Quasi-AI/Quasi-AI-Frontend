@@ -40,7 +40,7 @@
           >
             <!-- Message at the top -->
             <p class="text-lg font-semibold">
-              {{ truncateText(questionSet.message) }}
+              {{ questionSet.title }}
             </p>
 
             <!-- User details always at the bottom -->
@@ -154,8 +154,24 @@
         />
       </div>
 
+      
+
       <!-- Difficulty & Number of Questions -->
       <div class="mt-4 flex flex-col gap-4 lg:flex-row">
+        <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">
+            Subject/Course Title
+          </p>
+          <input
+            type="text"
+            v-model="SubjectTitle"
+            min="1"
+            max="50"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+            placeholder="Enter Subject/Course Title"
+          />
+        </div>
+
         <div class="w-full">
           <p class="mb-2 block font-medium text-gray-500">Difficulty level</p>
           <select
@@ -165,6 +181,17 @@
             <option value="beginner">Beginner</option>
             <option value="intermediate">Intermediate</option>
             <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">Difficulty level</p>
+          <select
+            v-model="selectedQuestionType"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="multiple choice">Multiple Choice</option>
+            <option value="Theory">Theory</option>
           </select>
         </div>
 
@@ -256,10 +283,12 @@ import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 import { truncateText } from '@/utils/truncateText'
 
+const SubjectTitle = ref('')
 const messageContent = ref('')
 const questions = ref([])
 const homeQuestions = ref([])
 const selectedLevel = ref('beginner')
+const selectedQuestionType = ref('Theory')
 const numQuestions = ref(10)
 const loading = ref(false)
 const showCreateQuestions = ref(false)
@@ -360,6 +389,8 @@ const generateQuestions = async () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          title: SubjectTitle.value,
+          question_type: selectedQuestionType.value,
           message: messageContent.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,

@@ -3,6 +3,7 @@
     <template #sidebar>
       <CommonSidebar />
     </template>
+    
 
     <template #apps>
       <div
@@ -31,31 +32,31 @@
         class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
       >
         <StatCard
-          title="Total Flashcards"
-          value="189"
-          trend="0.5% Down"
-          trendColor="text-red-500 dark:text-red-400"
+          :title="card1?.card_title"
+          :value="card1?.card_value"
+          :trend="card1?.card_trend"
+          :trendColor="card1?.card_trend_color"
           :svg="FlashcardSvg"
         />
         <StatCard
-          title="Total Questions"
-          value="40"
-          trend="8.5% Up"
-          trendColor="text-green-500 dark:text-green-400"
+          :title="card2?.card_title"
+          :value="card2?.card_value"
+          :trend="card2?.card_trend"
+          :trendColor="card2?.card_trend_color"
           :svg="QuestionSvg"
         />
         <StatCard
-          title="Total Learners"
-          value="46"
-          trend="8.5% Up"
-          trendColor="text-green-500 dark:text-green-400"
+          :title="card3?.card_title"
+          :value="card3?.card_value"
+          :trend="card3?.card_trend"
+          :trendColor="card3?.card_trend_color"
           :svg="TotalLearnersSvg"
         />
         <StatCard
-          title="No. of Tutors"
-          value="90"
-          trend="8.5% Up"
-          trendColor="text-green-500 dark:text-green-400"
+          :title="card4?.card_title"
+          :value="card4?.card_value"
+          :trend="card4?.card_trend"
+          :trendColor="card4?.card_trend_color"
           :svg="TutorsSvg"
         />
       </div>
@@ -144,6 +145,8 @@
 <script setup>
 import StatCard from '@/components/StatCard.vue'
 import PieChart from '@/components/PieChart.vue'
+import { ref, onMounted } from "vue";
+import axios from "axios";
 const ChartCard = defineAsyncComponent(
   () => import('@/components/ChartCard.vue')
 )
@@ -156,9 +159,45 @@ import FlashcardSvg from '@/components/icons/flashcardSvg.vue'
 import TotalLearnersSvg from '@/components/icons/totallearnersSvg.vue'
 import TutorsSvg from '@/components/icons/tutorsSvg.vue'
 
+const card1 = ref({});
+const card2 = ref({});
+const card3 = ref({});
+const card4 = ref({});
+
+
 const name = ref('')
 const email = ref('')
 const initials = ref('')
+
+
+const fetchStats = async () => {
+  try {
+    const response = await axios.post(
+      "https://dark-caldron-448714-u5.uc.r.appspot.com/dashboard",
+      {
+        role: localStorage.getItem("role"),
+        user_id: localStorage.getItem("user_id"),
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = response.data;
+
+    card1.value = data[0] || {};
+    card2.value = data[1] || {};
+    card3.value = data[2] || {};
+    card4.value = data[3] || {};
+  } catch (error) {
+    console.error("Failed to fetch dashboard data:", error);
+  }
+};
+
+
+onMounted(fetchStats);
 
 const students = ref([
   { id: 1, name: 'John Doe' },

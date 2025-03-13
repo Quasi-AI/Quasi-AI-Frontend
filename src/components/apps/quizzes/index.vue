@@ -34,13 +34,13 @@
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div
             v-for="quiz in filteredQuizzes"
-            :key="quiz.message"
+            :key="quiz.title"
             class="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-white p-4 shadow-sm hover:shadow-md dark:bg-[#1E2A50] dark:text-white"
             @click="openQuiz(quiz)"
           >
             <!-- Message at the top -->
             <p class="text-lg font-semibold">
-              {{ quiz.message }}
+              {{ quiz.title }}
             </p>
 
             <!-- User details always at the bottom -->
@@ -132,15 +132,7 @@
       v-if="showCreateQuizzes"
       class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
-      <!-- Text Area for Content -->
-      <div class="mb-6">
-        <p class="mb-2 block font-medium text-gray-500">Quiz Content</p>
-        <textarea
-          v-model="messageContent"
-          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
-          placeholder="Type your content here"
-        />
-      </div>
+     
 
       <!-- File Upload -->
       <div
@@ -163,8 +155,32 @@
         />
       </div>
 
+       <!-- Text Area for Content -->
+       <div class="mb-6">
+        <p class="mb-2 block font-medium text-gray-500">Quiz Content</p>
+        <textarea
+          v-model="messageContent"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          placeholder="Type your content here"
+        />
+      </div>
+
       <!-- Quiz Settings -->
       <div class="flex flex-col gap-4">
+        <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">
+            Subject/Course Title
+          </p>
+          <input
+            type="text"
+            v-model="SubjectTitle"
+            min="1"
+            max="50"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+            placeholder="Enter Subject/Course Title"
+          />
+        </div>
+
         <div>
           <p class="mb-2 block font-medium text-gray-500">Difficulty Level</p>
           <select
@@ -367,6 +383,7 @@ import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
+const SubjectTitle = ref('')
 const messageContent = ref('')
 const quizes = ref([])
 const selectedLevel = ref('beginner')
@@ -496,6 +513,7 @@ const generateQuestions = async () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          title: SubjectTitle.value,
           message: messageContent.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
@@ -544,17 +562,47 @@ const generateQuestions = async () => {
 }
 
 // Check user answers
-const checkAnswers = () => {
-  let correctCount = 0
+const checkAnswers = async () => {  // Make function async
+  let correctCount = 0;
   quizes.value.forEach(quiz => {
-    if (quiz.userAnswer === quiz.correctAnswer) correctCount++
-  })
-  score.value = correctCount
-  clearInterval(timerInterval) // Stop timer
-  showGeneratedQuizzes.value = false
-  showPreviewQuizzes.value = false
-  showPostSubmission.value = true
-}
+    if (quiz.userAnswer === quiz.correctAnswer) correctCount++;
+  });
+  
+  score.value = correctCount;
+  clearInterval(timerInterval); // Stop timer
+  showGeneratedQuizzes.value = false;
+  showPreviewQuizzes.value = false;
+  showPostSubmission.value = true;
+
+  try {
+    const response = await fetch(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/add-students-report',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: localStorage.getItem('name'),
+          email: localStorage.getItem('email'),
+          user_id: localStorage.getItem('user_id'),
+          profile_image: "",
+          practice_type: "Quiz",
+          score: score.value
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json(); // Process response
+    console.log("Quiz submitted successfully:", data);
+
+  } catch (error) {
+    console.error("Error submitting quiz:", error);
+  }
+};
+
 
 // Highlight correct and incorrect answers
 const getAnswerClass = (quiz, option) => {
