@@ -307,6 +307,9 @@ export const useAuthenticationStore = defineStore('authentication', {
       }
       localStorage.removeItem('authToken')
       localStorage.removeItem('user_id')
+      localStorage.removeItem('name')
+      localStorage.removeItem('email')
+      localStorage.removeItem('role')
       this.error = ''
       navigateTo('/')
     },

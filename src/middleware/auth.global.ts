@@ -44,6 +44,7 @@ const logoutUser = async () => {
   localStorage.removeItem('authToken')
   localStorage.removeItem('name')
   localStorage.removeItem('email')
+  localStorage.removeItem('role')
 }
 
 const logSecurityAction = async (action: string, status: string) => {
