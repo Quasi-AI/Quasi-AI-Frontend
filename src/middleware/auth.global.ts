@@ -5,10 +5,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   const token = localStorage.getItem("authToken");
   if (!token) {
-    if (to.path !== "/auth/login") {
+    if (to.path !== "/") {
       await logSecurityAction("Unauthorized access attempt", "Failed");
       await logSystemAction("Unauthorized access attempt", "ERROR", to.path);
-      return navigateTo("/auth/login");
+      return navigateTo("/");
     }
     return;
   }
@@ -27,7 +27,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       await logSecurityAction("Token expired", "Failed");
       await logSystemAction("Token expired", "ERROR", to.path);
       await logoutUser();
-      return navigateTo("/auth/login");
+      return navigateTo("/");
     }
 
     await logSecurityAction("Token authentication successful", "Success");
