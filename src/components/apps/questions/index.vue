@@ -290,7 +290,6 @@ import { ref, onMounted } from 'vue'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
-import { truncateText } from '@/utils/truncateText'
 
 const SubjectTitle = ref('')
 const messageContent = ref('')
