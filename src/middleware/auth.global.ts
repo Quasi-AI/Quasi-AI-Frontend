@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (to.path !== "/") {
       await logSecurityAction("Unauthorized access attempt", "Failed");
       await logSystemAction("Unauthorized access attempt", "ERROR", to.path);
-      return navigateTo("/");
+      
     }
     return;
   }
@@ -27,7 +27,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       await logSecurityAction("Token expired", "Failed");
       await logSystemAction("Token expired", "ERROR", to.path);
       await logoutUser();
-      return navigateTo("/");
     }
 
     await logSecurityAction("Token authentication successful", "Success");
@@ -38,7 +37,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     await logSecurityAction("Invalid token detected", "Failed");
     await logSystemAction("Invalid token detected", "ERROR", to.path);
     await logoutUser();
-    return navigateTo("/auth/login");
+    return navigateTo("/");
   }
 });
 
