@@ -40,7 +40,7 @@
           >
             <!-- Message at the top -->
             <p class="text-lg font-semibold">
-              {{ truncateText(flashcardSet.message) }}
+              {{ truncateText(flashcardSet.title) }}
             </p>
 
             <!-- User details always at the bottom -->
@@ -194,6 +194,21 @@
 
       <!-- Difficulty & Number of Questions -->
       <div class="mt-4 flex flex-col gap-4 lg:flex-row">
+
+        <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">
+            Subject/Course Title
+          </p>
+          <input
+            type="text"
+            v-model="SubjectTitle"
+            min="1"
+            max="50"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+            placeholder="Enter Subject/Course Title"
+          />
+        </div>
+
         <div class="w-full">
           <p class="mb-2 block font-medium text-gray-500">Difficulty level</p>
           <select
@@ -307,6 +322,7 @@ import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 import { truncateText } from '@/utils/truncateText'
 
 const messageContent = ref('')
+const SubjectTitle = ref('')
 const flashcards = ref([])
 const homeFlashcards = ref([])
 const isLoading = ref(false)
@@ -425,6 +441,7 @@ const generateFlashcards = async () => {
     isLoading.value = true
 
     const requestBody = {
+      title: SubjectTitle.value,
       user_id: localStorage.getItem('user_id'),
       message: messageContent.value,
       level: level.value,
