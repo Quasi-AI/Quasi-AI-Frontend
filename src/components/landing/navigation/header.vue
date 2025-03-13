@@ -17,7 +17,7 @@
       <NuxtLink to="/">Features</NuxtLink>
     </div>
 
-    <div>
+    <div class="flex items-center gap-2">
       <div
         v-if="!isLoggedIn"
         class="hidden flex-row items-center gap-4 lg:flex"

@@ -10,7 +10,7 @@
     </h1>
 
     <!-- Tabs -->
-    <div class="rounded-full flex gap-2 bg-gray-200 p-1 dark:bg-[#0C1438]">
+    <div class="flex gap-2 rounded-full bg-gray-200 p-1 dark:bg-[#0C1438]">
       <button
         @click="billingCycle = 'monthly'"
         :class="
