@@ -109,6 +109,15 @@
               class="rounded-lg border p-4 dark:border-[#0C1438]"
             >
               <p class="font-medium">{{ question.question }}</p>
+              
+              <!-- Image with proper styling -->
+              <img 
+                v-if="question.image" 
+                :src="question.image" 
+                alt="Question Image"
+                class="mt-2 w-full max-h-48 object-cover rounded-lg"
+              />
+
               <div class="mt-2 grid grid-cols-2 gap-2">
                 <p
                   v-for="(option, optIndex) in question.options"
@@ -118,11 +127,13 @@
                   {{ option }}
                 </p>
               </div>
+
               <p class="mt-2 text-sm text-gray-500">
                 Correct Answer: {{ question.correctAnswer }}
               </p>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -190,6 +201,17 @@
             <option value="beginner">Beginner</option>
             <option value="intermediate">Intermediate</option>
             <option value="advanced">Advanced</option>
+          </select>
+        </div>
+
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">Private or Public</p>
+          <select
+            v-model="selectedPublicity"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="private">Private</option>
+            <option value="public">Public</option>
           </select>
         </div>
 
@@ -384,6 +406,7 @@ import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const SubjectTitle = ref('')
+const selectedPublicity =ref('private')
 const messageContent = ref('')
 const quizes = ref([])
 const selectedLevel = ref('beginner')
@@ -515,6 +538,7 @@ const generateQuestions = async () => {
         body: JSON.stringify({
           title: SubjectTitle.value,
           message: messageContent.value,
+          visible: selectedPublicity.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
           user_timer: userTimer.value,
