@@ -52,7 +52,7 @@
             v-if="card.image"
             :src="card.image"
             alt="Flashcard Image"
-            class="max-h-20 w-auto object-cover mb-2"
+            class="mb-2 max-h-20 w-auto object-cover"
           />
           <span>{{ card.front }}</span>
         </div>
@@ -67,9 +67,7 @@
     </div>
 
     <!-- Loading & Error Messages -->
-    <div v-if="loading" class="mt-4 text-center">
-      Loading games ...
-    </div>
+    <div v-if="loading" class="mt-4 text-center">Loading games ...</div>
     <div v-if="errorMessage" class="mt-4 text-center text-red-500">
       {{ errorMessage }}
     </div>

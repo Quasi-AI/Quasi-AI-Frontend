@@ -109,13 +109,13 @@
               class="rounded-lg border p-4 dark:border-[#0C1438]"
             >
               <p class="font-medium">{{ question.question }}</p>
-              
+
               <!-- Image with proper styling -->
-              <img 
-                v-if="question.image" 
-                :src="question.image" 
+              <img
+                v-if="question.image"
+                :src="question.image"
                 alt="Question Image"
-                class="mt-2 w-full max-h-48 object-cover rounded-lg"
+                class="mt-2 max-h-48 w-full rounded-lg object-cover"
               />
 
               <div class="mt-2 grid grid-cols-2 gap-2">
@@ -133,7 +133,6 @@
               </p>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -143,8 +142,6 @@
       v-if="showCreateQuizzes"
       class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
-     
-
       <!-- File Upload -->
       <div
         @click="triggerFileInput"
@@ -166,8 +163,8 @@
         />
       </div>
 
-       <!-- Text Area for Content -->
-       <div class="mb-6">
+      <!-- Text Area for Content -->
+      <div class="mb-6">
         <p class="mb-2 block font-medium text-gray-500">Quiz Content</p>
         <textarea
           v-model="messageContent"
@@ -406,7 +403,7 @@ import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const SubjectTitle = ref('')
-const selectedPublicity =ref('private')
+const selectedPublicity = ref('private')
 const messageContent = ref('')
 const quizes = ref([])
 const selectedLevel = ref('beginner')
@@ -586,17 +583,18 @@ const generateQuestions = async () => {
 }
 
 // Check user answers
-const checkAnswers = async () => {  // Make function async
-  let correctCount = 0;
+const checkAnswers = async () => {
+  // Make function async
+  let correctCount = 0
   quizes.value.forEach(quiz => {
-    if (quiz.userAnswer === quiz.correctAnswer) correctCount++;
-  });
-  
-  score.value = correctCount;
-  clearInterval(timerInterval); // Stop timer
-  showGeneratedQuizzes.value = false;
-  showPreviewQuizzes.value = false;
-  showPostSubmission.value = true;
+    if (quiz.userAnswer === quiz.correctAnswer) correctCount++
+  })
+
+  score.value = correctCount
+  clearInterval(timerInterval) // Stop timer
+  showGeneratedQuizzes.value = false
+  showPreviewQuizzes.value = false
+  showPostSubmission.value = true
 
   try {
     const response = await fetch(
@@ -608,25 +606,23 @@ const checkAnswers = async () => {  // Make function async
           name: localStorage.getItem('name'),
           email: localStorage.getItem('email'),
           user_id: localStorage.getItem('user_id'),
-          profile_image: "",
-          practice_type: "Quiz",
+          profile_image: '',
+          practice_type: 'Quiz',
           score: score.value
         })
       }
-    );
+    )
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`)
     }
 
-    const data = await response.json(); // Process response
-    console.log("Quiz submitted successfully:", data);
-
+    const data = await response.json() // Process response
+    console.log('Quiz submitted successfully:', data)
   } catch (error) {
-    console.error("Error submitting quiz:", error);
+    console.error('Error submitting quiz:', error)
   }
-};
-
+}
 
 // Highlight correct and incorrect answers
 const getAnswerClass = (quiz, option) => {

@@ -154,8 +154,6 @@
         />
       </div>
 
-      
-
       <!-- Difficulty & Number of Questions -->
       <div class="mt-4 flex flex-col gap-4 lg:flex-row">
         <div class="w-full">
