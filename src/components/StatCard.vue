@@ -5,7 +5,7 @@
       <h3 class="stat-value">{{ value }}</h3>
       <div class="trend">
         <span :class="trendColor">{{ trend }}</span>
-        <span class="trend-text">Up from last month</span>
+        <span class="trend-text"></span>
       </div>
     </div>
     <div class="icon-container">
