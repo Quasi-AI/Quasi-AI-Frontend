@@ -490,7 +490,7 @@ const fetchQuizzes = async () => {
   try {
     const endpoint =
       filterQuizes.value === 'my'
-        ? `/quiz/${localStorage.getItem('user_id')}`
+        ? `/quiz/${sessionStorage.getItem('user_id')}`
         : '/quiz/all'
     const response = await fetch(
       `https://dark-caldron-448714-u5.uc.r.appspot.com${endpoint}`
@@ -576,7 +576,7 @@ const generateQuestions = async () => {
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
           user_timer: userTimer.value,
-          user_id: localStorage.getItem('user_id')
+          user_id: sessionStorage.getItem('user_id')
         })
       }
     )
@@ -643,9 +643,9 @@ const checkAnswers = async () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: localStorage.getItem('name'),
-          email: localStorage.getItem('email'),
-          user_id: localStorage.getItem('user_id'),
+          name: sessionStorage.getItem('name'),
+          email: sessionStorage.getItem('email'),
+          user_id: sessionStorage.getItem('user_id'),
           profile_image: '',
           practice_type: 'Quiz',
           score: score.value

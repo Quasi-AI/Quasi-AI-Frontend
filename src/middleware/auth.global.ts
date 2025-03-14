@@ -3,7 +3,7 @@ import axios from 'axios'
 export default defineNuxtRouteMiddleware(async (to, from) => {
   if (process.server) return
 
-  const token = localStorage.getItem('authToken')
+  const token = sessionStorage.getItem('authToken')
   if (!token) {
     if (to.path !== '/') {
       await logSecurityAction('Unauthorized access attempt', 'Failed')
@@ -41,15 +41,15 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 const logoutUser = async () => {
   await logSecurityAction('User logged out', 'Success')
   await logSystemAction('User logged out', 'INFO', '/logout')
-  localStorage.removeItem('authToken')
-  localStorage.removeItem('name')
-  localStorage.removeItem('email')
-  localStorage.removeItem('role')
+  sessionStorage.removeItem('authToken')
+  sessionStorage.removeItem('name')
+  sessionStorage.removeItem('email')
+  sessionStorage.removeItem('role')
 }
 
 const logSecurityAction = async (action: string, status: string) => {
   try {
-    const userEmail = localStorage.getItem('email') || 'Unknown'
+    const userEmail = sessionStorage.getItem('email') || 'Unknown'
     const userAgent = navigator.userAgent
     const ipAddress = await getUserIP()
 

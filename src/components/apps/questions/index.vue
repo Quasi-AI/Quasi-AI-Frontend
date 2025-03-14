@@ -355,7 +355,7 @@ const fetchHomeQuestions = async () => {
   const endpoint =
     filterQuestions.value === 'all'
       ? 'https://dark-caldron-448714-u5.uc.r.appspot.com/question/all'
-      : `https://dark-caldron-448714-u5.uc.r.appspot.com/question/${localStorage.getItem(
+      : `https://dark-caldron-448714-u5.uc.r.appspot.com/question/${sessionStorage.getItem(
           'user_id'
         )}`
 
@@ -439,7 +439,7 @@ const generateQuestions = async () => {
           visible: selectedPublicity.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
-          user_id: localStorage.getItem('user_id')
+          user_id: sessionStorage.getItem('user_id')
         })
       }
     )

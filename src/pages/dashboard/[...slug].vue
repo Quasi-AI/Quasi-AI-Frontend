@@ -183,8 +183,8 @@ const fetchStats = async () => {
     const response = await axios.post(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/dashboard',
       {
-        role: localStorage.getItem('role'),
-        user_id: localStorage.getItem('user_id')
+        role: sessionStorage.getItem('role'),
+        user_id: sessionStorage.getItem('user_id')
       },
       {
         headers: {
@@ -207,7 +207,7 @@ const fetchStats = async () => {
 const fetchFlashCards = async () => {
   try {
     const response = await fetch(
-      `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcards/${localStorage.getItem(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcards/${sessionStorage.getItem(
         'user_id'
       )}`
     )
@@ -224,7 +224,7 @@ const fetchFlashCards = async () => {
 const fetchStudents = async () => {
   try {
     const response = await fetch(
-      `https://dark-caldron-448714-u5.uc.r.appspot.com/educator-student/${localStorage.getItem(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/educator-student/${sessionStorage.getItem(
         'user_id'
       )}`
     )
@@ -267,8 +267,8 @@ const pieChartOptions = computed(() => ({
 }))
 
 onMounted(() => {
-  name.value = localStorage.getItem('name') || 'Default Name'
-  email.value = localStorage.getItem('email') || 'default@example.com'
+  name.value = sessionStorage.getItem('name') || 'Default Name'
+  email.value = sessionStorage.getItem('email') || 'default@example.com'
 
   fetchStats()
   fetchFlashCards()
