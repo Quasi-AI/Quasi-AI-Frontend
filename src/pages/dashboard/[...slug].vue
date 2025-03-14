@@ -6,10 +6,12 @@
 
     <template #apps>
       <div
-        class="mb-6 flex flex-col items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-sm md:flex-row dark:bg-[#111C44] dark:text-white">
+        class="mb-6 flex flex-col items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-sm md:flex-row dark:bg-[#111C44] dark:text-white"
+      >
         <div class="flex w-full items-center gap-4 md:w-auto">
           <div
-            class="flex h-12 w-12 items-center justify-center rounded-full bg-[#6366F1] text-lg font-bold text-white">
+            class="flex h-12 w-12 items-center justify-center rounded-full bg-[#6366F1] text-lg font-bold text-white"
+          >
             {{ initials }}
           </div>
           <div class="text-center md:text-left">
@@ -17,38 +19,74 @@
             <p class="text-sm text-gray-400">{{ email }}</p>
           </div>
         </div>
-        <NuxtLink to="/apps"
-          class="w-full rounded-md bg-[#6366F1] px-4 py-2 text-center text-white hover:bg-[#4F46E5] md:w-auto">
+        <NuxtLink
+          to="/apps"
+          class="w-full rounded-md bg-[#6366F1] px-4 py-2 text-center text-white hover:bg-[#4F46E5] md:w-auto"
+        >
           Go to Apps
         </NuxtLink>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-        <StatCard :title="card1.card_title" :value="card1.card_value" :trend="card1.card_trend"
-          :trendColor="card1.card_trend_color" :svg="FlashcardSvg" />
-        <StatCard :title="card2.card_title" :value="card2.card_value" :trend="card2.card_trend"
-          :trendColor="card2.card_trend_color" :svg="QuestionSvg" />
-        <StatCard :title="card3.card_title" :value="card3.card_value" :trend="card3.card_trend"
-          :trendColor="card3.card_trend_color" :svg="TotalLearnersSvg" />
-        <StatCard :title="card4.card_title" :value="card4.card_value" :trend="card4.card_trend"
-          :trendColor="card4.card_trend_color" :svg="TutorsSvg" />
+      <div
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
+      >
+        <StatCard
+          :title="card1.card_title"
+          :value="card1.card_value"
+          :trend="card1.card_trend"
+          :trendColor="card1.card_trend_color"
+          :svg="FlashcardSvg"
+        />
+        <StatCard
+          :title="card2.card_title"
+          :value="card2.card_value"
+          :trend="card2.card_trend"
+          :trendColor="card2.card_trend_color"
+          :svg="QuestionSvg"
+        />
+        <StatCard
+          :title="card3.card_title"
+          :value="card3.card_value"
+          :trend="card3.card_trend"
+          :trendColor="card3.card_trend_color"
+          :svg="TotalLearnersSvg"
+        />
+        <StatCard
+          :title="card4.card_title"
+          :value="card4.card_value"
+          :trend="card4.card_trend"
+          :trendColor="card4.card_trend_color"
+          :svg="TutorsSvg"
+        />
       </div>
 
       <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div class="flex flex-col gap-6 lg:col-span-2">
-          <div class="rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white">
-            <div class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row">
+          <div
+            class="rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white"
+          >
+            <div
+              class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row"
+            >
               <h1 class="text-2xl font-medium">Learning Progress</h1>
               <div class="flex gap-4">
-                <select v-model="selectedStudent"
-                  class="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]">
+                <select
+                  v-model="selectedStudent"
+                  class="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
+                >
                   <option value="">Select Student</option>
-                  <option v-for="student in students" :key="student.id" :value="student.id">
+                  <option
+                    v-for="student in students"
+                    :key="student.id"
+                    :value="student.id"
+                  >
                     {{ student.name }}
                   </option>
                 </select>
-                <select v-model="selectedYear"
-                  class="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]">
+                <select
+                  v-model="selectedYear"
+                  class="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
+                >
                   <option value="">Select Year</option>
                   <option v-for="year in years" :key="year" :value="year">
                     {{ year }}
@@ -56,22 +94,39 @@
                 </select>
               </div>
             </div>
-            <VueApexCharts type="line" :options="chartOptions" :series="chartSeries" height="350" />
+            <VueApexCharts
+              type="line"
+              :options="chartOptions"
+              :series="chartSeries"
+              height="350"
+            />
           </div>
 
           <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <PieChart title="Users" :series="pieChartSeries" :chartOptions="pieChartOptions" />
-            <ChartCard title="Quiz Created vs Taken" :chartOptions="quizChartOptions" :series="quizChartSeries" />
+            <PieChart
+              title="Users"
+              :series="pieChartSeries"
+              :chartOptions="pieChartOptions"
+            />
+            <ChartCard
+              title="Quiz Created vs Taken"
+              :chartOptions="quizChartOptions"
+              :series="quizChartSeries"
+            />
           </div>
         </div>
 
         <div
-          class="flex max-h-[880px] flex-col overflow-y-auto rounded-lg bg-white p-6 shadow-sm lg:row-span-2 dark:bg-[#111C44] dark:text-white">
+          class="flex max-h-[880px] flex-col overflow-y-auto rounded-lg bg-white p-6 shadow-sm lg:row-span-2 dark:bg-[#111C44] dark:text-white"
+        >
           <h2 class="mb-4 text-lg font-semibold">Recent Flashcards</h2>
           <ul class="flex-1 overflow-y-auto">
             <template v-if="recentFlashcards?.length">
-              <li v-for="(flashcard, index) in recentFlashcards" :key="index"
-                class="flex items-center justify-between border-b border-gray-300 py-2 text-sm dark:border-gray-700">
+              <li
+                v-for="(flashcard, index) in recentFlashcards"
+                :key="index"
+                class="flex items-center justify-between border-b border-gray-300 py-2 text-sm dark:border-gray-700"
+              >
                 <div class="flex items-center gap-2">
                   <TutorsSvg class="h-4 w-4 text-gray-500 dark:text-gray-300" />
                   <span>{{ flashcard.title }}</span>

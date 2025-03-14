@@ -1,10 +1,3 @@
 <template>
-  <AppsChatsChatbot
-    :inputPlaceholder="'Ask Quasi ai...'"
-    :initialMessage="quasiAiTutor"
-  />
+  <AppsChatsChatbot :inputPlaceholder="'Ask Quasi ai...'" />
 </template>
-
-<script setup lang="ts">
-import { quasiAiTutor } from '~/prompts/chatbot'
-</script>
