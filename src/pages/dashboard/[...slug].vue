@@ -181,8 +181,8 @@ const students = ref([])
 const years = ref([])
 
 const currentYear = new Date().getFullYear()
-const chartSeries = ref[{}]
-const quizChartSeries = [{}]
+const chartSeries = ref([])
+const quizChartSeries = ref([])
 
 
 const fetchStats = async () => {
@@ -273,7 +273,7 @@ const fetchlineFlashcard = async () => {
     if (!response.ok) throw new Error('Failed to fetch flashcards')
 
     const data = await response.json()
-    chartSeries.value = data?.data
+    chartSeries.value = data.data
   } catch (error) {
     console.error('Failed to fetch dashboard data:', error)
   }
@@ -290,7 +290,7 @@ const fetchQuizzeTaken = async () => {
     if (!response.ok) throw new Error('Failed to fetch flashcards')
 
     const data = await response.json()
-    quizChartSeries.value = data?.data
+    chartSeries.value = data.data
   } catch (error) {
     console.error('Failed to fetch dashboard data:', error)
   }
@@ -364,6 +364,10 @@ const chartOptions = computed(() => ({
     horizontalAlign: 'right'
   }
 }))
+
+
+
+
 
 const quizChartOptions = computed(() => ({
   chart: {
