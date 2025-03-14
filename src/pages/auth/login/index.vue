@@ -28,7 +28,11 @@
           <label
             for="email"
             class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
-            :class="email ? 'top-0 text-xs text-purple-600' : 'top-1/2 -translate-y-1/2 text-base text-gray-400'"
+            :class="
+              email
+                ? 'top-0 text-xs text-purple-600'
+                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
+            "
           >
             Email
           </label>
@@ -46,7 +50,11 @@
           <label
             for="password"
             class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
-            :class="password ? 'top-0 text-xs text-purple-600' : 'top-1/2 -translate-y-1/2 text-base text-gray-400'"
+            :class="
+              password
+                ? 'top-0 text-xs text-purple-600'
+                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
+            "
           >
             Password
           </label>
@@ -55,12 +63,13 @@
             @click="togglePasswordVisibility"
           >
             <UIcon
-              :name="isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'"
+              :name="
+                isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
+              "
               class="text-gray-500"
             ></UIcon>
           </span>
         </div>
-
 
         <div class="mb-3 flex items-center justify-between">
           <!-- Left: Remember Me -->
@@ -138,7 +147,7 @@
 
 <script setup>
 import { useAuthenticationStore } from '~/store/auth'
-import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
+import OrSeperator from '~/assets/icons/or-seperator.vue'
 import { auth, provider, signInWithPopup } from '~/utils/firebase'
 import axios from 'axios'
 import { isValidEmail } from '@/utils/isValidEmail'

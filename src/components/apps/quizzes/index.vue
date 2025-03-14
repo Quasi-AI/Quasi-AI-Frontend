@@ -1,5 +1,15 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Share with Students Modal -->
+    <ShareWith
+      v-if="isShareWithStudentModalVisible"
+      :isVisible="isShareWithStudentModalVisible"
+      @close="closeShareWithStudents"
+      @share="handleShare"
+      type="quiz"
+      :assignmentId="selectedQuizForSharing?.id || ''"
+    />
+
     <!-- Loader Modal -->
     <div
       v-if="isLoading"
@@ -86,6 +96,28 @@
                   {{ formatDate(quiz.created_by?.created_at) }}
                 </p>
               </div>
+            </div>
+            <!-- Share Icon -->
+            <div class="mt-4 flex items-center justify-end gap-2">
+              <button
+                @click.stop="shareWithStudentsModal(quiz)"
+                class="text-gray-500 hover:text-[#5D3BEA]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -309,27 +341,21 @@
               </div>
             </div>
           </div>
-
-          <!-- Share Button -->
-          <div class="w-full">
-            <div v-if="score !== null" class="my-4 flex w-full justify-end">
-              <UButton
-                variant="blue"
-                class="flex w-[180px] items-center justify-end rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:bg-[#4A2DCA]"
-              >
-                Share with students
-              </UButton>
-            </div>
-          </div>
         </div>
 
         <div class="p-4">
           <div
-            class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white"
+            class="flex flex-col items-center justify-center gap-3 rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white"
           >
             <p class="text-center font-semibold">
               {{ quizes[currentIndex].question }}
             </p>
+            <img
+              v-if="quizes[currentIndex].image"
+              :src="quizes[currentIndex].image"
+              alt="Question"
+              class="mt-2 h-[200px] w-[300px] rounded-lg"
+            />
           </div>
 
           <div
@@ -340,7 +366,7 @@
               :key="index"
               class="flex cursor-pointer items-center gap-2 rounded-lg border p-2 hover:bg-gray-100 dark:border-[#0C1438] dark:hover:bg-gray-700"
               :class="{
-                'border-2 border-[#5D3BEA]':
+                'border-2 border-[#5D3BEA] dark:border-gray-400':
                   option === quizes[currentIndex].userAnswer && score === null,
                 ...getAnswerClass(quizes[currentIndex], option)
               }"
@@ -398,13 +424,6 @@
       class="mx-auto flex w-full flex-col items-center justify-center rounded-xl"
     >
       <div class="w-[280px] text-center">
-        <h2 class="mb-4 text-4xl font-extrabold text-[#5D3BEA]">
-          Congratulations
-        </h2>
-        <p class="mb-6">
-          Awesome job completing your quiz. You can review your performance or
-          take a new quiz.
-        </p>
         <div class="mb-6 flex items-center justify-center text-4xl">
           <img
             src="~/assets/icons/congrats-icon.gif"
@@ -412,6 +431,14 @@
             class="w-[200px]"
           />
         </div>
+
+        <h2 class="mb-4 text-4xl font-extrabold text-[#5D3BEA]">
+          Congratulations
+        </h2>
+        <p class="mb-6">
+          Awesome job completing your quiz. You can review your performance or
+          take a new quiz.
+        </p>
         <div class="flex flex-col items-center justify-center gap-4">
           <button
             class="w-[250px] rounded-md border border-[#5D3BEA] bg-white px-6 py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
@@ -510,11 +537,32 @@ const filteredQuizzes = computed(() => {
   )
 })
 
-// Open quiz detail view
+// Open quiz for taking
 const openQuiz = quiz => {
   selectedQuiz.value = quiz
-  showQuizDetail.value = true
+  showQuizDetail.value = false
   showHomeQuizzes.value = false
+  showCreateQuizzes.value = false
+  showPreviewQuizzes.value = true
+
+  // Initialize the quiz for taking
+  quizes.value = quiz.quizes.map(q => ({
+    question: q.question,
+    options: q.options,
+    correctAnswer: q.correctAnswer,
+    image: q.image,
+    userAnswer: null
+  }))
+
+  // Set the timer if the quiz has a timer
+  if (quiz.user_timer) {
+    userTimer.value = quiz.user_timer
+    startTimer()
+  }
+
+  // Reset the current question index and score
+  currentIndex.value = 0
+  score.value = null
 }
 
 // Close detailed view
@@ -624,7 +672,6 @@ const generateQuestions = async () => {
 
 // Check user answers
 const checkAnswers = async () => {
-  // Make function async
   let correctCount = 0
   quizes.value.forEach(quiz => {
     if (quiz.userAnswer === quiz.correctAnswer) correctCount++
@@ -715,6 +762,26 @@ const selectAnswer = (quiz, option) => {
   if (score.value === null) {
     quiz.userAnswer = option
   }
+}
+
+// share with students
+const isShareWithStudentModalVisible = ref(false)
+const selectedQuizForSharing = ref(null)
+
+const shareWithStudentsModal = quiz => {
+  selectedQuizForSharing.value = quiz
+  isShareWithStudentModalVisible.value = true
+}
+
+const closeShareWithStudents = () => {
+  isShareWithStudentModalVisible.value = false
+}
+
+const handleShare = selectedStudents => {
+  console.log('Selected Students:', selectedStudents)
+  console.log('Quiz to Share:', selectedQuizForSharing.value)
+  // Perform sharing logic here
+  closeShareWithStudents()
 }
 </script>
 

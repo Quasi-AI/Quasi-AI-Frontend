@@ -1,5 +1,15 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Share with Students Modal -->
+    <ShareWith
+      v-if="isShareWithStudentModalVisible"
+      :isVisible="isShareWithStudentModalVisible"
+      @close="closeShareWithStudents"
+      @share="handleShare"
+      type="flashcard"
+      :assignmentId="selectedFlashcardSet?.id || ''"
+    />
+
     <!-- Loader Modal -->
     <div
       v-if="isLoading"
@@ -86,6 +96,29 @@
                   {{ formatDate(flashcardSet.created_by.created_at) }}
                 </p>
               </div>
+            </div>
+
+            <!-- Share Icon -->
+            <div class="mt-4 flex items-center justify-end gap-2">
+              <button
+                @click.stop="shareWithStudentsModal(flashcardSet)"
+                class="text-gray-500 hover:text-[#5D3BEA]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -189,6 +222,7 @@
         </div>
       </div>
     </div>
+
     <!-- Form Container -->
     <div
       v-if="showCreateFlashcards"
@@ -305,9 +339,11 @@
         No flashcards generated yet.
       </div>
 
-      <p class="pb-4 text-lg font-semibold">
-        {{ truncateTextLong(messageContent) }}
-      </p>
+      <div class="mt-4 flex items-center justify-between">
+        <p class="pb-4 text-lg font-semibold">
+          {{ truncateTextLong(messageContent) }}
+        </p>
+      </div>
       <!-- Single Flashcard Display -->
       <div v-if="flashcards.length > 0" class="mx-auto w-full">
         <div class="perspective relative h-[50vh] w-full" @click="toggleFlip">
@@ -360,7 +396,6 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
@@ -399,7 +434,7 @@ const fetchHomeFlashcards = async () => {
   const endpoint =
     filterFlashcards.value === 'all'
       ? 'https://dark-caldron-448714-u5.uc.r.appspot.com/flashcard/all'
-      : `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcard/${sessionStorage.getItem(
+      : `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcard/${localStorage.getItem(
           'user_id'
         )}`
 
@@ -538,6 +573,24 @@ const handleFileUploadWrapper = async event => {
 // Wrapper for handleDrop to pass the callback
 const handleDropWrapper = async event => {
   await handleDrop(event, handleFileUploadWrapper)
+}
+
+// share with students
+const isShareWithStudentModalVisible = ref(false)
+
+const shareWithStudentsModal = flashcardSet => {
+  selectedFlashcardSet.value = flashcardSet
+  isShareWithStudentModalVisible.value = true
+}
+
+const closeShareWithStudents = () => {
+  isShareWithStudentModalVisible.value = false
+}
+
+const handleShare = selectedStudents => {
+  console.log('Selected Students:', selectedStudents)
+  // Perform sharing logic here
+  closeShareWithStudents()
 }
 </script>
 
