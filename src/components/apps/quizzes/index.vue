@@ -70,7 +70,7 @@
           >
             <!-- Message at the top -->
             <p class="text-lg font-semibold">
-              {{ quiz.title }}
+              {{ truncateText(quiz.message) }}
             </p>
 
             <!-- User details always at the bottom -->
@@ -130,7 +130,10 @@
             </button>
           </div>
 
-          <p class="mb-6 text-xl font-medium">
+          <p class="mb-2 text-xl font-bold">
+            {{ selectedQuiz.title }}
+          </p>
+          <p class="mb-6 text-sm font-medium">
             {{ selectedQuiz.message }}
           </p>
 
@@ -433,6 +436,7 @@ import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 import LoaderImage from '@/assets/icons/loader-image.vue'
+import { truncateText } from '@/utils/truncateText'
 
 const SubjectTitle = ref('')
 const selectedPublicity = ref('private')
