@@ -151,7 +151,7 @@
 import StatCard from '@/components/StatCard.vue'
 import PieChart from '@/components/PieChart.vue'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import axios from 'axios'
 const ChartCard = defineAsyncComponent(
   () => import('@/components/ChartCard.vue')
@@ -178,6 +178,13 @@ const initials = ref('')
 const studentCount = ref(0)
 const educatorCount = ref(0)
 const students = ref([])
+const years = ref([])
+
+const currentYear = new Date().getFullYear()
+const chartSeries = ref([])
+const quizChartSeries = ref([])
+
+
 const fetchStats = async () => {
   try {
     const response = await axios.post(
@@ -255,6 +262,40 @@ const fetchUsersData = async () => {
   }
 }
 
+const fetchlineFlashcard = async () => {
+  try {
+    const response = await fetch(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/flash-quiz/${sessionStorage.getItem(
+        'user_id'
+      )}`
+    )
+
+    if (!response.ok) throw new Error('Failed to fetch flashcards')
+
+    const data = await response.json()
+    chartSeries.value = data.data
+  } catch (error) {
+    console.error('Failed to fetch dashboard data:', error)
+  }
+}
+
+const fetchQuizzeTaken = async () => {
+  try {
+    const response = await fetch(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/flash-quiz/${sessionStorage.getItem(
+        'user_id'
+      )}`
+    )
+
+    if (!response.ok) throw new Error('Failed to fetch flashcards')
+
+    const data = await response.json()
+    chartSeries.value = data.data
+  } catch (error) {
+    console.error('Failed to fetch dashboard data:', error)
+  }
+}
+
 // Computed property to update pie chart series reactively
 const pieChartSeries = computed(() => [studentCount.value, educatorCount.value])
 
@@ -274,6 +315,8 @@ onMounted(() => {
   fetchFlashCards()
   fetchUsersData()
   fetchStudents()
+  fetchlineFlashcard()
+  fetchQuizzeTaken()
 
   const words = name.value.trim().split(' ')
   initials.value =
@@ -282,7 +325,18 @@ onMounted(() => {
       : words[0][0].toUpperCase()
 })
 
-const years = ref([2021, 2022, 2023, 2024])
+// Initialize the array dynamically up to the current year
+for (let year = 2025; year <= currentYear; year++) {
+  years.value.push(year)
+}
+
+// Watch for year changes and update array if needed
+watchEffect(() => {
+  const newYear = new Date().getFullYear()
+  if (!years.value.includes(newYear)) {
+    years.value.push(newYear) // Append the new year
+  }
+})
 
 const chartOptions = computed(() => ({
   chart: { type: 'line', toolbar: { show: false } },
@@ -311,16 +365,9 @@ const chartOptions = computed(() => ({
   }
 }))
 
-const chartSeries = [
-  {
-    name: 'Quizzes taken',
-    data: [5, 34, 17, 77, 85, 45, 2, 5, 26, 33, 121, 93]
-  },
-  {
-    name: 'Flashcards created',
-    data: [90, 44, 31, 12, 5, 32, 42, 12, 11, 32, 165, 54]
-  }
-]
+
+
+
 
 const quizChartOptions = computed(() => ({
   chart: {
@@ -360,17 +407,6 @@ const quizChartOptions = computed(() => ({
     labels: { colors: '#374151' } // Improve legend text visibility
   }
 }))
-
-const quizChartSeries = [
-  {
-    name: 'Created',
-    data: [50, 100, 75, 200, 175, 150, 125, 140, 160, 190, 220, 250]
-  },
-  {
-    name: 'Taken',
-    data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230]
-  }
-]
 </script>
 
 <style scoped>
