@@ -110,10 +110,10 @@ const textarea = ref<HTMLTextAreaElement | null>(null)
 const isLoading = ref(false)
 const fileInput = ref<HTMLInputElement | null>(null)
 const showScrollButton = ref(false)
-const userId = localStorage.getItem('user_id')
+const userId = sessionStorage.getItem('user_id')
 
 onMounted(() => {
-  const savedChatHistory = localStorage.getItem('chatHistory_componentName')
+  const savedChatHistory = sessionStorage.getItem('chatHistory_componentName')
   chatHistory.value = savedChatHistory
     ? JSON.parse(savedChatHistory)
     : props.initialMessage
@@ -164,7 +164,7 @@ const copyCodeToClipboard = (button: HTMLElement) => {
 }
 
 const saveChatHistory = () => {
-  localStorage.setItem(
+  sessionStorage.setItem(
     'chatHistory_componentName',
     JSON.stringify(chatHistory.value)
   )
@@ -204,7 +204,7 @@ const handleSubmit = () => {
   adjustTextareaHeight()
 
   if (userMessage.toLowerCase() === 'clear') {
-    localStorage.removeItem('chatHistory_componentName')
+    sessionStorage.removeItem('chatHistory_componentName')
     chatHistory.value = props.initialMessage
       ? [{ role: 'model', text: props.initialMessage }]
       : []

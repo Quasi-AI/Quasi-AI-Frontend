@@ -119,7 +119,7 @@ const generateFlashcards = async () => {
     errorMessage.value = ''
 
     const requestBody = {
-      user_id: localStorage.getItem('user_id'),
+      user_id: sessionStorage.getItem('user_id'),
       category: selectedCategory.value,
       level: selectedLevel.value,
       age: selectedAge.value

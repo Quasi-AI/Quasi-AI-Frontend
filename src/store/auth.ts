@@ -87,16 +87,16 @@ export const useAuthenticationStore = defineStore('authentication', {
           if ('token' in data && data.token) {
             this.token = data.token
             if (rememberMe) {
-              localStorage.setItem('authToken', this.token)
+              sessionStorage.setItem('authToken', this.token)
             } else {
               sessionStorage.setItem('authToken', this.token)
             }
           }
           if ('id' in data && data.id) {
-            localStorage.setItem('user_id', data.id.toString())
-            localStorage.setItem('role', data.role.toString())
-            localStorage.setItem('name', data.name.toString())
-            localStorage.setItem('email', data.email.toString())
+            sessionStorage.setItem('user_id', data.id.toString())
+            sessionStorage.setItem('role', data.role.toString())
+            sessionStorage.setItem('name', data.name.toString())
+            sessionStorage.setItem('email', data.email.toString())
           }
           this.success = successMessage
           navigateTo(redirectPath)
@@ -109,7 +109,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async fetchUserDetails() {
-      const apiUrl = `${API_PATHS.getUserDetails}${localStorage.getItem(
+      const apiUrl = `${API_PATHS.getUserDetails}${sessionStorage.getItem(
         'user_id'
       )}`
       try {
@@ -127,10 +127,10 @@ export const useAuthenticationStore = defineStore('authentication', {
 
         if (data.status === false) {
           this.user = {
-            id: data.id ?? null,
-            name: data.name ?? '',
-            email: data.email ?? '',
-            profileImage: data.profileImage ?? ''
+            id: data?.id ?? null,
+            name: data?.name ?? '',
+            email: data?.email ?? '',
+            profileImage: data?.profileImage ?? ''
           }
         } else {
           handleError(data)
@@ -210,7 +210,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateEmail(newEmail: string) {
-      const apiUrl = `${API_PATHS.updateEmail}${localStorage.getItem(
+      const apiUrl = `${API_PATHS.updateEmail}${sessionStorage.getItem(
         'user_id'
       )}`
       await this.updateUserData(
@@ -223,7 +223,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateProfileImage(imageUrl: string) {
-      const apiUrl = `${API_PATHS.updateProfileImage}${localStorage.getItem(
+      const apiUrl = `${API_PATHS.updateProfileImage}${sessionStorage.getItem(
         'user_id'
       )}`
       await this.updateUserData(
@@ -236,7 +236,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateName(name: string) {
-      const apiUrl = `${API_PATHS.updateName}${localStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.updateName}${sessionStorage.getItem('user_id')}`
       await this.updateUserData(
         apiUrl,
         { name: name },
@@ -275,7 +275,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async deleteUser() {
-      const apiUrl = `${API_PATHS.deleteUser}${localStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.deleteUser}${sessionStorage.getItem('user_id')}`
       try {
         const response = await $fetch<{ statusCode: number; message?: string }>(
           apiUrl,
@@ -305,11 +305,11 @@ export const useAuthenticationStore = defineStore('authentication', {
         email: '',
         profileImage: ''
       }
-      localStorage.removeItem('authToken')
-      localStorage.removeItem('user_id')
-      localStorage.removeItem('name')
-      localStorage.removeItem('email')
-      localStorage.removeItem('role')
+      sessionStorage.removeItem('authToken')
+      sessionStorage.removeItem('user_id')
+      sessionStorage.removeItem('name')
+      sessionStorage.removeItem('email')
+      sessionStorage.removeItem('role')
       this.error = ''
       navigateTo('/')
     },
@@ -317,7 +317,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     loadToken() {
       if (import.meta.client) {
         this.token =
-          localStorage.getItem('authToken') ??
+          sessionStorage.getItem('authToken') ??
           sessionStorage.getItem('authToken') ??
           ''
       }
@@ -326,7 +326,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     saveToken(token: string) {
       if (import.meta.client) {
         this.token = token
-        localStorage.setItem('authToken', token)
+        sessionStorage.setItem('authToken', token)
       }
     },
 

@@ -131,7 +131,7 @@ const generateQuestions = async () => {
           message: messageContent.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
-          user_id: localStorage.getItem('user_id')
+          user_id: sessionStorage.getItem('user_id')
         })
       }
     )

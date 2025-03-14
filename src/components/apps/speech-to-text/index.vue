@@ -88,7 +88,7 @@ const messageContent = ref('')
 const isListening = ref(false)
 const savedTranscripts = ref([])
 const finalizedText = ref('')
-const user_id = localStorage.getItem('user_id')
+const user_id = sessionStorage.getItem('user_id')
 
 // Function to check speech recognition support
 const isSpeechRecognitionSupported = () => {
@@ -103,7 +103,7 @@ if (!isSpeechRecognitionSupported()) {
 
 // Load saved transcripts for the current user
 onMounted(() => {
-  const saved = localStorage.getItem('savedTranscripts')
+  const saved = sessionStorage.getItem('savedTranscripts')
   if (saved) {
     savedTranscripts.value = JSON.parse(saved).filter(
       t => t.user_id === user_id
@@ -191,11 +191,11 @@ const saveTranscript = () => {
       content: messageContent.value
     }
 
-    const saved = localStorage.getItem('savedTranscripts')
+    const saved = sessionStorage.getItem('savedTranscripts')
     let allTranscripts = saved ? JSON.parse(saved) : []
     allTranscripts.push(transcript)
 
-    localStorage.setItem('savedTranscripts', JSON.stringify(allTranscripts))
+    sessionStorage.setItem('savedTranscripts', JSON.stringify(allTranscripts))
     savedTranscripts.value = allTranscripts.filter(t => t.user_id === user_id)
 
     messageContent.value = ''
@@ -210,7 +210,7 @@ const viewTranscript = transcript => {
 
 // Delete a saved transcript
 const deleteTranscript = index => {
-  const saved = localStorage.getItem('savedTranscripts')
+  const saved = sessionStorage.getItem('savedTranscripts')
   let allTranscripts = saved ? JSON.parse(saved) : []
 
   const userTranscripts = allTranscripts.filter(t => t.user_id === user_id)
@@ -219,7 +219,7 @@ const deleteTranscript = index => {
   allTranscripts = allTranscripts
     .filter(t => t.user_id !== user_id)
     .concat(userTranscripts)
-  localStorage.setItem('savedTranscripts', JSON.stringify(allTranscripts))
+  sessionStorage.setItem('savedTranscripts', JSON.stringify(allTranscripts))
 
   savedTranscripts.value = userTranscripts
 }

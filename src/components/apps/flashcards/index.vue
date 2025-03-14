@@ -399,7 +399,7 @@ const fetchHomeFlashcards = async () => {
   const endpoint =
     filterFlashcards.value === 'all'
       ? 'https://dark-caldron-448714-u5.uc.r.appspot.com/flashcard/all'
-      : `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcard/${localStorage.getItem(
+      : `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcard/${sessionStorage.getItem(
           'user_id'
         )}`
 
@@ -490,7 +490,7 @@ const generateFlashcards = async () => {
     const requestBody = {
       title: SubjectTitle.value,
       visible: selectedPublicity.value,
-      user_id: localStorage.getItem('user_id'),
+      user_id: sessionStorage.getItem('user_id'),
       message: messageContent.value,
       level: level.value,
       totalQuestions: totalQuestions.value

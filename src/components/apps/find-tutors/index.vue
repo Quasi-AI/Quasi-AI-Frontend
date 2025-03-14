@@ -58,7 +58,7 @@
             </p>
             <!-- Show Edit and Delete icons only if user_id matches -->
             <div
-              v-if="tutor.user_id === localStorageUserId"
+              v-if="tutor.user_id === sessionStorageUserId"
               class="flex items-center space-x-2"
             >
               <EditIcon
@@ -322,7 +322,7 @@ const chatMessages = ref([])
 const newMessage = ref('')
 const isEditing = ref(false)
 const tutors = ref([])
-const localStorageUserId = ref(localStorage.getItem('user_id'))
+const sessionStorageUserId = ref(sessionStorage.getItem('user_id'))
 
 const tutor = ref({
   id: null,
@@ -427,9 +427,9 @@ const handleFileChange = async event => {
 
 const saveTutor = async () => {
   try {
-    const user_id = localStorage.getItem('user_id')
+    const user_id = sessionStorage.getItem('user_id')
     if (!user_id) {
-      console.error('User ID not found in localStorage')
+      console.error('User ID not found in sessionStorage')
       return
     }
 
@@ -487,8 +487,8 @@ const fetchChatMessages = async tutorId => {
   try {
     const payload = {
       tutor_id: tutorId,
-      student_id: localStorageUserId.value,
-      sender_id: localStorageUserId.value,
+      student_id: sessionStorageUserId.value,
+      sender_id: sessionStorageUserId.value,
       receiver_id: tutorId,
       message: 'You opened the chat'
     }
@@ -503,7 +503,7 @@ const fetchChatMessages = async tutorId => {
       .filter(msg => msg.content !== 'You opened the chat')
       .map(msg => ({
         text: msg.content,
-        sender: msg.sender_id === localStorageUserId.value ? 'user' : 'tutor'
+        sender: msg.sender_id === sessionStorageUserId.value ? 'user' : 'tutor'
       }))
   } catch (error) {
     console.error('Error fetching chat messages:', error)
@@ -517,8 +517,8 @@ const sendMessage = async () => {
   try {
     const payload = {
       tutor_id: selectedTutor.value._id,
-      student_id: localStorageUserId.value,
-      sender_id: localStorageUserId.value,
+      student_id: sessionStorageUserId.value,
+      sender_id: sessionStorageUserId.value,
       receiver_id: selectedTutor.value._id,
       message: newMessage.value
     }

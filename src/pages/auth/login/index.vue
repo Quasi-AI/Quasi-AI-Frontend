@@ -33,7 +33,7 @@
             Email
           </label>
         </div>
-        
+
         <!-- Password Field -->
         <div class="relative mb-4 w-full">
           <input
@@ -153,14 +153,14 @@ const errorMessage = ref('')
 
 const remember = ref(false)
 
-// Load remember state from localStorage
+// Load remember state from sessionStorage
 onMounted(() => {
-  remember.value = localStorage.getItem('remember') === 'true'
+  remember.value = sessionStorage.getItem('remember') === 'true'
 })
 
-// Watch for changes and save to localStorage
+// Watch for changes and save to sessionStorage
 const toggleRemember = () => {
-  localStorage.setItem('remember', remember.value)
+  sessionStorage.setItem('remember', remember.value)
 }
 
 const isValidForm = computed(() => {
@@ -199,10 +199,10 @@ const signInWithGoogle = async () => {
     )
 
     if (response.data && response.data.token) {
-      localStorage.setItem('authToken', response.data.token)
-      localStorage.setItem('name', response.data.name)
-      localStorage.setItem('email', response.data.email)
-      localStorage.setItem('user_id', result.user.uid)
+      sessionStorage.setItem('authToken', response.data.token)
+      sessionStorage.setItem('name', response.data.name)
+      sessionStorage.setItem('email', response.data.email)
+      sessionStorage.setItem('user_id', result.user.uid)
       router.push('/dashboard')
     }
   } catch (error) {
