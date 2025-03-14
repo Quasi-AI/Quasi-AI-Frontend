@@ -33,7 +33,7 @@
     <!-- Home -->
     <div v-if="showHomeQuizzes" class="w-full">
       <div
-        class="flex w-full flex-col items-center justify-end gap-2 p-8 lg:flex-row"
+        class="flex w-full flex-col items-center justify-end gap-2 py-8 lg:flex-row"
       >
         <UInput
           variant="none"
@@ -555,7 +555,7 @@ const generateQuestions = async () => {
         question: 'Please provide content to generate quiz questions.',
         options: [],
         correctAnswer: '',
-        image:''
+        image: ''
       }
     ]
     return
@@ -602,7 +602,7 @@ const generateQuestions = async () => {
         {
           question: 'Failed to generate quiz questions.',
           options: [],
-          image:'',
+          image: '',
           correctAnswer: ''
         }
       ]
@@ -613,7 +613,7 @@ const generateQuestions = async () => {
       {
         question: 'Error generating quiz. Please try again.',
         options: [],
-        image:'',
+        image: '',
         correctAnswer: ''
       }
     ]

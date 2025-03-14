@@ -33,7 +33,7 @@
     <!-- Home -->
     <div v-if="showHomeFlashcards" class="w-full">
       <div
-        class="flex w-full flex-col items-center justify-end gap-2 p-8 lg:flex-row"
+        class="flex w-full flex-col items-center justify-end gap-2 py-8 lg:flex-row"
       >
         <UInput
           variant="none"
@@ -305,6 +305,9 @@
         No flashcards generated yet.
       </div>
 
+      <p class="pb-4 text-lg font-semibold">
+        {{ truncateTextLong(messageContent) }}
+      </p>
       <!-- Single Flashcard Display -->
       <div v-if="flashcards.length > 0" class="mx-auto w-full">
         <div class="perspective relative h-[50vh] w-full" @click="toggleFlip">
@@ -362,7 +365,7 @@ import axios from 'axios'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
-import { truncateText } from '@/utils/truncateText'
+import { truncateText, truncateTextLong } from '@/utils/truncateText'
 import LoaderImage from '@/assets/icons/loader-image.vue'
 
 const messageContent = ref('')
@@ -464,10 +467,9 @@ const prevCard = () => {
 
 // Navigate to next card
 const nextCard = () => {
-  if (
-    currentIndex.value <
-    (selectedFlashcardSet.value?.flashcards?.length || 0) - 1
-  ) {
+  const flashcardsArray =
+    selectedFlashcardSet.value?.flashcards || flashcards.value
+  if (currentIndex.value < flashcardsArray.length - 1) {
     currentIndex.value++
     isFlipped.value = false
   }
@@ -504,8 +506,8 @@ const generateFlashcards = async () => {
 
     if (response.status === 200) {
       flashcards.value = response.data.flashcards || []
-      currentIndex.value = 0
-      isFlipped.value = false
+      currentIndex.value = 0 // Reset currentIndex
+      isFlipped.value = false // Reset isFlipped
       showPreviewFlashcards.value = true
       showHomeFlashcards.value = false
       showCreateFlashcards.value = false

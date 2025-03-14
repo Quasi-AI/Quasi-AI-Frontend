@@ -96,7 +96,11 @@ import type { ChatMessage } from '~/types/chatbot'
 
 const props = defineProps({
   inputPlaceholder: { type: String, default: 'Type a message...' },
-  initialMessage: { type: String, default: '' }
+  initialMessage: {
+    type: String,
+    default:
+      'Transform your learning experience with Quasi AI Generate flashcards, quizzies, and study materials instantly from your lectures, notes, pdfs, and presentations'
+  }
 })
 
 const chatHistory = ref<ChatMessage[]>([])

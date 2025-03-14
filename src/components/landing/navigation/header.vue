@@ -106,5 +106,4 @@ import { useAuth } from '~/composables/useAuth'
 
 const { userInfo } = useUser()
 const { isLoggedIn } = useAuth()
-const route = useRoute()
 </script>

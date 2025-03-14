@@ -162,10 +162,10 @@ const selectedYear = ref('')
 
 import { formatTimeAgo } from '@/utils/timeAgo.ts'
 
-import QuestionSvg from '@/components/icons/questionSvg.vue'
-import FlashcardSvg from '@/components/icons/flashcardSvg.vue'
-import TotalLearnersSvg from '@/components/icons/totallearnersSvg.vue'
-import TutorsSvg from '@/components/icons/tutorsSvg.vue'
+import QuestionSvg from '~/assets/icons/questionSvg.vue'
+import FlashcardSvg from '~/assets/icons/flashcardSvg.vue'
+import TotalLearnersSvg from '~/assets/icons/totallearnersSvg.vue'
+import TutorsSvg from '~/assets/icons/tutorsSvg.vue'
 
 const card1 = ref({})
 const card2 = ref({})
