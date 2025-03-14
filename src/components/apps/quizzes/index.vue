@@ -481,7 +481,6 @@ const searchQuery = ref('')
 const filterQuizes = ref('all')
 const hasError = ref(false)
 let timerInterval
-const assignmentId = ref(sessionStorage.getItem('user_id'))
 
 const prevQuestion = () => {
   if (currentIndex.value > 0) currentIndex.value--
