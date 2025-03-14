@@ -1,5 +1,33 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Loader Modal -->
+    <div
+      v-if="isLoading"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div
+        class="relative w-[600px] rounded-lg bg-white p-8 text-center shadow-lg"
+      >
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900">
+          Hang on a sec...
+        </h2>
+
+        <!-- Illustration -->
+        <div class="flex justify-center">
+          <LoaderImage class="w-80" />
+        </div>
+
+        <!-- Loader Bar -->
+        <div class="relative mt-4 h-3 w-full max-w-md rounded-full bg-gray-200">
+          <div
+            class="absolute left-0 h-3 w-1/2 animate-pulse rounded-full bg-orange-500"
+          ></div>
+        </div>
+
+        <p class="mt-3 text-gray-600">Loading...</p>
+      </div>
+    </div>
+
     <!-- Home -->
     <div v-if="showHomeQuestions" class="w-full">
       <div
@@ -223,10 +251,10 @@
       <div class="mt-6 flex justify-center">
         <button
           class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
-          :disabled="loading"
+          :disabled="isLoading"
           @click="generateQuestions"
         >
-          {{ loading ? 'Generating...' : 'Generate questions' }}
+          {{ isLoading ? 'Generating...' : 'Generate questions' }}
         </button>
       </div>
     </div>
@@ -290,6 +318,7 @@ import { ref, onMounted } from 'vue'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
+import LoaderImage from '@/assets/icons/loader-image.vue'
 
 const SubjectTitle = ref('')
 const messageContent = ref('')
@@ -299,7 +328,7 @@ const selectedLevel = ref('beginner')
 const selectedPublicity = ref('private')
 const selectedQuestionType = ref('Theory')
 const numQuestions = ref(10)
-const loading = ref(false)
+const isLoading = ref(false)
 const showCreateQuestions = ref(false)
 const showPreviewQuestions = ref(false)
 const showHomeQuestions = ref(true)
@@ -389,7 +418,7 @@ const generateQuestions = async () => {
     return
   }
 
-  loading.value = true
+  isLoading.value = true
   showHomeQuestions.value = false
   try {
     const response = await fetch(
@@ -426,7 +455,7 @@ const generateQuestions = async () => {
       { question: 'Error generating questions. Please try again.', answer: '' }
     ]
   } finally {
-    loading.value = false
+    isLoading.value = false
   }
 }
 
@@ -446,3 +475,21 @@ const handleDropWrapper = async event => {
   await handleDrop(event, handleFileUploadWrapper)
 }
 </script>
+
+<style scoped>
+@keyframes pulse {
+  0% {
+    width: 10%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 10%;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+</style>
