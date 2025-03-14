@@ -345,11 +345,17 @@
 
         <div class="p-4">
           <div
-            class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white"
+            class="flex flex-col items-center justify-center gap-3 rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white"
           >
             <p class="text-center font-semibold">
               {{ quizes[currentIndex].question }}
             </p>
+            <img
+              v-if="quizes[currentIndex].image"
+              :src="quizes[currentIndex].image"
+              alt="Question"
+              class="mt-2 h-[200px] w-[300px] rounded-lg"
+            />
           </div>
 
           <div
