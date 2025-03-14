@@ -11,10 +11,7 @@
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
           Share with students
         </h2>
-        <button
-          @click="closeModal"
-          class="rounded-full p-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
-        >
+        <button @click="closeModal" class="rounded-full p-2 text-gray-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6"
@@ -38,12 +35,12 @@
           >Students</label
         >
         <div
-          class="relative flex flex-wrap items-center gap-2 rounded-lg bg-gray-100 p-2"
+          class="relative flex flex-wrap items-center gap-2 rounded-lg bg-gray-100 p-2 dark:bg-[#1E2A5A]"
         >
           <span
             v-for="(student, index) in displayedSelectedStudents"
             :key="index"
-            class="flex items-center rounded-md bg-white px-3 py-1 text-gray-700 shadow"
+            class="flex items-center rounded-md bg-white px-3 py-1 text-gray-700 shadow dark:bg-[#111C44]"
           >
             {{ student.name }}
             <button
@@ -64,7 +61,7 @@
         <!-- Dropdown -->
         <div
           v-if="dropdownOpen"
-          class="absolute mt-1 max-h-60 max-w-md overflow-auto rounded-lg border border-gray-300 bg-white shadow-lg"
+          class="absolute mt-1 max-h-60 max-w-md overflow-auto rounded-lg bg-white shadow-lg dark:bg-[#111C44]"
         >
           <!-- Search Input -->
           <div class="p-2">
@@ -72,14 +69,14 @@
               v-model="searchQuery"
               type="text"
               placeholder="Search students..."
-              class="w-full rounded-lg border border-gray-300 p-2"
+              class="w-full rounded-lg border border-gray-300 p-2 dark:bg-[#111C44]"
             />
           </div>
           <div
             v-for="student in filteredStudents"
             :key="student.id"
             @click="toggleStudentSelection(student)"
-            class="flex cursor-pointer items-center p-2 hover:bg-gray-100"
+            class="flex cursor-pointer items-center p-2"
           >
             <input
               type="checkbox"

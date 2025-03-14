@@ -97,6 +97,28 @@
                 </p>
               </div>
             </div>
+            <!-- Share Icon -->
+            <div class="mt-4 flex items-center justify-end gap-2">
+              <button
+                @click.stop="shareWithStudentsModal(questionSet)"
+                class="text-gray-500 hover:text-[#5D3BEA]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -295,12 +317,6 @@
             <p><strong>No. of questions:</strong> {{ questions.length }}</p>
           </div>
         </div>
-        <button
-          @click="shareWithStudentsModal"
-          class="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white"
-        >
-          Share with students
-        </button>
       </div>
 
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -498,7 +514,8 @@ const handleDropWrapper = async event => {
 // share with students
 const isShareWithStudentModalVisible = ref(false)
 
-const shareWithStudentsModal = () => {
+const shareWithStudentsModal = questionSet => {
+  selectedQuestionSet.value = questionSet
   isShareWithStudentModalVisible.value = true
 }
 
