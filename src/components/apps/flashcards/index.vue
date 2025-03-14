@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
     <!-- Share with Students Modal -->
-    <ShareWithStudents
+    <ShareWith
       v-if="isShareWithStudentModalVisible"
       :isVisible="isShareWithStudentModalVisible"
       @close="closeShareWithStudents"
