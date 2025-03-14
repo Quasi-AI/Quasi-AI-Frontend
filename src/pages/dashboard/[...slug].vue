@@ -330,13 +330,17 @@ const chartOptions = computed(() => ({
 const chartSeries = [
   {
     name: 'Quizzes taken',
-    data: [5, 34, 17, 77, 85, 45, 2, 5, 26, 33, 121, 93]
+    data: [5, 34, 17,]
   },
   {
     name: 'Flashcards created',
     data: [90, 44, 31, 12, 5, 32, 42, 12, 11, 32, 165, 54]
   }
 ]
+
+
+
+
 
 const quizChartOptions = computed(() => ({
   chart: {
