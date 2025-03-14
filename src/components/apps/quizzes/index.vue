@@ -274,7 +274,7 @@
 
       <div v-else class="space-y-4">
         <div
-          class="flex flex-col items-center justify-between gap-4 py-4 lg:flex-row"
+          class="flex flex-col items-center justify-between gap-4 py-2 lg:flex-row"
         >
           <div class="flex items-center justify-between gap-6">
             <div v-if="timer > 0" class="text-lg font-bold">
@@ -291,31 +291,33 @@
               </div>
             </div>
           </div>
-          <button
-            @click="closeQuizzesSetDetail"
-            class="mr-4 text-gray-500 hover:text-red-500"
-            title="Close"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
         </div>
 
-        <div class="p-4">
+        <div class="bg-white p-4 dark:bg-[#111C44] dark:text-white">
+          <div class="flex justify-end pb-4">
+            <button
+              @click="closeQuizzesSetDetail"
+              class="text-gray-500 hover:text-red-500"
+              title="Close"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
           <div
-            class="flex flex-col items-center justify-center gap-3 rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white"
+            class="flex flex-col items-center justify-center gap-3 rounded-lg"
           >
             <p class="text-center font-semibold">
               {{ quizes[currentIndex].question }}
