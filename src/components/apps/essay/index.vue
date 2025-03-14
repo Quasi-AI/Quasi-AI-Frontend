@@ -131,7 +131,7 @@ const analyzeEssay = async () => {
     errorMessage.value = ''
 
     const requestBody = {
-      user_id: localStorage.getItem('user_id'),
+      user_id: sessionStorage.getItem('user_id'),
       message: messageContent.value
     }
 

@@ -27,7 +27,12 @@
           />
           <label
             for="fullname"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
+            :class="
+              name
+                ? 'top-0 text-xs text-purple-600'
+                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
+            "
           >
             Fullname
           </label>
@@ -44,7 +49,12 @@
           />
           <label
             for="email"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
+            :class="
+              email
+                ? 'top-0 text-xs text-purple-600'
+                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
+            "
           >
             Email
           </label>
@@ -61,7 +71,12 @@
           />
           <label
             for="password"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
+            :class="
+              password
+                ? 'top-0 text-xs text-purple-600'
+                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
+            "
           >
             Password
           </label>
@@ -162,7 +177,7 @@
 </template>
 
 <script setup>
-import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
+import OrSeperator from '~/assets/icons/or-seperator.vue'
 import { isValidEmail } from '@/utils/isValidEmail'
 import { useAuthenticationStore } from '~/store/auth'
 import axios from 'axios'
@@ -234,8 +249,8 @@ const signUpWithGoogleAsEducator = async () => {
 
       if (response.data && response.data.token) {
         // Store auth token
-        localStorage.setItem('authToken', response.data.token)
-        localStorage.setItem('user_id', result.user.uid)
+        sessionStorage.setItem('authToken', response.data.token)
+        sessionStorage.setItem('user_id', result.user.uid)
         router.push('/dashboard')
         // Stay on the same page and update UI accordingly
         user.value = userData
@@ -278,8 +293,8 @@ const signUpWithGoogleAsStudent = async () => {
 
       if (response.data && response.data.token) {
         // Store auth token
-        localStorage.setItem('authToken', response.data.token)
-        localStorage.setItem('user_id', result.user.uid)
+        sessionStorage.setItem('authToken', response.data.token)
+        sessionStorage.setItem('user_id', result.user.uid)
         router.push('/dashboard')
         // Stay on the same page and update UI accordingly
         user.value = userData

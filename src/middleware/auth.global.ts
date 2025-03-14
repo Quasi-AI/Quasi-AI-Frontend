@@ -3,7 +3,9 @@ import axios from 'axios'
 export default defineNuxtRouteMiddleware(async (to, from) => {
   if (process.server) return
 
-  const token = localStorage.getItem('authToken')
+  const token = sessionStorage.getItem('authToken')
+
+  // If no token, redirect to login
   if (!token) {
     if (to.path !== '/') {
       await logSecurityAction('Unauthorized access attempt', 'Failed')
@@ -14,42 +16,39 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   try {
     const tokenParts = token.split('.')
-
     if (tokenParts.length !== 3) throw new Error('Invalid Token Format')
 
     const tokenPayload = JSON.parse(atob(tokenParts[1]))
     const tokenExpiry = tokenPayload.exp * 1000
     const currentTime = Date.now()
 
+    // If token expired, log out the user and redirect to login
     if (currentTime >= tokenExpiry) {
       console.warn('Token expired. Logging out...')
-      await logSecurityAction('Token expired', 'Failed')
-      await logSystemAction('Token expired', 'ERROR', to.path)
       await logoutUser()
+      return navigateTo('/') // Redirect user
     }
 
     await logSecurityAction('Token authentication successful', 'Success')
   } catch (error) {
     console.error('Invalid token. Logging out...', error)
-    await logSecurityAction('Invalid token detected', 'Failed')
-    await logSystemAction('Invalid token detected', 'ERROR', to.path)
     await logoutUser()
-    return navigateTo('/')
+    return navigateTo('/') // Redirect user
   }
 })
 
+// Logout function that clears session and redirects
 const logoutUser = async () => {
   await logSecurityAction('User logged out', 'Success')
   await logSystemAction('User logged out', 'INFO', '/logout')
-  localStorage.removeItem('authToken')
-  localStorage.removeItem('name')
-  localStorage.removeItem('email')
-  localStorage.removeItem('role')
+
+  sessionStorage.clear() // Clear all session data
+  navigateTo('/') // Force redirect after logout
 }
 
-const logSecurityAction = async (action: string, status: string) => {
+const logSecurityAction = async (action, status) => {
   try {
-    const userEmail = localStorage.getItem('email') || 'Unknown'
+    const userEmail = sessionStorage.getItem('email') || 'Unknown'
     const userAgent = navigator.userAgent
     const ipAddress = await getUserIP()
 
@@ -69,11 +68,7 @@ const logSecurityAction = async (action: string, status: string) => {
   }
 }
 
-const logSystemAction = async (
-  message: string,
-  level: string,
-  endpoint: string
-) => {
+const logSystemAction = async (message, level, endpoint) => {
   try {
     await axios.post(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/system-logs',

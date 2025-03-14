@@ -27,7 +27,12 @@
           />
           <label
             for="email"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
+            :class="
+              email
+                ? 'top-0 text-xs text-purple-600'
+                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
+            "
           >
             Email
           </label>
@@ -44,7 +49,12 @@
           />
           <label
             for="password"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
+            :class="
+              password
+                ? 'top-0 text-xs text-purple-600'
+                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
+            "
           >
             Password
           </label>
@@ -137,7 +147,7 @@
 
 <script setup>
 import { useAuthenticationStore } from '~/store/auth'
-import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
+import OrSeperator from '~/assets/icons/or-seperator.vue'
 import { auth, provider, signInWithPopup } from '~/utils/firebase'
 import axios from 'axios'
 import { isValidEmail } from '@/utils/isValidEmail'
@@ -152,14 +162,14 @@ const errorMessage = ref('')
 
 const remember = ref(false)
 
-// Load remember state from localStorage
+// Load remember state from sessionStorage
 onMounted(() => {
-  remember.value = localStorage.getItem('remember') === 'true'
+  remember.value = sessionStorage.getItem('remember') === 'true'
 })
 
-// Watch for changes and save to localStorage
+// Watch for changes and save to sessionStorage
 const toggleRemember = () => {
-  localStorage.setItem('remember', remember.value)
+  sessionStorage.setItem('remember', remember.value)
 }
 
 const isValidForm = computed(() => {
@@ -198,10 +208,10 @@ const signInWithGoogle = async () => {
     )
 
     if (response.data && response.data.token) {
-      localStorage.setItem('authToken', response.data.token)
-      localStorage.setItem('name', response.data.name)
-      localStorage.setItem('email', response.data.email)
-      localStorage.setItem('user_id', result.user.uid)
+      sessionStorage.setItem('authToken', response.data.token)
+      sessionStorage.setItem('name', response.data.name)
+      sessionStorage.setItem('email', response.data.email)
+      sessionStorage.setItem('user_id', result.user.uid)
       router.push('/dashboard')
     }
   } catch (error) {

@@ -2,17 +2,13 @@ import { useAuthenticationStore } from '@/store/auth'
 
 export const useAuth = () => {
   const authStore = useAuthenticationStore()
-  const token = computed(() => localStorage.getItem('token'))
-  const email = computed(() => localStorage.getItem('email'))
-  const role = computed(() => localStorage.getItem('role'))
+  const token = computed(() => sessionStorage.getItem('authToken'))
 
-  const isLoggedIn = computed(
-    () => !!token.value && !!email.value && !!role.value
-  )
+  const isLoggedIn = computed(() => !!token.value)
 
   onMounted(() => {
     authStore.loadToken()
   })
 
-  return { isLoggedIn, email, role }
+  return { isLoggedIn }
 }

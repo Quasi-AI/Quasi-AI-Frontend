@@ -177,14 +177,14 @@ const email = ref('')
 const initials = ref('')
 const studentCount = ref(0)
 const educatorCount = ref(0)
-
+const students = ref([])
 const fetchStats = async () => {
   try {
     const response = await axios.post(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/dashboard',
       {
-        role: localStorage.getItem('role'),
-        user_id: localStorage.getItem('user_id')
+        role: sessionStorage.getItem('role'),
+        user_id: sessionStorage.getItem('user_id')
       },
       {
         headers: {
@@ -207,7 +207,7 @@ const fetchStats = async () => {
 const fetchFlashCards = async () => {
   try {
     const response = await fetch(
-      `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcards/${localStorage.getItem(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcards/${sessionStorage.getItem(
         'user_id'
       )}`
     )
@@ -216,6 +216,23 @@ const fetchFlashCards = async () => {
 
     const data = await response.json() // Parse JSON
     recentFlashcards.value = data.flashcards // Correct way to update ref
+  } catch (error) {
+    console.error('Failed to fetch dashboard data:', error)
+  }
+}
+
+const fetchStudents = async () => {
+  try {
+    const response = await fetch(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/educator-student/${sessionStorage.getItem(
+        'user_id'
+      )}`
+    )
+
+    if (!response.ok) throw new Error('Failed to fetch flashcards')
+
+    const data = await response.json()
+    students.value = data.users
   } catch (error) {
     console.error('Failed to fetch dashboard data:', error)
   }
@@ -250,12 +267,13 @@ const pieChartOptions = computed(() => ({
 }))
 
 onMounted(() => {
-  name.value = localStorage.getItem('name') || 'Default Name'
-  email.value = localStorage.getItem('email') || 'default@example.com'
+  name.value = sessionStorage.getItem('name') || 'Default Name'
+  email.value = sessionStorage.getItem('email') || 'default@example.com'
 
   fetchStats()
   fetchFlashCards()
   fetchUsersData()
+  fetchStudents()
 
   const words = name.value.trim().split(' ')
   initials.value =
@@ -263,12 +281,6 @@ onMounted(() => {
       ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
       : words[0][0].toUpperCase()
 })
-
-const students = ref([
-  { id: 1, name: 'John Doe' },
-  { id: 2, name: 'Jane Smith' },
-  { id: 3, name: 'Alice Johnson' }
-])
 
 const years = ref([2021, 2022, 2023, 2024])
 
