@@ -1,5 +1,15 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Share with Students Modal -->
+    <ShareWithStudents
+      v-if="isShareWithStudentModalVisible"
+      :isVisible="isShareWithStudentModalVisible"
+      @close="closeShareWithStudents"
+      @share="handleShare"
+      type="questions"
+      :assignmentId="assignmentId"
+    />
+
     <!-- Loader Modal -->
     <div
       v-if="isLoading"
@@ -285,7 +295,10 @@
             <p><strong>No. of questions:</strong> {{ questions.length }}</p>
           </div>
         </div>
-        <button class="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white">
+        <button
+          @click="shareWithStudentsModal"
+          class="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white"
+        >
           Share with students
         </button>
       </div>
@@ -340,6 +353,7 @@ const showPreviewQuestions = ref(false)
 const showHomeQuestions = ref(true)
 const filterQuestions = ref('all')
 const searchQuery = ref('')
+const assignmentId = ref(localStorage.getItem('user_id'))
 
 // For detailed question set view
 const showQuestionSetDetail = ref(false)
@@ -479,6 +493,23 @@ const handleFileUploadWrapper = async event => {
 
 const handleDropWrapper = async event => {
   await handleDrop(event, handleFileUploadWrapper)
+}
+
+// share with students
+const isShareWithStudentModalVisible = ref(false)
+
+const shareWithStudentsModal = () => {
+  isShareWithStudentModalVisible.value = true
+}
+
+const closeShareWithStudents = () => {
+  isShareWithStudentModalVisible.value = false
+}
+
+const handleShare = selectedStudents => {
+  console.log('Selected Students:', selectedStudents)
+  // Perform sharing logic here
+  closeShareWithStudents()
 }
 </script>
 

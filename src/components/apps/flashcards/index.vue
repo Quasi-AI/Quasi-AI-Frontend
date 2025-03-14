@@ -1,5 +1,15 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Share with Students Modal -->
+    <ShareWithStudents
+      v-if="isShareWithStudentModalVisible"
+      :isVisible="isShareWithStudentModalVisible"
+      @close="closeShareWithStudents"
+      @share="handleShare"
+      type="flashcard"
+      :assignmentId="assignmentId"
+    />
+
     <!-- Loader Modal -->
     <div
       v-if="isLoading"
@@ -305,9 +315,24 @@
         No flashcards generated yet.
       </div>
 
-      <p class="pb-4 text-lg font-semibold">
-        {{ truncateTextLong(messageContent) }}
-      </p>
+      <div class="mt-4 flex items-center justify-between">
+        <p class="pb-4 text-lg font-semibold">
+          {{ truncateTextLong(messageContent) }}
+        </p>
+
+        <!-- Share Button -->
+        <div class="w-full">
+          <div v-if="score !== null" class="my-4 flex w-full justify-end">
+            <UButton
+              @click="shareWithStudentsModal"
+              variant="blue"
+              class="flex w-[180px] items-center justify-end rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:bg-[#4A2DCA]"
+            >
+              Share with students
+            </UButton>
+          </div>
+        </div>
+      </div>
       <!-- Single Flashcard Display -->
       <div v-if="flashcards.length > 0" class="mx-auto w-full">
         <div class="perspective relative h-[50vh] w-full" @click="toggleFlip">
@@ -384,6 +409,7 @@ const showPreviewFlashcards = ref(false)
 const showHomeFlashcards = ref(true)
 const filterFlashcards = ref('all')
 const searchQuery = ref('')
+const assignmentId = ref(localStorage.getItem('user_id'))
 
 // For detailed flashcard set view
 const showFlashcardSetDetail = ref(false)
@@ -399,7 +425,7 @@ const fetchHomeFlashcards = async () => {
   const endpoint =
     filterFlashcards.value === 'all'
       ? 'https://dark-caldron-448714-u5.uc.r.appspot.com/flashcard/all'
-      : `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcard/${sessionStorage.getItem(
+      : `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcard/${localStorage.getItem(
           'user_id'
         )}`
 
@@ -538,6 +564,23 @@ const handleFileUploadWrapper = async event => {
 // Wrapper for handleDrop to pass the callback
 const handleDropWrapper = async event => {
   await handleDrop(event, handleFileUploadWrapper)
+}
+
+// share with students
+const isShareWithStudentModalVisible = ref(false)
+
+const shareWithStudentsModal = () => {
+  isShareWithStudentModalVisible.value = true
+}
+
+const closeShareWithStudents = () => {
+  isShareWithStudentModalVisible.value = false
+}
+
+const handleShare = selectedStudents => {
+  console.log('Selected Students:', selectedStudents)
+  // Perform sharing logic here
+  closeShareWithStudents()
 }
 </script>
 

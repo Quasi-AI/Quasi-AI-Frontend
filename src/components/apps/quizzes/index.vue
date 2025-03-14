@@ -1,5 +1,15 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Share with Students Modal -->
+    <ShareWithStudents
+      v-if="isShareWithStudentModalVisible"
+      :isVisible="isShareWithStudentModalVisible"
+      @close="closeShareWithStudents"
+      @share="handleShare"
+      type="quiz"
+      :assignmentId="assignmentId"
+    />
+
     <!-- Loader Modal -->
     <div
       v-if="isLoading"
@@ -314,6 +324,7 @@
           <div class="w-full">
             <div v-if="score !== null" class="my-4 flex w-full justify-end">
               <UButton
+                @click="shareWithStudentsModal"
                 variant="blue"
                 class="flex w-[180px] items-center justify-end rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:bg-[#4A2DCA]"
               >
@@ -461,6 +472,7 @@ const searchQuery = ref('')
 const filterQuizes = ref('all')
 const hasError = ref(false)
 let timerInterval
+const assignmentId = ref(localStorage.getItem('user_id'))
 
 const prevQuestion = () => {
   if (currentIndex.value > 0) currentIndex.value--
@@ -715,6 +727,23 @@ const selectAnswer = (quiz, option) => {
   if (score.value === null) {
     quiz.userAnswer = option
   }
+}
+
+// share with students
+const isShareWithStudentModalVisible = ref(false)
+
+const shareWithStudentsModal = () => {
+  isShareWithStudentModalVisible.value = true
+}
+
+const closeShareWithStudents = () => {
+  isShareWithStudentModalVisible.value = false
+}
+
+const handleShare = selectedStudents => {
+  console.log('Selected Students:', selectedStudents)
+  // Perform sharing logic here
+  closeShareWithStudents()
 }
 </script>
 

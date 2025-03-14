@@ -236,7 +236,9 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateName(name: string) {
-      const apiUrl = `${API_PATHS.updateName}${sessionStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.updateName}${sessionStorage.getItem(
+        'user_id'
+      )}`
       await this.updateUserData(
         apiUrl,
         { name: name },
@@ -275,7 +277,9 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async deleteUser() {
-      const apiUrl = `${API_PATHS.deleteUser}${sessionStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.deleteUser}${sessionStorage.getItem(
+        'user_id'
+      )}`
       try {
         const response = await $fetch<{ statusCode: number; message?: string }>(
           apiUrl,

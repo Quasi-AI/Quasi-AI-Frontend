@@ -28,7 +28,11 @@
           <label
             for="email"
             class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
-            :class="email ? 'top-0 text-xs text-purple-600' : 'top-1/2 -translate-y-1/2 text-base text-gray-400'"
+            :class="
+              email
+                ? 'top-0 text-xs text-purple-600'
+                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
+            "
           >
             Email
           </label>
