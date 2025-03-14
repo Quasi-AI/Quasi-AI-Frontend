@@ -60,12 +60,23 @@
             ▼
           </button>
         </div>
+
+        <!-- Dropdown -->
         <div
           v-if="dropdownOpen"
           class="absolute mt-1 max-h-60 max-w-md overflow-auto rounded-lg border border-gray-300 bg-white shadow-lg"
         >
+          <!-- Search Input -->
+          <div class="p-2">
+            <input
+              v-model="searchQuery"
+              type="text"
+              placeholder="Search students..."
+              class="w-full rounded-lg border border-gray-300 p-2"
+            />
+          </div>
           <div
-            v-for="student in students"
+            v-for="student in filteredStudents"
             :key="student.id"
             @click="toggleStudentSelection(student)"
             class="flex cursor-pointer items-center p-2 hover:bg-gray-100"
@@ -82,12 +93,6 @@
 
       <!-- Modal Footer -->
       <div class="flex justify-end gap-4">
-        <button
-          @click="closeModal"
-          class="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
-        >
-          Close
-        </button>
         <button
           @click="shareWithStudents"
           class="rounded-lg bg-[#5D3BEA] px-4 py-2 text-white hover:bg-[#4A2DCA]"
@@ -116,9 +121,9 @@ const emit = defineEmits(['close', 'share'])
 const students = ref([])
 const selectedStudents = ref([])
 const dropdownOpen = ref(false)
-const educatorId = localStorage.getItem('user_id') // Get from localStorage
+const searchQuery = ref('')
+const educatorId = sessionStorage.getItem('user_id') // Get from localStorage
 
-// Fetch students from API
 // Fetch students from API
 const fetchStudents = async () => {
   try {
@@ -132,6 +137,13 @@ const fetchStudents = async () => {
 }
 
 onMounted(fetchStudents)
+
+// Computed: Filter students based on search query
+const filteredStudents = computed(() => {
+  return students.value.filter(student =>
+    student.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
 
 // Toggle dropdown
 const toggleDropdown = () => {
@@ -156,7 +168,7 @@ const removeStudent = id => {
   selectedStudents.value = selectedStudents.value.filter(s => s.id !== id)
 }
 
-// Display only first 4 students
+// Display only first 2 students
 const displayedSelectedStudents = computed(() =>
   selectedStudents.value.slice(0, 2)
 )

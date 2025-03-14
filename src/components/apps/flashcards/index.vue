@@ -409,7 +409,7 @@ const showPreviewFlashcards = ref(false)
 const showHomeFlashcards = ref(true)
 const filterFlashcards = ref('all')
 const searchQuery = ref('')
-const assignmentId = ref(localStorage.getItem('user_id'))
+const assignmentId = ref(sessionStorage.getItem('user_id'))
 
 // For detailed flashcard set view
 const showFlashcardSetDetail = ref(false)
