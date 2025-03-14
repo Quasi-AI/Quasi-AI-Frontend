@@ -100,7 +100,7 @@
 
     <!-- Quiz Detail View -->
     <div v-if="showQuizDetail" class="w-full">
-      <div class="p-4">
+      <div>
         <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
           <div
             class="mb-6 flex flex-wrap items-start justify-between gap-4 md:items-center"
