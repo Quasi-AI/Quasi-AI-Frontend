@@ -531,11 +531,32 @@ const filteredQuizzes = computed(() => {
   )
 })
 
-// Open quiz detail view
+// Open quiz for taking
 const openQuiz = quiz => {
   selectedQuiz.value = quiz
-  showQuizDetail.value = true
+  showQuizDetail.value = false
   showHomeQuizzes.value = false
+  showCreateQuizzes.value = false
+  showPreviewQuizzes.value = true
+
+  // Initialize the quiz for taking
+  quizes.value = quiz.quizes.map(q => ({
+    question: q.question,
+    options: q.options,
+    correctAnswer: q.correctAnswer,
+    image: q.image,
+    userAnswer: null
+  }))
+
+  // Set the timer if the quiz has a timer
+  if (quiz.user_timer) {
+    userTimer.value = quiz.user_timer
+    startTimer()
+  }
+
+  // Reset the current question index and score
+  currentIndex.value = 0
+  score.value = null
 }
 
 // Close detailed view
@@ -645,7 +666,6 @@ const generateQuestions = async () => {
 
 // Check user answers
 const checkAnswers = async () => {
-  // Make function async
   let correctCount = 0
   quizes.value.forEach(quiz => {
     if (quiz.userAnswer === quiz.correctAnswer) correctCount++
