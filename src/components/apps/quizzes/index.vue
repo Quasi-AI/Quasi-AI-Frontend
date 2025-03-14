@@ -555,7 +555,7 @@ const generateQuestions = async () => {
         question: 'Please provide content to generate quiz questions.',
         options: [],
         correctAnswer: '',
-        image:''
+        image: ''
       }
     ]
     return
@@ -602,7 +602,7 @@ const generateQuestions = async () => {
         {
           question: 'Failed to generate quiz questions.',
           options: [],
-          image:'',
+          image: '',
           correctAnswer: ''
         }
       ]
@@ -613,7 +613,7 @@ const generateQuestions = async () => {
       {
         question: 'Error generating quiz. Please try again.',
         options: [],
-        image:'',
+        image: '',
         correctAnswer: ''
       }
     ]
