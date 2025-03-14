@@ -7,7 +7,7 @@
       @close="closeShareWithStudents"
       @share="handleShare"
       type="flashcard"
-      :assignmentId="assignmentId"
+      :assignmentId="selectedFlashcardSet?.id || ''"
     />
 
     <!-- Loader Modal -->
@@ -419,7 +419,6 @@ const showPreviewFlashcards = ref(false)
 const showHomeFlashcards = ref(true)
 const filterFlashcards = ref('all')
 const searchQuery = ref('')
-const assignmentId = ref(sessionStorage.getItem('user_id'))
 
 // For detailed flashcard set view
 const showFlashcardSetDetail = ref(false)

@@ -6,8 +6,8 @@
       :isVisible="isShareWithStudentModalVisible"
       @close="closeShareWithStudents"
       @share="handleShare"
-      type="questions"
-      :assignmentId="assignmentId"
+      type="question"
+      :assignmentId="selectedQuestionSet?.id || ''"
     />
 
     <!-- Loader Modal -->
@@ -369,7 +369,6 @@ const showPreviewQuestions = ref(false)
 const showHomeQuestions = ref(true)
 const filterQuestions = ref('all')
 const searchQuery = ref('')
-const assignmentId = ref(sessionStorage.getItem('user_id'))
 
 // For detailed question set view
 const showQuestionSetDetail = ref(false)

@@ -7,7 +7,7 @@
       @close="closeShareWithStudents"
       @share="handleShare"
       type="quiz"
-      :assignmentId="assignmentId"
+      :assignmentId="selectedQuizForSharing?.id || ''"
     />
 
     <!-- Loader Modal -->
@@ -100,7 +100,7 @@
             <!-- Share Icon -->
             <div class="mt-4 flex items-center justify-end gap-2">
               <button
-                @click.stop="shareWithStudentsModal(quiz.id)"
+                @click.stop="shareWithStudentsModal(quiz)"
                 class="text-gray-500 hover:text-[#5D3BEA]"
               >
                 <svg
@@ -740,9 +740,10 @@ const selectAnswer = (quiz, option) => {
 
 // share with students
 const isShareWithStudentModalVisible = ref(false)
+const selectedQuizForSharing = ref(null)
 
 const shareWithStudentsModal = quiz => {
-  quiz.value = quiz.id
+  selectedQuizForSharing.value = quiz
   isShareWithStudentModalVisible.value = true
 }
 
@@ -752,6 +753,7 @@ const closeShareWithStudents = () => {
 
 const handleShare = selectedStudents => {
   console.log('Selected Students:', selectedStudents)
+  console.log('Quiz to Share:', selectedQuizForSharing.value)
   // Perform sharing logic here
   closeShareWithStudents()
 }
