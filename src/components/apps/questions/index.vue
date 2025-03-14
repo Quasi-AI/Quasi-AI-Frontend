@@ -1,5 +1,33 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Loader Modal -->
+    <div
+      v-if="isLoading"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div
+        class="relative w-[600px] rounded-lg bg-white p-8 text-center shadow-lg"
+      >
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900">
+          Hang on a sec...
+        </h2>
+
+        <!-- Illustration -->
+        <div class="flex justify-center">
+          <LoaderImage class="w-80" />
+        </div>
+
+        <!-- Loader Bar -->
+        <div class="relative mt-4 h-3 w-full max-w-md rounded-full bg-gray-200">
+          <div
+            class="absolute left-0 h-3 w-1/2 animate-pulse rounded-full bg-orange-500"
+          ></div>
+        </div>
+
+        <p class="mt-3 text-gray-600">Loading...</p>
+      </div>
+    </div>
+
     <!-- Home -->
     <div v-if="showHomeQuestions" class="w-full">
       <div
@@ -72,7 +100,7 @@
     <div v-if="showQuestionSetDetail && selectedQuestionSet" class="w-full">
       <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
         <div
-          class="mb-6 flex items-start justify-between gap-4 md:items-center"
+          class="mb-6 flex flex-wrap items-start justify-between gap-4 md:items-center"
         >
           <div
             class="flex flex-col items-start gap-4 md:flex-row md:items-center"
@@ -103,11 +131,11 @@
           {{ selectedQuestionSet.message }}
         </p>
 
-        <div class="space-y-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div
             v-for="(question, qIndex) in selectedQuestionSet.questions"
             :key="qIndex"
-            class="rounded-lg bg-gray-100 p-4 dark:bg-[#0C1438]"
+            class="rounded-lg border bg-gray-100 p-4 dark:border-[#0A122E] dark:bg-[#0C1438]"
           >
             <p class="font-medium">{{ question.question }}</p>
             <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
@@ -154,8 +182,6 @@
         />
       </div>
 
-      
-
       <!-- Difficulty & Number of Questions -->
       <div class="mt-4 flex flex-col gap-4 lg:flex-row">
         <div class="w-full">
@@ -170,6 +196,17 @@
             class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
             placeholder="Enter Subject/Course Title"
           />
+        </div>
+
+        <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">Public or Private</p>
+          <select
+            v-model="selectedPublicity"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="private">Private</option>
+            <option value="public">Public</option>
+          </select>
         </div>
 
         <div class="w-full">
@@ -214,10 +251,10 @@
       <div class="mt-6 flex justify-center">
         <button
           class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
-          :disabled="loading"
+          :disabled="isLoading"
           @click="generateQuestions"
         >
-          {{ loading ? 'Generating...' : 'Generate questions' }}
+          {{ isLoading ? 'Generating...' : 'Generate questions' }}
         </button>
       </div>
     </div>
@@ -281,16 +318,17 @@ import { ref, onMounted } from 'vue'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
-import { truncateText } from '@/utils/truncateText'
+import LoaderImage from '@/assets/icons/loader-image.vue'
 
 const SubjectTitle = ref('')
 const messageContent = ref('')
 const questions = ref([])
 const homeQuestions = ref([])
 const selectedLevel = ref('beginner')
+const selectedPublicity = ref('private')
 const selectedQuestionType = ref('Theory')
 const numQuestions = ref(10)
-const loading = ref(false)
+const isLoading = ref(false)
 const showCreateQuestions = ref(false)
 const showPreviewQuestions = ref(false)
 const showHomeQuestions = ref(true)
@@ -380,7 +418,7 @@ const generateQuestions = async () => {
     return
   }
 
-  loading.value = true
+  isLoading.value = true
   showHomeQuestions.value = false
   try {
     const response = await fetch(
@@ -392,6 +430,7 @@ const generateQuestions = async () => {
           title: SubjectTitle.value,
           question_type: selectedQuestionType.value,
           message: messageContent.value,
+          visible: selectedPublicity.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
           user_id: localStorage.getItem('user_id')
@@ -416,7 +455,7 @@ const generateQuestions = async () => {
       { question: 'Error generating questions. Please try again.', answer: '' }
     ]
   } finally {
-    loading.value = false
+    isLoading.value = false
   }
 }
 
@@ -436,3 +475,21 @@ const handleDropWrapper = async event => {
   await handleDrop(event, handleFileUploadWrapper)
 }
 </script>
+
+<style scoped>
+@keyframes pulse {
+  0% {
+    width: 10%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 10%;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+</style>

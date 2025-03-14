@@ -15,14 +15,12 @@
         v-model="selectedAge"
         class="my-2 w-full rounded-lg bg-gray-200 p-2 pr-6 dark:bg-[#111C44]"
       >
-        <option value="">All Ages</option>
         <option v-for="age in ages" :key="age" :value="age">{{ age }}</option>
       </select>
       <select
         v-model="selectedLevel"
         class="my-2 w-full rounded-lg bg-gray-200 p-2 pr-6 dark:bg-[#111C44]"
       >
-        <option value="">All Levels</option>
         <option v-for="level in levels" :key="level" :value="level">
           {{ level }}
         </option>
@@ -49,21 +47,27 @@
         :class="{ 'bg-green-500': card.flipped }"
         :style="{ animationDelay: `${index * 0.2}s` }"
       >
-        <span v-if="!card.flipped">{{ card.front }}</span>
+        <div v-if="!card.flipped" class="flex flex-col items-center">
+          <img
+            v-if="card.image"
+            :src="card.image"
+            alt="Flashcard Image"
+            class="mb-2 max-h-20 w-auto object-cover"
+          />
+          <span>{{ card.front }}</span>
+        </div>
         <span v-else>{{ card.back }}</span>
       </div>
     </div>
 
     <!-- Empty State (Show when no flashcards are available) -->
     <div v-else-if="!loading" class="mt-4 text-center text-gray-500">
-      No games flashcards available.
+      No games available, generate now .
       <EmptyStateIcon width="100%" height="350px" />
     </div>
 
     <!-- Loading & Error Messages -->
-    <div v-if="loading" class="mt-4 text-center">
-      Loading games flashcards...
-    </div>
+    <div v-if="loading" class="mt-4 text-center">Loading games ...</div>
     <div v-if="errorMessage" class="mt-4 text-center text-red-500">
       {{ errorMessage }}
     </div>
@@ -75,15 +79,15 @@ import axios from 'axios'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
 
 const selectedCategory = ref('')
-const selectedAge = ref('')
-const selectedLevel = ref('')
+const selectedAge = ref('10+')
+const selectedLevel = ref('beginner')
 const flashcards = ref([])
 const loading = ref(false)
 const errorMessage = ref('')
 const currentIndex = ref(0)
 
-const ages = ['10+', '12+', '15+']
-const levels = ['beginner', 'intermediate', 'advanced']
+const ages = ['All', '10+', '12+', '15+']
+const levels = ['All', 'beginner', 'intermediate', 'advanced']
 
 const flipCard = async index => {
   const card = flashcards.value[index]
@@ -122,7 +126,7 @@ const generateFlashcards = async () => {
     }
 
     const response = await axios.post(
-      'https://dark-caldron-448714-u5.uc.r.appspot.com/game/generate',
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/games/generate',
       requestBody,
       { headers: { 'Content-Type': 'application/json' } }
     )

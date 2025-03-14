@@ -1,5 +1,33 @@
 <template>
   <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Loader Modal -->
+    <div
+      v-if="isLoading"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div
+        class="relative w-[600px] rounded-lg bg-white p-8 text-center shadow-lg"
+      >
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900">
+          Hang on a sec...
+        </h2>
+
+        <!-- Illustration -->
+        <div class="flex justify-center">
+          <LoaderImage class="w-80" />
+        </div>
+
+        <!-- Loader Bar -->
+        <div class="relative mt-4 h-3 w-full max-w-md rounded-full bg-gray-200">
+          <div
+            class="absolute left-0 h-3 w-1/2 animate-pulse rounded-full bg-orange-500"
+          ></div>
+        </div>
+
+        <p class="mt-3 text-gray-600">Loading...</p>
+      </div>
+    </div>
+
     <!-- Home -->
     <div v-if="showHomeQuizzes" class="w-full">
       <div
@@ -73,7 +101,7 @@
       <div class="p-4">
         <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
           <div
-            class="mb-6 flex items-start justify-between gap-4 md:items-center"
+            class="mb-6 flex flex-wrap items-start justify-between gap-4 md:items-center"
           >
             <div
               class="flex flex-col items-start gap-4 md:flex-row md:items-center"
@@ -99,17 +127,27 @@
               <span>Close</span>
             </button>
           </div>
+
           <p class="mb-6 text-xl font-medium">
             {{ selectedQuiz.message }}
           </p>
-          <div class="mt-4 space-y-4">
+
+          <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
             <div
               v-for="(question, index) in selectedQuiz.quizes"
               :key="index"
               class="rounded-lg border p-4 dark:border-[#0C1438]"
             >
               <p class="font-medium">{{ question.question }}</p>
-              <div class="mt-2 grid grid-cols-2 gap-2">
+
+              <img
+                v-if="question.image"
+                :src="question.image"
+                alt="Question"
+                class="mt-2 max-h-48 w-full rounded-lg object-cover"
+              />
+
+              <div class="mt-2 grid grid-cols-1 gap-2 md:grid-cols-2">
                 <p
                   v-for="(option, optIndex) in question.options"
                   :key="optIndex"
@@ -118,6 +156,7 @@
                   {{ option }}
                 </p>
               </div>
+
               <p class="mt-2 text-sm text-gray-500">
                 Correct Answer: {{ question.correctAnswer }}
               </p>
@@ -132,8 +171,6 @@
       v-if="showCreateQuizzes"
       class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
-     
-
       <!-- File Upload -->
       <div
         @click="triggerFileInput"
@@ -155,8 +192,8 @@
         />
       </div>
 
-       <!-- Text Area for Content -->
-       <div class="mb-6">
+      <!-- Text Area for Content -->
+      <div class="mb-6">
         <p class="mb-2 block font-medium text-gray-500">Quiz Content</p>
         <textarea
           v-model="messageContent"
@@ -194,6 +231,17 @@
         </div>
 
         <div>
+          <p class="mb-2 block font-medium text-gray-500">Private or Public</p>
+          <select
+            v-model="selectedPublicity"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="private">Private</option>
+            <option value="public">Public</option>
+          </select>
+        </div>
+
+        <div>
           <p class="mb-2 block font-medium text-gray-500">
             Number of Questions
           </p>
@@ -223,10 +271,10 @@
       <div class="mt-6 flex justify-center">
         <button
           class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
-          :disabled="loading"
+          :disabled="isLoading"
           @click="generateQuestions"
         >
-          {{ loading ? 'Generating...' : 'Generate quizzes' }}
+          {{ isLoading ? 'Generating...' : 'Generate quizzes' }}
         </button>
       </div>
     </div>
@@ -382,13 +430,15 @@
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
+import LoaderImage from '@/assets/icons/loader-image.vue'
 
 const SubjectTitle = ref('')
+const selectedPublicity = ref('private')
 const messageContent = ref('')
 const quizes = ref([])
 const selectedLevel = ref('beginner')
 const numQuestions = ref(10)
-const loading = ref(false)
+const isLoading = ref(false)
 const score = ref(null)
 const userTimer = ref()
 const timer = ref(0)
@@ -504,7 +554,7 @@ const generateQuestions = async () => {
     return
   }
 
-  loading.value = true
+  isLoading.value = true
   showHomeQuizzes.value = false
   try {
     const response = await fetch(
@@ -515,6 +565,7 @@ const generateQuestions = async () => {
         body: JSON.stringify({
           title: SubjectTitle.value,
           message: messageContent.value,
+          visible: selectedPublicity.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
           user_timer: userTimer.value,
@@ -557,22 +608,23 @@ const generateQuestions = async () => {
       }
     ]
   } finally {
-    loading.value = false
+    isLoading.value = false
   }
 }
 
 // Check user answers
-const checkAnswers = async () => {  // Make function async
-  let correctCount = 0;
+const checkAnswers = async () => {
+  // Make function async
+  let correctCount = 0
   quizes.value.forEach(quiz => {
-    if (quiz.userAnswer === quiz.correctAnswer) correctCount++;
-  });
-  
-  score.value = correctCount;
-  clearInterval(timerInterval); // Stop timer
-  showGeneratedQuizzes.value = false;
-  showPreviewQuizzes.value = false;
-  showPostSubmission.value = true;
+    if (quiz.userAnswer === quiz.correctAnswer) correctCount++
+  })
+
+  score.value = correctCount
+  clearInterval(timerInterval) // Stop timer
+  showGeneratedQuizzes.value = false
+  showPreviewQuizzes.value = false
+  showPostSubmission.value = true
 
   try {
     const response = await fetch(
@@ -584,25 +636,23 @@ const checkAnswers = async () => {  // Make function async
           name: localStorage.getItem('name'),
           email: localStorage.getItem('email'),
           user_id: localStorage.getItem('user_id'),
-          profile_image: "",
-          practice_type: "Quiz",
+          profile_image: '',
+          practice_type: 'Quiz',
           score: score.value
         })
       }
-    );
+    )
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`)
     }
 
-    const data = await response.json(); // Process response
-    console.log("Quiz submitted successfully:", data);
-
+    const data = await response.json() // Process response
+    console.log('Quiz submitted successfully:', data)
   } catch (error) {
-    console.error("Error submitting quiz:", error);
+    console.error('Error submitting quiz:', error)
   }
-};
-
+}
 
 // Highlight correct and incorrect answers
 const getAnswerClass = (quiz, option) => {
@@ -657,3 +707,21 @@ const selectAnswer = (quiz, option) => {
   }
 }
 </script>
+
+<style scoped>
+@keyframes pulse {
+  0% {
+    width: 10%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 10%;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+</style>

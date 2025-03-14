@@ -3,7 +3,6 @@
     <template #sidebar>
       <CommonSidebar />
     </template>
-    
 
     <template #apps>
       <div
@@ -122,27 +121,26 @@
         >
           <h2 class="mb-4 text-lg font-semibold">Recent Flashcards</h2>
           <ul class="flex-1 overflow-y-auto">
-              <template v-if="recentFlashcards?.length">
-                <li
-                  v-for="(flashcard, index) in recentFlashcards"
-                  :key="index"
-                  class="flex items-center justify-between border-b border-gray-300 py-2 text-sm dark:border-gray-700"
-                >
-                  <div class="flex items-center gap-2">
-                    <TutorsSvg class="h-4 w-4 text-gray-500 dark:text-gray-300" />
-                    <span>{{ flashcard.title }}</span>
-                  </div>
-                  <span class="text-xs text-gray-400 dark:text-gray-300">
-                    {{ formatTimeAgo(flashcard.createdAt) }}
-                  </span>
-                </li>
-              </template>
-              <div v-else class="mt-4 text-center text-gray-500">
-                No Flashcard
-                <EmptyStateIcon width="100%" height="350px" />
-              </div>
+            <template v-if="recentFlashcards?.length">
+              <li
+                v-for="(flashcard, index) in recentFlashcards"
+                :key="index"
+                class="flex items-center justify-between border-b border-gray-300 py-2 text-sm dark:border-gray-700"
+              >
+                <div class="flex items-center gap-2">
+                  <TutorsSvg class="h-4 w-4 text-gray-500 dark:text-gray-300" />
+                  <span>{{ flashcard.title }}</span>
+                </div>
+                <span class="text-xs text-gray-400 dark:text-gray-300">
+                  {{ formatTimeAgo(flashcard.createdAt) }}
+                </span>
+              </li>
+            </template>
+            <div v-else class="mt-4 text-center text-gray-500">
+              No Flashcard
+              <EmptyStateIcon width="100%" height="350px" />
+            </div>
           </ul>
-
         </div>
       </div>
     </template>
@@ -153,8 +151,8 @@
 import StatCard from '@/components/StatCard.vue'
 import PieChart from '@/components/PieChart.vue'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 const ChartCard = defineAsyncComponent(
   () => import('@/components/ChartCard.vue')
 )
@@ -162,90 +160,94 @@ const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
 const selectedStudent = ref('')
 const selectedYear = ref('')
 
-import { formatTimeAgo } from '@/utils/timeAgo.ts';
+import { formatTimeAgo } from '@/utils/timeAgo.ts'
 
 import QuestionSvg from '@/components/icons/questionSvg.vue'
 import FlashcardSvg from '@/components/icons/flashcardSvg.vue'
 import TotalLearnersSvg from '@/components/icons/totallearnersSvg.vue'
 import TutorsSvg from '@/components/icons/tutorsSvg.vue'
 
-const card1 = ref({});
-const card2 = ref({});
-const card3 = ref({});
-const card4 = ref({});
-const recentFlashcards = ref([]);
+const card1 = ref({})
+const card2 = ref({})
+const card3 = ref({})
+const card4 = ref({})
+const recentFlashcards = ref([])
 const name = ref('')
 const email = ref('')
 const initials = ref('')
-const studentCount = ref(0);
-const educatorCount = ref(0);
-
+const studentCount = ref(0)
+const educatorCount = ref(0)
 
 const fetchStats = async () => {
   try {
     const response = await axios.post(
-      "https://dark-caldron-448714-u5.uc.r.appspot.com/dashboard",
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/dashboard',
       {
-        role: localStorage.getItem("role"),
-        user_id: localStorage.getItem("user_id"),
+        role: localStorage.getItem('role'),
+        user_id: localStorage.getItem('user_id')
       },
       {
         headers: {
-          "Content-Type": "application/json",
-        },
+          'Content-Type': 'application/json'
+        }
       }
-    );
+    )
 
-    const data = response.data;
+    const data = response.data
 
-    card1.value = data[0];
-    card2.value = data[1];
-    card3.value = data[2];
-    card4.value = data[3];
+    card1.value = data[0]
+    card2.value = data[1]
+    card3.value = data[2]
+    card4.value = data[3]
   } catch (error) {
-    console.error("Failed to fetch dashboard data:", error);
+    console.error('Failed to fetch dashboard data:', error)
   }
-};
+}
 
 const fetchFlashCards = async () => {
   try {
     const response = await fetch(
-      `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcards/${localStorage.getItem("user_id")}`
-    );
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/flashcards/${localStorage.getItem(
+        'user_id'
+      )}`
+    )
 
-    if (!response.ok) throw new Error("Failed to fetch flashcards");
+    if (!response.ok) throw new Error('Failed to fetch flashcards')
 
-    const data = await response.json(); // Parse JSON
-    recentFlashcards.value = data.flashcards; // Correct way to update ref
+    const data = await response.json() // Parse JSON
+    recentFlashcards.value = data.flashcards // Correct way to update ref
   } catch (error) {
-    console.error("Failed to fetch dashboard data:", error);
+    console.error('Failed to fetch dashboard data:', error)
   }
-};
-
+}
 
 const fetchUsersData = async () => {
   try {
-    const studentResponse = await axios.get("https://dark-caldron-448714-u5.uc.r.appspot.com/students/");
-    const educatorResponse = await axios.get("https://dark-caldron-448714-u5.uc.r.appspot.com/educators/");
+    const studentResponse = await axios.get(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/students/'
+    )
+    const educatorResponse = await axios.get(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/educators/'
+    )
 
     // Assign the fetched values to reactive variables
-    studentCount.value = studentResponse.data.totalStudents;
-    educatorCount.value = educatorResponse.data.totalEducators;
+    studentCount.value = studentResponse.data.totalStudents
+    educatorCount.value = educatorResponse.data.totalEducators
   } catch (error) {
-    console.error("Error fetching user data:", error);
+    console.error('Error fetching user data:', error)
   }
-};
+}
 
 // Computed property to update pie chart series reactively
-const pieChartSeries = computed(() => [studentCount.value, educatorCount.value]);
+const pieChartSeries = computed(() => [studentCount.value, educatorCount.value])
 
 const pieChartOptions = computed(() => ({
-  chart: { type: "donut" },
-  labels: ["Students", "Educators"],
-  colors: ["#EF4444", "#6366F1"],
+  chart: { type: 'donut' },
+  labels: ['Students', 'Educators'],
+  colors: ['#EF4444', '#6366F1'],
   legend: { show: false },
-  dataLabels: { enabled: false },
-}));
+  dataLabels: { enabled: false }
+}))
 
 onMounted(() => {
   name.value = localStorage.getItem('name') || 'Default Name'
@@ -261,10 +263,6 @@ onMounted(() => {
       ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
       : words[0][0].toUpperCase()
 })
-
-
-
-
 
 const students = ref([
   { id: 1, name: 'John Doe' },
@@ -311,8 +309,6 @@ const chartSeries = [
     data: [90, 44, 31, 12, 5, 32, 42, 12, 11, 32, 165, 54]
   }
 ]
-
-
 
 const quizChartOptions = computed(() => ({
   chart: {
@@ -363,7 +359,6 @@ const quizChartSeries = [
     data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230]
   }
 ]
-
 </script>
 
 <style scoped>
