@@ -151,7 +151,7 @@
 import StatCard from '@/components/StatCard.vue'
 import PieChart from '@/components/PieChart.vue'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import axios from 'axios'
 const ChartCard = defineAsyncComponent(
   () => import('@/components/ChartCard.vue')
@@ -178,6 +178,11 @@ const initials = ref('')
 const studentCount = ref(0)
 const educatorCount = ref(0)
 const students = ref([])
+const years = ref([])
+
+const currentYear = new Date().getFullYear()
+
+
 const fetchStats = async () => {
   try {
     const response = await axios.post(
@@ -282,7 +287,18 @@ onMounted(() => {
       : words[0][0].toUpperCase()
 })
 
-const years = ref([2021, 2022, 2023, 2024])
+// Initialize the array dynamically up to the current year
+for (let year = 2025; year <= currentYear; year++) {
+  years.value.push(year)
+}
+
+// Watch for year changes and update array if needed
+watchEffect(() => {
+  const newYear = new Date().getFullYear()
+  if (!years.value.includes(newYear)) {
+    years.value.push(newYear) // Append the new year
+  }
+})
 
 const chartOptions = computed(() => ({
   chart: { type: 'line', toolbar: { show: false } },
