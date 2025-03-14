@@ -83,7 +83,7 @@
         </transition>
       </Menu>
 
-      <NuxtLink to="/user" v-if="isLoggedIn" class="flex items-center gap-2">
+      <NuxtLink to="/dashboard" v-if="isLoggedIn" class="flex items-center gap-2">
         <CommonProfileImage
           :img-src="userInfo?.profileImage"
           :name="userInfo?.name"
