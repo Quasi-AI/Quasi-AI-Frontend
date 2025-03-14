@@ -127,10 +127,10 @@ export const useAuthenticationStore = defineStore('authentication', {
 
         if (data.status === false) {
           this.user = {
-            id: data.id ?? null,
-            name: data.name ?? '',
-            email: data.email ?? '',
-            profileImage: data.profileImage ?? ''
+            id: data?.id ?? null,
+            name: data?.name ?? '',
+            email: data?.email ?? '',
+            profileImage: data?.profileImage ?? ''
           }
         } else {
           handleError(data)
