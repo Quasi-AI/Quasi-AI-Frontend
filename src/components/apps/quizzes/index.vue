@@ -424,13 +424,6 @@
       class="mx-auto flex w-full flex-col items-center justify-center rounded-xl"
     >
       <div class="w-[280px] text-center">
-        <h2 class="mb-4 text-4xl font-extrabold text-[#5D3BEA]">
-          Congratulations
-        </h2>
-        <p class="mb-6">
-          Awesome job completing your quiz. You can review your performance or
-          take a new quiz.
-        </p>
         <div class="mb-6 flex items-center justify-center text-4xl">
           <img
             src="~/assets/icons/congrats-icon.gif"
@@ -438,6 +431,14 @@
             class="w-[200px]"
           />
         </div>
+
+        <h2 class="mb-4 text-4xl font-extrabold text-[#5D3BEA]">
+          Congratulations
+        </h2>
+        <p class="mb-6">
+          Awesome job completing your quiz. You can review your performance or
+          take a new quiz.
+        </p>
         <div class="flex flex-col items-center justify-center gap-4">
           <button
             class="w-[250px] rounded-md border border-[#5D3BEA] bg-white px-6 py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
