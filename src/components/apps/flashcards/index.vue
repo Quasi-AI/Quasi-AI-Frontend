@@ -70,7 +70,7 @@
           >
             <!-- Message at the top -->
             <p class="text-lg font-semibold">
-              {{ truncateText(flashcardSet.title) }}
+              {{ truncateText(flashcardSet.message) }}
             </p>
 
             <!-- User details always at the bottom -->
@@ -129,7 +129,10 @@
           </button>
         </div>
 
-        <p class="mb-6 text-xl font-medium">
+        <p class="mb-2 text-xl font-bold">
+          {{ selectedFlashcardSet.title }}
+        </p>
+        <p class="mb-6 text-sm font-medium">
           {{ selectedFlashcardSet.message }}
         </p>
 
