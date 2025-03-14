@@ -177,7 +177,7 @@
 </template>
 
 <script setup>
-import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
+import OrSeperator from '@/assets/icons/svgs/or-seperator.vue'
 import { isValidEmail } from '@/utils/isValidEmail'
 import { useAuthenticationStore } from '~/store/auth'
 import axios from 'axios'
