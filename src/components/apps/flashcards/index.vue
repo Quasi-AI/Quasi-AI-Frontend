@@ -33,7 +33,7 @@
     <!-- Home -->
     <div v-if="showHomeFlashcards" class="w-full">
       <div
-        class="flex w-full flex-col items-center justify-end gap-2 p-8 lg:flex-row"
+        class="flex w-full flex-col items-center justify-end gap-2 py-8 lg:flex-row"
       >
         <UInput
           variant="none"
