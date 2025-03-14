@@ -418,10 +418,8 @@ import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features
 import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
 import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
 import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
-import { useUser } from '~/composables/useUser'
 import { useAuth } from '~/composables/useAuth'
 
-const { userInfo } = useUser()
 const { isLoggedIn } = useAuth()
 const billingCycle = ref('monthly')
 
