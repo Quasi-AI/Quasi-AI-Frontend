@@ -76,14 +76,14 @@
             <!-- User details always at the bottom -->
             <div class="mt-auto flex items-center gap-3 pt-3">
               <img
-                :src="quiz.created_by.profile"
+                :src="quiz.created_by?.profile"
                 alt="Profile"
                 class="h-10 w-10 rounded-full object-cover"
               />
               <div>
-                <p class="font-semibold">{{ quiz.created_by.name }}</p>
+                <p class="font-semibold">{{ quiz.created_by?.name }}</p>
                 <p class="text-sm text-gray-500">
-                  {{ formatDate(quiz.created_by.created_at) }}
+                  {{ formatDate(quiz.created_by?.created_at) }}
                 </p>
               </div>
             </div>
@@ -109,16 +109,16 @@
               class="flex flex-col items-start gap-4 md:flex-row md:items-center"
             >
               <img
-                :src="selectedQuiz.created_by.profile"
+                :src="selectedQuiz.created_by?.profile"
                 alt="Profile"
                 class="h-12 w-12 rounded-full object-cover"
               />
               <div>
                 <p class="text-lg font-semibold">
-                  {{ selectedQuiz.created_by.name }}
+                  {{ selectedQuiz.created_by?.name }}
                 </p>
                 <p class="text-sm text-gray-500">
-                  {{ formatDate(selectedQuiz.created_by.created_at) }}
+                  {{ formatDate(selectedQuiz.created_by?.created_at) }}
                 </p>
               </div>
             </div>
@@ -554,7 +554,8 @@ const generateQuestions = async () => {
       {
         question: 'Please provide content to generate quiz questions.',
         options: [],
-        correctAnswer: ''
+        correctAnswer: '',
+        image:''
       }
     ]
     return
@@ -589,6 +590,7 @@ const generateQuestions = async () => {
         question: q.question,
         options: q.options,
         correctAnswer: q.correctAnswer,
+        image: q.image,
         userAnswer: null
       }))
       startTimer() // Start timer
@@ -600,6 +602,7 @@ const generateQuestions = async () => {
         {
           question: 'Failed to generate quiz questions.',
           options: [],
+          image:'',
           correctAnswer: ''
         }
       ]
@@ -610,6 +613,7 @@ const generateQuestions = async () => {
       {
         question: 'Error generating quiz. Please try again.',
         options: [],
+        image:'',
         correctAnswer: ''
       }
     ]
