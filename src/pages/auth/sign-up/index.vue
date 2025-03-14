@@ -27,7 +27,8 @@
           />
           <label
             for="fullname"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
+            :class="name ? 'top-0 text-xs text-purple-600' : 'top-1/2 -translate-y-1/2 text-base text-gray-400'"
           >
             Fullname
           </label>
@@ -44,12 +45,13 @@
           />
           <label
             for="email"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
+            :class="email ? 'top-0 text-xs text-purple-600' : 'top-1/2 -translate-y-1/2 text-base text-gray-400'"
           >
             Email
           </label>
         </div>
-
+        
         <!-- Password Field -->
         <div class="relative mb-4 w-full">
           <input
@@ -61,7 +63,8 @@
           />
           <label
             for="password"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
+            :class="password ? 'top-0 text-xs text-purple-600' : 'top-1/2 -translate-y-1/2 text-base text-gray-400'"
           >
             Password
           </label>
@@ -70,9 +73,7 @@
             @click="togglePasswordVisibility"
           >
             <UIcon
-              :name="
-                isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
-              "
+              :name="isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'"
               class="text-gray-500"
             ></UIcon>
           </span>
