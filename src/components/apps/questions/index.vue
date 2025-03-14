@@ -6,9 +6,9 @@
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
     >
       <div
-        class="relative w-[600px] rounded-lg bg-white p-8 text-center shadow-lg"
+        class="relative w-[600px] rounded-lg bg-white p-8 text-center shadow-lg dark:bg-[#111C44]"
       >
-        <h2 class="mb-4 text-2xl font-semibold text-gray-900">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
           Hang on a sec...
         </h2>
 
@@ -18,7 +18,9 @@
         </div>
 
         <!-- Loader Bar -->
-        <div class="relative mt-4 h-3 w-full max-w-md rounded-full bg-gray-200">
+        <div
+          class="relative mt-4 h-3 w-full max-w-md rounded-full bg-gray-200 dark:bg-[#111C44]"
+        >
           <div
             class="absolute left-0 h-3 w-1/2 animate-pulse rounded-full bg-orange-500"
           ></div>
