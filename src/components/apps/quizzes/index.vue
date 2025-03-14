@@ -555,8 +555,8 @@ const openQuiz = quiz => {
   }))
 
   // Set the timer if the quiz has a timer
-  if (quiz.user_timer) {
-    userTimer.value = quiz.user_timer
+  if (quiz.timer) {
+    userTimer.value = quiz.timer
     startTimer()
   }
 
@@ -623,7 +623,7 @@ const generateQuestions = async () => {
           visible: selectedPublicity.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
-          user_timer: userTimer.value,
+          timer: userTimer.value,
           user_id: sessionStorage.getItem('user_id')
         })
       }
