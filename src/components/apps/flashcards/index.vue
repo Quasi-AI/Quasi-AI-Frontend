@@ -467,10 +467,9 @@ const prevCard = () => {
 
 // Navigate to next card
 const nextCard = () => {
-  if (
-    currentIndex.value <
-    (selectedFlashcardSet.value?.flashcards?.length || 0) - 1
-  ) {
+  const flashcardsArray =
+    selectedFlashcardSet.value?.flashcards || flashcards.value
+  if (currentIndex.value < flashcardsArray.length - 1) {
     currentIndex.value++
     isFlipped.value = false
   }
@@ -507,8 +506,8 @@ const generateFlashcards = async () => {
 
     if (response.status === 200) {
       flashcards.value = response.data.flashcards || []
-      currentIndex.value = 0
-      isFlipped.value = false
+      currentIndex.value = 0 // Reset currentIndex
+      isFlipped.value = false // Reset isFlipped
       showPreviewFlashcards.value = true
       showHomeFlashcards.value = false
       showCreateFlashcards.value = false
