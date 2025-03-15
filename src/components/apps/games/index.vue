@@ -1,5 +1,35 @@
 <template>
   <div class="p-6">
+    <!-- Loader Modal -->
+    <div
+      v-if="isLoading"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div
+        class="relative w-[600px] rounded-lg bg-white p-8 text-center shadow-lg dark:bg-[#111C44]"
+      >
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+          Hang on a sec...
+        </h2>
+
+        <!-- Illustration -->
+        <div class="flex justify-center">
+          <LoaderImage class="w-80" />
+        </div>
+
+        <!-- Loader Bar -->
+        <div
+          class="relative mt-4 h-3 w-full max-w-md rounded-full bg-white dark:bg-[#111C44]"
+        >
+          <div
+            class="absolute left-0 h-3 w-1/2 animate-pulse rounded-full bg-orange-500"
+          ></div>
+        </div>
+
+        <p class="mt-3 text-gray-600">Loading...</p>
+      </div>
+    </div>
+
     <!-- Filters -->
     <div
       class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row"
@@ -61,13 +91,12 @@
     </div>
 
     <!-- Empty State (Show when no flashcards are available) -->
-    <div v-else-if="!loading" class="mt-4 text-center text-gray-500">
+    <div v-else-if="!isLoading" class="mt-4 text-center text-gray-500">
       No games available, generate now .
       <EmptyStateIcon width="100%" height="350px" />
     </div>
 
-    <!-- Loading & Error Messages -->
-    <div v-if="loading" class="mt-4 text-center">Loading games ...</div>
+    <!-- Error Messages -->
     <div v-if="errorMessage" class="mt-4 text-center text-red-500">
       {{ errorMessage }}
     </div>
@@ -77,12 +106,13 @@
 <script setup>
 import axios from 'axios'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
+import LoaderImage from '@/assets/icons/loader-image.vue'
 
 const selectedCategory = ref('')
 const selectedAge = ref('10+')
 const selectedLevel = ref('beginner')
 const flashcards = ref([])
-const loading = ref(false)
+const isLoading = ref(false)
 const errorMessage = ref('')
 const currentIndex = ref(0)
 
@@ -115,7 +145,7 @@ const speak = text => {
 
 const generateFlashcards = async () => {
   try {
-    loading.value = true
+    isLoading.value = true
     errorMessage.value = ''
 
     const requestBody = {
@@ -145,7 +175,7 @@ const generateFlashcards = async () => {
     errorMessage.value =
       err.message || 'An error occurred while fetching flashcards.'
   } finally {
-    loading.value = false
+    isLoading.value = false
   }
 }
 </script>
@@ -153,5 +183,21 @@ const generateFlashcards = async () => {
 <style scoped>
 .card {
   transition: background-color 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    width: 10%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 10%;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite ease-in-out;
 }
 </style>

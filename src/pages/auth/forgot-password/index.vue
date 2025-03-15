@@ -27,10 +27,7 @@
           />
           <label
             for="email"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all
-                  peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2
-                  peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
-                  peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Email
           </label>
