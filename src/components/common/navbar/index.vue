@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full items-center justify-between bg-white p-5 lg:justify-end dark:bg-[#111C44] dark:text-white"
+    class="fixed top-0 left-0 w-full z-50 flex items-center justify-between bg-white p-5 lg:justify-end dark:bg-[#111C44] dark:text-white shadow-md"
   >
     <NuxtLink to="/" class="flex w-40 items-center gap-2 truncate lg:hidden">
       <img
@@ -45,6 +45,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import lightModeIcon from '@/assets/icons/light-mode.vue'
