@@ -18,30 +18,33 @@
       <form class="w-full max-w-sm">
         <div class="relative mb-4 w-full">
           <input
-            :type="isPasswordVisible ? 'text' : 'password'"
+            :type="isConfirmPasswordVisible ? 'text' : 'password'"
             v-model="confirm_password"
-            id="password"
+            id="confirm_password"
             class="peer w-full rounded border border-gray-300 p-3 placeholder-transparent focus:border-purple-500 focus:ring-0"
-            placeholder="Password"
+            placeholder="Confirm Password"
           />
           <label
-            for="password"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            for="confirm_password"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
-            Password
+            Confirm Password
           </label>
           <span
             class="absolute inset-y-0 right-3 flex cursor-pointer items-center"
-            @click="togglePasswordVisibility"
+            @click="isConfirmPasswordVisible = !isConfirmPasswordVisible"
           >
             <UIcon
               :name="
-                isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
+                isConfirmPasswordVisible
+                  ? 'i-heroicons-eye'
+                  : 'i-heroicons-eye-slash'
               "
               class="text-gray-500"
             ></UIcon>
           </span>
         </div>
+
         <div class="relative mb-4 w-full">
           <input
             :type="isPasswordVisible ? 'text' : 'password'"
@@ -52,13 +55,13 @@
           />
           <label
             for="password"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Password
           </label>
           <span
             class="absolute inset-y-0 right-3 flex cursor-pointer items-center"
-            @click="togglePasswordVisibility"
+            @click="isPasswordVisible = !isPasswordVisible"
           >
             <UIcon
               :name="
@@ -68,6 +71,7 @@
             ></UIcon>
           </span>
         </div>
+
         <UButton
           class="mb-4 w-full items-center justify-center rounded bg-[#5D3BEA] p-3 text-white"
           size="md"

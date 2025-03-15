@@ -32,7 +32,7 @@
       <!-- Select Field -->
       <div class="mb-4">
         <label class="mb-2 block text-gray-700 dark:text-gray-200"
-          >Students</label
+          >Select students</label
         >
         <div
           class="relative flex flex-wrap items-center gap-2 rounded-lg bg-gray-100 p-2 dark:bg-[#1E2A5A]"

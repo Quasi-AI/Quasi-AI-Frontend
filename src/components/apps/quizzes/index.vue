@@ -29,7 +29,7 @@
 
         <!-- Loader Bar -->
         <div
-          class="relative mt-4 h-3 w-full max-w-md rounded-full bg-gray-200 dark:bg-[#111C44]"
+          class="relative mt-4 h-3 w-full max-w-md rounded-full bg-white dark:bg-[#111C44]"
         >
           <div
             class="absolute left-0 h-3 w-1/2 animate-pulse rounded-full bg-orange-500"
@@ -130,84 +130,34 @@
       </div>
     </div>
 
-    <!-- Quiz Detail View -->
-    <div v-if="showQuizDetail" class="w-full">
-      <div>
-        <div class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white">
-          <div
-            class="mb-6 flex flex-wrap items-start justify-between gap-4 md:items-center"
-          >
-            <div
-              class="flex flex-col items-start gap-4 md:flex-row md:items-center"
-            >
-              <img
-                :src="selectedQuiz.created_by?.profile"
-                alt="Profile"
-                class="h-12 w-12 rounded-full object-cover"
-              />
-              <div>
-                <p class="text-lg font-semibold">
-                  {{ selectedQuiz.created_by?.name }}
-                </p>
-                <p class="text-sm text-gray-500">
-                  {{ formatDate(selectedQuiz.created_by?.created_at) }}
-                </p>
-              </div>
-            </div>
-            <button
-              @click="closeQuizzesSetDetail"
-              class="flex items-center gap-2 rounded-full bg-[#5D3BEA] px-4 py-1 text-white transition duration-300 hover:bg-[#4A2DCA]"
-            >
-              <span>Close</span>
-            </button>
-          </div>
-
-          <p class="mb-2 text-xl font-bold">
-            {{ selectedQuiz.title }}
-          </p>
-          <p class="mb-6 text-sm font-medium">
-            {{ selectedQuiz.message }}
-          </p>
-
-          <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div
-              v-for="(question, index) in selectedQuiz.quizes"
-              :key="index"
-              class="rounded-lg border p-4 dark:border-[#0C1438]"
-            >
-              <p class="font-medium">{{ question.question }}</p>
-
-              <img
-                v-if="question.image"
-                :src="question.image"
-                alt="Question"
-                class="mt-2 max-h-48 w-full rounded-lg object-cover"
-              />
-
-              <div class="mt-2 grid grid-cols-1 gap-2 md:grid-cols-2">
-                <p
-                  v-for="(option, optIndex) in question.options"
-                  :key="optIndex"
-                  class="rounded-lg border p-2 dark:border-[#0C1438]"
-                >
-                  {{ option }}
-                </p>
-              </div>
-
-              <p class="mt-2 text-sm text-gray-500">
-                Correct Answer: {{ question.correctAnswer }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Form Container -->
     <div
       v-if="showCreateQuizzes"
       class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
+      <div class="flex justify-end pb-4">
+        <button
+          @click="closeQuizzesSetDetail"
+          class="text-gray-500 hover:text-red-500"
+          title="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
       <!-- File Upload -->
       <div
         @click="triggerFileInput"
@@ -324,7 +274,7 @@
 
       <div v-else class="space-y-4">
         <div
-          class="flex flex-col items-center justify-between gap-4 py-4 lg:flex-row"
+          class="flex flex-col items-center justify-between gap-4 py-2 lg:flex-row"
         >
           <div class="flex items-center justify-between gap-6">
             <div v-if="timer > 0" class="text-lg font-bold">
@@ -343,13 +293,41 @@
           </div>
         </div>
 
-        <div class="p-4">
+        <div class="bg-white p-4 dark:bg-[#111C44] dark:text-white">
+          <div class="flex justify-end pb-4">
+            <button
+              @click="closeQuizzesSetDetail"
+              class="text-gray-500 hover:text-red-500"
+              title="Close"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
           <div
-            class="rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white"
+            class="flex flex-col items-center justify-center gap-3 rounded-lg"
           >
             <p class="text-center font-semibold">
               {{ quizes[currentIndex].question }}
             </p>
+            <img
+              v-if="quizes[currentIndex].image"
+              :src="quizes[currentIndex].image"
+              alt="Question"
+              class="mt-2 h-[200px] w-[300px] rounded-lg"
+            />
           </div>
 
           <div
@@ -360,7 +338,7 @@
               :key="index"
               class="flex cursor-pointer items-center gap-2 rounded-lg border p-2 hover:bg-gray-100 dark:border-[#0C1438] dark:hover:bg-gray-700"
               :class="{
-                'border-2 border-[#5D3BEA]':
+                'border-2 border-[#5D3BEA] dark:border-gray-400':
                   option === quizes[currentIndex].userAnswer && score === null,
                 ...getAnswerClass(quizes[currentIndex], option)
               }"
@@ -418,13 +396,6 @@
       class="mx-auto flex w-full flex-col items-center justify-center rounded-xl"
     >
       <div class="w-[280px] text-center">
-        <h2 class="mb-4 text-4xl font-extrabold text-[#5D3BEA]">
-          Congratulations
-        </h2>
-        <p class="mb-6">
-          Awesome job completing your quiz. You can review your performance or
-          take a new quiz.
-        </p>
         <div class="mb-6 flex items-center justify-center text-4xl">
           <img
             src="~/assets/icons/congrats-icon.gif"
@@ -432,6 +403,14 @@
             class="w-[200px]"
           />
         </div>
+
+        <h2 class="mb-4 text-4xl font-extrabold text-[#5D3BEA]">
+          Congratulations
+        </h2>
+        <p class="mb-6">
+          Awesome job completing your quiz. You can review your performance or
+          take a new quiz.
+        </p>
         <div class="flex flex-col items-center justify-center gap-4">
           <button
             class="w-[250px] rounded-md border border-[#5D3BEA] bg-white px-6 py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
@@ -481,7 +460,6 @@ const searchQuery = ref('')
 const filterQuizes = ref('all')
 const hasError = ref(false)
 let timerInterval
-const assignmentId = ref(sessionStorage.getItem('user_id'))
 
 const prevQuestion = () => {
   if (currentIndex.value > 0) currentIndex.value--
@@ -531,11 +509,32 @@ const filteredQuizzes = computed(() => {
   )
 })
 
-// Open quiz detail view
+// Open quiz for taking
 const openQuiz = quiz => {
   selectedQuiz.value = quiz
-  showQuizDetail.value = true
+  showQuizDetail.value = false
   showHomeQuizzes.value = false
+  showCreateQuizzes.value = false
+  showPreviewQuizzes.value = true
+
+  // Initialize the quiz for taking
+  quizes.value = quiz.quizes.map(q => ({
+    question: q.question,
+    options: q.options,
+    correctAnswer: q.correctAnswer,
+    image: q.image,
+    userAnswer: null
+  }))
+
+  // Set the timer if the quiz has a timer
+  if (quiz.timer) {
+    userTimer.value = quiz.timer
+    startTimer()
+  }
+
+  // Reset the current question index and score
+  currentIndex.value = 0
+  score.value = null
 }
 
 // Close detailed view
@@ -543,6 +542,10 @@ const closeQuizzesSetDetail = () => {
   selectedQuiz.value = null
   showQuizDetail.value = false
   showHomeQuizzes.value = true
+  showCreateQuizzes.value = false
+  showPreviewQuizzes.value = false
+  showGeneratedQuizzes.value = false
+  showPostSubmission.value = false
 }
 
 // Format date
@@ -596,7 +599,7 @@ const generateQuestions = async () => {
           visible: selectedPublicity.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
-          user_timer: userTimer.value,
+          timer: userTimer.value,
           user_id: sessionStorage.getItem('user_id')
         })
       }
@@ -645,7 +648,6 @@ const generateQuestions = async () => {
 
 // Check user answers
 const checkAnswers = async () => {
-  // Make function async
   let correctCount = 0
   quizes.value.forEach(quiz => {
     if (quiz.userAnswer === quiz.correctAnswer) correctCount++
