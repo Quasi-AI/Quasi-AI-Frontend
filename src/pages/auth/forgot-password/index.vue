@@ -27,16 +27,15 @@
           />
           <label
             for="email"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
-            :class="
-              email
-                ? 'top-0 text-xs text-purple-600'
-                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
-            "
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all
+                  peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2
+                  peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
+                  peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Email
           </label>
         </div>
+
         <UButton
           class="mb-4 w-full items-center justify-center rounded bg-[#5D3BEA] p-3 text-white"
           size="md"

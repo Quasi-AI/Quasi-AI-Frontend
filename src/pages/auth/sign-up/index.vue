@@ -27,16 +27,12 @@
           />
           <label
             for="fullname"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
-            :class="
-              name
-                ? 'top-0 text-xs text-purple-600'
-                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
-            "
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Fullname
           </label>
         </div>
+
 
         <!-- Email Field -->
         <div class="relative mb-4 w-full">
@@ -49,16 +45,12 @@
           />
           <label
             for="email"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
-            :class="
-              email
-                ? 'top-0 text-xs text-purple-600'
-                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
-            "
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Email
           </label>
         </div>
+
 
         <!-- Password Field -->
         <div class="relative mb-4 w-full">
@@ -71,12 +63,7 @@
           />
           <label
             for="password"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
-            :class="
-              password
-                ? 'top-0 text-xs text-purple-600'
-                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
-            "
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Password
           </label>
@@ -92,6 +79,7 @@
             ></UIcon>
           </span>
         </div>
+
 
         <p v-if="passwordError" class="text-sm text-red-500">
           {{ passwordError }}
@@ -168,7 +156,7 @@
 
     <div class="m-4 w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block">
       <img
-        src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/freepik__the-style-is-candid-image-photography-with-natural__28525.png?alt=media&token=8a662acd-7725-41cb-9601-785985db76b9"
+        src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/smiling-male-student-with-laptop.jpg?alt=media&token=a47717ae-74db-4b46-bfec-0519b5a03ec0"
         class="h-full w-full rounded-2xl object-cover"
         alt="cover"
       />
