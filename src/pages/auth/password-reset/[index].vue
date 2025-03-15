@@ -26,10 +26,7 @@
           />
           <label
             for="confirm_password"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all
-                  peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2
-                  peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
-                  peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Confirm Password
           </label>
@@ -39,7 +36,9 @@
           >
             <UIcon
               :name="
-                isConfirmPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
+                isConfirmPasswordVisible
+                  ? 'i-heroicons-eye'
+                  : 'i-heroicons-eye-slash'
               "
               class="text-gray-500"
             ></UIcon>
@@ -56,10 +55,7 @@
           />
           <label
             for="password"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all
-                  peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2
-                  peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400
-                  peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Password
           </label>

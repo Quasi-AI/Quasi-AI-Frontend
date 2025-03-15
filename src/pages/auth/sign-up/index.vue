@@ -33,7 +33,6 @@
           </label>
         </div>
 
-
         <!-- Email Field -->
         <div class="relative mb-4 w-full">
           <input
@@ -50,7 +49,6 @@
             Email
           </label>
         </div>
-
 
         <!-- Password Field -->
         <div class="relative mb-4 w-full">
@@ -79,7 +77,6 @@
             ></UIcon>
           </span>
         </div>
-
 
         <p v-if="passwordError" class="text-sm text-red-500">
           {{ passwordError }}

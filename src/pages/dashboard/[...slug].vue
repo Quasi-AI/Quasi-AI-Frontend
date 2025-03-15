@@ -30,12 +30,16 @@
       <div
         class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
       >
-          <template v-if="isLoading">
+        <template v-if="isLoading">
           <!-- Skeleton Loaders -->
-          <div v-for="n in 4" :key="n" class="p-4 bg-gray-200 rounded-lg animate-pulse">
-            <div class="h-6 w-32 bg-gray-300 rounded"></div>
-            <div class="h-10 w-20 bg-gray-300 rounded mt-2"></div>
-            <div class="h-4 w-16 bg-gray-300 rounded mt-2"></div>
+          <div
+            v-for="n in 4"
+            :key="n"
+            class="animate-pulse rounded-lg bg-gray-200 p-4"
+          >
+            <div class="h-6 w-32 rounded bg-gray-300"></div>
+            <div class="mt-2 h-10 w-20 rounded bg-gray-300"></div>
+            <div class="mt-2 h-4 w-16 rounded bg-gray-300"></div>
           </div>
         </template>
 
@@ -196,7 +200,6 @@ const currentYear = new Date().getFullYear()
 const chartSeries = ref([])
 const quizChartSeries = ref([])
 
-
 const fetchStats = async () => {
   try {
     const response = await axios.post(
@@ -329,9 +332,10 @@ onMounted(async () => {
 
   // Generate initials efficiently
   const words = storedName.trim().split(' ')
-  initials.value = words.length > 1
-    ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
-    : words[0][0].toUpperCase()
+  initials.value =
+    words.length > 1
+      ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
+      : words[0][0].toUpperCase()
 
   // Run API calls concurrently for faster execution
   await Promise.all([
@@ -343,7 +347,6 @@ onMounted(async () => {
     fetchQuizzeTaken()
   ])
 })
-
 
 // Initialize the array dynamically up to the current year
 for (let year = 2025; year <= currentYear; year++) {
@@ -384,10 +387,6 @@ const chartOptions = computed(() => ({
     horizontalAlign: 'right'
   }
 }))
-
-
-
-
 
 const quizChartOptions = computed(() => ({
   chart: {

@@ -4,7 +4,7 @@
       <ul class="space-y-2 px-4">
         <li>
           <button
-            class="w-full flex items-center gap-3 rounded-lg p-3 transition-all duration-300 dark:text-gray-300 dark:hover:bg-gray-800 bg-[#5D3BEA] text-white"
+            class="flex w-full items-center gap-3 rounded-lg bg-[#5D3BEA] p-3 text-white transition-all duration-300 dark:text-gray-300 dark:hover:bg-gray-800"
           >
             <span class="text-sm font-medium"> + New Chat </span>
           </button>
@@ -26,16 +26,18 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ChatBubbleLeftIcon
-} from '@heroicons/vue/24/outline';
+import { ChatBubbleLeftIcon } from '@heroicons/vue/24/outline'
 
 const allChats = [
-  { fullLabel: 'Dashboard', route: '/apps/ai-tutor/1', icon: ChatBubbleLeftIcon },
+  {
+    fullLabel: 'Dashboard',
+    route: '/apps/ai-tutor/1',
+    icon: ChatBubbleLeftIcon
+  },
   { fullLabel: 'Apps', route: '/apps/ai-tutor/2', icon: ChatBubbleLeftIcon },
-  { fullLabel: 'Games', route: '/apps/ai-tutor/3', icon: ChatBubbleLeftIcon },
+  { fullLabel: 'Games', route: '/apps/ai-tutor/3', icon: ChatBubbleLeftIcon }
 ]
 
-const route = useRoute();
-const isActive = (path: string) => route.fullPath.startsWith(path);
+const route = useRoute()
+const isActive = (path: string) => route.fullPath.startsWith(path)
 </script>
