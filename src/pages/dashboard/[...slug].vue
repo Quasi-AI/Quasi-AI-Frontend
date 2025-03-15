@@ -30,34 +30,46 @@
       <div
         class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
       >
-        <StatCard
-          :title="card1.card_title"
-          :value="card1.card_value"
-          :trend="card1.card_trend"
-          :trendColor="card1.card_trend_color"
-          :svg="FlashcardSvg"
-        />
-        <StatCard
-          :title="card2.card_title"
-          :value="card2.card_value"
-          :trend="card2.card_trend"
-          :trendColor="card2.card_trend_color"
-          :svg="QuestionSvg"
-        />
-        <StatCard
-          :title="card3.card_title"
-          :value="card3.card_value"
-          :trend="card3.card_trend"
-          :trendColor="card3.card_trend_color"
-          :svg="TotalLearnersSvg"
-        />
-        <StatCard
-          :title="card4.card_title"
-          :value="card4.card_value"
-          :trend="card4.card_trend"
-          :trendColor="card4.card_trend_color"
-          :svg="TutorsSvg"
-        />
+          <template v-if="isLoading">
+          <!-- Skeleton Loaders -->
+          <div v-for="n in 4" :key="n" class="p-4 bg-gray-200 rounded-lg animate-pulse">
+            <div class="h-6 w-32 bg-gray-300 rounded"></div>
+            <div class="h-10 w-20 bg-gray-300 rounded mt-2"></div>
+            <div class="h-4 w-16 bg-gray-300 rounded mt-2"></div>
+          </div>
+        </template>
+
+        <template v-else>
+          <!-- Actual Cards -->
+          <StatCard
+            :title="card1.card_title"
+            :value="card1.card_value"
+            :trend="card1.card_trend"
+            :trendColor="card1.card_trend_color"
+            :svg="FlashcardSvg"
+          />
+          <StatCard
+            :title="card2.card_title"
+            :value="card2.card_value"
+            :trend="card2.card_trend"
+            :trendColor="card2.card_trend_color"
+            :svg="QuestionSvg"
+          />
+          <StatCard
+            :title="card3.card_title"
+            :value="card3.card_value"
+            :trend="card3.card_trend"
+            :trendColor="card3.card_trend_color"
+            :svg="TotalLearnersSvg"
+          />
+          <StatCard
+            :title="card4.card_title"
+            :value="card4.card_value"
+            :trend="card4.card_trend"
+            :trendColor="card4.card_trend_color"
+            :svg="TutorsSvg"
+          />
+        </template>
       </div>
 
       <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -179,7 +191,7 @@ const studentCount = ref(0)
 const educatorCount = ref(0)
 const students = ref([])
 const years = ref([])
-
+const isLoading = ref(true)
 const currentYear = new Date().getFullYear()
 const chartSeries = ref([])
 const quizChartSeries = ref([])
@@ -194,20 +206,19 @@ const fetchStats = async () => {
         user_id: sessionStorage.getItem('user_id')
       },
       {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
       }
     )
 
     const data = response.data
-
     card1.value = data[0]
     card2.value = data[1]
     card3.value = data[2]
     card4.value = data[3]
   } catch (error) {
     console.error('Failed to fetch dashboard data:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -290,7 +301,7 @@ const fetchQuizzeTaken = async () => {
     if (!response.ok) throw new Error('Failed to fetch flashcards')
 
     const data = await response.json()
-    chartSeries.value = data.data
+    quizChartSeries.value = data.data
   } catch (error) {
     console.error('Failed to fetch dashboard data:', error)
   }
@@ -307,23 +318,32 @@ const pieChartOptions = computed(() => ({
   dataLabels: { enabled: false }
 }))
 
-onMounted(() => {
-  name.value = sessionStorage.getItem('name') || 'Default Name'
-  email.value = sessionStorage.getItem('email') || 'default@example.com'
+onMounted(async () => {
+  // Get session data efficiently
+  const storedName = sessionStorage.getItem('name') || 'Default Name'
+  const storedEmail = sessionStorage.getItem('email') || 'default@example.com'
 
-  fetchStats()
-  fetchFlashCards()
-  fetchUsersData()
-  fetchStudents()
-  fetchlineFlashcard()
-  fetchQuizzeTaken()
+  // Assign values
+  name.value = storedName
+  email.value = storedEmail
 
-  const words = name.value.trim().split(' ')
-  initials.value =
-    words.length > 1
-      ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
-      : words[0][0].toUpperCase()
+  // Generate initials efficiently
+  const words = storedName.trim().split(' ')
+  initials.value = words.length > 1
+    ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
+    : words[0][0].toUpperCase()
+
+  // Run API calls concurrently for faster execution
+  await Promise.all([
+    fetchStats(),
+    fetchFlashCards(),
+    fetchUsersData(),
+    fetchStudents(),
+    fetchlineFlashcard(),
+    fetchQuizzeTaken()
+  ])
 })
+
 
 // Initialize the array dynamically up to the current year
 for (let year = 2025; year <= currentYear; year++) {
