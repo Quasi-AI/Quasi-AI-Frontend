@@ -78,11 +78,11 @@
     <!-- Modal -->
     <div
       v-if="showModal"
-      class="fixed inset-0 flex items-center justify-end overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm"
+      class="fixed inset-0 z-40 flex items-center justify-end overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm"
       @click.self="closeModal"
     >
       <div
-        class="relative flex h-full max-h-full w-full max-w-lg flex-col overflow-y-auto bg-white p-6 shadow-2xl dark:bg-[#111C44]"
+        class="relative z-50 flex h-full max-h-full w-full max-w-lg flex-col overflow-y-auto bg-white p-6 shadow-2xl dark:bg-[#111C44]"
         @click.stop
       >
         <!-- Close Button -->
