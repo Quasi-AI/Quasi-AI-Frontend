@@ -340,7 +340,7 @@
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
             >
-              Get started
+              Sign up
             </button>
           </NuxtLink>
         </div>
@@ -403,7 +403,7 @@
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
             >
-              Get started
+              Upgrade
             </button>
           </NuxtLink>
         </div>
