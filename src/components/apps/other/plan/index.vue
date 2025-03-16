@@ -35,7 +35,9 @@
       </button>
     </div>
 
-    <div class="grid w-full gap-3 sm:grid-cols-1 md:grid-cols-2 lg:max-w-4xl">
+    <div
+      class="grid w-full gap-3 sm:grid-cols-1 md:grid-cols-2 lg:max-w-4xl xl:grid-cols-3"
+    >
       <!-- Free Plan -->
       <div
         class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
@@ -139,6 +141,51 @@
           </button>
         </NuxtLink>
       </div>
+
+      <!-- Enterprise Plan -->
+      <div
+        class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+      >
+        <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+          Enterprise plan
+        </h3>
+        <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
+          Custom
+        </p>
+        <p class="text-gray-600 dark:text-gray-300">
+          Tailored for organizations
+        </p>
+        <p class="mt-2 text-gray-600 dark:text-gray-300">
+          Scalable solutions for businesses.
+        </p>
+        <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Everything in Premium Plan
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Unlimited AI-generated responses
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Dedicated account manager
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> Custom AI models & integrations
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> On-premise deployment options
+          </li>
+          <li class="flex gap-2">
+            <LandingUiIconsPricingChecked /> 24/7 priority support
+          </li>
+        </ul>
+        <NuxtLink to="/other/support">
+          <button
+            class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+          >
+            Contact Sales
+          </button>
+        </NuxtLink>
+      </div>
     </div>
     <div class="flex flex-col items-center justify-center gap-4 p-6">
       <NuxtLink to="/other/support"
@@ -156,6 +203,6 @@
 const billingCycle = ref('monthly')
 
 const premiumPrice = computed(() => {
-  return billingCycle.value === 'monthly' ? 5 : (5 * 12 * 0.95).toFixed(2)
+  return billingCycle.value === 'monthly' ? 4.99 : (4.99 * 12 * 0.95).toFixed(2)
 })
 </script>
