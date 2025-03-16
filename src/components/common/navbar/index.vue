@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-0 z-30 flex w-full items-center justify-between bg-white p-5 shadow-sm lg:justify-end dark:bg-[#111C44] dark:text-white"
+    class="fixed top-0 z-10 flex w-full items-center justify-between bg-white p-5 shadow-sm lg:justify-end dark:bg-[#111C44] dark:text-white"
   >
     <NuxtLink to="/" class="flex w-40 items-center gap-2 truncate lg:hidden">
       <img
