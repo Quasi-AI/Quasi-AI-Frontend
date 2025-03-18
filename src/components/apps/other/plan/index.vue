@@ -133,13 +133,12 @@
             <LandingUiIconsPricingChecked /> API access for seamless integration
           </li>
         </ul>
-        <NuxtLink to="/auth/sign-up">
-          <button
-            class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
-          >
-            Upgrade
-          </button>
-        </NuxtLink>
+        <button
+          @click="checkout"
+          class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+        >
+          Upgrade
+        </button>
       </div>
 
       <!-- Enterprise Plan -->
@@ -200,9 +199,44 @@
 </template>
 
 <script lang="ts" setup>
-const billingCycle = ref('monthly')
+import { loadStripe } from '@stripe/stripe-js'
 
-const premiumPrice = computed(() => {
-  return billingCycle.value === 'monthly' ? 4.99 : (4.99 * 12 * 0.95).toFixed(2)
+const config = useRuntimeConfig()
+
+// Define billing cycle types
+type BillingCycle = 'monthly' | 'yearly'
+
+const billingCycle = ref<BillingCycle>('monthly')
+
+const premiumPrice = computed<string>(() => {
+  return billingCycle.value === 'monthly'
+    ? '4.99'
+    : (4.99 * 12 * 0.95).toFixed(2)
 })
+
+const stripePromise: Promise<any | null> = loadStripe(
+  config.public.STRIPE_PUBLISHABLE_KEY as string
+)
+
+const checkout = async (): Promise<void> => {
+  try {
+    const stripe = await stripePromise
+    if (!stripe) throw new Error('Stripe failed to load.')
+
+    const response = await $fetch<{ id: string; error?: string }>(
+      '/api/checkout-session',
+      {
+        method: 'POST',
+        body: { billingCycle: billingCycle.value }
+      }
+    )
+
+    if (response.error) throw new Error(response.error)
+
+    await stripe.redirectToCheckout({ sessionId: response.id })
+  } catch (error) {
+    console.error('Checkout error:', error)
+    alert('Failed to start checkout. Please try again.')
+  }
+}
 </script>

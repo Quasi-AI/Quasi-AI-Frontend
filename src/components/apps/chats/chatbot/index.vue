@@ -117,8 +117,8 @@ onMounted(() => {
   chatHistory.value = savedChatHistory
     ? JSON.parse(savedChatHistory)
     : props.initialMessage
-    ? [{ role: 'model', text: props.initialMessage }]
-    : []
+      ? [{ role: 'model', text: props.initialMessage }]
+      : []
   scrollToBottom()
 
   // Attach event listener for copy buttons

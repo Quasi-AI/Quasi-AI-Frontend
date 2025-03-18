@@ -27,7 +27,10 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      GOOGLE_GEMINI_API_KEY: process.env.GOOGLE_GEMINI_API_KEY
+      GOOGLE_GEMINI_API_KEY: process.env.GOOGLE_GEMINI_API_KEY,
+      FRONTEND_URL: process.env.FRONTEND_URL,
+      STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+      STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY
     }
   },
   compatibilityDate: '2025-02-10',
