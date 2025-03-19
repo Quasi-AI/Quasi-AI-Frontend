@@ -399,10 +399,7 @@
               integration
             </li>
           </ul>
-          <NuxtLink
-            v-if="!isLoggedIn"
-            to="/auth/sign-up"
-          >
+          <NuxtLink v-if="!isLoggedIn" to="/auth/sign-up">
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
             >
