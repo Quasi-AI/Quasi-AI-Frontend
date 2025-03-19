@@ -33,7 +33,7 @@ export default defineEventHandler(async event => {
           quantity: 1
         }
       ],
-      success_url: `${config.public.FRONTEND_URL}/success`,
+      success_url: `${config.public.FRONTEND_URL}/other/plan?success=true`,
       cancel_url: `${config.public.FRONTEND_URL}/other/plan`
     })
 
