@@ -9,10 +9,10 @@
         <input
           type="email"
           placeholder="Your Email"
-          class="Lg:max-w-[250px] h-10 max-w-[200px] rounded-full border border-gray-500 bg-[#252641] px-4 text-sm text-gray-400 placeholder-gray-400 transition focus:outline-none focus:ring-2 focus:ring-[#5D3BEA] lg:w-[300px]"
+          class="h-8 max-w-[230px] rounded-full border border-gray-500 bg-[#252641] px-4 text-sm text-gray-400 placeholder-gray-400 transition focus:outline-none focus:ring-2 focus:ring-[#5D3BEA] lg:w-[300px] lg:max-w-[250px]"
         />
         <button
-          class="rounded-full bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+          class="rounded-lg bg-[#5D3BEA] px-6 py-1 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
           Subscribe
         </button>
@@ -21,7 +21,7 @@
 
     <!-- Links Section -->
     <div
-      class="mb-6 flex-wrap items-center gap-4 lg:mb-0 lg:items-center lg:gap-6"
+      class="mb-6 flex-wrap items-center gap-4 lg:mb-0 lg:items-center lg:gap-12"
     >
       <NuxtLink
         to="/"
@@ -40,18 +40,6 @@
         class="ml-2 border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
       >
         Terms & Conditions
-      </NuxtLink>
-      <NuxtLink
-        to="/"
-        class="ml-2 border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
-      >
-        About Us
-      </NuxtLink>
-      <NuxtLink
-        to="/"
-        class="ml-2 border-l border-gray-500 pl-2 text-sm text-gray-300 transition hover:text-white"
-      >
-        FAQ
       </NuxtLink>
     </div>
 
