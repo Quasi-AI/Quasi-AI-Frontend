@@ -399,7 +399,7 @@
               Get started
             </button>
           </NuxtLink>
-          <NuxtLink :to="`/other/pricing/payment?price=${premiumPrice}`">
+          <NuxtLink v-else :to="`/other/pricing/payment?price=${premiumPrice}`">
             <button
               class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
             >
