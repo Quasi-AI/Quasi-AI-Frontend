@@ -9,7 +9,7 @@
       </div>
       <h2 class="text-lg font-semibold">
         You're currently on Basic Plan. <br />
-        You will be billed $ {{ selectedPrice }} {{ billingCycle }}
+        You will be billed ${{ selectedPrice }} {{ billingCycle }}
       </h2>
       <p class="text-sm opacity-80">You can cancel any time</p>
     </div>
@@ -74,9 +74,9 @@
 
       <!-- Payment Button -->
       <button
-        class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#5D3BEA] p-3 font-bold text-white transition hover:bg-[#4A2EBE]"
+        class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#5D3BEA] p-3 font-medium text-white transition hover:bg-[#4A2EBE]"
       >
-        Proceed to payment : $ {{ selectedPrice }}
+        Proceed to payment: ${{ selectedPrice }}
       </button>
     </div>
   </div>
