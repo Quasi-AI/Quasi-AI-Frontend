@@ -74,6 +74,7 @@
 
       <!-- Payment Button -->
       <button
+        @click="handlePayment"
         class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#5D3BEA] p-3 font-medium text-white transition hover:bg-[#4A2EBE]"
       >
         Proceed to payment: ${{ selectedPrice }}
@@ -83,8 +84,15 @@
 </template>
 
 <script lang="ts" setup>
+import axios from 'axios'
 import PricingIcon from '~/assets/icons/pricing-icon.vue'
 import { CreditCardIcon, BanknotesIcon } from '@heroicons/vue/24/solid'
+import { useUser } from '~/composables/useUser'
+
+const { userInfo } = useUser()
+const email = computed(() => userInfo?.value.email)
+const profileImage = computed(() => userInfo?.value.profileImage)
+const userId = computed(() => sessionStorage.getItem('user_id'))
 
 // Define card type icons
 const cardIcons: Record<string, any> = {
@@ -132,6 +140,35 @@ const formatExpiration = () => {
 
   if (expiration.value.length > 2) {
     expiration.value = expiration.value.replace(/^(\d{2})(\d{0,4})$/, '$1/$2')
+  }
+}
+
+// Handle payment submission
+const handlePayment = async () => {
+  const paymentData = {
+    payerName: cardName.value,
+    email: email.value,
+    amountPaid: parseFloat(selectedPrice.value),
+    user_id: userId.value,
+    paymentDate: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+    subscriptionPlan: billingCycle.value,
+    status: 'Paid',
+    profileImage: profileImage.value
+  }
+
+  try {
+    const response = await axios.post(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/createPayment',
+      paymentData
+    )
+    if (response.status === 200) {
+      alert('Payment successful!')
+    } else {
+      alert('Payment failed. Please try again.')
+    }
+  } catch (error) {
+    console.error('Error during payment:', error)
+    alert('Payment failed. Please try again.')
   }
 }
 </script>
