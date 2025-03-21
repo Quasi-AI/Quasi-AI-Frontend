@@ -9,7 +9,7 @@
       </div>
       <h2 class="text-lg font-semibold">
         You're currently on Basic Plan. <br />
-        You will be billed $ {{ selectedPrice }} every month
+        You will be billed $ {{ selectedPrice }} {{ billingCycle }}
       </h2>
       <p class="text-sm opacity-80">You can cancel any time</p>
     </div>
@@ -96,6 +96,7 @@ const cardIcons: Record<string, any> = {
 
 const route = useRoute()
 const selectedPrice = ref(route.query.price || '00.00')
+const billingCycle = ref(route.query.billingCycle || 'free')
 const cardName = ref('')
 const cardNumber = ref('')
 const expiration = ref('')
