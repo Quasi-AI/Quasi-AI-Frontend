@@ -62,7 +62,8 @@ const titles = {
   '/other/support': 'Customer Support',
   '/other/games': 'Learning Games',
   '/other/past-questions': 'Past Questions',
-  '/other/plan': 'Plan',
+  '/other/pricing/plan': 'Plan',
+  '/other/pricing/payment': 'Payment Details',
   '/user': 'Profile'
 }
 </script>
