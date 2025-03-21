@@ -8,9 +8,8 @@
         <PricingIcon class="h-8 w-8" />
       </div>
       <h2 class="text-lg font-semibold">
-        You're currently on Basic Plan. You will be billed GHS
-        {{ selectedPrice }}
-        every month
+        You're currently on Basic Plan. <br />
+        You will be billed $ {{ selectedPrice }} every month
       </h2>
       <p class="text-sm opacity-80">You can cancel any time</p>
     </div>
@@ -23,19 +22,23 @@
           type="text"
           placeholder="Enter name of card"
           class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          v-model="cardName"
+          maxlength="50"
         />
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700">
-          Card number
-        </label>
+        <label class="block text-sm font-medium text-gray-700"
+          >Card number</label
+        >
         <div class="relative">
           <input
             v-model="cardNumber"
             type="text"
             placeholder="Enter card number"
             class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+            :maxlength="cardMaxLength"
+            @input="formatCardNumber"
           />
           <div class="absolute right-3 top-3 text-gray-500">
             <component :is="cardIcon" class="h-8 w-8" v-if="cardIcon" />
@@ -43,32 +46,37 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700">
-            Expiration
-          </label>
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <div class="w-full">
+          <label class="block text-sm font-medium text-gray-700"
+            >Expiration</label
+          >
           <input
+            v-model="expiration"
             type="text"
             placeholder="MM/YYYY"
             class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+            maxlength="7"
+            @input="formatExpiration"
           />
         </div>
-        <div>
+        <div class="w-full">
           <label class="block text-sm font-medium text-gray-700">CVV</label>
           <input
+            v-model="cvv"
             type="text"
-            placeholder="Enter secret number"
+            placeholder="Enter CVV"
             class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+            :maxlength="cvvLength"
           />
         </div>
       </div>
 
       <!-- Payment Button -->
       <button
-        class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#5D3BEA] p-3 font-bold text-white"
+        class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#5D3BEA] p-3 font-bold text-white transition hover:bg-[#4A2EBE]"
       >
-        Proceed to payment : GHS {{ selectedPrice }}
+        Proceed to payment : $ {{ selectedPrice }}
       </button>
     </div>
   </div>
@@ -78,7 +86,7 @@
 import PricingIcon from '~/assets/icons/pricing-icon.vue'
 import { CreditCardIcon, BanknotesIcon } from '@heroicons/vue/24/solid'
 
-// Define icons for different card types
+// Define card type icons
 const cardIcons: Record<string, any> = {
   visa: CreditCardIcon,
   mastercard: BanknotesIcon,
@@ -88,7 +96,10 @@ const cardIcons: Record<string, any> = {
 
 const route = useRoute()
 const selectedPrice = ref(route.query.price || '00.00')
+const cardName = ref('')
 const cardNumber = ref('')
+const expiration = ref('')
+const cvv = ref('')
 
 // Compute card type based on input
 const cardIcon = computed(() => {
@@ -98,4 +109,28 @@ const cardIcon = computed(() => {
   if (/^6(?:011|5)/.test(cardNumber.value)) return cardIcons.discover // Discover
   return null
 })
+
+// Set max length for card number
+const cardMaxLength = computed(() =>
+  cardIcon.value === cardIcons.amex ? 15 : 16
+)
+
+// Set CVV length based on card type
+const cvvLength = computed(() => (cardIcon.value === cardIcons.amex ? 4 : 3))
+
+// Format card number with spaces
+const formatCardNumber = () => {
+  cardNumber.value = cardNumber.value
+    .replace(/\D/g, '')
+    .slice(0, cardMaxLength.value)
+}
+
+// Format expiration date (MM/YYYY)
+const formatExpiration = () => {
+  expiration.value = expiration.value.replace(/\D/g, '').slice(0, 6)
+
+  if (expiration.value.length > 2) {
+    expiration.value = expiration.value.replace(/^(\d{2})(\d{0,4})$/, '$1/$2')
+  }
+}
 </script>
