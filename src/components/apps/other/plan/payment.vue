@@ -8,8 +8,8 @@
         <PricingIcon class="h-8 w-8" />
       </div>
       <h2 class="text-lg font-semibold">
-        You're currently on Basic Plan. <br />
-        You will be billed ${{ selectedPrice }} {{ billingCycle }}
+        You're currently on Basic Plan. You will be <br />
+        billed ${{ selectedPrice }} {{ billingCycle }}
       </h2>
       <p class="text-sm opacity-80">You can cancel any time</p>
     </div>
