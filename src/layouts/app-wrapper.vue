@@ -51,7 +51,7 @@ const greeting = computed(() => {
 // Define route-based titles
 const titles = {
   '/dashboard': greeting,
-  '/apps': 'Apps',
+  '/apps': 'Browse top apps',
   '/apps/questions': 'Questions',
   '/apps/flashcards': 'Smart Flashcards',
   '/apps/find-tutors': 'Tutors',
