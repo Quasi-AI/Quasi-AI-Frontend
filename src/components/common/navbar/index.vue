@@ -82,11 +82,6 @@ const profileList = [
 
 const color = computed(() => (colorMode.value === 'dark' ? '#111C44' : 'white'))
 
-// Force navigation bar color (only works on some Android versions)
-if ('navigator' in window && 'setAppTheme' in navigator) {
-  navigator.setAppTheme(colorMode.value === 'dark' ? '#111C44' : 'white')
-}
-
 useHead({
   meta: [
     { charset: 'utf-8' },
