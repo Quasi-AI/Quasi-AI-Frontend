@@ -38,12 +38,12 @@
     <div
       class="grid w-full gap-3 sm:grid-cols-1 md:grid-cols-2 lg:max-w-4xl xl:grid-cols-3"
     >
-      <!-- Free Plan -->
+      <!-- Basic Plan -->
       <div
         class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
       >
         <h3 class="text-xl font-bold text-gray-800 dark:text-white">
-          Free plan
+          Basic Plan
         </h3>
         <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
           $0
@@ -114,7 +114,7 @@
         </p>
         <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
           <li class="flex gap-2">
-            <LandingUiIconsPricingChecked /> Everything in Free Plan
+            <LandingUiIconsPricingChecked /> Everything in Basic Plan
           </li>
           <li class="flex gap-2">
             <LandingUiIconsPricingChecked /> Up to 500 AI-generated responses
@@ -188,15 +188,6 @@
           </button>
         </NuxtLink>
       </div>
-    </div>
-    <div class="flex flex-col items-center justify-center gap-4 p-6">
-      <NuxtLink to="/other/support"
-        ><button
-          class="mt-4 w-[200px] rounded-full border bg-white p-2 font-bold text-black"
-        >
-          Contact Support
-        </button></NuxtLink
-      >
     </div>
   </div>
 </template>
