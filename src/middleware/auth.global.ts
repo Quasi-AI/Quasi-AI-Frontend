@@ -5,11 +5,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   const token = sessionStorage.getItem('authToken')
 
-  // If no token, redirect to login
+  // Allow access to only '/' and any route under '/auth' if no token
   if (!token) {
-    if (to.path !== '/') {
+    if (!to.path.startsWith('/auth') && to.path !== '/') {
       await logSecurityAction('Unauthorized access attempt', 'Failed')
       await logSystemAction('Unauthorized access attempt', 'ERROR', to.path)
+      return navigateTo('/')
     }
     return
   }
@@ -26,14 +27,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (currentTime >= tokenExpiry) {
       console.warn('Token expired. Logging out...')
       await logoutUser()
-      return navigateTo('/') // Redirect user
+      return navigateTo('/')
     }
 
     await logSecurityAction('Token authentication successful', 'Success')
   } catch (error) {
     console.error('Invalid token. Logging out...', error)
     await logoutUser()
-    return navigateTo('/') // Redirect user
+    return navigateTo('/')
   }
 })
 
