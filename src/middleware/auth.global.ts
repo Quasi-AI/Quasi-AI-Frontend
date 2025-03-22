@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async to => {
   if (process.server) return
 
   const token = sessionStorage.getItem('authToken')
@@ -47,9 +47,9 @@ const logoutUser = async () => {
   navigateTo('/') // Force redirect after logout
 }
 
-const logSecurityAction = async (action, status) => {
+const logSecurityAction = async (action: string, status: string) => {
   try {
-    const userEmail = sessionStorage.getItem('email') || 'Unknown'
+    const userEmail = sessionStorage.getItem('email') ?? 'Unknown'
     const userAgent = navigator.userAgent
     const ipAddress = await getUserIP()
 
@@ -69,7 +69,11 @@ const logSecurityAction = async (action, status) => {
   }
 }
 
-const logSystemAction = async (message, level, endpoint) => {
+const logSystemAction = async (
+  message: string,
+  level: string,
+  endpoint: string
+) => {
   try {
     await axios.post(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/system-logs',
