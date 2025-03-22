@@ -75,6 +75,7 @@
           <p class="text-xs text-gray-500">{{ userInfo?.email }}</p>
         </div>
         <ArrowRightEndOnRectangleIcon
+          @click="logout"
           class="h-5 w-5 cursor-pointer text-gray-500"
         />
       </div>
@@ -94,10 +95,16 @@ import {
 } from '@heroicons/vue/24/outline'
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/vue/24/solid'
 import { useUser } from '~/composables/useUser'
+import { useAuthenticationStore } from '@/store/auth'
 
 const route = useRoute()
 const { userInfo } = useUser()
+const authStore = useAuthenticationStore()
 const isUserRoute = computed(() => route.path === '/user')
+
+const logout = () => {
+  authStore.logout()
+}
 
 const menuItems = [
   { fullLabel: 'Dashboard', route: '/dashboard', icon: Squares2X2Icon },

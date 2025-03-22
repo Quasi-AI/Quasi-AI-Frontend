@@ -74,7 +74,6 @@ const profileList = [
       label: 'Logout',
       click: () => {
         authStore.logout()
-        colorMode.preference = 'light'
       }
     }
   ]
