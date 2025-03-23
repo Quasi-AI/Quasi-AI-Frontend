@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen">
+  <div class="flex lg:h-screen">
     <div
       class="flex h-full w-full flex-col items-center justify-center bg-white px-10 md:w-1/2"
     >
@@ -151,7 +151,9 @@
       </p>
     </div>
 
-    <div class="m-4 w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block">
+    <div
+      class="m-4 hidden w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block"
+    >
       <img
         src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/smiling-male-student-with-laptop.jpg?alt=media&token=a47717ae-74db-4b46-bfec-0519b5a03ec0"
         class="h-full w-full rounded-2xl object-cover"
@@ -297,12 +299,3 @@ const signUpWithGoogleAsStudent = async () => {
   }
 }
 </script>
-
-<style scoped>
-/* Hide element on small screens (mobile) */
-@media (max-width: 768px) {
-  .md\:block {
-    display: none !important;
-  }
-}
-</style>
