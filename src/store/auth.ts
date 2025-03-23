@@ -73,6 +73,8 @@ export const useAuthenticationStore = defineStore('authentication', {
       try {
         this.error = ''
         const data = await $fetch<{
+          message: string
+          role: any
           name: any
           email: any
           statusCode: number
@@ -101,9 +103,10 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.success = successMessage
           navigateTo(redirectPath)
         } else {
-          handleError(data)
+          this.error = data.message
         }
       } catch (err) {
+        this.error = 'Error occurred. Please try again.'
         handleError(err)
       }
     },
