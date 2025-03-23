@@ -326,15 +326,11 @@
               <LandingUiIconsPricingChecked /> Up to 20 AI-generated responses
               per month
             </li>
+            <li class="flex gap-2">❌ Email support</li>
             <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Email support
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Secure cloud storage for
-              AI-generated content
+              ❌ Secure cloud storage for AI-generated content
             </li>
             <li>❌ Personalized AI suggestions</li>
-            <li>❌ API access for seamless integration</li>
           </ul>
         </div>
 
@@ -387,10 +383,6 @@
             <li class="flex gap-2">
               <LandingUiIconsPricingChecked /> AI-powered analytics & insights
             </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> API access for seamless
-              integration
-            </li>
           </ul>
           <NuxtLink v-if="!isLoggedIn" to="/auth/sign-up">
             <button
@@ -436,9 +428,6 @@
             </li>
             <li class="flex gap-2">
               <LandingUiIconsPricingChecked /> Custom AI models & integrations
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> On-premise deployment options
             </li>
             <li class="flex gap-2">
               <LandingUiIconsPricingChecked /> 24/7 priority support
