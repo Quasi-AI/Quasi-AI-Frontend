@@ -7,7 +7,7 @@
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
           alt="QUASI AI Logo"
-          class="h-10 cursor-pointer"
+          class="w-8 cursor-pointer"
         />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
