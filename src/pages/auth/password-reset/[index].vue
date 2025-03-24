@@ -32,13 +32,11 @@
           </label>
           <span
             class="absolute inset-y-0 right-3 flex cursor-pointer items-center"
-            @click="isConfirmPasswordVisible = !isConfirmPasswordVisible"
+            @click="togglePasswordVisibility"
           >
             <UIcon
               :name="
-                isConfirmPasswordVisible
-                  ? 'i-heroicons-eye'
-                  : 'i-heroicons-eye-slash'
+                isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
               "
               class="text-gray-500"
             ></UIcon>
