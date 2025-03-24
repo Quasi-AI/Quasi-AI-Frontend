@@ -276,7 +276,9 @@
       </h1>
 
       <!-- Tabs -->
-      <div class="flex gap-2 rounded-full bg-gray-200 p-1 dark:bg-[#0C1438]">
+      <div
+        class="mb-4 flex gap-2 rounded-full bg-gray-200 p-1 dark:bg-[#0C1438]"
+      >
         <button
           @click="billingCycle = 'monthly'"
           :class="
@@ -301,145 +303,191 @@
         </button>
       </div>
 
-      <div
-        class="grid w-full gap-3 sm:grid-cols-1 md:grid-cols-2 lg:max-w-4xl xl:grid-cols-3"
-      >
-        <!-- Basic Plan -->
+      <div class="flex flex-col items-center justify-center px-4">
         <div
-          class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+          class="grid w-full gap-6 md:grid-cols-2 lg:max-w-5xl xl:grid-cols-3"
         >
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white">
-            Basic Plan
-          </h3>
-          <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
-            $0
-          </p>
-          <p class="text-gray-600 dark:text-gray-300">Forever free</p>
-          <p class="mt-2 text-gray-600 dark:text-gray-300">
-            Essential features for individuals.
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Access to Quasi AI basic features
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Up to 20 AI-generated responses
-              per month
-            </li>
-            <li class="flex gap-2">❌ Email support</li>
-            <li class="flex gap-2">
-              ❌ Secure cloud storage for AI-generated content
-            </li>
-            <li>❌ Personalized AI suggestions</li>
-          </ul>
-        </div>
-
-        <!-- Premium Plan -->
-        <div
-          class="relative w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
-        >
-          <LandingUiIconsPricingWords
-            class="absolute -right-24 -top-4 hidden lg:block"
-          />
-          <LandingUiIconsPricingArrow
-            class="absolute -right-5 -top-4 hidden lg:block"
-          />
-          <div class="flex items-center justify-between">
+          <!-- Basic Plan -->
+          <div
+            class="relative w-full max-w-sm rounded-2xl border bg-white p-6 shadow-md transition-all hover:shadow-lg dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+          >
             <h3 class="text-xl font-bold text-gray-800 dark:text-white">
-              Premium plan
+              Basic Plan
             </h3>
-            <span
-              class="block rounded-full bg-[#5D3BEA] px-3 py-1 text-sm font-bold text-white lg:hidden"
-              >Most Popular</span
+            <p
+              class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white"
             >
+              $0
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">Forever free</p>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Essential features for individuals.
+            </p>
+            <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Access to Quasi AI basic features
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Up to 20 AI-generated responses per month
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Email support
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Secure cloud storage
+              </li>
+              <li class="flex gap-2">❌ Personalized AI suggestions</li>
+            </ul>
           </div>
-          <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
-            ${{ premiumPrice }}
-          </p>
-          <p class="text-gray-600 dark:text-gray-300">
-            {{
-              billingCycle === 'monthly'
-                ? 'per user per month'
-                : 'billed annually'
-            }}
-          </p>
-          <p class="mt-2 text-gray-600 dark:text-gray-300">
-            Advanced features for power users.
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Everything in Basic Plan
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Up to 500 AI-generated responses
-              per month
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Personalized AI suggestions
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Priority email & chat support
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> AI-powered analytics & insights
-            </li>
-          </ul>
-          <NuxtLink v-if="!isLoggedIn" to="/auth/sign-up">
-            <button
-              class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
-            >
-              Get started
-            </button>
-          </NuxtLink>
-          <NuxtLink v-else :to="`/other/pricing/payment?price=${premiumPrice}`">
-            <button
-              class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
-            >
-              Upgrade
-            </button>
-          </NuxtLink>
-        </div>
 
-        <!-- Enterprise Plan -->
-        <div
-          class="w-fit rounded-2xl border bg-white p-6 hover:shadow-xl dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
-        >
-          <h3 class="text-xl font-bold text-gray-800 dark:text-white">
-            Enterprise plan
-          </h3>
-          <p class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white">
-            Custom
-          </p>
-          <p class="text-gray-600 dark:text-gray-300">
-            Tailored for organizations
-          </p>
-          <p class="mt-2 text-gray-600 dark:text-gray-300">
-            Scalable solutions for businesses.
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Everything in Premium Plan
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Unlimited AI-generated responses
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Dedicated account manager
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> Custom AI models & integrations
-            </li>
-            <li class="flex gap-2">
-              <LandingUiIconsPricingChecked /> 24/7 priority support
-            </li>
-          </ul>
-          <NuxtLink to="/other/support">
-            <button
-              class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white"
+          <!-- Premium Plan - Most Popular -->
+          <div
+            class="relative w-full max-w-sm rounded-2xl border bg-white p-6 shadow-xl ring-2 ring-[#5D3BEA] transition-all hover:shadow-lg dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+          >
+            <div
+              class="absolute right-0 top-0 -mt-4 mr-4 rounded-full bg-[#5D3BEA] px-3 py-1 text-sm font-bold text-white"
             >
-              Contact Sales
-            </button>
-          </NuxtLink>
+              Most Popular
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+              Premium Plan
+            </h3>
+            <p
+              class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white"
+            >
+              ${{ premiumPrice }}
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">
+              {{
+                billingCycle === 'monthly'
+                  ? 'per user per month'
+                  : 'billed annually'
+              }}
+            </p>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Advanced features for power users.
+            </p>
+            <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Access to all premium features
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Up to 500 AI-generated responses per month
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Personalized AI suggestions
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Email support
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                AI-powered analytics & insights
+              </li>
+            </ul>
+            <NuxtLink v-if="!isLoggedIn" to="/auth/sign-up">
+              <button
+                class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white hover:bg-[#4A2FCB]"
+              >
+                Get Started
+              </button>
+            </NuxtLink>
+            <NuxtLink
+              v-else
+              :to="`/other/pricing/payment?price=${premiumPrice}`"
+            >
+              <button
+                class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white hover:bg-[#4A2FCB]"
+              >
+                Upgrade
+              </button>
+            </NuxtLink>
+          </div>
+
+          <!-- Enterprise Plan -->
+          <div
+            class="relative w-full max-w-sm rounded-2xl border bg-white p-6 shadow-md transition-all hover:shadow-lg dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+          >
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+              Enterprise Plan
+            </h3>
+            <p
+              class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white"
+            >
+              Custom
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">
+              Designed for educational institutions
+            </p>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Scalable solutions for schools and universities.
+            </p>
+            <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Everything in Premium Plan
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Unlimited AI-generated responses
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Dedicated account manager
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Custom AI models & integrations
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                24/7 priority educational support
+              </li>
+            </ul>
+            <NuxtLink to="/other/support">
+              <button
+                class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white hover:bg-[#4A2FCB]"
+              >
+                Contact Sales
+              </button>
+            </NuxtLink>
+          </div>
         </div>
       </div>
     </div>
