@@ -334,7 +334,7 @@
                 <div>
                   <LandingUiIconsPricingChecked />
                 </div>
-                Up to 20 AI-generated responses per month
+                Up to 50 AI-generated responses per month
               </li>
               <li class="flex gap-2">
                 <div>
@@ -390,7 +390,7 @@
                 <div>
                   <LandingUiIconsPricingChecked />
                 </div>
-                Up to 500 AI-generated responses per month
+                Unlimited AI-generated responses
               </li>
               <li class="flex gap-2">
                 <div>
