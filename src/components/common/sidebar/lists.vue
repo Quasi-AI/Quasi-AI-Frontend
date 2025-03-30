@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed left-0 top-0 hidden h-screen w-64 flex-col justify-between bg-white shadow-sm md:flex dark:bg-[#111C44]"
+    class="fixed left-0 top-0 z-20 hidden h-screen w-64 flex-col justify-between bg-white shadow-sm md:flex dark:bg-[#111C44]"
   >
     <!-- Logo Section -->
     <div class="p-5">
@@ -8,7 +8,7 @@
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
           alt="logo"
-          class="w-10"
+          class="w-8"
         />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
@@ -34,9 +34,13 @@
     <div class="space-y-2 px-4 pb-4">
       <!-- Plan -->
       <NuxtLink
-        to="/other/plan"
+        to="/other/pricing/plan"
         class="flex items-center gap-3 rounded-lg p-3 text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-[#5D3BEA] dark:text-gray-300 dark:hover:bg-gray-800"
-        :class="{ 'bg-[#5D3BEA] text-white': isActive('/other/plan') }"
+        :class="{
+          'bg-[#5D3BEA] text-white':
+            isActive('/other/pricing/plan') ||
+            isActive('/other/pricing/payment')
+        }"
       >
         <StarIcon v-if="userInfo?.isPremium" class="h-5 w-5 text-yellow-400" />
         <SparklesIcon v-else class="h-5 w-5" />
@@ -71,6 +75,7 @@
           <p class="text-xs text-gray-500">{{ userInfo?.email }}</p>
         </div>
         <ArrowRightEndOnRectangleIcon
+          @click="logout"
           class="h-5 w-5 cursor-pointer text-gray-500"
         />
       </div>
@@ -90,10 +95,16 @@ import {
 } from '@heroicons/vue/24/outline'
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/vue/24/solid'
 import { useUser } from '~/composables/useUser'
+import { useAuthenticationStore } from '@/store/auth'
 
 const route = useRoute()
 const { userInfo } = useUser()
+const authStore = useAuthenticationStore()
 const isUserRoute = computed(() => route.path === '/user')
+
+const logout = () => {
+  authStore.logout()
+}
 
 const menuItems = [
   { fullLabel: 'Dashboard', route: '/dashboard', icon: Squares2X2Icon },

@@ -15,13 +15,13 @@
         <span class="text-xs">{{ item.mobileLabel }}</span>
       </NuxtLink>
 
-      <!-- Contact Support -->
+      <!-- Plan -->
       <NuxtLink
-        to="/other/support"
+        to="/other/pricing/plan"
         class="flex flex-col items-center text-gray-600 dark:text-gray-300"
       >
-        <QuestionMarkCircleIcon class="h-6 w-6" />
-        <span class="text-xs">Support</span>
+        <SparklesIcon class="h-6 w-6" />
+        <span class="text-xs">Plan</span>
       </NuxtLink>
     </div>
   </div>
@@ -33,7 +33,7 @@ import {
   CubeIcon,
   AcademicCapIcon,
   DocumentTextIcon,
-  QuestionMarkCircleIcon
+  SparklesIcon
 } from '@heroicons/vue/24/outline'
 
 const route = useRoute()
@@ -54,7 +54,7 @@ const menuItems = [
   },
   {
     fullLabel: 'Past Questions',
-    mobileLabel: 'Questions',
+    mobileLabel: 'Past Que.',
     route: '/other/past-questions',
     icon: DocumentTextIcon
   }

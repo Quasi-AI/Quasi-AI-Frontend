@@ -30,34 +30,50 @@
       <div
         class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4"
       >
-        <StatCard
-          :title="card1.card_title"
-          :value="card1.card_value"
-          :trend="card1.card_trend"
-          :trendColor="card1.card_trend_color"
-          :svg="FlashcardSvg"
-        />
-        <StatCard
-          :title="card2.card_title"
-          :value="card2.card_value"
-          :trend="card2.card_trend"
-          :trendColor="card2.card_trend_color"
-          :svg="QuestionSvg"
-        />
-        <StatCard
-          :title="card3.card_title"
-          :value="card3.card_value"
-          :trend="card3.card_trend"
-          :trendColor="card3.card_trend_color"
-          :svg="TotalLearnersSvg"
-        />
-        <StatCard
-          :title="card4.card_title"
-          :value="card4.card_value"
-          :trend="card4.card_trend"
-          :trendColor="card4.card_trend_color"
-          :svg="TutorsSvg"
-        />
+        <template v-if="isLoading">
+          <!-- Skeleton Loaders -->
+          <div
+            v-for="n in 4"
+            :key="n"
+            class="animate-pulse rounded-lg bg-gray-200 p-4"
+          >
+            <div class="h-6 w-32 rounded bg-gray-300"></div>
+            <div class="mt-2 h-10 w-20 rounded bg-gray-300"></div>
+            <div class="mt-2 h-4 w-16 rounded bg-gray-300"></div>
+          </div>
+        </template>
+
+        <template v-else>
+          <!-- Actual Cards -->
+          <StatCard
+            :title="card1.card_title"
+            :value="card1.card_value"
+            :trend="card1.card_trend"
+            :trendColor="card1.card_trend_color"
+            :svg="FlashcardSvg"
+          />
+          <StatCard
+            :title="card2.card_title"
+            :value="card2.card_value"
+            :trend="card2.card_trend"
+            :trendColor="card2.card_trend_color"
+            :svg="QuestionSvg"
+          />
+          <StatCard
+            :title="card3.card_title"
+            :value="card3.card_value"
+            :trend="card3.card_trend"
+            :trendColor="card3.card_trend_color"
+            :svg="TotalLearnersSvg"
+          />
+          <StatCard
+            :title="card4.card_title"
+            :value="card4.card_value"
+            :trend="card4.card_trend"
+            :trendColor="card4.card_trend_color"
+            :svg="TutorsSvg"
+          />
+        </template>
       </div>
 
       <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -151,7 +167,7 @@
 import StatCard from '@/components/StatCard.vue'
 import PieChart from '@/components/PieChart.vue'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import axios from 'axios'
 const ChartCard = defineAsyncComponent(
   () => import('@/components/ChartCard.vue')
@@ -178,6 +194,12 @@ const initials = ref('')
 const studentCount = ref(0)
 const educatorCount = ref(0)
 const students = ref([])
+const years = ref([])
+const isLoading = ref(true)
+const currentYear = new Date().getFullYear()
+const chartSeries = ref([])
+const quizChartSeries = ref([])
+
 const fetchStats = async () => {
   try {
     const response = await axios.post(
@@ -187,20 +209,19 @@ const fetchStats = async () => {
         user_id: sessionStorage.getItem('user_id')
       },
       {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
       }
     )
 
     const data = response.data
-
     card1.value = data[0]
     card2.value = data[1]
     card3.value = data[2]
     card4.value = data[3]
   } catch (error) {
     console.error('Failed to fetch dashboard data:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -255,6 +276,40 @@ const fetchUsersData = async () => {
   }
 }
 
+const fetchlineFlashcard = async () => {
+  try {
+    const response = await fetch(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/flash-quiz/${sessionStorage.getItem(
+        'user_id'
+      )}`
+    )
+
+    if (!response.ok) throw new Error('Failed to fetch flashcards')
+
+    const data = await response.json()
+    chartSeries.value = data.data
+  } catch (error) {
+    console.error('Failed to fetch dashboard data:', error)
+  }
+}
+
+const fetchQuizzeTaken = async () => {
+  try {
+    const response = await fetch(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com/flash-quiz/${sessionStorage.getItem(
+        'user_id'
+      )}`
+    )
+
+    if (!response.ok) throw new Error('Failed to fetch flashcards')
+
+    const data = await response.json()
+    quizChartSeries.value = data.data
+  } catch (error) {
+    console.error('Failed to fetch dashboard data:', error)
+  }
+}
+
 // Computed property to update pie chart series reactively
 const pieChartSeries = computed(() => [studentCount.value, educatorCount.value])
 
@@ -266,23 +321,45 @@ const pieChartOptions = computed(() => ({
   dataLabels: { enabled: false }
 }))
 
-onMounted(() => {
-  name.value = sessionStorage.getItem('name') || 'Default Name'
-  email.value = sessionStorage.getItem('email') || 'default@example.com'
+onMounted(async () => {
+  // Get session data efficiently
+  const storedName = sessionStorage.getItem('name') || 'Default Name'
+  const storedEmail = sessionStorage.getItem('email') || 'default@example.com'
 
-  fetchStats()
-  fetchFlashCards()
-  fetchUsersData()
-  fetchStudents()
+  // Assign values
+  name.value = storedName
+  email.value = storedEmail
 
-  const words = name.value.trim().split(' ')
+  // Generate initials efficiently
+  const words = storedName.trim().split(' ')
   initials.value =
     words.length > 1
       ? words[0][0].toUpperCase() + words[1][0].toUpperCase()
       : words[0][0].toUpperCase()
+
+  // Run API calls concurrently for faster execution
+  await Promise.all([
+    fetchStats(),
+    fetchFlashCards(),
+    fetchUsersData(),
+    fetchStudents(),
+    fetchlineFlashcard(),
+    fetchQuizzeTaken()
+  ])
 })
 
-const years = ref([2021, 2022, 2023, 2024])
+// Initialize the array dynamically up to the current year
+for (let year = 2025; year <= currentYear; year++) {
+  years.value.push(year)
+}
+
+// Watch for year changes and update array if needed
+watchEffect(() => {
+  const newYear = new Date().getFullYear()
+  if (!years.value.includes(newYear)) {
+    years.value.push(newYear) // Append the new year
+  }
+})
 
 const chartOptions = computed(() => ({
   chart: { type: 'line', toolbar: { show: false } },
@@ -310,17 +387,6 @@ const chartOptions = computed(() => ({
     horizontalAlign: 'right'
   }
 }))
-
-const chartSeries = [
-  {
-    name: 'Quizzes taken',
-    data: [5, 34, 17, 77, 85, 45, 2, 5, 26, 33, 121, 93]
-  },
-  {
-    name: 'Flashcards created',
-    data: [90, 44, 31, 12, 5, 32, 42, 12, 11, 32, 165, 54]
-  }
-]
 
 const quizChartOptions = computed(() => ({
   chart: {
@@ -360,17 +426,6 @@ const quizChartOptions = computed(() => ({
     labels: { colors: '#374151' } // Improve legend text visibility
   }
 }))
-
-const quizChartSeries = [
-  {
-    name: 'Created',
-    data: [50, 100, 75, 200, 175, 150, 125, 140, 160, 190, 220, 250]
-  },
-  {
-    name: 'Taken',
-    data: [40, 80, 60, 180, 160, 140, 120, 130, 150, 180, 200, 230]
-  }
-]
 </script>
 
 <style scoped>

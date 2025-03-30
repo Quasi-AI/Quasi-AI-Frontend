@@ -5,22 +5,19 @@ export function useNotificationWatcher() {
   const AuthStore = useAuthenticationStore()
   const toast = useToast()
 
-  const watchNotifications = (
-    store: any,
-    _p0?: { success: string; error: string }
-  ) => {
+  const watchNotifications = (store: any) => {
     watch(
       () => store.success || store.error,
       newToastNotification => {
         if (newToastNotification) {
           toast(newToastNotification, {
-            type: store.error ? ('error' as TYPE) : ('success' as TYPE)
+            type: store.error ? TYPE.ERROR : TYPE.SUCCESS
           })
-          store.clearSuccessAfterDelay()
+          store.clearSuccessAfterDelay() // Ensure this exists in your store
         }
       }
     )
   }
 
-  watchNotifications(AuthStore, { success: 'blue', error: 'red' })
+  watchNotifications(AuthStore)
 }

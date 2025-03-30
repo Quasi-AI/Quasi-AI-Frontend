@@ -15,6 +15,10 @@
         Please login to continue your account
       </p>
 
+      <p v-if="errorMessage" class="text-sm text-red-500">
+        {{ errorMessage }}
+      </p>
+
       <form class="w-full max-w-sm">
         <!-- Email Field -->
         <div class="relative mb-4 w-full">
@@ -27,12 +31,7 @@
           />
           <label
             for="email"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
-            :class="
-              email
-                ? 'top-0 text-xs text-purple-600'
-                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
-            "
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Email
           </label>
@@ -49,12 +48,7 @@
           />
           <label
             for="password"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all"
-            :class="
-              password
-                ? 'top-0 text-xs text-purple-600'
-                : 'top-1/2 -translate-y-1/2 text-base text-gray-400'
-            "
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Password
           </label>
@@ -90,9 +84,6 @@
           </NuxtLink>
         </div>
 
-        <p v-if="passwordError" class="text-sm text-red-500">
-          {{ passwordError }}
-        </p>
         <UButton
           class="mb-4 w-full items-center justify-center rounded bg-[#5D3BEA] p-3 text-white"
           size="md"
@@ -135,9 +126,11 @@
       </p>
     </div>
 
-    <div class="m-4 w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block">
+    <div
+      class="m-4 hidden w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block"
+    >
       <img
-        src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/freepik__the-style-is-candid-image-photography-with-natural__28525.png?alt=media&token=8a662acd-7725-41cb-9601-785985db76b9"
+        src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/smiling-male-student-with-laptop.jpg?alt=media&token=a47717ae-74db-4b46-bfec-0519b5a03ec0"
         alt="cover"
         class="h-full w-full rounded-2xl object-cover"
       />
@@ -147,7 +140,7 @@
 
 <script setup>
 import { useAuthenticationStore } from '~/store/auth'
-import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
+import OrSeperator from '~/assets/icons/or-seperator.vue'
 import { auth, provider, signInWithPopup } from '~/utils/firebase'
 import axios from 'axios'
 import { isValidEmail } from '@/utils/isValidEmail'
@@ -159,7 +152,6 @@ const isLoading = ref(false)
 const store = useAuthenticationStore()
 const router = useRouter()
 const errorMessage = ref('')
-
 const remember = ref(false)
 
 // Load remember state from sessionStorage
@@ -184,6 +176,7 @@ const login = async () => {
     router.push('/dashboard') // Redirect to dashboard
   } catch (error) {
     console.error(error)
+    errorMessage.value = 'Invalid email or password. Please try again.'
   } finally {
     isLoading.value = false // Hide loader after process
   }
@@ -224,12 +217,3 @@ const signInWithGoogle = async () => {
   }
 }
 </script>
-
-<style scoped>
-/* Hide element on small screens (mobile) */
-@media (max-width: 768px) {
-  .md\:block {
-    display: none !important;
-  }
-}
-</style>

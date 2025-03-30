@@ -29,7 +29,7 @@
 
         <!-- Loader Bar -->
         <div
-          class="relative mt-4 h-3 w-full max-w-md rounded-full bg-gray-200 dark:bg-[#111C44]"
+          class="relative mt-4 h-3 w-full max-w-md rounded-full bg-white dark:bg-[#111C44]"
         >
           <div
             class="absolute left-0 h-3 w-1/2 animate-pulse rounded-full bg-orange-500"
@@ -86,9 +86,12 @@
             <!-- User details always at the bottom -->
             <div class="mt-auto flex items-center gap-3 pt-3">
               <img
-                :src="questionSet.created_by.profile"
+                :src="
+                  questionSet.created_by.profile ||
+                  'https://cdn-icons-png.flaticon.com/512/929/929422.png'
+                "
                 alt="Profile"
-                class="h-10 w-10 rounded-full object-cover"
+                class="h-10 w-10 rounded-full border object-cover dark:border-[#0C1438]"
               />
               <div>
                 <p class="font-semibold">{{ questionSet.created_by.name }}</p>
@@ -155,9 +158,23 @@
           </div>
           <button
             @click="closeQuestionSetDetail"
-            class="flex items-center gap-2 rounded-full bg-[#5D3BEA] px-4 py-1 text-white transition duration-300 hover:bg-[#4A2DCA]"
+            class="mr-4 text-gray-500 hover:text-red-500"
+            title="Close"
           >
-            <span>Close</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
           </button>
         </div>
 
@@ -188,6 +205,29 @@
       v-if="showCreateQuestions"
       class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
     >
+      <div class="flex justify-end pb-4">
+        <button
+          @click="closeQuestionSetDetail"
+          class="text-gray-500 hover:text-red-500"
+          title="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
       <!-- Upload File -->
       <div
         @click="triggerFileInput"
@@ -426,6 +466,8 @@ const closeQuestionSetDetail = () => {
   selectedQuestionSet.value = null
   showQuestionSetDetail.value = false
   showHomeQuestions.value = true
+  showCreateQuestions.value = false
+  showPreviewQuestions.value = false
 }
 
 // Format date

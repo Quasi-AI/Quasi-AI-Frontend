@@ -1,12 +1,12 @@
 <template>
   <div
-    class="flex w-full items-center justify-between bg-white p-5 lg:justify-end dark:bg-[#111C44] dark:text-white"
+    class="fixed top-0 z-10 flex w-full items-center justify-between bg-white p-5 shadow-sm lg:justify-end dark:bg-[#111C44] dark:text-white"
   >
     <NuxtLink to="/" class="flex w-40 items-center gap-2 truncate lg:hidden">
       <img
         src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
         alt="logo"
-        class="w-10"
+        class="w-8"
       />
       <h1 class="text-2xl font-bold">QUASI AI</h1>
     </NuxtLink>
@@ -74,7 +74,6 @@ const profileList = [
       label: 'Logout',
       click: () => {
         authStore.logout()
-        colorMode.preference = 'light'
       }
     }
   ]
