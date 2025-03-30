@@ -32,7 +32,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       email: '',
       profileImage: ''
     },
-    users: [] as Array
+    users: [] as Array<object>
   }),
 
   actions: {
@@ -77,6 +77,7 @@ export const useAuthenticationStore = defineStore('authentication', {
           email: any
           statusCode: number
           token?: string
+          role: string
           id?: number
         }>(apiPath, {
           method: 'POST',
@@ -153,7 +154,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       try {
         const data = await $fetch<{
           statusCode: number
-          users?: Array
+          users?: Array<object>
           message?: string
         }>(API_PATHS.getAllUsers, {
           method: 'GET',
