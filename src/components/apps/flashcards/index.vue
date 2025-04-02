@@ -153,12 +153,15 @@
         <div class="mb-4 flex flex-col-reverse gap-4">
           <div>
             <div
-              class="flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:flex-row dark:bg-[#111C44]"
+              class="flex w-fit flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:flex-row dark:bg-[#111C44]"
             >
               <div class="text-sm font-medium">
                 <strong>Topic:</strong>
                 <p>
-                  {{ selectedFlashcardSet?.message || 'No topic specified' }}
+                  {{
+                    truncateTextLong(selectedFlashcardSet?.message) ||
+                    'No topic specified'
+                  }}
                 </p>
               </div>
               <div class="text-sm font-medium">
@@ -433,12 +436,12 @@
       <div class="mb-4 flex flex-col-reverse gap-4">
         <div>
           <div
-            class="flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:flex-row dark:bg-[#111C44]"
+            class="flex w-fit flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:flex-row dark:bg-[#111C44]"
           >
             <div class="text-sm font-medium">
               <strong>Topic:</strong>
               <p>
-                {{ messageContent || 'No topic specified' }}
+                {{ truncateTextLong(messageContent) || 'No topic specified' }}
               </p>
             </div>
             <div class="text-sm font-medium">
