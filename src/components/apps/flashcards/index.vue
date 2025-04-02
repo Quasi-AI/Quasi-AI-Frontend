@@ -153,7 +153,7 @@
         <div class="mb-4 flex flex-col-reverse gap-4">
           <div>
             <div
-              class="flex w-fit flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:flex-row dark:bg-[#111C44]"
+              class="flex w-full flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:w-fit lg:flex-row dark:bg-[#111C44]"
             >
               <div class="text-sm font-medium">
                 <strong>Topic:</strong>
@@ -434,7 +434,7 @@
       <div class="mb-4 flex flex-col-reverse gap-4">
         <div>
           <div
-            class="flex w-fit flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:flex-row dark:bg-[#111C44]"
+            class="flex w-full flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:w-fit lg:flex-row dark:bg-[#111C44]"
           >
             <div class="text-sm font-medium">
               <strong>Topic:</strong>
