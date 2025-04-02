@@ -211,11 +211,10 @@
             >
               <!-- Question Side -->
               <div class="absolute inset-0 flex flex-col justify-between p-6">
-                <div>
+                <div class="flex h-screen flex-col">
                   <p class="text-sm text-gray-500 dark:text-gray-400">
-                    {{ currentIndex + 1 }}/{{
-                      selectedFlashcardSet?.flashcards?.length || 0
-                    }}
+                    Question {{ currentIndex + 1 }} /
+                    {{ selectedFlashcardSet?.flashcards?.length || 0 }}
                   </p>
                   <div class="flex flex-1 items-center justify-center">
                     <h3 class="text-center text-lg font-semibold">
@@ -247,11 +246,10 @@
                 class="absolute inset-0 flex flex-col justify-between rounded-lg bg-white p-6 dark:bg-[#111C44]"
                 :class="{ 'opacity-0': !isShowingAnswer }"
               >
-                <div>
+                <div class="flex h-screen flex-col">
                   <p class="text-sm text-gray-500 dark:text-gray-400">
-                    {{ currentIndex + 1 }}/{{
-                      selectedFlashcardSet?.flashcards?.length || 0
-                    }}
+                    Question {{ currentIndex + 1 }} /
+                    {{ selectedFlashcardSet?.flashcards?.length || 0 }}
                   </p>
                   <div class="flex flex-1 items-center justify-center">
                     <p class="text-center text-lg">
