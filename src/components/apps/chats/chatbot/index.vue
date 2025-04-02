@@ -1,5 +1,7 @@
 <template>
-  <div class="mx-auto flex h-screen flex-col items-center justify-center">
+  <div
+    class="relative mx-auto flex h-screen flex-col items-center justify-center"
+  >
     <!-- Chat Messages -->
     <div
       ref="chatBodyRef"
@@ -31,12 +33,12 @@
 
     <!-- Input Box -->
     <div
-      class="fixed bottom-8 left-1/2 z-10 w-full max-w-2xl -translate-x-1/2 transform p-4 lg:bottom-0 lg:left-[58%] lg:z-0 lg:max-w-[650px] xl:max-w-3xl"
+      class="fixed bottom-8 left-1/2 z-10 w-full max-w-2xl -translate-x-1/2 transform p-4 lg:bottom-0 lg:left-[65%] lg:z-0 lg:max-w-[650px] xl:max-w-3xl"
     >
       <button
         v-if="showScrollButton"
         @click="scrollToBottom"
-        class="fixed bottom-40 right-5 rounded-full bg-[#5d3be9] p-2 text-white shadow-lg transition-opacity hover:bg-[#4a2fc5]"
+        class="fixed bottom-4 right-5 rounded-full bg-[#5d3be9] p-2 text-white shadow-lg transition-opacity hover:bg-[#4a2fc5]"
       >
         ↓
       </button>
@@ -117,8 +119,8 @@ onMounted(() => {
   chatHistory.value = savedChatHistory
     ? JSON.parse(savedChatHistory)
     : props.initialMessage
-    ? [{ role: 'model', text: props.initialMessage }]
-    : []
+      ? [{ role: 'model', text: props.initialMessage }]
+      : []
   scrollToBottom()
 
   // Attach event listener for copy buttons

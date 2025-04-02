@@ -86,9 +86,12 @@
             <!-- User details always at the bottom -->
             <div class="mt-auto flex items-center gap-3 pt-3">
               <img
-                :src="questionSet.created_by.profile"
+                :src="
+                  questionSet.created_by.profile ||
+                  'https://cdn-icons-png.flaticon.com/512/929/929422.png'
+                "
                 alt="Profile"
-                class="h-10 w-10 rounded-full object-cover"
+                class="h-10 w-10 rounded-full border object-cover dark:border-[#0C1438]"
               />
               <div>
                 <p class="font-semibold">{{ questionSet.created_by.name }}</p>

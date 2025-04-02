@@ -15,6 +15,10 @@
         Please login to continue your account
       </p>
 
+      <p v-if="errorMessage" class="text-sm text-red-500">
+        {{ errorMessage }}
+      </p>
+
       <form class="w-full max-w-sm">
         <!-- Email Field -->
         <div class="relative mb-4 w-full">
@@ -80,9 +84,6 @@
           </NuxtLink>
         </div>
 
-        <p v-if="passwordError" class="text-sm text-red-500">
-          {{ passwordError }}
-        </p>
         <UButton
           class="mb-4 w-full items-center justify-center rounded bg-[#5D3BEA] p-3 text-white"
           size="md"
@@ -125,7 +126,9 @@
       </p>
     </div>
 
-    <div class="m-4 w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block">
+    <div
+      class="m-4 hidden w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block"
+    >
       <img
         src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/smiling-male-student-with-laptop.jpg?alt=media&token=a47717ae-74db-4b46-bfec-0519b5a03ec0"
         alt="cover"
@@ -149,7 +152,6 @@ const isLoading = ref(false)
 const store = useAuthenticationStore()
 const router = useRouter()
 const errorMessage = ref('')
-
 const remember = ref(false)
 
 // Load remember state from sessionStorage
@@ -174,6 +176,7 @@ const login = async () => {
     router.push('/dashboard') // Redirect to dashboard
   } catch (error) {
     console.error(error)
+    errorMessage.value = 'Invalid email or password. Please try again.'
   } finally {
     isLoading.value = false // Hide loader after process
   }
@@ -214,12 +217,3 @@ const signInWithGoogle = async () => {
   }
 }
 </script>
-
-<style scoped>
-/* Hide element on small screens (mobile) */
-@media (max-width: 768px) {
-  .md\:block {
-    display: none !important;
-  }
-}
-</style>

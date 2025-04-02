@@ -1,15 +1,16 @@
 import axios from 'axios'
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async to => {
   if (process.server) return
 
   const token = sessionStorage.getItem('authToken')
 
-  // If no token, redirect to login
+  // Allow access to only '/' and any route under '/auth' if no token
   if (!token) {
-    if (to.path !== '/') {
+    if (!to.path.startsWith('/auth') && to.path !== '/') {
       await logSecurityAction('Unauthorized access attempt', 'Failed')
       await logSystemAction('Unauthorized access attempt', 'ERROR', to.path)
+      return navigateTo('/auth/login')
     }
     return
   }
@@ -26,14 +27,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (currentTime >= tokenExpiry) {
       console.warn('Token expired. Logging out...')
       await logoutUser()
-      return navigateTo('/') // Redirect user
+      return navigateTo('/auth/login')
     }
 
     await logSecurityAction('Token authentication successful', 'Success')
   } catch (error) {
     console.error('Invalid token. Logging out...', error)
     await logoutUser()
-    return navigateTo('/') // Redirect user
+    return navigateTo('/auth/login')
   }
 })
 
@@ -43,12 +44,12 @@ const logoutUser = async () => {
   await logSystemAction('User logged out', 'INFO', '/logout')
 
   sessionStorage.clear() // Clear all session data
-  navigateTo('/') // Force redirect after logout
+  navigateTo('/auth/login') // Force redirect after logout
 }
 
-const logSecurityAction = async (action, status) => {
+const logSecurityAction = async (action: string, status: string) => {
   try {
-    const userEmail = sessionStorage.getItem('email') || 'Unknown'
+    const userEmail = sessionStorage.getItem('email') ?? 'Unknown'
     const userAgent = navigator.userAgent
     const ipAddress = await getUserIP()
 
@@ -68,7 +69,11 @@ const logSecurityAction = async (action, status) => {
   }
 }
 
-const logSystemAction = async (message, level, endpoint) => {
+const logSystemAction = async (
+  message: string,
+  level: string,
+  endpoint: string
+) => {
   try {
     await axios.post(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/system-logs',

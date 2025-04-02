@@ -7,7 +7,7 @@
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
           alt="QUASI AI Logo"
-          class="h-10 cursor-pointer"
+          class="w-8 cursor-pointer"
         />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
@@ -32,13 +32,11 @@
           </label>
           <span
             class="absolute inset-y-0 right-3 flex cursor-pointer items-center"
-            @click="isConfirmPasswordVisible = !isConfirmPasswordVisible"
+            @click="togglePasswordVisibility"
           >
             <UIcon
               :name="
-                isConfirmPasswordVisible
-                  ? 'i-heroicons-eye'
-                  : 'i-heroicons-eye-slash'
+                isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
               "
               class="text-gray-500"
             ></UIcon>
@@ -61,7 +59,7 @@
           </label>
           <span
             class="absolute inset-y-0 right-3 flex cursor-pointer items-center"
-            @click="isPasswordVisible = !isPasswordVisible"
+            @click="togglePasswordVisibility"
           >
             <UIcon
               :name="

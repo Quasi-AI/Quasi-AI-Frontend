@@ -32,7 +32,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       email: '',
       profileImage: ''
     },
-    users: [] as Array
+    users: [] as Array<object>
   }),
 
   actions: {
@@ -73,10 +73,13 @@ export const useAuthenticationStore = defineStore('authentication', {
       try {
         this.error = ''
         const data = await $fetch<{
+          message: string
+          role: any
           name: any
           email: any
           statusCode: number
           token?: string
+          role: string
           id?: number
         }>(apiPath, {
           method: 'POST',
@@ -101,9 +104,10 @@ export const useAuthenticationStore = defineStore('authentication', {
           this.success = successMessage
           navigateTo(redirectPath)
         } else {
-          handleError(data)
+          this.error = data.message
         }
       } catch (err) {
+        this.error = 'Error occurred. Please try again.'
         handleError(err)
       }
     },
@@ -153,7 +157,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       try {
         const data = await $fetch<{
           statusCode: number
-          users?: Array
+          users?: Array<object>
           message?: string
         }>(API_PATHS.getAllUsers, {
           method: 'GET',
