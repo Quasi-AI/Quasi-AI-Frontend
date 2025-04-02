@@ -241,7 +241,7 @@
 
               <!-- Answer Side -->
               <div
-                class="absolute inset-0 flex flex-col justify-between rounded-lg bg-white dark:bg-[#111C44] p-6"
+                class="absolute inset-0 flex flex-col justify-between rounded-lg bg-white p-6 dark:bg-[#111C44]"
                 :class="{ 'opacity-0': !isShowingAnswer }"
               >
                 <div>
@@ -407,18 +407,62 @@
     </div>
 
     <!-- Preview Flashcards Container -->
-    <div
-      v-if="showPreviewFlashcards"
-      class="w-full rounded-lg bg-white p-5 shadow-lg dark:bg-[#111C44]"
-    >
-      <div v-if="flashcards.length === 0" class="text-center text-gray-500">
-        No flashcards generated yet.
+    <div v-if="showPreviewFlashcards" class="w-full rounded-lg p-4">
+      <div class="mb-6 flex items-start justify-between gap-4 md:items-center">
+        <button
+          @click="closeFlashcardSetDetail"
+          class="ml-auto text-gray-500 hover:text-red-500"
+          title="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </div>
-
-      <div class="mt-4 flex items-center justify-between">
-        <p class="pb-4 text-lg font-semibold">
-          {{ truncateTextLong(messageContent) || 'Flashcard Preview' }}
-        </p>
+      <div class="mb-4 flex flex-col-reverse gap-4">
+        <div>
+          <div
+            class="flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:flex-row dark:bg-[#111C44]"
+          >
+            <div class="text-sm font-medium">
+              <strong>Topic:</strong>
+              <p>
+                {{ messageContent || 'No topic specified' }}
+              </p>
+            </div>
+            <div class="text-sm font-medium">
+              <strong class="truncate">Difficulty Level:</strong>
+              <p>
+                {{ (level || 'beginner').toUpperCase() }}
+              </p>
+            </div>
+            <div class="text-sm font-medium">
+              <strong class="truncate">No. of Questions:</strong>
+              <p>
+                {{ flashcards?.length || 0 }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-end gap-2">
+          <button
+            @click="shareWithStudentsModal(flashcards)"
+            class="w-[200px] truncate rounded-lg bg-[#5D3BEA] px-4 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+          >
+            Share with students
+          </button>
+        </div>
       </div>
 
       <div
@@ -426,59 +470,73 @@
         class="relative flex h-[60vh] w-full items-center justify-center"
       >
         <div class="relative w-full max-w-md">
+          <!-- Background cards for stacking effect -->
           <div
             v-for="n in 3"
             :key="'stack-' + n"
-            class="absolute inset-0 h-[300px] w-full transform rounded-lg bg-white shadow-md transition-all duration-300"
+            class="absolute inset-0 h-[300px] w-full transform rounded-lg bg-white shadow-md transition-all duration-300 dark:bg-[#111C44]"
             :style="{
               transform: `translateY(${n * 10}px) rotate(${n * 2}deg)`,
               zIndex: 3 - n
             }"
           ></div>
 
+          <!-- Current Card -->
           <div
-            class="relative h-[300px] w-full transform rounded-lg bg-white shadow-lg transition-all duration-500"
+            class="relative h-[300px] w-full transform rounded-lg bg-white shadow-lg transition-all duration-500 dark:bg-[#111C44]"
             :style="{ zIndex: 4 }"
           >
+            <!-- Question Side -->
             <div class="absolute inset-0 flex flex-col justify-between p-6">
-              <div class="flex flex-1 items-center justify-center">
-                <h3 class="text-center text-lg font-semibold">
-                  {{
-                    flashcards[currentIndex]?.front || 'No question available'
-                  }}
-                </h3>
+              <div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ currentIndex + 1 }}/{{ flashcards.length || 0 }}
+                </p>
+                <div class="flex flex-1 items-center justify-center">
+                  <h3 class="text-center text-lg font-semibold">
+                    {{
+                      flashcards[currentIndex]?.front || 'No question available'
+                    }}
+                  </h3>
+                </div>
               </div>
               <div class="flex justify-between">
                 <button
                   @click="toggleAnswer"
                   class="text-blue-600 hover:underline"
                 >
-                  {{ isShowingAnswer ? 'Hide Answer' : 'Show Answer' }}
+                  {{ isShowingAnswer ? 'Hide answer' : 'Show answer' }}
                 </button>
                 <button @click="nextCard" class="text-blue-600 hover:underline">
-                  {{ isAtLastCard ? 'Start Again' : 'Next Card' }}
+                  {{ isAtLastCard ? 'Start again' : 'Show next card' }}
                 </button>
               </div>
             </div>
 
+            <!-- Answer Side -->
             <div
-              class="absolute inset-0 flex flex-col justify-between rounded-lg bg-white p-6"
+              class="absolute inset-0 flex flex-col justify-between rounded-lg bg-white p-6 dark:bg-[#111C44]"
               :class="{ 'opacity-0': !isShowingAnswer }"
             >
-              <div class="flex flex-1 items-center justify-center">
-                <p class="text-center text-lg">
-                  {{ flashcards[currentIndex]?.back || 'No answer provided' }}
+              <div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ currentIndex + 1 }}/{{ flashcards.length || 0 }}
                 </p>
+                <div class="flex flex-1 items-center justify-center">
+                  <p class="text-center text-lg">
+                    {{ flashcards[currentIndex]?.back || 'No answer provided' }}
+                  </p>
+                </div>
               </div>
               <div class="flex justify-between">
                 <button
                   @click="toggleAnswer"
                   class="text-blue-600 hover:underline"
                 >
-                  {{ isShowingAnswer ? 'Hide Answer' : 'Show Answer' }}
+                  {{ isShowingAnswer ? 'Hide answer' : 'Show answer' }}
                 </button>
                 <button @click="nextCard" class="text-blue-600 hover:underline">
-                  {{ isAtLastCard ? 'Start Again' : 'Next Card' }}
+                  {{ isAtLastCard ? 'Start again' : 'Show next card' }}
                 </button>
               </div>
             </div>
