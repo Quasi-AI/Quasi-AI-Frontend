@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ChatSidebar from '@/components/chatbot/ChatSidebar.vue';
-import ChatWindow from '@/components/chatbot/ChatWindow.vue';
+import ChatSidebar from '@/components/chatbot/ChatSidebar.vue'
+import ChatWindow from '@/components/chatbot/ChatWindow.vue'
 </script>
 
 <template>

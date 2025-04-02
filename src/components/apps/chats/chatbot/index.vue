@@ -1,5 +1,7 @@
 <template>
-  <div class="relative mx-auto flex h-screen flex-col items-center justify-center">
+  <div
+    class="relative mx-auto flex h-screen flex-col items-center justify-center"
+  >
     <!-- Chat Messages -->
     <div
       ref="chatBodyRef"
