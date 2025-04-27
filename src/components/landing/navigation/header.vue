@@ -16,13 +16,19 @@
       </NuxtLink>
 
       <div class="hidden flex-row items-center gap-6 lg:flex">
-        <NuxtLink to="/" class="transition duration-300 hover:text-[#5D3BEA]"
+        <NuxtLink
+          to="/#home"
+          class="transition duration-300 hover:text-[#5D3BEA]"
           >Home</NuxtLink
         >
-        <NuxtLink to="/" class="transition duration-300 hover:text-[#5D3BEA]"
+        <NuxtLink
+          to="/#why"
+          class="transition duration-300 hover:text-[#5D3BEA]"
           >Why us</NuxtLink
         >
-        <NuxtLink to="/" class="transition duration-300 hover:text-[#5D3BEA]"
+        <NuxtLink
+          to="/#features"
+          class="transition duration-300 hover:text-[#5D3BEA]"
           >Features</NuxtLink
         >
       </div>

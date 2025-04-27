@@ -1,8 +1,8 @@
 <template>
-  <div class="relative z-10 min-h-screen xl:mx-auto 2xl:w-[1440px]">
+  <div id="home" class="relative z-10 min-h-screen xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="animate-fade-in flex h-screen flex-col items-center justify-center bg-[#E4E0F4] px-4 py-12 lg:h-auto lg:min-h-[60vh] lg:py-20"
+      class="animate-fade-in flex h-screen flex-col items-center justify-center bg-[#E4E0F4] px-4 py-4 lg:h-auto lg:min-h-[60vh] lg:py-5"
     >
       <h1
         class="h-[160px] max-w-3xl text-center text-4xl font-bold leading-tight text-[#190A53] lg:h-[120px] lg:text-5xl"
@@ -27,7 +27,7 @@
           {{ isLoggedIn ? 'Dashboard' : 'Sign up for free' }}
         </NuxtLink>
         <NuxtLink
-          to="/"
+          to="/#learn-more"
           class="rounded-lg px-8 py-3 font-normal transition duration-300 hover:text-[#5D3BEA]"
         >
           Learn more
@@ -70,7 +70,7 @@
     </div>
 
     <!-- Why Choose Quasi AI Section -->
-    <div class="relative bg-white py-20">
+    <div id="why" class="relative py-4">
       <div class="container mx-auto px-4">
         <LandingUiIconsBrandsVideoplaceholder
           width="100%"
@@ -111,7 +111,10 @@
     </div>
 
     <!-- Our Top Features Section -->
-    <div class="flex flex-col items-center bg-white px-4 py-20 lg:px-0">
+    <div
+      id="features"
+      class="flex flex-col items-center bg-white px-4 py-20 lg:px-0"
+    >
       <h2 class="animate-slide-up text-4xl font-bold text-[#5D3BEA]">
         Our top features
       </h2>
@@ -205,7 +208,7 @@
     </div>
 
     <!-- Learn from Experts -->
-    <div class="flex flex-col items-center gap-2 bg-white px-4 py-20 lg:gap-10">
+    <div id="learn-more" class="flex flex-col items-center gap-2 bg-white px-4 py-20 lg:gap-10">
       <div
         class="animate-fade-in flex flex-col items-center justify-between gap-16 lg:flex-row"
       >
@@ -527,7 +530,7 @@ const features = ref([
   },
   {
     icon: LandingUiIconsFeaturesAitutors,
-    title: 'AI Authors',
+    title: 'AI Tutors',
     description: 'So many of them',
     bgColor: 'bg-[#FFFFFF]'
   },
@@ -539,7 +542,7 @@ const features = ref([
   },
   {
     icon: LandingUiIconsFeaturesEssay,
-    title: 'Essay Analyzer',
+    title: 'Past Questions',
     description: '22,649 essays',
     bgColor: 'bg-[#FFF0F0]'
   }
