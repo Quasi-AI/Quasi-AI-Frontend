@@ -181,9 +181,18 @@
         <p class="mb-2 text-xl font-bold">
           {{ selectedQuestionSet.title }}
         </p>
-        <p class="mb-6 text-sm font-medium">
-          {{ selectedQuestionSet.message }}
-        </p>
+        <div class="mb-6">
+          <p class="text-sm font-medium">
+            {{ truncatedMessage }}
+            <button
+              v-if="selectedQuestionSet?.message?.length > 150"
+              @click="isMessageExpanded = !isMessageExpanded"
+              class="ml-2 text-[#5D3BEA] hover:underline"
+            >
+              {{ isMessageExpanded ? 'See less' : 'See more' }}
+            </button>
+          </p>
+        </div>
 
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div
@@ -388,7 +397,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { handleFileUpload } from '@/utils/extractText'
 import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
@@ -413,6 +422,15 @@ const searchQuery = ref('')
 // For detailed question set view
 const showQuestionSetDetail = ref(false)
 const selectedQuestionSet = ref(null)
+const isMessageExpanded = ref(false) // Add this line
+
+// Add this computed property
+const truncatedMessage = computed(() => {
+  if (!selectedQuestionSet.value?.message) return ''
+  return isMessageExpanded.value
+    ? selectedQuestionSet.value.message
+    : truncateText(selectedQuestionSet.value.message, 150)
+})
 
 // Fetch questions on component mount
 onMounted(async () => {
@@ -576,9 +594,11 @@ const handleShare = selectedStudents => {
   0% {
     width: 10%;
   }
+
   50% {
     width: 70%;
   }
+
   100% {
     width: 10%;
   }
