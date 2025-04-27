@@ -3,7 +3,7 @@
   <div
     class="fixed bottom-0 left-0 flex w-full bg-white py-2 shadow-lg lg:hidden dark:bg-[#111C44]"
   >
-    <div class="grid w-full grid-cols-5">
+    <div class="grid w-full grid-cols-4">
       <NuxtLink
         v-for="(item, index) in menuItems"
         :key="index"
@@ -16,13 +16,13 @@
       </NuxtLink>
 
       <!-- Plan -->
-      <NuxtLink
+      <!-- <NuxtLink
         to="/other/pricing/plan"
         class="flex flex-col items-center text-gray-600 dark:text-gray-300"
       >
         <SparklesIcon class="h-6 w-6" />
         <span class="text-xs">Plan</span>
-      </NuxtLink>
+      </NuxtLink> -->
     </div>
   </div>
 </template>
