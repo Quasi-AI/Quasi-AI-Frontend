@@ -208,7 +208,10 @@
     </div>
 
     <!-- Learn from Experts -->
-    <div id="learn-more" class="flex flex-col items-center gap-2 bg-white px-4 py-20 lg:gap-10">
+    <div
+      id="learn-more"
+      class="flex flex-col items-center gap-2 bg-white px-4 py-20 lg:gap-10"
+    >
       <div
         class="animate-fade-in flex flex-col items-center justify-between gap-16 lg:flex-row"
       >
