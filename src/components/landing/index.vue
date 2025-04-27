@@ -1,42 +1,44 @@
 <template>
-  <div class="z-10 xl:mx-auto 2xl:w-[1440px]">
+  <div class="relative z-10 min-h-screen xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] pb-0 text-center lg:text-wrap lg:py-5"
+      class="animate-fade-in flex min-h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 py-12 text-center lg:py-20"
     >
       <h1
-        class="h-[120px] w-[100%] px-4 text-3xl font-bold leading-tight text-[#190A53] lg:h-[80px] lg:w-[35%]"
+        class="max-w-3xl text-4xl font-bold leading-tight text-[#190A53] lg:text-5xl"
       >
         <span v-html="displayedText"></span>
       </h1>
       <p
-        class="animate-slide-up mt-4 w-[100%] text-wrap px-4 text-sm text-gray-600 lg:w-[33%] lg:text-wrap"
+        class="animate-slide-up mt-6 max-w-xl text-lg text-gray-600"
         style="animation-delay: 0.4s"
       >
         Generate flashcards, quizzes, and study materials instantly from your
         lectures, notes, PDFs, and presentations.
       </p>
       <div
-        class="animate-slide-up mt-5 flex space-x-4"
+        class="animate-slide-up mt-8 flex flex-col gap-4 sm:flex-row sm:gap-6"
         style="animation-delay: 0.6s"
       >
         <NuxtLink
           :to="isLoggedIn ? '/dashboard' : '/auth/sign-up'"
-          class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+          class="rounded-lg bg-[#5D3BEA] px-8 py-3 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
           {{ isLoggedIn ? 'Dashboard' : 'Sign up for free' }}
         </NuxtLink>
         <NuxtLink
           to="/"
-          class="rounded-lg px-6 py-2 font-normal transition duration-300 hover:text-[#5D3BEA]"
+          class="rounded-lg px-8 py-3 font-normal transition duration-300 hover:text-[#5D3BEA]"
         >
           Learn more
         </NuxtLink>
       </div>
+
+      <!-- Brand Slider -->
       <div
-        class="brand-slider-wrapper animate-slide-up mt-10 flex w-full items-center gap-8 pb-0 lg:w-[50%] lg:pb-10"
+        class="brand-slider-wrapper animate-slide-up mt-12 w-full max-w-4xl overflow-hidden"
       >
-        <div class="brand-slider">
+        <div class="brand-slider animate-slide flex gap-8">
           <LandingUiIconsBrandsAlphawave class="brand-icon" />
           <LandingUiIconsBrandsFusionx class="brand-icon" />
           <LandingUiIconsBrandsOpticore class="brand-icon" />
@@ -68,43 +70,42 @@
     </div>
 
     <!-- Why Choose Quasi AI Section -->
-    <div
-      class="relative flex flex-col items-center rounded-t-3xl bg-white lg:rounded-none lg:px-0"
-    >
-      <LandingUiIconsBrandsVideoplaceholder
-        width="100%"
-        class="animate-fade-in h-full cursor-pointer lg:absolute lg:top-[-50px] lg:h-[230px]"
-      />
-      <div class="mt-12 bg-white px-4 lg:mt-[200px] lg:px-0">
-        <h2
-          class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
-        >
-          Why choose Quasi AI
-        </h2>
-        <p
-          class="animate-slide-up mt-4 text-center text-gray-600 lg:text-wrap"
-          style="animation-delay: 0.2s"
-        >
-          QUASI AI is one powerful platform that combines all the tools needed
-          to <br />
-          fully learn and retain everything you learn.
-        </p>
-      </div>
+    <div class="relative bg-white py-20">
+      <div class="container mx-auto px-4">
+        <LandingUiIconsBrandsVideoplaceholder
+          width="100%"
+          class="animate-fade-in mx-auto h-full max-w-4xl cursor-pointer transition duration-300 hover:scale-105"
+        />
 
-      <div
-        class="mt-10 grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3 lg:px-0"
-      >
-        <div
-          v-for="(item, index) in whyChooseItems"
-          :key="index"
-          class="animate-slide-up flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 text-center lg:text-wrap"
-          :style="{ 'animation-delay': `${index * 0.2}s` }"
-        >
-          <component :is="item.icon" />
-          <h3 class="mt-4 text-2xl font-bold text-[#5D3BEA]">
-            {{ item.title }}
-          </h3>
-          <p class="mt-2 text-gray-600">{{ item.description }}</p>
+        <div class="mt-20 text-center">
+          <h2
+            class="animate-slide-up text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
+          >
+            Why choose Quasi AI
+          </h2>
+          <p
+            class="animate-slide-up mt-4 text-gray-600 lg:text-wrap"
+            style="animation-delay: 0.2s"
+          >
+            QUASI AI is one powerful platform that combines all the tools needed
+            to <br />
+            fully learn and retain everything you learn.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            v-for="(item, index) in whyChooseItems"
+            :key="index"
+            class="animate-slide-up flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 text-center lg:text-wrap"
+            :style="{ 'animation-delay': `${index * 0.2}s` }"
+          >
+            <component :is="item.icon" />
+            <h3 class="mt-4 text-2xl font-bold text-[#5D3BEA]">
+              {{ item.title }}
+            </h3>
+            <p class="mt-2 text-gray-600">{{ item.description }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -265,48 +266,47 @@
       </div>
     </div>
 
-    <!-- Pricing -->
-    <div
-      class="mb-4 flex flex-col items-center justify-center gap-4 rounded-lg border-t border-gray-200 bg-white p-6 pt-24 lg:mb-12 lg:border-none lg:pt-0 dark:bg-[#1E2A5A]"
-    >
-      <h1
-        class="text-center text-3xl font-bold text-slate-800 dark:text-gray-300"
-      >
-        Choose the plan that's right for you
-      </h1>
+    <!-- Pricing Section -->
+    <div class="bg-white py-20 dark:bg-[#1E2A5A]">
+      <div class="container mx-auto px-4">
+        <h1
+          class="text-center text-4xl font-bold text-slate-800 dark:text-gray-300"
+        >
+          Choose the plan that's right for you
+        </h1>
 
-      <!-- Tabs -->
-      <div
-        class="mb-4 flex gap-2 rounded-full bg-gray-200 p-1 dark:bg-[#0C1438]"
-      >
-        <button
-          @click="billingCycle = 'monthly'"
-          :class="
-            billingCycle === 'monthly'
-              ? 'bg-[#5D3BEA] text-white'
-              : 'text-gray-600 dark:text-gray-300'
-          "
-          class="rounded-full px-4 py-2 font-bold"
-        >
-          Monthly
-        </button>
-        <button
-          @click="billingCycle = 'yearly'"
-          :class="
-            billingCycle === 'yearly'
-              ? 'bg-[#5D3BEA] text-white'
-              : 'text-gray-600 dark:text-gray-300'
-          "
-          class="rounded-full px-4 py-2 font-bold"
-        >
-          Yearly (5% off)
-        </button>
-      </div>
+        <!-- Pricing Toggle -->
+        <div class="mt-8 flex justify-center">
+          <div
+            class="inline-flex rounded-full bg-gray-200 p-1 dark:bg-[#0C1438]"
+          >
+            <button
+              @click="billingCycle = 'monthly'"
+              :class="
+                billingCycle === 'monthly'
+                  ? 'bg-[#5D3BEA] text-white'
+                  : 'text-gray-600 dark:text-gray-300'
+              "
+              class="rounded-full px-4 py-2 font-bold"
+            >
+              Monthly
+            </button>
+            <button
+              @click="billingCycle = 'yearly'"
+              :class="
+                billingCycle === 'yearly'
+                  ? 'bg-[#5D3BEA] text-white'
+                  : 'text-gray-600 dark:text-gray-300'
+              "
+              class="rounded-full px-4 py-2 font-bold"
+            >
+              Yearly (5% off)
+            </button>
+          </div>
+        </div>
 
-      <div class="flex flex-col items-center justify-center px-4">
-        <div
-          class="grid w-full gap-6 md:grid-cols-2 lg:max-w-5xl xl:grid-cols-3"
-        >
+        <!-- Pricing Cards -->
+        <div class="mt-12 grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
           <!-- Basic Plan -->
           <div
             class="relative w-full max-w-sm rounded-2xl border bg-white p-6 shadow-md transition-all hover:shadow-lg dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
@@ -549,28 +549,57 @@ const features = ref([
 const fullText =
   'Transform Your Learning Experience with <span style="color:#5D3BEA">Quasi AI</span>'
 const displayedText = ref('')
+let currentText = ''
+let isTag = false
+let tagContent = ''
 let index = 0
 
 const typeEffect = () => {
   displayedText.value = ''
+  currentText = ''
+  isTag = false
+  tagContent = ''
   index = 0
 
-  const tempDiv = document.createElement('div')
-  tempDiv.innerHTML = fullText
-  const characters = tempDiv.innerHTML.split('')
+  const typeNextCharacter = () => {
+    if (index < fullText.length) {
+      const char = fullText[index]
 
-  const interval = setInterval(() => {
-    if (index < characters.length) {
-      displayedText.value += characters[index]
+      if (char === '<') {
+        isTag = true
+        tagContent = char
+      } else if (char === '>') {
+        isTag = false
+        tagContent += char
+        currentText += tagContent
+        displayedText.value = currentText
+      } else if (isTag) {
+        tagContent += char
+      } else {
+        currentText += char
+        displayedText.value = currentText
+      }
+
       index++
+      requestAnimationFrame(() => setTimeout(typeNextCharacter, 50))
     } else {
-      clearInterval(interval)
-      setTimeout(typeEffect, 1500)
+      setTimeout(() => {
+        typeEffect()
+      }, 3000)
     }
-  }, 50)
+  }
+
+  typeNextCharacter()
 }
 
-onMounted(typeEffect)
+onMounted(() => {
+  typeEffect()
+  document.documentElement.style.scrollBehavior = 'smooth'
+})
+
+onUnmounted(() => {
+  document.documentElement.style.scrollBehavior = ''
+})
 
 // Define billing cycle types
 type BillingCycle = 'monthly' | 'yearly'
