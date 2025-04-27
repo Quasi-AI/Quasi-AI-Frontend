@@ -2,15 +2,15 @@
   <div class="relative z-10 min-h-screen xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="animate-fade-in flex min-h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 py-12 text-center lg:py-20"
+      class="animate-fade-in flex h-screen flex-col items-center justify-center bg-[#E4E0F4] px-4 py-12 lg:h-auto lg:min-h-[60vh] lg:py-20"
     >
       <h1
-        class="max-w-3xl text-4xl font-bold leading-tight text-[#190A53] lg:text-5xl"
+        class="h-[160px] max-w-3xl text-center text-4xl font-bold leading-tight text-[#190A53] lg:h-[120px] lg:text-5xl"
       >
         <span v-html="displayedText"></span>
       </h1>
       <p
-        class="animate-slide-up mt-6 max-w-xl text-lg text-gray-600"
+        class="animate-slide-up mt-6 max-w-xl text-center text-lg text-gray-600"
         style="animation-delay: 0.4s"
       >
         Generate flashcards, quizzes, and study materials instantly from your
