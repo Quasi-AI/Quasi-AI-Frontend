@@ -223,7 +223,7 @@
             And Learners
           </h2>
           <p
-            class="animate-slide-up mt-4 text-center text-gray-600 lg:text-wrap"
+            class="animate-slide-up mt-4 text-gray-600 lg:text-wrap"
             style="animation-delay: 0.2s"
           >
             QUASI AI has a dynamic set of teaching tools built just for you,

@@ -1,7 +1,7 @@
 <template>
   <div class="bg-[#252641] px-6 py-12 text-white">
     <div
-      class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 lg:flex-row"
+      class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 lg:flex-row-reverse"
     >
       <!-- Newsletter Section -->
       <div class="w-full max-w-md text-center lg:text-left">
