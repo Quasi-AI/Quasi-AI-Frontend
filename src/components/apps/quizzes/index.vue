@@ -276,6 +276,22 @@
       </div>
 
       <div v-else class="space-y-4">
+        <!-- Progress Bar moved here -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between text-sm text-gray-500">
+            <span>Progress</span>
+            <span>{{ currentIndex + 1 }} of {{ quizes.length }}</span>
+          </div>
+          <div class="mt-2 h-2 w-full rounded-full bg-gray-200">
+            <div
+              class="h-full rounded-full bg-[#5D3BEA] transition-all duration-300"
+              :style="{
+                width: `${((currentIndex + 1) / quizes.length) * 100}%`
+              }"
+            ></div>
+          </div>
+        </div>
+
         <div
           class="flex flex-col items-center justify-between gap-4 py-2 lg:flex-row"
         >
@@ -319,6 +335,7 @@
               </svg>
             </button>
           </div>
+
           <div
             class="flex flex-col items-center justify-center gap-3 rounded-lg"
           >
@@ -769,9 +786,11 @@ const handleShare = selectedStudents => {
   0% {
     width: 10%;
   }
+
   50% {
     width: 70%;
   }
+
   100% {
     width: 10%;
   }
