@@ -153,30 +153,47 @@
         <div class="mb-4 flex flex-col-reverse gap-4">
           <div>
             <div
-              class="flex w-full flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:w-fit lg:flex-row dark:bg-[#111C44]"
+              class="flex w-full flex-col items-start gap-4 rounded-lg bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between dark:bg-[#111C44]"
             >
-              <div class="text-sm font-medium">
+              <div class="w-full text-sm font-medium lg:w-1/3">
                 <strong>Topic:</strong>
-                <p>
+                <p :class="{ 'line-clamp-2': !isTopicExpanded }">
                   {{
-                    truncateTextLong(selectedFlashcardSet?.message) ||
+                    selectedFlashcardSet?.message ||
+                    messageContent ||
                     'No topic specified'
                   }}
                 </p>
+                <button
+                  @click="isTopicExpanded = !isTopicExpanded"
+                  class="mt-1 text-xs text-blue-600 hover:underline"
+                >
+                  {{ isTopicExpanded ? 'Show less' : 'See more' }}
+                </button>
               </div>
-              <div class="text-sm font-medium">
-                <strong class="truncate">Difficulty Level:</strong>
-                <p>
-                  {{
-                    (selectedFlashcardSet?.level || 'beginner').toUpperCase()
-                  }}
-                </p>
-              </div>
-              <div class="text-sm font-medium">
-                <strong class="truncate">No. of Questions:</strong>
-                <p>
-                  {{ selectedFlashcardSet?.flashcards?.length || 0 }}
-                </p>
+              <div class="flex w-full flex-wrap gap-4 lg:w-2/3 lg:justify-end">
+                <div class="min-w-[150px] text-sm font-medium">
+                  <strong class="block">Difficulty Level:</strong>
+                  <p class="mt-1">
+                    {{
+                      (
+                        selectedFlashcardSet?.level ||
+                        level ||
+                        'beginner'
+                      ).toUpperCase()
+                    }}
+                  </p>
+                </div>
+                <div class="min-w-[150px] text-sm font-medium">
+                  <strong class="block">No. of Questions:</strong>
+                  <p class="mt-1">
+                    {{
+                      selectedFlashcardSet?.flashcards?.length ||
+                      flashcards?.length ||
+                      0
+                    }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -439,25 +456,37 @@
       <div class="mb-4 flex flex-col-reverse gap-4">
         <div>
           <div
-            class="flex w-full flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:w-fit lg:flex-row dark:bg-[#111C44]"
+            class="flex w-full flex-col items-start gap-4 rounded-lg bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between dark:bg-[#111C44]"
           >
-            <div class="text-sm font-medium">
+            <div class="w-full text-sm font-medium lg:w-1/3">
               <strong>Topic:</strong>
-              <p>
-                {{ truncateTextLong(messageContent) || 'No topic specified' }}
+              <p :class="{ 'line-clamp-2': !isTopicExpanded }">
+                {{
+                  selectedFlashcardSet?.message ||
+                  messageContent ||
+                  'No topic specified'
+                }}
               </p>
+              <button
+                @click="isTopicExpanded = !isTopicExpanded"
+                class="mt-1 text-xs text-blue-600 hover:underline"
+              >
+                {{ isTopicExpanded ? 'Show less' : 'See more' }}
+              </button>
             </div>
-            <div class="text-sm font-medium">
-              <strong class="truncate">Difficulty Level:</strong>
-              <p>
-                {{ (level || 'beginner').toUpperCase() }}
-              </p>
-            </div>
-            <div class="text-sm font-medium">
-              <strong class="truncate">No. of Questions:</strong>
-              <p>
-                {{ flashcards?.length || 0 }}
-              </p>
+            <div class="flex w-full flex-wrap gap-4 lg:w-2/3 lg:justify-end">
+              <div class="min-w-[150px] text-sm font-medium">
+                <strong class="block">Difficulty Level:</strong>
+                <p class="mt-1">
+                  {{ (level || 'beginner').toUpperCase() }}
+                </p>
+              </div>
+              <div class="min-w-[150px] text-sm font-medium">
+                <strong class="block">No. of Questions:</strong>
+                <p class="mt-1">
+                  {{ flashcards?.length || 0 }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -590,6 +619,9 @@ const isShareWithStudentModalVisible = ref(false)
 // Add these refs
 const isFlippingLeft = ref(false)
 const isFlippingRight = ref(false)
+
+// Add this ref
+const isTopicExpanded = ref(false)
 
 // Computed properties
 const isAtLastCard = computed(() => {
@@ -863,5 +895,13 @@ onMounted(async () => {
   backface-visibility: hidden;
   transform-style: preserve-3d;
   will-change: transform;
+}
+
+/* Add these utility classes */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
