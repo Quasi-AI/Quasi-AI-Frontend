@@ -614,7 +614,18 @@ useHead({
   meta: [
     { charset: 'utf-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { key: 'theme-color', name: 'theme-color', content: '#E4E0F4' }
+    { key: 'theme-color', name: 'theme-color', content: '#FFF' }
   ]
+})
+
+useSeoMeta({
+  titleTemplate: 'Quasi AI',
+  description:
+    'Transform your learning experience with Quasi AI, the all-in-one learning platform that generates flashcards, quizzies, and study materials instantly from your lectures, notes, pdfs, and presentations.',
+  ogImage:
+    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
+  twitterImage:
+    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
+  twitterCard: 'summary_large_image'
 })
 </script>
