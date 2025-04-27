@@ -195,7 +195,7 @@
           <div class="relative w-full max-w-md">
             <!-- Background cards for stacking effect -->
             <div
-              v-for="n in 3"
+              v-for="n in remainingStackedCards"
               :key="'stack-' + n"
               class="absolute inset-0 h-[300px] w-full transform rounded-lg bg-white shadow-md transition-all duration-300 dark:bg-[#111C44]"
               :style="{
@@ -208,6 +208,11 @@
             <div
               class="relative h-[300px] w-full transform rounded-lg bg-white shadow-lg transition-all duration-500 dark:bg-[#111C44]"
               :style="{ zIndex: 4 }"
+              :class="[
+                'flip-card',
+                { 'flip-left': isFlippingLeft },
+                { 'flip-right': isFlippingRight }
+              ]"
             >
               <!-- Question Side -->
               <div class="absolute inset-0 flex flex-col justify-between p-6">
@@ -473,7 +478,7 @@
         <div class="relative w-full max-w-md">
           <!-- Background cards for stacking effect -->
           <div
-            v-for="n in 3"
+            v-for="n in remainingStackedCards"
             :key="'stack-' + n"
             class="absolute inset-0 h-[300px] w-full transform rounded-lg bg-white shadow-md transition-all duration-300 dark:bg-[#111C44]"
             :style="{
@@ -486,6 +491,11 @@
           <div
             class="relative h-[300px] w-full transform rounded-lg bg-white shadow-lg transition-all duration-500 dark:bg-[#111C44]"
             :style="{ zIndex: 4 }"
+            :class="[
+              'flip-card',
+              { 'flip-left': isFlippingLeft },
+              { 'flip-right': isFlippingRight }
+            ]"
           >
             <!-- Question Side -->
             <div class="absolute inset-0 flex flex-col justify-between p-6">
@@ -577,11 +587,25 @@ const showFlashcardSetDetail = ref(false)
 const selectedFlashcardSet = ref(null)
 const isShareWithStudentModalVisible = ref(false)
 
+// Add these refs
+const isFlippingLeft = ref(false)
+const isFlippingRight = ref(false)
+
 // Computed properties
 const isAtLastCard = computed(() => {
   const flashcardsArray =
     selectedFlashcardSet.value?.flashcards || flashcards.value
   return currentIndex.value === (flashcardsArray?.length || 0) - 1
+})
+
+// Add this computed property
+const remainingStackedCards = computed(() => {
+  const flashcardsArray =
+    selectedFlashcardSet.value?.flashcards || flashcards.value
+  const totalCards = flashcardsArray?.length || 0
+  const remaining = totalCards - currentIndex.value - 1
+  // Return maximum 3 stacked cards or the number of remaining cards, whichever is smaller
+  return Math.min(3, remaining)
 })
 
 // Utility functions
@@ -620,12 +644,20 @@ const nextCard = () => {
   const totalCards = flashcardsArray?.length || 0
 
   if (currentIndex.value < totalCards - 1) {
-    currentIndex.value++
+    isFlippingLeft.value = true
+    setTimeout(() => {
+      currentIndex.value++
+      isShowingAnswer.value = false
+      isFlippingLeft.value = false
+    }, 300)
   } else {
-    // Reset to first card if at the end
-    currentIndex.value = 0
+    isFlippingRight.value = true
+    setTimeout(() => {
+      currentIndex.value = 0
+      isShowingAnswer.value = false
+      isFlippingRight.value = false
+    }, 300)
   }
-  isShowingAnswer.value = false
 }
 
 const HandleCreateFlashcardsButton = () => {
@@ -787,9 +819,11 @@ onMounted(async () => {
   0% {
     width: 10%;
   }
+
   50% {
     width: 70%;
   }
+
   100% {
     width: 10%;
   }
@@ -804,8 +838,30 @@ onMounted(async () => {
 .answer-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .answer-enter-from,
 .answer-leave-to {
   opacity: 0;
+}
+
+/* Card flip animations */
+.flip-card {
+  perspective: 1000px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.flip-left {
+  transform: translateX(-100%) rotateY(-180deg);
+}
+
+.flip-right {
+  transform: translateX(100%) rotateY(180deg);
+}
+
+/* Optimize animation performance */
+.flip-card {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 </style>
