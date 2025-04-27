@@ -32,7 +32,6 @@ import LandingUiIconsFeaturesFlashcards from '@/components/landing/ui/icons/feat
 import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features/tutors.vue'
 import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
 import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
-import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
 import LandingUiIconsFeaturesSpeech from '@/components/landing/ui/icons/features/speech.vue'
 
 const router = useRouter()
@@ -62,14 +61,6 @@ const features = ref([
     bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]'
   },
   {
-    icon: LandingUiIconsFeaturesEssay,
-    title: 'Essay Analyzer',
-    description:
-      'Get feedback on your essays, including grammar and structure improvements.',
-    route: '/apps/essay',
-    bgColor: 'bg-[#FFF0F0] dark:bg-[#352F44]'
-  },
-  {
     icon: LandingUiIconsFeaturesQuizzes,
     title: 'Practice Quizzes',
     description:
@@ -92,14 +83,6 @@ const features = ref([
       'Convert spoken words into accurate text for learning and note-taking purposes.',
     route: '/apps/speech-to-text',
     bgColor: 'bg-[#EBEBFF] dark:bg-[#1E2A5A]'
-  },
-  {
-    icon: LandingUiIconsFeaturesTutors,
-    title: 'Customer Support',
-    description:
-      'We offer live chat support and encourage you to send us feedback to ensure uninterrupted service.',
-    route: '/other/support',
-    bgColor: 'bg-[#FFEEE8] dark:bg-[#3B3B5F]'
   }
 ])
 
