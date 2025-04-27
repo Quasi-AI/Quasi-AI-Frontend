@@ -153,27 +153,47 @@
         <div class="mb-4 flex flex-col-reverse gap-4">
           <div>
             <div
-              class="flex flex-col items-center gap-2 rounded-lg bg-white p-4 shadow-sm lg:flex-row dark:bg-[#111C44]"
+              class="flex w-full flex-col items-start gap-4 rounded-lg bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between dark:bg-[#111C44]"
             >
-              <div class="text-sm font-medium">
+              <div class="w-full text-sm font-medium lg:w-1/3">
                 <strong>Topic:</strong>
-                <p>
-                  {{ selectedFlashcardSet?.message || 'No topic specified' }}
-                </p>
-              </div>
-              <div class="text-sm font-medium">
-                <strong class="truncate">Difficulty Level:</strong>
-                <p>
+                <p :class="{ 'line-clamp-2': !isTopicExpanded }">
                   {{
-                    (selectedFlashcardSet?.level || 'beginner').toUpperCase()
+                    selectedFlashcardSet?.message ||
+                    messageContent ||
+                    'No topic specified'
                   }}
                 </p>
+                <button
+                  @click="isTopicExpanded = !isTopicExpanded"
+                  class="mt-1 text-xs text-blue-600 hover:underline"
+                >
+                  {{ isTopicExpanded ? 'Show less' : 'See more' }}
+                </button>
               </div>
-              <div class="text-sm font-medium">
-                <strong class="truncate">No. of Questions:</strong>
-                <p>
-                  {{ selectedFlashcardSet?.flashcards?.length || 0 }}
-                </p>
+              <div class="flex w-full flex-wrap gap-4 lg:w-2/3 lg:justify-end">
+                <div class="min-w-[150px] text-sm font-medium">
+                  <strong class="block">Difficulty Level:</strong>
+                  <p class="mt-1">
+                    {{
+                      (
+                        selectedFlashcardSet?.level ||
+                        level ||
+                        'beginner'
+                      ).toUpperCase()
+                    }}
+                  </p>
+                </div>
+                <div class="min-w-[150px] text-sm font-medium">
+                  <strong class="block">No. of Questions:</strong>
+                  <p class="mt-1">
+                    {{
+                      selectedFlashcardSet?.flashcards?.length ||
+                      flashcards?.length ||
+                      0
+                    }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -192,7 +212,7 @@
           <div class="relative w-full max-w-md">
             <!-- Background cards for stacking effect -->
             <div
-              v-for="n in 3"
+              v-for="n in remainingStackedCards"
               :key="'stack-' + n"
               class="absolute inset-0 h-[300px] w-full transform rounded-lg bg-white shadow-md transition-all duration-300 dark:bg-[#111C44]"
               :style="{
@@ -205,14 +225,18 @@
             <div
               class="relative h-[300px] w-full transform rounded-lg bg-white shadow-lg transition-all duration-500 dark:bg-[#111C44]"
               :style="{ zIndex: 4 }"
+              :class="[
+                'flip-card',
+                { 'flip-left': isFlippingLeft },
+                { 'flip-right': isFlippingRight }
+              ]"
             >
               <!-- Question Side -->
               <div class="absolute inset-0 flex flex-col justify-between p-6">
-                <div>
+                <div class="flex h-screen flex-col">
                   <p class="text-sm text-gray-500 dark:text-gray-400">
-                    {{ currentIndex + 1 }}/{{
-                      selectedFlashcardSet?.flashcards?.length || 0
-                    }}
+                    Question {{ currentIndex + 1 }} /
+                    {{ selectedFlashcardSet?.flashcards?.length || 0 }}
                   </p>
                   <div class="flex flex-1 items-center justify-center">
                     <h3 class="text-center text-lg font-semibold">
@@ -241,14 +265,13 @@
 
               <!-- Answer Side -->
               <div
-                class="absolute inset-0 flex flex-col justify-between rounded-lg bg-white dark:bg-[#111C44] p-6"
+                class="absolute inset-0 flex flex-col justify-between rounded-lg bg-white p-6 dark:bg-[#111C44]"
                 :class="{ 'opacity-0': !isShowingAnswer }"
               >
-                <div>
+                <div class="flex h-screen flex-col">
                   <p class="text-sm text-gray-500 dark:text-gray-400">
-                    {{ currentIndex + 1 }}/{{
-                      selectedFlashcardSet?.flashcards?.length || 0
-                    }}
+                    Question {{ currentIndex + 1 }} /
+                    {{ selectedFlashcardSet?.flashcards?.length || 0 }}
                   </p>
                   <div class="flex flex-1 items-center justify-center">
                     <p class="text-center text-lg">
@@ -407,18 +430,74 @@
     </div>
 
     <!-- Preview Flashcards Container -->
-    <div
-      v-if="showPreviewFlashcards"
-      class="w-full rounded-lg bg-white p-5 shadow-lg dark:bg-[#111C44]"
-    >
-      <div v-if="flashcards.length === 0" class="text-center text-gray-500">
-        No flashcards generated yet.
+    <div v-if="showPreviewFlashcards" class="w-full rounded-lg p-4">
+      <div class="mb-6 flex items-start justify-between gap-4 md:items-center">
+        <button
+          @click="closeFlashcardSetDetail"
+          class="ml-auto text-gray-500 hover:text-red-500"
+          title="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </div>
-
-      <div class="mt-4 flex items-center justify-between">
-        <p class="pb-4 text-lg font-semibold">
-          {{ truncateTextLong(messageContent) || 'Flashcard Preview' }}
-        </p>
+      <div class="mb-4 flex flex-col-reverse gap-4">
+        <div>
+          <div
+            class="flex w-full flex-col items-start gap-4 rounded-lg bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between dark:bg-[#111C44]"
+          >
+            <div class="w-full text-sm font-medium lg:w-1/3">
+              <strong>Topic:</strong>
+              <p :class="{ 'line-clamp-2': !isTopicExpanded }">
+                {{
+                  selectedFlashcardSet?.message ||
+                  messageContent ||
+                  'No topic specified'
+                }}
+              </p>
+              <button
+                @click="isTopicExpanded = !isTopicExpanded"
+                class="mt-1 text-xs text-blue-600 hover:underline"
+              >
+                {{ isTopicExpanded ? 'Show less' : 'See more' }}
+              </button>
+            </div>
+            <div class="flex w-full flex-wrap gap-4 lg:w-2/3 lg:justify-end">
+              <div class="min-w-[150px] text-sm font-medium">
+                <strong class="block">Difficulty Level:</strong>
+                <p class="mt-1">
+                  {{ (level || 'beginner').toUpperCase() }}
+                </p>
+              </div>
+              <div class="min-w-[150px] text-sm font-medium">
+                <strong class="block">No. of Questions:</strong>
+                <p class="mt-1">
+                  {{ flashcards?.length || 0 }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-end gap-2">
+          <button
+            @click="shareWithStudentsModal(flashcards)"
+            class="w-[200px] truncate rounded-lg bg-[#5D3BEA] px-4 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+          >
+            Share with students
+          </button>
+        </div>
       </div>
 
       <div
@@ -426,59 +505,78 @@
         class="relative flex h-[60vh] w-full items-center justify-center"
       >
         <div class="relative w-full max-w-md">
+          <!-- Background cards for stacking effect -->
           <div
-            v-for="n in 3"
+            v-for="n in remainingStackedCards"
             :key="'stack-' + n"
-            class="absolute inset-0 h-[300px] w-full transform rounded-lg bg-white shadow-md transition-all duration-300"
+            class="absolute inset-0 h-[300px] w-full transform rounded-lg bg-white shadow-md transition-all duration-300 dark:bg-[#111C44]"
             :style="{
               transform: `translateY(${n * 10}px) rotate(${n * 2}deg)`,
               zIndex: 3 - n
             }"
           ></div>
 
+          <!-- Current Card -->
           <div
-            class="relative h-[300px] w-full transform rounded-lg bg-white shadow-lg transition-all duration-500"
+            class="relative h-[300px] w-full transform rounded-lg bg-white shadow-lg transition-all duration-500 dark:bg-[#111C44]"
             :style="{ zIndex: 4 }"
+            :class="[
+              'flip-card',
+              { 'flip-left': isFlippingLeft },
+              { 'flip-right': isFlippingRight }
+            ]"
           >
+            <!-- Question Side -->
             <div class="absolute inset-0 flex flex-col justify-between p-6">
-              <div class="flex flex-1 items-center justify-center">
-                <h3 class="text-center text-lg font-semibold">
-                  {{
-                    flashcards[currentIndex]?.front || 'No question available'
-                  }}
-                </h3>
+              <div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ currentIndex + 1 }}/{{ flashcards.length || 0 }}
+                </p>
+                <div class="flex flex-1 items-center justify-center">
+                  <h3 class="text-center text-lg font-semibold">
+                    {{
+                      flashcards[currentIndex]?.front || 'No question available'
+                    }}
+                  </h3>
+                </div>
               </div>
               <div class="flex justify-between">
                 <button
                   @click="toggleAnswer"
                   class="text-blue-600 hover:underline"
                 >
-                  {{ isShowingAnswer ? 'Hide Answer' : 'Show Answer' }}
+                  {{ isShowingAnswer ? 'Hide answer' : 'Show answer' }}
                 </button>
                 <button @click="nextCard" class="text-blue-600 hover:underline">
-                  {{ isAtLastCard ? 'Start Again' : 'Next Card' }}
+                  {{ isAtLastCard ? 'Start again' : 'Show next card' }}
                 </button>
               </div>
             </div>
 
+            <!-- Answer Side -->
             <div
-              class="absolute inset-0 flex flex-col justify-between rounded-lg bg-white p-6"
+              class="absolute inset-0 flex flex-col justify-between rounded-lg bg-white p-6 dark:bg-[#111C44]"
               :class="{ 'opacity-0': !isShowingAnswer }"
             >
-              <div class="flex flex-1 items-center justify-center">
-                <p class="text-center text-lg">
-                  {{ flashcards[currentIndex]?.back || 'No answer provided' }}
+              <div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ currentIndex + 1 }}/{{ flashcards.length || 0 }}
                 </p>
+                <div class="flex flex-1 items-center justify-center">
+                  <p class="text-center text-lg">
+                    {{ flashcards[currentIndex]?.back || 'No answer provided' }}
+                  </p>
+                </div>
               </div>
               <div class="flex justify-between">
                 <button
                   @click="toggleAnswer"
                   class="text-blue-600 hover:underline"
                 >
-                  {{ isShowingAnswer ? 'Hide Answer' : 'Show Answer' }}
+                  {{ isShowingAnswer ? 'Hide answer' : 'Show answer' }}
                 </button>
                 <button @click="nextCard" class="text-blue-600 hover:underline">
-                  {{ isAtLastCard ? 'Start Again' : 'Next Card' }}
+                  {{ isAtLastCard ? 'Start again' : 'Show next card' }}
                 </button>
               </div>
             </div>
@@ -518,11 +616,28 @@ const showFlashcardSetDetail = ref(false)
 const selectedFlashcardSet = ref(null)
 const isShareWithStudentModalVisible = ref(false)
 
+// Add these refs
+const isFlippingLeft = ref(false)
+const isFlippingRight = ref(false)
+
+// Add this ref
+const isTopicExpanded = ref(false)
+
 // Computed properties
 const isAtLastCard = computed(() => {
   const flashcardsArray =
     selectedFlashcardSet.value?.flashcards || flashcards.value
   return currentIndex.value === (flashcardsArray?.length || 0) - 1
+})
+
+// Add this computed property
+const remainingStackedCards = computed(() => {
+  const flashcardsArray =
+    selectedFlashcardSet.value?.flashcards || flashcards.value
+  const totalCards = flashcardsArray?.length || 0
+  const remaining = totalCards - currentIndex.value - 1
+  // Return maximum 3 stacked cards or the number of remaining cards, whichever is smaller
+  return Math.min(3, remaining)
 })
 
 // Utility functions
@@ -561,12 +676,20 @@ const nextCard = () => {
   const totalCards = flashcardsArray?.length || 0
 
   if (currentIndex.value < totalCards - 1) {
-    currentIndex.value++
+    isFlippingLeft.value = true
+    setTimeout(() => {
+      currentIndex.value++
+      isShowingAnswer.value = false
+      isFlippingLeft.value = false
+    }, 300)
   } else {
-    // Reset to first card if at the end
-    currentIndex.value = 0
+    isFlippingRight.value = true
+    setTimeout(() => {
+      currentIndex.value = 0
+      isShowingAnswer.value = false
+      isFlippingRight.value = false
+    }, 300)
   }
-  isShowingAnswer.value = false
 }
 
 const HandleCreateFlashcardsButton = () => {
@@ -728,9 +851,11 @@ onMounted(async () => {
   0% {
     width: 10%;
   }
+
   50% {
     width: 70%;
   }
+
   100% {
     width: 10%;
   }
@@ -745,8 +870,38 @@ onMounted(async () => {
 .answer-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .answer-enter-from,
 .answer-leave-to {
   opacity: 0;
+}
+
+/* Card flip animations */
+.flip-card {
+  perspective: 1000px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.flip-left {
+  transform: translateX(-100%) rotateY(-180deg);
+}
+
+.flip-right {
+  transform: translateX(100%) rotateY(180deg);
+}
+
+/* Optimize animation performance */
+.flip-card {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Add these utility classes */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
