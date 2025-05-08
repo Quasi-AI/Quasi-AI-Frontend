@@ -11,7 +11,7 @@
           v-for="(chat, index) in chatHistory"
           :key="index"
           :class="[
-            'mb-2 max-w-[85%] rounded-lg p-3',
+            'mb-2 w-fit rounded-lg p-3',
             chat.role === 'user'
               ? 'ml-auto bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
               : 'mr-auto border text-black dark:border-[#1E2A50] dark:text-white'
