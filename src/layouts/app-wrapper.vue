@@ -3,8 +3,34 @@
     <CommonNavbar />
     <div class="flex w-full bg-[#F4F7FE] dark:bg-[#0C1438]">
       <div
-        class="hidden min-h-screen w-64 bg-gray-200 transition-all duration-300 lg:block dark:bg-gray-900"
+        :class="[
+          'relative hidden min-h-screen transition-all duration-300 lg:block dark:bg-gray-900',
+          sidebarStore.isCollapsed ? 'w-20' : 'w-64'
+        ]"
       >
+        <!-- Toggle Button -->
+        <button
+          @click="sidebarStore.toggle"
+          class="absolute -right-3 top-20 z-50 rounded-full bg-white p-1.5 shadow-md hover:bg-gray-100 dark:bg-[#111C44] dark:hover:bg-[#1A2B5F]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            :class="[
+              'h-4 w-4 transition-transform',
+              sidebarStore.isCollapsed ? 'rotate-180' : ''
+            ]"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
         <slot name="sidebar"></slot>
       </div>
 
@@ -32,10 +58,12 @@
 </template>
 
 <script setup>
+import { useSidebarStore } from '@/store/sidebar'
 import BackIcon from '../assets/icons/back-icon.vue'
 
 const route = useRoute()
 const router = useRouter()
+const sidebarStore = useSidebarStore()
 const pageTitle = computed(() => titles[route.path] || 'Page not recognized')
 const hideBackIconRoutes = ['/dashboard', '/apps']
 const showBackIcon = computed(() => !hideBackIconRoutes.includes(route.path))

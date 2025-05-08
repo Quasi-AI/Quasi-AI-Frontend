@@ -1,3 +1,3 @@
 <template>
-   <AppsChatsChatbot :inputPlaceholder="'Ask Quasi ai...'" />
+  <AppsChatsChatbot :inputPlaceholder="'Ask Quasi ai...'" />
 </template>
