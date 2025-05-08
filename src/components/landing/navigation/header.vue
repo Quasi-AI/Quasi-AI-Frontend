@@ -16,13 +16,19 @@
       </NuxtLink>
 
       <div class="hidden flex-row items-center gap-6 lg:flex">
-        <NuxtLink to="/" class="transition duration-300 hover:text-[#5D3BEA]"
+        <NuxtLink
+          to="/#home"
+          class="transition duration-300 hover:text-[#5D3BEA]"
           >Home</NuxtLink
         >
-        <NuxtLink to="/" class="transition duration-300 hover:text-[#5D3BEA]"
+        <NuxtLink
+          to="/#why"
+          class="transition duration-300 hover:text-[#5D3BEA]"
           >Why us</NuxtLink
         >
-        <NuxtLink to="/" class="transition duration-300 hover:text-[#5D3BEA]"
+        <NuxtLink
+          to="/#features"
+          class="transition duration-300 hover:text-[#5D3BEA]"
           >Features</NuxtLink
         >
       </div>
@@ -47,9 +53,7 @@
         </div>
 
         <Menu as="div" class="relative block text-left lg:hidden">
-          <MenuButton
-            class="rounded-lg p-2 hover:bg-black/5 focus:outline-none"
-          >
+          <MenuButton class="rounded-lg p-2 focus:outline-none">
             <span class="text-2xl">☰</span>
           </MenuButton>
 
@@ -66,7 +70,7 @@
             >
               <MenuItem v-slot="{ active }">
                 <NuxtLink
-                  to="/"
+                  to="/#home"
                   :class="[
                     active ? 'bg-gray-100 dark:bg-[#1E293B]' : '',
                     'block px-4 py-2 text-sm transition duration-300 hover:text-[#5D3BEA]'
@@ -76,20 +80,26 @@
                 </NuxtLink>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <p
-                  :class="[active ? 'bg-gray-100' : '', 'px-4 py-2']"
-                  class="cursor-pointer"
+                <NuxtLink
+                  to="/#why"
+                  :class="[
+                    active ? 'bg-gray-100 dark:bg-[#1E293B]' : '',
+                    'block px-4 py-2 text-sm transition duration-300 hover:text-[#5D3BEA]'
+                  ]"
                 >
                   Why us
-                </p>
+                </NuxtLink>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <p
-                  :class="[active ? 'bg-gray-100' : '', 'px-4 py-2']"
-                  class="cursor-pointer"
+                <NuxtLink
+                  to="/#features"
+                  :class="[
+                    active ? 'bg-gray-100 dark:bg-[#1E293B]' : '',
+                    'block px-4 py-2 text-sm transition duration-300 hover:text-[#5D3BEA]'
+                  ]"
                 >
                   Features
-                </p>
+                </NuxtLink>
               </MenuItem>
             </MenuItems>
           </transition>

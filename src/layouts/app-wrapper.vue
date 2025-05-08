@@ -3,7 +3,10 @@
     <CommonNavbar />
     <div class="flex w-full bg-[#F4F7FE] dark:bg-[#0C1438]">
       <div
-        class="hidden min-h-screen w-64 bg-gray-200 transition-all duration-300 lg:block dark:bg-gray-900"
+        :class="[
+          'relative hidden min-h-screen transition-all duration-300 lg:block dark:bg-gray-900',
+          sidebarStore.isCollapsed ? 'w-20' : 'w-64'
+        ]"
       >
         <slot name="sidebar"></slot>
       </div>
@@ -32,10 +35,12 @@
 </template>
 
 <script setup>
+import { useSidebarStore } from '@/store/sidebar'
 import BackIcon from '../assets/icons/back-icon.vue'
 
 const route = useRoute()
 const router = useRouter()
+const sidebarStore = useSidebarStore()
 const pageTitle = computed(() => titles[route.path] || 'Page not recognized')
 const hideBackIconRoutes = ['/dashboard', '/apps']
 const showBackIcon = computed(() => !hideBackIconRoutes.includes(route.path))
@@ -51,7 +56,7 @@ const greeting = computed(() => {
 // Define route-based titles
 const titles = {
   '/dashboard': greeting,
-  '/apps': 'Browse top apps',
+  '/apps': 'Apps',
   '/apps/questions': 'Questions',
   '/apps/flashcards': 'Smart Flashcards',
   '/apps/find-tutors': 'Tutors',

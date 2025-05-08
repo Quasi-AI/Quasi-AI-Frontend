@@ -1,54 +1,61 @@
 <template>
-  <div
-    class="relative mx-auto flex h-screen flex-col items-center justify-center"
-  >
+  <div class="relative flex h-screen flex-col items-center">
     <!-- Chat Messages -->
     <div
       ref="chatBodyRef"
       @scroll="handleScroll"
-      class="relative w-full max-w-4xl flex-1 overflow-y-auto rounded-xl bg-white p-4 pb-20 dark:bg-[#111C44]"
+      class="relative w-full flex-1 overflow-y-auto rounded-xl bg-white p-4 pb-32 dark:bg-[#111C44]"
     >
-      <div
-        v-for="(chat, index) in chatHistory"
-        :key="index"
-        :class="[
-          'mb-2 w-fit rounded-lg p-3',
-          chat.role === 'user'
-            ? 'ml-auto bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
-            : 'mr-auto border text-black dark:border-[#1E2A50] dark:text-white'
-        ]"
-      >
-        <!-- Render Markdown Content -->
+      <div class="mx-auto max-w-4xl">
         <div
-          v-html="renderedMarkdown(chat.text || '')"
-          class="markdown-content"
-        ></div>
-      </div>
+          v-for="(chat, index) in chatHistory"
+          :key="index"
+          :class="[
+            'mb-2 w-fit rounded-lg p-3',
+            chat.role === 'user'
+              ? 'ml-auto bg-gray-200 text-black dark:bg-gray-700 dark:text-white'
+              : 'mr-auto border text-black dark:border-[#1E2A50] dark:text-white'
+          ]"
+        >
+          <!-- Render Markdown Content -->
+          <div
+            v-html="renderedMarkdown(chat.text || '')"
+            class="markdown-content"
+          ></div>
+        </div>
 
-      <!-- Loading Indicator -->
-      <div v-if="isLoading" class="flex w-full items-center justify-start p-2">
-        <span class="loading-spinner"></span>
+        <!-- Loading Indicator -->
+        <div
+          v-if="isLoading"
+          class="flex w-full items-center justify-start p-2"
+        >
+          <span class="loading-spinner"></span>
+        </div>
       </div>
     </div>
 
     <!-- Input Box -->
     <div
-      class="fixed bottom-8 left-1/2 z-10 w-full max-w-2xl -translate-x-1/2 transform p-4 lg:bottom-0 lg:left-[65%] lg:z-0 lg:max-w-[650px] xl:max-w-3xl"
+      class="fixed bottom-0 right-0 z-10 w-full px-4 py-3 lg:w-[calc(100%-290px)]"
     >
       <button
         v-if="showScrollButton"
         @click="scrollToBottom"
-        class="fixed bottom-4 right-5 rounded-full bg-[#5d3be9] p-2 text-white shadow-lg transition-opacity hover:bg-[#4a2fc5]"
+        class="fixed bottom-24 right-5 rounded-full bg-[#5d3be9] p-2 text-white shadow-lg transition-opacity hover:bg-[#4a2fc5]"
       >
         ↓
       </button>
 
       <form
         @submit.prevent="handleSubmit"
-        class="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-lg dark:bg-[#1A2B5F]"
+        class="mx-auto flex max-w-3xl items-center gap-3 rounded-2xl bg-white p-3 shadow-lg dark:bg-[#1A2B5F]"
       >
         <!-- Upload File Icon -->
-        <button type="button" class="p-2" @click="handleFileUpload">
+        <button
+          type="button"
+          class="flex-shrink-0 p-2"
+          @click="handleFileUpload"
+        >
           <uploadIcon />
           <input
             type="file"
@@ -59,7 +66,7 @@
         </button>
 
         <!-- Record Icon -->
-        <button type="button" class="p-2" @click="startRecording">
+        <button type="button" class="flex-shrink-0 p-2" @click="startRecording">
           <recordIcon />
         </button>
 
@@ -69,7 +76,7 @@
           :placeholder="inputPlaceholder"
           @input="adjustTextareaHeight"
           ref="textarea"
-          class="w-full resize-none overflow-hidden rounded-md bg-transparent px-2 outline-none dark:text-white"
+          class="min-h-[44px] w-full resize-none rounded-md bg-transparent px-2 py-2 outline-none dark:text-white"
           rows="1"
           required
         ></textarea>
@@ -77,7 +84,7 @@
         <!-- Send Button -->
         <button
           type="submit"
-          class="rounded-full bg-white p-2 text-black transition dark:bg-[#1A2B5F]"
+          class="flex-shrink-0 rounded-full bg-white p-2 text-black transition hover:bg-gray-100 dark:bg-[#1A2B5F] dark:hover:bg-[#243772]"
         >
           <sendMsgIcon />
         </button>
@@ -274,8 +281,10 @@ const startRecording = () => {
 .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 3px solid rgba(93, 59, 233, 0.3); /* Adjusted border color */
-  border-top: 3px solid #5d3be9; /* Main spinner color */
+  border: 3px solid rgba(93, 59, 233, 0.3);
+  /* Adjusted border color */
+  border-top: 3px solid #5d3be9;
+  /* Main spinner color */
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -284,13 +293,16 @@ const startRecording = () => {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
 
 textarea {
-  max-height: 200px;
+  max-height: 120px;
+  min-height: 44px;
+  line-height: 1.5;
 }
 
 button:disabled {
@@ -365,5 +377,44 @@ button:disabled {
 
 .copy-btn:hover {
   background: #444;
+}
+
+/* Additional responsive styles */
+@media (max-width: 768px) {
+  .chat-container {
+    padding-bottom: 100px;
+  }
+}
+
+.form-container {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Add smooth transition for scroll button */
+button[v-if='showScrollButton'] {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Add these new styles */
+.max-w-[85%] {
+  max-width: 85%;
+}
+
+@media (min-width: 1024px) {
+  .max-w-[85%] {
+    max-width: 65%;
+  }
+}
+
+/* Update responsive styles */
+@media (max-width: 1024px) {
+  .lg\:pl-[290px] {
+    padding-left: 0;
+  }
+
+  .lg\:w-\[calc\(100\%-290px\)\] {
+    width: 100%;
+  }
 }
 </style>
