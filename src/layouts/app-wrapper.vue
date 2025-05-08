@@ -8,29 +8,6 @@
           sidebarStore.isCollapsed ? 'w-20' : 'w-64'
         ]"
       >
-        <!-- Toggle Button -->
-        <button
-          @click="sidebarStore.toggle"
-          class="absolute -right-3 top-20 z-50 rounded-full bg-white p-1.5 shadow-md hover:bg-gray-100 dark:bg-[#111C44] dark:hover:bg-[#1A2B5F]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            :class="[
-              'h-4 w-4 transition-transform',
-              sidebarStore.isCollapsed ? 'rotate-180' : ''
-            ]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-        </button>
         <slot name="sidebar"></slot>
       </div>
 
