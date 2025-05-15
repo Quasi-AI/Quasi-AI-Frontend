@@ -110,7 +110,7 @@ const scrollToBottom = () => {
       }"
       style="right:auto"
     >
-      <div class="mx-auto flex max-w-3xl w-full items-center gap-2">
+      <form class="mx-auto flex max-w-3xl w-full items-center gap-2">
         <input
           v-model="newMessage"
           placeholder="Type a message..."
@@ -118,13 +118,14 @@ const scrollToBottom = () => {
           :disabled="loading"
         />
         <button
+          type="submit"
           @click="sendMessage"
           :disabled="loading"
           class="ml-2 transform rounded-md bg-blue-500 px-4 py-2 text-white transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-blue-600 active:scale-95 disabled:opacity-50"
         >
           Send
         </button>
-      </div>
+      </form>
     </div>
   </div>
 </template>

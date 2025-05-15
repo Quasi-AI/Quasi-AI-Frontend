@@ -45,7 +45,11 @@ export const useChatStore = defineStore('chat', {
         )
 
         const data = response.data
-        this.chats = this.chats.concat(response.data.Chat_History)
+        const incomingChats = response.data.Chat_History || []
+        // Filter out chats that already exist by key
+        const existingKeys = new Set(this.chats.map(chat => chat.key))
+        const newChats = incomingChats.filter((chat: { key: string }) => !existingKeys.has(chat.key))
+        this.chats = this.chats.concat(newChats)
         return data
       } catch (error) {
         console.error('Failed to fetch chats:', error)
