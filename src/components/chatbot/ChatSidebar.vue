@@ -10,7 +10,9 @@ onMounted(() => {
     chatStore.activeChatId = newId
     chatStore.chats.unshift({ key: newId, title: `New Chat: ${newId}` })
   }
-  chatStore.fetchChatHistory(userId || '67d44066755edb9aac99871a')
+  if(userId){
+    chatStore.fetchChatHistory(userId)
+  }
 })
 </script>
 

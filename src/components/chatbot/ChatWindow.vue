@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, watchEffect, nextTick, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watchEffect, nextTick, onMounted, onBeforeUnmount, defineProps, defineEmits } from 'vue'
 import { useChatStore } from '@/store/chat'
-import { defineProps, defineEmits } from 'vue'
 
 const props = defineProps<{ showSidebar: boolean }>()
 const emit = defineEmits(['toggle-sidebar'])
@@ -29,9 +28,6 @@ onBeforeUnmount(() => {
 
 watchEffect(async () => {
   if (chatStore.activeChatId) {
-    loading.value = true
-    await chatStore.fetchChat(chatStore.activeChatId)
-    loading.value = false
     nextTick(() => updateInputBarWidth())
   }
 })

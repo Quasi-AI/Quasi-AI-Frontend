@@ -10,7 +10,7 @@ export const useChatStore = defineStore('chat', {
   actions: {
     setActiveChat(id: string) {
       this.activeChatId = id
-      this.messages = [] // Clear messages when switching chats
+      this.messages = []
       this.fetchChat(id)
     },
     async fetchChat(chatId: string) {
@@ -77,7 +77,7 @@ export const useChatStore = defineStore('chat', {
 
         const data = await response.json()
         if (!response.ok)
-          throw new Error(data?.error?.message || 'Something went wrong!')
+          throw new Error(data?.error?.message ?? 'Something went wrong!')
 
         if (Array.isArray(data.conversation)) {
           // Transform the conversation array into messages
