@@ -15,7 +15,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="animate-slide-in-left h-full w-64 bg-gray-100 dark:bg-[#111C44] p-4 shadow-lg">
+  <div class="animate-slide-in-left fixed left-0 top-0 h-screen w-64 bg-gray-100 dark:bg-[#111C44] p-4 shadow-lg z-20 overflow-y-auto">
     <h2 class="mb-2 text-lg font-bold">Chats</h2>
     <ul>
       <li

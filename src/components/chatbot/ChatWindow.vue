@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, watchEffect, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useChatStore } from '@/store/chat'
+import { defineProps, defineEmits } from 'vue'
+
+const props = defineProps<{ showSidebar: boolean }>()
+const emit = defineEmits(['toggle-sidebar'])
 
 const chatStore = useChatStore()
 const newMessage = ref('')
@@ -60,7 +64,15 @@ const scrollToBottom = () => {
 </script>
 
 <template>
-  <div ref="chatWindowRef" class="flex h-screen w-full flex-col p-4 bg-white dark:bg-[#111C44]">
+  <div ref="chatWindowRef" class="flex h-screen w-full flex-col p-4 bg-white relative">
+    <!-- Toggle Sidebar Button -->
+    <button
+      class="absolute top-2 left-2 z-30 bg-gray-200 dark:bg-[#1E2A5A] text-gray-700 dark:text-white px-3 py-1 rounded hover:bg-gray-300 dark:hover:bg-[#22336a] transition"
+      @click="emit('toggle-sidebar')"
+      aria-label="Toggle Sidebar"
+    >
+      {{ props.showSidebar ? 'Hide' : 'Show' }} Chat History
+    </button>
     <!-- Chat Messages -->
     <div class="chat-container flex-1 space-y-2 overflow-auto">
       <div v-if="loading" class="flex justify-center items-center h-full">
@@ -96,7 +108,10 @@ const scrollToBottom = () => {
     <!-- Message Input -->
     <div
       class="fixed flex items-center border bg-white p-4 dark:bg-[#111C44] lg:bottom-4 rounded"
-      :style="{ width: inputBarWidth, left: chatWindowRef?.getBoundingClientRect().left + 'px' }"
+      :style="{
+        width: inputBarWidth,
+        left: chatWindowRef?.getBoundingClientRect().left + 'px'
+      }"
       style="right:auto"
     >
       <div class="mx-auto flex max-w-3xl w-full items-center gap-2">
