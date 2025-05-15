@@ -4,12 +4,13 @@ import { defineStore } from 'pinia'
 export const useChatStore = defineStore('chat', {
   state: () => ({
     chats: [] as { key: string; title: string }[],
-    messages: [] as { text: string; message: 'me' | 'other' }[],
+    messages: [] as { text: string; sender: 'me' | 'other' }[],
     activeChatId: null as string | null
   }),
   actions: {
     setActiveChat(id: string) {
       this.activeChatId = id
+      this.messages = [] // Clear messages when switching chats
       this.fetchChat(id)
     },
     async fetchChat(chatId: string) {
@@ -23,9 +24,14 @@ export const useChatStore = defineStore('chat', {
           }
         )
 
-        const data = response.data
-        this.messages.push(response.data.conversation)
-        return data
+        if (Array.isArray(response.data.conversation)) {
+          // Transform the conversation array into messages
+          this.messages = response.data.conversation.flatMap(item => [
+            { text: item.message, sender: 'me' },
+            { text: item.response, sender: 'other' }
+          ])
+        }
+        return response.data
       } catch (error) {
         console.error('Failed to fetch chats:', error)
       }
@@ -50,6 +56,9 @@ export const useChatStore = defineStore('chat', {
       message: string
     ) {
       try {
+        // Add user message to the chat
+        this.messages.push({ text: message, sender: 'me' })
+        
         const response = await fetch(
           'https://dark-caldron-448714-u5.uc.r.appspot.com/smart/generate',
           {
@@ -68,9 +77,19 @@ export const useChatStore = defineStore('chat', {
         if (!response.ok)
           throw new Error(data?.error?.message || 'Something went wrong!')
 
-        this.messages = data?.conversation || 'No response received.'
+        if (Array.isArray(data.conversation)) {
+          // Transform the conversation array into messages
+          this.messages = data.conversation.flatMap(item => [
+            { text: item.message, sender: 'me' },
+            { text: item.response, sender: 'other' }
+          ])
+        }
       } catch (error) {
-        console.error('Failed to fetch chats:', error)
+        console.error('Failed to send chat:', error)
+        this.messages.push({ 
+          text: 'Failed to send message. Please try again.',
+          sender: 'other'
+        })
       }
     }
   }
