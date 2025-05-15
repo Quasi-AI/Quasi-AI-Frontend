@@ -24,16 +24,18 @@ export const useChatStore = defineStore('chat', {
           }
         )
 
-        if (Array.isArray(response.data.conversation)) {
-          // Transform the conversation array into messages
-          this.messages = response.data.conversation.flatMap(item => [
+        if (Array.isArray(response.data.conversation) && response.data.conversation.length > 0) {
+          this.messages = response.data.conversation.flatMap((item: { message: string; response: string }) => [
             { text: item.message, sender: 'me' },
             { text: item.response, sender: 'other' }
           ])
+        } else {
+          this.messages = []
         }
         return response.data
       } catch (error) {
         console.error('Failed to fetch chats:', error)
+        this.messages = []
       }
     },
     async fetchChatHistory(userId: string) {
@@ -79,7 +81,7 @@ export const useChatStore = defineStore('chat', {
 
         if (Array.isArray(data.conversation)) {
           // Transform the conversation array into messages
-          this.messages = data.conversation.flatMap(item => [
+          this.messages = data.conversation.flatMap((item: { message: string; response: string }) => [
             { text: item.message, sender: 'me' },
             { text: item.response, sender: 'other' }
           ])
