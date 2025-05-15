@@ -60,7 +60,7 @@ const scrollToBottom = () => {
 </script>
 
 <template>
-  <div ref="chatWindowRef" class="flex h-screen w-full flex-col p-4 bg-white">
+  <div ref="chatWindowRef" class="flex h-screen w-full flex-col p-4 bg-white dark:bg-[#111C44]">
     <!-- Chat Messages -->
     <div class="chat-container flex-1 space-y-2 overflow-auto">
       <div v-if="loading" class="flex justify-center items-center h-full">
