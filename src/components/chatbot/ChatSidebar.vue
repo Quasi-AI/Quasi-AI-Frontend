@@ -10,20 +10,22 @@ onMounted(() => {
     chatStore.activeChatId = newId
     chatStore.chats.unshift({ key: newId, title: `New Chat: ${newId}` })
   }
-  chatStore.fetchChatHistory(userId || '67d44066755edb9aac99871a')
+  if(userId){
+    chatStore.fetchChatHistory(userId)
+  }
 })
 </script>
 
 <template>
-  <div class="animate-slide-in-left h-full w-64 bg-gray-100 p-4 shadow-lg">
+  <div class="animate-slide-in-left fixed left-0 top-0 h-screen w-64 bg-gray-100 dark:bg-[#111C44] p-4 shadow-lg z-20 overflow-y-auto">
     <h2 class="mb-2 text-lg font-bold">Chats</h2>
     <ul>
       <li
         v-for="chat in chatStore.chats"
         :key="chat.key"
         @click="chatStore.setActiveChat(chat.key)"
-        class="transform cursor-pointer rounded-lg p-2 transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-gray-200"
-        :class="chatStore.activeChatId == chat.key ? 'bg-gray-200' : ''"
+        class="transform cursor-pointer rounded-lg p-2 transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-gray-200 hover:dark:bg-[#1E2A5A]"
+        :class="chatStore.activeChatId == chat.key ? 'bg-gray-200 dark:bg-[#1E2A5A]' : ''"
       >
         {{ chat.title }}
       </li>
