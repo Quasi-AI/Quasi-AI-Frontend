@@ -1,7 +1,7 @@
 <template>
   <!-- Pricing -->
   <div
-    class="mb-4 flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 lg:mb-12 dark:bg-[#1E2A5A]"
+    class="mb-4 flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 dark:bg-[#1E2A5A] lg:mb-12"
   >
     <h1
       class="text-center text-3xl font-bold text-slate-800 dark:text-gray-300"

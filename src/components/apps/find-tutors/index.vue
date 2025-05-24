@@ -8,7 +8,7 @@
         type="text"
         v-model="searchQuery"
         placeholder="Search tutors by name or subject"
-        class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[350px] dark:border-none dark:bg-[#111C44]"
+        class="my-2 w-full rounded-lg border bg-white p-2 dark:border-none dark:bg-[#111C44] lg:w-[350px]"
       />
 
       <button
@@ -153,7 +153,7 @@
 
         <!-- Chat Input -->
         <div
-          class="mb-10 flex items-center rounded-full bg-white px-3 lg:mb-0 dark:bg-[#0C1438]"
+          class="mb-10 flex items-center rounded-full bg-white px-3 dark:bg-[#0C1438] lg:mb-0"
         >
           <!-- Message Input -->
           <input

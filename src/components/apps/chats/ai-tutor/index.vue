@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import ChatbotChatSidebar from '@/components/chatbot/ChatSidebar.vue'
 import ChatbotChatWindow from '@/components/chatbot/ChatWindow.vue'
 
@@ -10,8 +9,11 @@ const toggleSidebar = () => {
 </script>
 
 <template>
-  <div class="flex gap-2">
+  <div class="flex gap-2 bg-white dark:bg-[#0C1438]">
     <ChatbotChatSidebar v-if="showSidebar" />
-    <ChatbotChatWindow :showSidebar="showSidebar" @toggle-sidebar="toggleSidebar" />
+    <ChatbotChatWindow
+      :showSidebar="showSidebar"
+      @toggle-sidebar="toggleSidebar"
+    />
   </div>
 </template>

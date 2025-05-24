@@ -1,7 +1,7 @@
 <template>
   <div class="mt-20"></div>
   <div
-    class="fixed bottom-0 left-0 flex w-full bg-white py-2 shadow-lg lg:hidden dark:bg-[#111C44]"
+    class="fixed bottom-0 left-0 flex w-full bg-white py-2 shadow-lg dark:bg-[#111C44] lg:hidden"
   >
     <div class="grid w-full grid-cols-4">
       <NuxtLink
