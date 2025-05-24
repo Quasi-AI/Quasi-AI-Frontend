@@ -41,7 +41,7 @@
 
       <!-- Copyright -->
       <p class="mt-8 text-center text-xs text-gray-400 lg:mt-0">
-        © 2025 QUASI AI. All rights reserved.
+        © {{ new Date().getFullYear() }} QUASI AI. All rights reserved.
       </p>
     </div>
   </div>
