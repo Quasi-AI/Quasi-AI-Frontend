@@ -217,7 +217,7 @@
       </div>
     </div>
 
-    <!-- Learn from Experts -->
+    <!-- Tools For Teachers And Learners -->
     <div
       id="learn-more"
       class="flex flex-col items-center gap-2 bg-white px-4 py-20 dark:bg-[#0C1438] lg:gap-10"
@@ -248,8 +248,15 @@
           </p>
         </div>
       </div>
+    </div>
+
+    <!-- Expert Instructors Section -->
+    <div
+      id="instructors"
+      class="flex flex-col items-center gap-2 bg-[#F5F7FA] px-4 py-20 dark:bg-[#111C44] lg:gap-10"
+    >
       <div
-        class="animate-fade-in mt-20 flex flex-col items-center justify-between gap-16 border-t border-gray-200 py-16 text-center dark:border-[#1E2A5A] lg:flex-row lg:text-wrap lg:border-none"
+        class="animate-fade-in flex flex-col items-center justify-between gap-16 lg:flex-row lg:text-wrap"
       >
         <div class="w-[100%] lg:w-[50%] lg:text-left">
           <h2
