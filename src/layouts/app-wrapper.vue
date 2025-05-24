@@ -4,7 +4,7 @@
     <div class="flex w-full bg-[#F4F7FE] dark:bg-[#0C1438]">
       <div
         :class="[
-          'relative hidden min-h-screen transition-all duration-300 lg:block dark:bg-gray-900',
+          'relative hidden min-h-screen transition-all duration-300 dark:bg-gray-900 lg:block',
           sidebarStore.isCollapsed ? 'w-20' : 'w-64'
         ]"
       >
