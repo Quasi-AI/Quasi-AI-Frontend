@@ -26,15 +26,24 @@
       <div
         class="flex flex-wrap items-center justify-center gap-4 text-sm lg:justify-end"
       >
-        <NuxtLink to="/" class="text-gray-300 transition hover:text-white">
+        <NuxtLink
+          to="/careers"
+          class="text-gray-300 transition hover:text-white"
+        >
           Careers
         </NuxtLink>
         <div class="h-4 border-l border-gray-500"></div>
-        <NuxtLink to="/" class="text-gray-300 transition hover:text-white">
+        <NuxtLink
+          to="/privacy-policy"
+          class="text-gray-300 transition hover:text-white"
+        >
           Privacy Policy
         </NuxtLink>
         <div class="h-4 border-l border-gray-500"></div>
-        <NuxtLink to="/" class="text-gray-300 transition hover:text-white">
+        <NuxtLink
+          to="/terms-conditions"
+          class="text-gray-300 transition hover:text-white"
+        >
           Terms & Conditions
         </NuxtLink>
       </div>
