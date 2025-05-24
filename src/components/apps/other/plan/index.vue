@@ -31,7 +31,7 @@
         "
         class="rounded-full px-4 py-2 font-bold"
       >
-        Yearly (5% off)
+        Yearly (Save 20%)
       </button>
     </div>
 
@@ -49,34 +49,37 @@
           </p>
           <p class="text-gray-600 dark:text-gray-300">Forever free</p>
           <p class="mt-2 text-gray-600 dark:text-gray-300">
-            Essential features for individuals.
+            Perfect for casual learners to explore Quasi AI.
           </p>
           <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Access to Quasi AI basic features
+              <span>Generate up to 5 flashcard sets</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Up to 50 AI-generated responses per month
+              <span>50 AI-generated responses monthly</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Email support
+              <span>Basic email support</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Secure cloud storage
+              <span>1GB cloud storage for notes</span>
             </li>
-            <li class="flex gap-2">❌ Personalized AI suggestions</li>
+            <li class="flex items-start gap-2">
+              <span class="mt-1 text-red-500">❌</span>
+              <span>No access to AI tutors</span>
+            </li>
           </ul>
           <NuxtLink to="/auth/sign-up">
             <button
@@ -107,42 +110,48 @@
             {{
               billingCycle === 'monthly'
                 ? 'per user per month'
-                : 'billed annually'
+                : 'billed annually (save $12)'
             }}
           </p>
           <p class="mt-2 text-gray-600 dark:text-gray-300">
-            Advanced features for power users.
+            Ideal for dedicated students & educators.
           </p>
           <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Access to all premium features
+              <span><strong>Unlimited</strong> flashcard sets</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Unlimited AI-generated responses
+              <span><strong>Unlimited</strong> AI-generated responses</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Personalized AI suggestions
+              <span>AI tutors for personalized learning</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Email support
+              <span>Advanced analytics & insights</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              AI-powered analytics & insights
+              <span>10GB smart cloud storage</span>
+            </li>
+            <li class="flex gap-2">
+              <div>
+                <LandingUiIconsPricingChecked />
+              </div>
+              <span>Priority email support</span>
             </li>
           </ul>
           <NuxtLink
@@ -170,38 +179,44 @@
             Designed for educational institutions
           </p>
           <p class="mt-2 text-gray-600 dark:text-gray-300">
-            Scalable solutions for schools and universities.
+            Complete solution for schools & universities.
           </p>
           <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Everything in Premium Plan
+              <span>Everything in Premium Plan</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Unlimited AI-generated responses
+              <span>Custom AI models for your curriculum</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Dedicated account manager
+              <span>Bulk user management</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              Custom AI models & integrations
+              <span>LMS integrations & API access</span>
             </li>
             <li class="flex gap-2">
               <div>
                 <LandingUiIconsPricingChecked />
               </div>
-              24/7 priority educational support
+              <span>Dedicated account manager</span>
+            </li>
+            <li class="flex gap-2">
+              <div>
+                <LandingUiIconsPricingChecked />
+              </div>
+              <span>24/7 priority support</span>
             </li>
           </ul>
           <NuxtLink to="/other/support">
@@ -226,6 +241,6 @@ const billingCycle = ref<BillingCycle>('monthly')
 const premiumPrice = computed<string>(() => {
   return billingCycle.value === 'monthly'
     ? '4.99'
-    : (4.99 * 12 * 0.95).toFixed(2)
+    : (4.99 * 12 * 0.8).toFixed(2) // 20% discount for yearly
 })
 </script>

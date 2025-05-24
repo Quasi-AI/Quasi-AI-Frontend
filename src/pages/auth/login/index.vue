@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-screen">
     <div
-      class="flex h-full w-full flex-col items-center justify-center bg-white px-10 md:w-1/2"
+      class="flex h-full w-full flex-col items-center justify-center bg-white px-10 dark:bg-[#111C44] md:w-1/2"
     >
       <NuxtLink to="/" class="mb-4 flex items-center justify-center gap-2">
         <img
@@ -9,9 +9,9 @@
           alt="QUASI AI Logo"
           class="h-10 cursor-pointer"
         />
-        <h1 class="text-2xl font-bold">QUASI AI</h1>
+        <h1 class="text-2xl font-bold dark:text-white">QUASI AI</h1>
       </NuxtLink>
-      <p class="mb-6 text-sm text-gray-500">
+      <p class="mb-6 text-sm text-gray-500 dark:text-gray-300">
         Please login to continue your account
       </p>
 
@@ -26,12 +26,12 @@
             v-model="email"
             type="email"
             id="email"
-            class="peer w-full rounded border border-gray-300 p-3 placeholder-transparent focus:border-purple-500 focus:ring-0"
+            class="peer w-full rounded border border-gray-300 bg-white p-3 placeholder-transparent focus:border-purple-500 focus:ring-0 dark:border-gray-700 dark:bg-[#1E2A5A] dark:text-white"
             placeholder="Email"
           />
           <label
             for="email"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600 dark:bg-[#1E2A5A] dark:text-gray-300 dark:peer-focus:text-purple-400"
           >
             Email
           </label>
@@ -43,12 +43,12 @@
             :type="isPasswordVisible ? 'text' : 'password'"
             v-model="password"
             id="password"
-            class="peer w-full rounded border border-gray-300 p-3 placeholder-transparent focus:border-purple-500 focus:ring-0"
+            class="peer w-full rounded border border-gray-300 bg-white p-3 placeholder-transparent focus:border-purple-500 focus:ring-0 dark:border-gray-700 dark:bg-[#1E2A5A] dark:text-white"
             placeholder="Password"
           />
           <label
             for="password"
-            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600 dark:bg-[#1E2A5A] dark:text-gray-300 dark:peer-focus:text-purple-400"
           >
             Password
           </label>
@@ -60,7 +60,7 @@
               :name="
                 isPasswordVisible ? 'i-heroicons-eye' : 'i-heroicons-eye-slash'
               "
-              class="text-gray-500"
+              class="text-gray-500 dark:text-gray-300"
             ></UIcon>
           </span>
         </div>
@@ -75,7 +75,9 @@
               @change="toggleRemember"
               class="mr-2"
             />
-            <label for="remember" class="text-gray-600">Remember me</label>
+            <label for="remember" class="text-gray-600 dark:text-gray-300"
+              >Remember me</label
+            >
           </div>
 
           <!-- Right: Forgot Password -->
@@ -120,19 +122,19 @@
         </UButton>
       </form>
 
-      <p class="text-sm text-black">
+      <p class="text-sm text-black dark:text-white">
         New to Quasi AI?
         <NuxtLink to="/auth/sign-up" class="text-[#5D3BEA]">Sign up</NuxtLink>
       </p>
     </div>
 
     <div
-      class="m-4 hidden w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block"
+      class="hidden w-1/2 overflow-hidden bg-gray-100 dark:bg-[#0C1438] md:block"
     >
       <img
         src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/smiling-male-student-with-laptop.jpg?alt=media&token=a47717ae-74db-4b46-bfec-0519b5a03ec0"
         alt="cover"
-        class="h-full w-full rounded-2xl object-cover"
+        class="h-full w-full object-cover"
       />
     </div>
   </div>

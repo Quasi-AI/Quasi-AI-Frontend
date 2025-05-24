@@ -117,7 +117,7 @@
         </div>
       </div>
       <div v-else class="mt-4 text-center text-gray-500">
-        No flashcards available.
+        No flashcards available. Create some to get started.
         <EmptyStateIcon width="100%" height="350px" />
       </div>
     </div>
