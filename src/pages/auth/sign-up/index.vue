@@ -7,12 +7,12 @@
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
           alt="QUASI AI Logo"
-          class="h-10 cursor-pointer"
+          class="w-8 cursor-pointer"
         />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
       <p class="mb-6 text-center text-gray-500 lg:text-wrap">
-        Create account for free to enjoy QUASI AI
+        Sign up for free to enjoy QUASI AI
       </p>
 
       <form class="w-full max-w-sm">
@@ -27,7 +27,7 @@
           />
           <label
             for="fullname"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Fullname
           </label>
@@ -44,7 +44,7 @@
           />
           <label
             for="email"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Email
           </label>
@@ -61,7 +61,7 @@
           />
           <label
             for="password"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Password
           </label>
@@ -101,7 +101,7 @@
         >
           <span v-if="!isLoading">Sign Up</span>
           <span v-else class="flex items-center">
-            <Loader class="h-5 w-5 animate-spin" />
+            <CommonLoader class="h-5 w-5 animate-spin" />
           </span>
         </UButton>
         <div class="mb-4 flex items-center justify-center">
@@ -151,9 +151,11 @@
       </p>
     </div>
 
-    <div class="m-4 w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block">
+    <div
+      class="m-4 hidden w-1/2 overflow-hidden rounded-2xl bg-gray-100 md:block"
+    >
       <img
-        src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/freepik__the-style-is-candid-image-photography-with-natural__28525.png?alt=media&token=8a662acd-7725-41cb-9601-785985db76b9"
+        src="https://firebasestorage.googleapis.com/v0/b/park4me-b2127.appspot.com/o/smiling-male-student-with-laptop.jpg?alt=media&token=a47717ae-74db-4b46-bfec-0519b5a03ec0"
         class="h-full w-full rounded-2xl object-cover"
         alt="cover"
       />
@@ -162,9 +164,8 @@
 </template>
 
 <script setup>
-import OrSeperator from '@/assets/media/svgs/or-seperator.vue'
+import OrSeperator from '~/assets/icons/or-seperator.vue'
 import { isValidEmail } from '@/utils/isValidEmail'
-import Loader from '@/components/common/loader/Loader.vue'
 import { useAuthenticationStore } from '~/store/auth'
 import axios from 'axios'
 import { auth, provider, signInWithPopup } from '~/utils/firebase'
@@ -235,8 +236,8 @@ const signUpWithGoogleAsEducator = async () => {
 
       if (response.data && response.data.token) {
         // Store auth token
-        localStorage.setItem('authToken', response.data.token)
-        localStorage.setItem('user_id', result.user.uid)
+        sessionStorage.setItem('authToken', response.data.token)
+        sessionStorage.setItem('user_id', result.user.uid)
         router.push('/dashboard')
         // Stay on the same page and update UI accordingly
         user.value = userData
@@ -279,8 +280,8 @@ const signUpWithGoogleAsStudent = async () => {
 
       if (response.data && response.data.token) {
         // Store auth token
-        localStorage.setItem('authToken', response.data.token)
-        localStorage.setItem('user_id', result.user.uid)
+        sessionStorage.setItem('authToken', response.data.token)
+        sessionStorage.setItem('user_id', result.user.uid)
         router.push('/dashboard')
         // Stay on the same page and update UI accordingly
         user.value = userData
@@ -298,12 +299,3 @@ const signUpWithGoogleAsStudent = async () => {
   }
 }
 </script>
-
-<style scoped>
-/* Hide element on small screens (mobile) */
-@media (max-width: 768px) {
-  .md\:block {
-    display: none !important;
-  }
-}
-</style>

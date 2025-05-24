@@ -9,6 +9,10 @@
 
 <script setup>
 const bgClass = ref('bg-[#E4E0F4]')
+const colorMode = useColorMode()
+
+// force colormode to light
+colorMode.preference = 'light'
 
 const handleScroll = () => {
   if (window.scrollY > window.innerHeight * 0.6) {

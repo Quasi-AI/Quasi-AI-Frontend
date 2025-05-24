@@ -7,7 +7,7 @@
         <img
           src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
           alt="QUASI AI Logo"
-          class="h-10 cursor-pointer"
+          class="w-8 cursor-pointer"
         />
         <h1 class="text-2xl font-bold">QUASI AI</h1>
       </NuxtLink>
@@ -27,11 +27,12 @@
           />
           <label
             for="email"
-            class="absolute left-3 top-1/2 -translate-y-1/2 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
+            class="absolute left-3 bg-white px-1 text-sm text-gray-500 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-xs peer-focus:text-purple-600"
           >
             Email
           </label>
         </div>
+
         <UButton
           class="mb-4 w-full items-center justify-center rounded bg-[#5D3BEA] p-3 text-white"
           size="md"
@@ -41,7 +42,7 @@
         >
           <span v-if="!isLoading">Send reset instructions</span>
           <span v-else class="flex items-center">
-            <Loader class="h-5 w-5 animate-spin" />
+            <CommonLoader class="h-5 w-5 animate-spin" />
           </span>
         </UButton>
       </form>

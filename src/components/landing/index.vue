@@ -1,42 +1,44 @@
 <template>
-  <div class="z-10 xl:mx-auto 2xl:w-[1440px]">
+  <div id="home" class="relative z-10 min-h-screen xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="animate-fade-in flex h-[60vh] flex-col items-center justify-center bg-[#E4E0F4] px-4 pb-0 text-center lg:text-wrap lg:py-5"
+      class="animate-fade-in flex h-screen flex-col items-center justify-center bg-[#E4E0F4] px-4 py-4 lg:h-auto lg:min-h-[60vh] lg:py-5"
     >
       <h1
-        class="h-[120px] w-[100%] text-3xl font-bold leading-tight text-[#190A53] lg:h-[80px] lg:w-[35%]"
+        class="h-[160px] max-w-3xl text-center text-4xl font-bold leading-tight text-[#190A53] lg:h-[120px] lg:text-5xl"
       >
         <span v-html="displayedText"></span>
       </h1>
       <p
-        class="animate-slide-up mt-4 w-[100%] text-wrap text-sm text-gray-600 lg:w-[33%] lg:text-wrap"
+        class="animate-slide-up mt-6 max-w-xl text-center text-lg text-gray-600"
         style="animation-delay: 0.4s"
       >
         Generate flashcards, quizzes, and study materials instantly from your
         lectures, notes, PDFs, and presentations.
       </p>
       <div
-        class="animate-slide-up mt-5 flex space-x-4"
+        class="animate-slide-up mt-8 flex flex-col gap-4 sm:flex-row sm:gap-6"
         style="animation-delay: 0.6s"
       >
         <NuxtLink
-          to="/auth/sign-up"
-          class="rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
+          :to="isLoggedIn ? '/dashboard' : '/auth/sign-up'"
+          class="rounded-lg bg-[#5D3BEA] px-8 py-3 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
-          Start for free
+          {{ isLoggedIn ? 'Dashboard' : 'Sign up for free' }}
         </NuxtLink>
         <NuxtLink
-          to="/"
-          class="rounded-lg px-6 py-2 font-normal transition duration-300 hover:text-[#5D3BEA]"
+          to="/#learn-more"
+          class="rounded-lg px-8 py-3 font-normal transition duration-300 hover:text-[#5D3BEA]"
         >
           Learn more
         </NuxtLink>
       </div>
+
+      <!-- Brand Slider -->
       <div
-        class="brand-slider-wrapper animate-slide-up mt-10 flex w-full items-center gap-8 pb-0 lg:w-[50%] lg:pb-10"
+        class="brand-slider-wrapper animate-slide-up mt-12 w-full max-w-4xl overflow-hidden"
       >
-        <div class="brand-slider">
+        <div class="brand-slider animate-slide flex gap-8">
           <LandingUiIconsBrandsAlphawave class="brand-icon" />
           <LandingUiIconsBrandsFusionx class="brand-icon" />
           <LandingUiIconsBrandsOpticore class="brand-icon" />
@@ -68,49 +70,51 @@
     </div>
 
     <!-- Why Choose Quasi AI Section -->
-    <div
-      class="relative flex flex-col items-center rounded-t-md bg-white lg:px-0"
-    >
-      <LandingUiIconsBrandsVideoplaceholder
-        width="100%"
-        class="animate-fade-in h-full cursor-pointer lg:absolute lg:top-[-50px] lg:h-[230px]"
-      />
-      <div class="mt-12 bg-white px-4 lg:mt-[200px] lg:px-0">
-        <h2
-          class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
-        >
-          Why choose Quasi AI
-        </h2>
-        <p
-          class="animate-slide-up mt-4 text-center text-gray-600 lg:text-wrap"
-          style="animation-delay: 0.2s"
-        >
-          QUASI AI is one powerful platform that combines all the tools needed
-          to <br />
-          fully learn and retain everything you learn.
-        </p>
-      </div>
+    <div id="why" class="relative py-4">
+      <div class="container mx-auto px-4">
+        <LandingUiIconsBrandsVideoplaceholder
+          width="100%"
+          class="animate-fade-in mx-auto h-full max-w-4xl cursor-pointer transition duration-300 hover:scale-105"
+        />
 
-      <div
-        class="mt-10 grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-3 lg:px-0"
-      >
-        <div
-          v-for="(item, index) in whyChooseItems"
-          :key="index"
-          class="animate-slide-up flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 text-center lg:text-wrap"
-          :style="{ 'animation-delay': `${index * 0.2}s` }"
-        >
-          <component :is="item.icon" />
-          <h3 class="mt-4 text-2xl font-bold text-[#5D3BEA]">
-            {{ item.title }}
-          </h3>
-          <p class="mt-2 text-gray-600">{{ item.description }}</p>
+        <div class="mt-20 text-center">
+          <h2
+            class="animate-slide-up text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
+          >
+            Why choose Quasi AI
+          </h2>
+          <p
+            class="animate-slide-up mt-4 text-gray-600 lg:text-wrap"
+            style="animation-delay: 0.2s"
+          >
+            QUASI AI is one powerful platform that combines all the tools needed
+            to <br />
+            fully learn and retain everything you learn.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            v-for="(item, index) in whyChooseItems"
+            :key="index"
+            class="animate-slide-up flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 text-center lg:text-wrap"
+            :style="{ 'animation-delay': `${index * 0.2}s` }"
+          >
+            <component :is="item.icon" />
+            <h3 class="mt-4 text-2xl font-bold text-[#5D3BEA]">
+              {{ item.title }}
+            </h3>
+            <p class="mt-2 text-gray-600">{{ item.description }}</p>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Our Top Features Section -->
-    <div class="flex flex-col items-center bg-white px-4 py-20 lg:px-0">
+    <div
+      id="features"
+      class="flex flex-col items-center bg-white px-4 py-20 lg:px-0"
+    >
       <h2 class="animate-slide-up text-4xl font-bold text-[#5D3BEA]">
         Our top features
       </h2>
@@ -118,7 +122,7 @@
         <div
           v-for="(feature, features) in features"
           :key="features.title"
-          class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+          class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-md"
           :class="feature.bgColor"
           :style="{ 'animation-delay': `${features.title * 0.2}s` }"
           v-animate-onscroll="'slide-up'"
@@ -171,7 +175,7 @@
 
     <!-- Start Teaching with Us -->
     <div
-      class="animate-fade-in flex flex-col items-center justify-center gap-10 rounded-b-md bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
+      class="animate-fade-in flex flex-col items-center justify-center gap-10 bg-[#1E293B] px-4 py-20 lg:flex-row lg:gap-12"
     >
       <div
         class="flex w-[100%] flex-col items-center text-center lg:w-[50%] lg:items-start lg:text-wrap lg:text-left"
@@ -188,10 +192,10 @@
           yourself with from different countries.
         </p>
         <NuxtLink
-          to="/auth/sign-up"
+          :to="isLoggedIn ? '/dashboard' : '/auth/sign-up'"
           class="mt-10 rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
-          Sign up now
+          {{ isLoggedIn ? 'Go to Dashboard' : 'Sign up now' }}
         </NuxtLink>
       </div>
       <div class="animate-slide-up mt-10 lg:mt-0" style="animation-delay: 0.6s">
@@ -204,7 +208,10 @@
     </div>
 
     <!-- Learn from Experts -->
-    <div class="flex flex-col items-center gap-2 bg-white px-4 py-20 lg:gap-10">
+    <div
+      id="learn-more"
+      class="flex flex-col items-center gap-2 bg-white px-4 py-20 lg:gap-10"
+    >
       <div
         class="animate-fade-in flex flex-col items-center justify-between gap-16 lg:flex-row"
       >
@@ -222,7 +229,7 @@
             And Learners
           </h2>
           <p
-            class="animate-slide-up mt-4 text-center text-gray-600 lg:text-wrap"
+            class="animate-slide-up mt-4 text-gray-600 lg:text-wrap"
             style="animation-delay: 0.2s"
           >
             QUASI AI has a dynamic set of teaching tools built just for you,
@@ -264,10 +271,236 @@
         </div>
       </div>
     </div>
+
+    <!-- Pricing Section -->
+    <div class="bg-white py-20 dark:bg-[#1E2A5A]">
+      <div class="container mx-auto px-4">
+        <h1
+          class="text-center text-4xl font-bold text-slate-800 dark:text-gray-300"
+        >
+          Choose the plan that's right for you
+        </h1>
+
+        <!-- Pricing Toggle -->
+        <div class="mt-8 flex justify-center">
+          <div
+            class="inline-flex rounded-full bg-gray-200 p-1 dark:bg-[#0C1438]"
+          >
+            <button
+              @click="billingCycle = 'monthly'"
+              :class="
+                billingCycle === 'monthly'
+                  ? 'bg-[#5D3BEA] text-white'
+                  : 'text-gray-600 dark:text-gray-300'
+              "
+              class="rounded-full px-4 py-2 font-bold"
+            >
+              Monthly
+            </button>
+            <button
+              @click="billingCycle = 'yearly'"
+              :class="
+                billingCycle === 'yearly'
+                  ? 'bg-[#5D3BEA] text-white'
+                  : 'text-gray-600 dark:text-gray-300'
+              "
+              class="rounded-full px-4 py-2 font-bold"
+            >
+              Yearly (5% off)
+            </button>
+          </div>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div class="mt-12 grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+          <!-- Basic Plan -->
+          <div
+            class="relative w-full max-w-sm rounded-2xl border bg-white p-6 shadow-md transition-all hover:shadow-lg dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+          >
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+              Basic Plan
+            </h3>
+            <p
+              class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white"
+            >
+              $0
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">Forever free</p>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Essential features for individuals.
+            </p>
+            <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Access to Quasi AI basic features
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Up to 50 AI-generated responses per month
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Email support
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Secure cloud storage
+              </li>
+              <li class="flex gap-2">❌ Personalized AI suggestions</li>
+            </ul>
+          </div>
+
+          <!-- Premium Plan - Most Popular -->
+          <div
+            class="relative w-full max-w-sm rounded-2xl border bg-white p-6 shadow-xl ring-2 ring-[#5D3BEA] transition-all hover:shadow-lg dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+          >
+            <div
+              class="absolute right-0 top-0 -mt-4 mr-4 rounded-full bg-[#5D3BEA] px-3 py-1 text-sm font-bold text-white"
+            >
+              Most Popular
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+              Premium Plan
+            </h3>
+            <p
+              class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white"
+            >
+              ${{ premiumPrice }}
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">
+              {{
+                billingCycle === 'monthly'
+                  ? 'per user per month'
+                  : 'billed annually'
+              }}
+            </p>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Advanced features for power users.
+            </p>
+            <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Access to all premium features
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Unlimited AI-generated responses
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Personalized AI suggestions
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Email support
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                AI-powered analytics & insights
+              </li>
+            </ul>
+            <NuxtLink v-if="!isLoggedIn" to="/auth/sign-up">
+              <button
+                class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white hover:bg-[#4A2FCB]"
+              >
+                Get Started
+              </button>
+            </NuxtLink>
+            <NuxtLink
+              v-else
+              :to="`/other/pricing/payment?price=${premiumPrice}`"
+            >
+              <button
+                class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white hover:bg-[#4A2FCB]"
+              >
+                Upgrade
+              </button>
+            </NuxtLink>
+          </div>
+
+          <!-- Enterprise Plan -->
+          <div
+            class="relative w-full max-w-sm rounded-2xl border bg-white p-6 shadow-md transition-all hover:shadow-lg dark:border-[#0C1438] dark:bg-[#1E2A5A] dark:text-white"
+          >
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white">
+              Enterprise Plan
+            </h3>
+            <p
+              class="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white"
+            >
+              Custom
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">
+              Designed for educational institutions
+            </p>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
+              Scalable solutions for schools and universities.
+            </p>
+            <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Everything in Premium Plan
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Unlimited AI-generated responses
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Dedicated account manager
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                Custom AI models & integrations
+              </li>
+              <li class="flex gap-2">
+                <div>
+                  <LandingUiIconsPricingChecked />
+                </div>
+                24/7 priority educational support
+              </li>
+            </ul>
+            <NuxtLink to="/other/support">
+              <button
+                class="mt-4 w-full rounded-lg bg-[#5D3BEA] p-2 font-bold text-white hover:bg-[#4A2FCB]"
+              >
+                Contact Sales
+              </button>
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { whyChooseItems, instructorSteps } from '@/constants/landing'
 import LandingUiIconsFeaturesQuestions from '@/components/landing/ui/icons/features/questions.vue'
 import LandingUiIconsFeaturesFlashcards from '@/components/landing/ui/icons/features/flashcards.vue'
@@ -275,6 +508,9 @@ import LandingUiIconsFeaturesTutors from '@/components/landing/ui/icons/features
 import LandingUiIconsFeaturesAitutors from '@/components/landing/ui/icons/features/aitutors.vue'
 import LandingUiIconsFeaturesQuizzes from '@/components/landing/ui/icons/features/quizzes.vue'
 import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/essay.vue'
+import { useAuth } from '~/composables/useAuth'
+
+const { isLoggedIn } = useAuth()
 
 const features = ref([
   {
@@ -297,7 +533,7 @@ const features = ref([
   },
   {
     icon: LandingUiIconsFeaturesAitutors,
-    title: 'AI Authors',
+    title: 'AI Tutors',
     description: 'So many of them',
     bgColor: 'bg-[#FFFFFF]'
   },
@@ -309,7 +545,7 @@ const features = ref([
   },
   {
     icon: LandingUiIconsFeaturesEssay,
-    title: 'Essay Analyzer',
+    title: 'Past Questions',
     description: '22,649 essays',
     bgColor: 'bg-[#FFF0F0]'
   }
@@ -319,113 +555,83 @@ const features = ref([
 const fullText =
   'Transform Your Learning Experience with <span style="color:#5D3BEA">Quasi AI</span>'
 const displayedText = ref('')
+let currentText = ''
+let isTag = false
+let tagContent = ''
 let index = 0
 
 const typeEffect = () => {
   displayedText.value = ''
+  currentText = ''
+  isTag = false
+  tagContent = ''
   index = 0
 
-  const tempDiv = document.createElement('div')
-  tempDiv.innerHTML = fullText
-  const characters = tempDiv.innerHTML.split('')
+  const typeNextCharacter = () => {
+    if (index < fullText.length) {
+      const char = fullText[index]
 
-  const interval = setInterval(() => {
-    if (index < characters.length) {
-      displayedText.value += characters[index]
+      if (char === '<') {
+        isTag = true
+        tagContent = char
+      } else if (char === '>') {
+        isTag = false
+        tagContent += char
+        currentText += tagContent
+        displayedText.value = currentText
+      } else if (isTag) {
+        tagContent += char
+      } else {
+        currentText += char
+        displayedText.value = currentText
+      }
+
       index++
+      requestAnimationFrame(() => setTimeout(typeNextCharacter, 50))
     } else {
-      clearInterval(interval)
-      setTimeout(typeEffect, 1500)
+      setTimeout(() => {
+        typeEffect()
+      }, 3000)
     }
-  }, 50)
+  }
+
+  typeNextCharacter()
 }
 
-onMounted(typeEffect)
-
-// Animation
 onMounted(() => {
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(
-            `animate-${entry.target.dataset.animation}`
-          )
-          observer.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
+  typeEffect()
+  document.documentElement.style.scrollBehavior = 'smooth'
+})
 
-  document
-    .querySelectorAll('[data-animation]')
-    .forEach(el => observer.observe(el))
+onUnmounted(() => {
+  document.documentElement.style.scrollBehavior = ''
+})
+
+// Define billing cycle types
+type BillingCycle = 'monthly' | 'yearly'
+const billingCycle = ref<BillingCycle>('monthly')
+const premiumPrice = computed<string>(() => {
+  return billingCycle.value === 'monthly'
+    ? '4.99'
+    : (4.99 * 12 * 0.95).toFixed(2)
+})
+
+useHead({
+  meta: [
+    { charset: 'utf-8' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    { key: 'theme-color', name: 'theme-color', content: '#FFF' }
+  ]
+})
+
+useSeoMeta({
+  titleTemplate: 'Quasi AI',
+  description:
+    'Transform your learning experience with Quasi AI, the all-in-one learning platform that generates flashcards, quizzies, and study materials instantly from your lectures, notes, pdfs, and presentations.',
+  ogImage:
+    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
+  twitterImage:
+    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
+  twitterCard: 'summary_large_image'
 })
 </script>
-
-<style scoped>
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 2s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 3s ease-out forwards;
-}
-
-/* Wrapper to enable overflow hidden */
-.brand-slider-wrapper {
-  overflow: hidden;
-  position: relative;
-}
-
-/* The flex container that will move left infinitely */
-.brand-slider {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  animation: scroll 15s linear infinite;
-}
-
-/* Individual brand icons */
-.brand-icon {
-  flex-shrink: 0;
-  width: 80px;
-  height: auto;
-  transition: transform 0.3s;
-}
-
-.brand-icon:hover {
-  transform: scale(1.1);
-}
-
-/* Keyframes animation */
-@keyframes scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-</style>

@@ -5,3 +5,10 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const colorMode = useColorMode()
+
+// force colormode to light
+colorMode.preference = 'light'
+</script>

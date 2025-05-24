@@ -1,27 +1,18 @@
 <template>
   <svg
+    width="26"
+    height="24"
+    viewBox="0 0 26 24"
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    width="1em"
-    height="1em"
-    viewBox="0 0 24 24"
   >
     <path
-      fill="none"
+      d="M20.5288 8.25L12.6344 15.75L4.73999 8.25"
       stroke="currentColor"
-      stroke-dasharray="10"
-      stroke-dashoffset="10"
+      stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="2"
-      d="M12 15l-5 -5M12 15l5 -5"
-    >
-      <animate
-        fill="freeze"
-        attributeName="stroke-dashoffset"
-        dur="0.3s"
-        values="10;0"
-      ></animate>
-    </path>
+    />
   </svg>
 </template>
 

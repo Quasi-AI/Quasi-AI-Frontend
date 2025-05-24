@@ -1,298 +1,588 @@
 <template>
-  <div class="flex flex-col gap-6 px-5 lg:flex-row">
-    <!-- Input Section -->
-    <div class="flex w-full flex-col items-center gap-4 lg:w-[50%]">
-      <div class="flex items-center gap-4">
-        <!-- Export Results -->
-        <UButton
-          v-if="score !== null"
-          class="rounded-2xl bg-[#5D3BEA] text-white"
-          :disabled="loading"
-          variant="blue"
-          @click="exportResults"
-        >
-          Export Results
-        </UButton>
+  <div class="flex flex-col gap-4 lg:h-screen">
+    <!-- Share with Students Modal -->
+    <ShareWith
+      v-if="isShareWithStudentModalVisible"
+      :isVisible="isShareWithStudentModalVisible"
+      @close="closeShareWithStudents"
+      @share="handleShare"
+      type="quiz"
+      :assignmentId="selectedQuizForSharing?.id || ''"
+    />
 
-        <!-- Score -->
-        <div v-if="score !== null" class="text-lg font-bold">
-          Your Score: {{ score }} / {{ quizes.length }}
+    <!-- Loader Modal -->
+    <div
+      v-if="isLoading"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div
+        class="relative w-[600px] rounded-lg bg-white p-8 text-center shadow-lg dark:bg-[#111C44]"
+      >
+        <h2 class="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+          Hang on a sec...
+        </h2>
+
+        <!-- Illustration -->
+        <div class="flex justify-center">
+          <LoaderImage class="w-80" />
+        </div>
+
+        <!-- Loader Bar -->
+        <div
+          class="relative mt-4 h-3 w-full max-w-md rounded-full bg-white dark:bg-[#111C44]"
+        >
+          <div
+            class="absolute left-0 h-3 w-1/2 animate-pulse rounded-full bg-orange-500"
+          ></div>
+        </div>
+
+        <p class="mt-3 text-gray-600">Loading...</p>
+      </div>
+    </div>
+
+    <!-- Home -->
+    <div v-if="showHomeQuizzes" class="w-full">
+      <div
+        class="flex w-full flex-col items-center justify-end gap-2 py-8 lg:flex-row"
+      >
+        <UInput
+          variant="none"
+          class="my-2 w-full rounded-lg border bg-white p-1 dark:border-none dark:bg-[#111C44] lg:w-[200px]"
+          placeholder="Search for quizzes by name"
+          v-model="searchQuery"
+          maxLength="250"
+        />
+        <select
+          v-model="filterQuizes"
+          class="my-2 w-full rounded-lg border bg-white p-2 dark:border-none dark:bg-[#111C44] lg:w-[200px]"
+          @change="fetchQuizzes"
+        >
+          <option value="all">All Quizzes</option>
+          <option value="my">My Quizzes</option>
+        </select>
+        <button
+          @click="HandleCreateQuizzesButton"
+          class="flex w-full items-center justify-center rounded-lg bg-[#5D3BEA] px-6 py-2 text-white transition duration-300 hover:scale-90 hover:bg-[#4A2DCA] lg:w-[200px]"
+          variant="blue"
+        >
+          Create quizzes
+        </button>
+      </div>
+
+      <!-- Questions List -->
+      <div v-if="quizzes.length > 0" class="mt-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div
+            v-for="quiz in filteredQuizzes"
+            :key="quiz.title"
+            class="flex h-full cursor-pointer flex-col justify-between rounded-lg bg-white p-4 shadow-sm hover:shadow-md dark:bg-[#1E2A50] dark:text-white"
+            @click="openQuiz(quiz)"
+          >
+            <!-- Message at the top -->
+            <p class="text-lg font-semibold">
+              {{ truncateText(quiz.message) }}
+            </p>
+
+            <!-- User details always at the bottom -->
+            <div class="mt-auto flex items-center gap-3 pt-3">
+              <img
+                :src="
+                  quiz.created_by?.profile ||
+                  'https://cdn-icons-png.flaticon.com/512/929/929422.png'
+                "
+                alt="Profile"
+                class="h-10 w-10 rounded-full border object-cover dark:border-[#0C1438]"
+              />
+              <div>
+                <p class="font-semibold">{{ quiz.created_by?.name }}</p>
+                <p class="text-sm text-gray-500">
+                  {{ formatDate(quiz.created_by?.created_at) }}
+                </p>
+              </div>
+            </div>
+            <!-- Share Icon -->
+            <div class="mt-4 flex items-center justify-end gap-2">
+              <button
+                @click.stop="shareWithStudentsModal(quiz)"
+                class="text-gray-500 hover:text-[#5D3BEA]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Text Area -->
-      <textarea
-        v-model="messageContent"
-        class="min-h-[40vh] w-full rounded-2xl bg-white p-5 shadow transition hover:shadow-xl dark:bg-[#111C44] dark:text-white"
-        placeholder="Type your content here"
-      />
+      <!-- Empty State (Show when no questions are available) -->
+      <div v-else class="mt-4 text-center text-gray-500">
+        No questions available.
+        <EmptyStateIcon width="100%" height="350px" />
+      </div>
+    </div>
 
-      <!-- File Upload Instructions -->
-      <div class="mt-2 text-center text-gray-600 dark:text-gray-300">
-        <p>Please ensure your upload is in one of the following formats:</p>
-        <p>
-          <strong>Accepted File Types: (.pdf *, .docx)</strong>
-        </p>
+    <!-- Form Container -->
+    <div
+      v-if="showCreateQuizzes"
+      class="mx-auto w-full rounded-xl bg-white p-8 shadow-sm dark:bg-[#111C44] dark:text-white"
+    >
+      <div class="flex justify-end pb-4">
+        <button
+          @click="closeQuizzesSetDetail"
+          class="text-gray-500 hover:text-red-500"
+          title="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
       </div>
 
-      <!-- File Upload Button -->
-      <UButton
-        class="rounded-full bg-red-200 p-3 dark:bg-gray-700"
+      <!-- File Upload -->
+      <div
         @click="triggerFileInput"
+        @dragover.prevent="handleDragOver"
+        @drop.prevent="handleDropWrapper"
+        class="mb-6 cursor-pointer rounded-lg border-2 border-dashed border-blue-300 p-6 text-center"
       >
-        <font-awesome-icon :icon="['fas', 'upload']" />
-      </UButton>
-      <input
-        id="file-upload"
-        type="file"
-        @change="handleFileChange"
-        class="hidden"
-      />
+        <p class="font-medium text-gray-500">
+          Click or drag and drop to upload a document
+        </p>
+        <p class="mt-1 text-sm text-gray-400">
+          Accepted File Types: (.pdf, .docx)
+        </p>
+        <input
+          id="file-upload"
+          type="file"
+          class="hidden"
+          @change="handleFileUploadWrapper"
+        />
+      </div>
 
-      <!-- Level Selection -->
-      <select
-        v-model="selectedLevel"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
-      >
-        <option value="beginner">Beginner</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="advanced">Advanced</option>
-      </select>
+      <!-- Text Area for Content -->
+      <div class="mb-6">
+        <p class="mb-2 block font-medium text-gray-500">Quiz Content</p>
+        <textarea
+          v-model="messageContent"
+          class="h-40 w-full rounded-lg border p-4 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          placeholder="Type your content here"
+        />
+      </div>
 
-      <!-- Number of Questions -->
-      <input
-        type="number"
-        v-model="numQuestions"
-        min="1"
-        max="20"
-        class="w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white"
-        placeholder="Number of questions"
-      />
+      <!-- Quiz Settings -->
+      <div class="flex flex-col gap-4">
+        <div class="w-full">
+          <p class="mb-2 block font-medium text-gray-500">
+            Subject/Course Title
+          </p>
+          <input
+            type="text"
+            v-model="SubjectTitle"
+            min="1"
+            max="50"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+            placeholder="Enter Subject/Course Title"
+          />
+        </div>
 
-      <!-- Timer Input -->
-      <input
-        type="number"
-        v-model="userTimer"
-        min="1"
-        required
-        :class="{
-          'w-full rounded-lg p-2 dark:bg-[#111C44] dark:text-white': true,
-          'border border-red-500': hasError
-        }"
-        placeholder="Timer duration (minutes)"
-      />
-      <p v-if="hasError" class="mt-1 text-sm text-red-500">
-        Please specify a valid timer duration.
-      </p>
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">Difficulty Level</p>
+          <select
+            v-model="selectedLevel"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
 
-      <!-- Generate Button -->
-      <UButton
-        class="rounded-2xl bg-[#5D3BEA] text-white"
-        :disabled="loading"
-        variant="blue"
-        @click="generateQuestions"
-      >
-        {{ loading ? 'Generating...' : 'Generate Quiz' }}
-      </UButton>
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">Private or Public</p>
+          <select
+            v-model="selectedPublicity"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          >
+            <option value="private">Private</option>
+            <option value="public">Public</option>
+          </select>
+        </div>
+
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">
+            Number of Questions
+          </p>
+          <input
+            type="number"
+            v-model="numQuestions"
+            min="1"
+            max="20"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          />
+        </div>
+
+        <div>
+          <p class="mb-2 block font-medium text-gray-500">
+            Timer Duration (minutes)
+          </p>
+          <input
+            type="number"
+            v-model="userTimer"
+            min="1"
+            class="w-full rounded-lg border p-3 text-gray-700 focus:ring-2 focus:ring-indigo-500 dark:border-[#0C1438] dark:bg-[#111C44] dark:text-white"
+          />
+        </div>
+      </div>
+
+      <!-- Generate Quiz Button -->
+      <div class="mt-6 flex justify-center">
+        <button
+          class="w-full max-w-xs rounded-lg bg-[#5D3BEA] py-3 font-medium text-white transition duration-300 hover:bg-[#4A2DCA] focus:ring-4 focus:ring-indigo-300"
+          :disabled="isLoading"
+          @click="generateQuestions"
+        >
+          {{ isLoading ? 'Generating...' : 'Generate quizzes' }}
+        </button>
+      </div>
     </div>
 
     <!-- Quiz Section -->
-    <div class="flex w-full flex-col lg:w-[50%]">
-      <h2 class="mb-2 text-lg font-bold">Quiz</h2>
+    <div v-if="showPreviewQuizzes" class="flex w-full flex-col text-center">
       <div v-if="quizes.length === 0" class="text-gray-500">
         No quiz generated yet.
       </div>
 
       <div v-else class="space-y-4">
-        <!-- Timer -->
-        <div v-if="timer > 0" class="text-lg font-bold">
-          Time Remaining: {{ Math.floor(timer / 60) }}:{{
-            timer % 60 < 10 ? '0' : ''
-          }}{{ timer % 60 }}
+        <!-- Progress Bar moved here -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between text-sm text-gray-500">
+            <span>Progress</span>
+            <span>{{ currentIndex + 1 }} of {{ quizes.length }}</span>
+          </div>
+          <div class="mt-2 h-2 w-full rounded-full bg-gray-200">
+            <div
+              class="h-full rounded-full bg-[#5D3BEA] transition-all duration-300"
+              :style="{
+                width: `${((currentIndex + 1) / quizes.length) * 100}%`
+              }"
+            ></div>
+          </div>
         </div>
 
-        <!-- Questions -->
         <div
-          class="h-[60vh] space-y-4 overflow-y-auto p-2 md:h-[70vh] lg:h-[80vh]"
+          class="flex flex-col items-center justify-between gap-4 py-2 lg:flex-row"
         >
-          <div
-            v-for="(quiz, index) in quizes"
-            :key="index"
-            class="rounded-2xl bg-white p-4 shadow dark:bg-[#111C44] dark:text-white"
-          >
-            <p class="font-semibold">{{ index + 1 }}. {{ quiz.question }}</p>
-            <div class="mt-2 flex flex-col gap-2">
-              <label
-                v-for="(option, optIndex) in quiz.options"
-                :key="optIndex"
-                class="flex items-center gap-2"
-              >
-                <input
-                  type="radio"
-                  :name="'question-' + index"
-                  :value="option"
-                  v-model="quiz.userAnswer"
-                  :disabled="score !== null"
-                />
-                <span :class="getAnswerClass(quiz, option)">
-                  {{ option }}
-                </span>
-              </label>
+          <div class="flex items-center justify-between gap-6">
+            <div v-if="timer > 0" class="text-lg font-bold">
+              Time: {{ Math.floor(timer / 60) }}:{{ timer % 60 < 10 ? '0' : ''
+              }}{{ timer % 60 }}
+            </div>
+
+            <div
+              v-if="score !== null"
+              class="flex items-center justify-between"
+            >
+              <div class="text-lg font-bold">
+                Your Score: {{ score }} / {{ quizes.length }}
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Submit Button -->
-        <UButton
-          class="rounded-2xl bg-[#5D3BEA] text-white"
-          @click="checkAnswers"
-          variant="blue"
-          :disabled="score !== null"
+        <div class="bg-white p-4 dark:bg-[#111C44] dark:text-white">
+          <div class="flex justify-end pb-4">
+            <button
+              @click="closeQuizzesSetDetail"
+              class="text-gray-500 hover:text-red-500"
+              title="Close"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div
+            class="flex flex-col items-center justify-center gap-3 rounded-lg"
+          >
+            <p class="text-center font-semibold">
+              {{ quizes[currentIndex].question }}
+            </p>
+            <img
+              v-if="quizes[currentIndex].image"
+              :src="quizes[currentIndex].image"
+              alt="Question"
+              class="mt-2 h-[200px] w-[300px] rounded-lg"
+            />
+          </div>
+
+          <div
+            class="mt-2 grid grid-cols-2 gap-2 rounded-lg bg-white p-4 dark:bg-[#111C44] dark:text-white"
+          >
+            <p
+              v-for="(option, index) in quizes[currentIndex].options"
+              :key="index"
+              class="flex cursor-pointer items-center gap-2 rounded-lg border p-2 hover:bg-gray-100 dark:border-[#0C1438] dark:hover:bg-gray-700"
+              :class="{
+                'border-2 border-[#5D3BEA] dark:border-gray-400':
+                  option === quizes[currentIndex].userAnswer && score === null,
+                ...getAnswerClass(quizes[currentIndex], option)
+              }"
+              @click="selectAnswer(quizes[currentIndex], option)"
+            >
+              <input
+                type="radio"
+                :name="'question-' + currentIndex"
+                :value="option"
+                v-model="quizes[currentIndex].userAnswer"
+                :disabled="score !== null"
+                class="hidden"
+              />
+              <span class="flex h-full w-full items-center justify-center">
+                {{ option }}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="flex w-full flex-col items-center justify-center gap-5 lg:flex-row"
         >
-          Submit Answers
-        </UButton>
+          <UButton
+            v-if="currentIndex > 0"
+            class="flex w-[200px] items-center justify-center rounded-md border border-[#5D3BEA] bg-white px-6 py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
+            @click="prevQuestion"
+            variant="none"
+          >
+            Previous
+          </UButton>
+          <UButton
+            v-if="currentIndex < quizes.length - 1"
+            class="flex w-[200px] items-center justify-center rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            @click="nextQuestion"
+            variant="none"
+          >
+            Continue
+          </UButton>
+          <UButton
+            v-if="currentIndex === quizes.length - 1"
+            class="flex w-[200px] items-center justify-center rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            @click="checkAnswers"
+            :disabled="score !== null"
+            variant="none"
+          >
+            Submit Answers
+          </UButton>
+        </div>
+      </div>
+    </div>
+
+    <div
+      v-if="showPostSubmission"
+      class="mx-auto flex w-full flex-col items-center justify-center rounded-xl"
+    >
+      <div class="w-[280px] text-center">
+        <div class="mb-6 flex items-center justify-center text-4xl">
+          <img
+            src="~/assets/icons/congrats-icon.gif"
+            alt=""
+            class="w-[200px]"
+          />
+        </div>
+
+        <h2 class="mb-4 text-4xl font-extrabold text-[#5D3BEA]">
+          Congratulations
+        </h2>
+        <p class="mb-6">
+          Awesome job completing your quiz. You can review your performance or
+          take a new quiz.
+        </p>
+        <div class="flex flex-col items-center justify-center gap-4">
+          <button
+            class="w-[250px] rounded-md border border-[#5D3BEA] bg-white px-6 py-2 text-[#5D3BEA] transition hover:scale-105 hover:bg-gray-300"
+            @click="retakeQuiz"
+          >
+            Take a new quiz
+          </button>
+          <button
+            class="w-[250px] rounded-md bg-[#5D3BEA] px-6 py-2 text-white transition hover:scale-105 hover:bg-[#4A2DCA]"
+            @click="viewPerformance"
+          >
+            View My Performance
+          </button>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- Hidden File Input -->
-  <input
-    type="file"
-    id="file-upload"
-    style="display: none"
-    @change="handleFileChange"
-  />
 </template>
 
 <script setup>
-import * as pdfjsLib from 'pdfjs-dist'
-import mammoth from 'mammoth'
-import PPTX2Json from 'pptx2json'
+import { handleFileUpload } from '@/utils/extractText'
+import { handleDragOver, handleDrop } from '@/utils/dragAndDrop'
+import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
+import LoaderImage from '@/assets/icons/loader-image.vue'
+import { truncateText } from '@/utils/truncateText'
 
-// Specify the worker source for PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js'
-
+const SubjectTitle = ref('')
+const selectedPublicity = ref('private')
 const messageContent = ref('')
 const quizes = ref([])
 const selectedLevel = ref('beginner')
 const numQuestions = ref(10)
-const loading = ref(false)
-const errorMessage = ref('')
+const isLoading = ref(false)
 const score = ref(null)
-const userTimer = ref() // Default timer duration in minutes
-const timer = ref(0) // Timer in seconds
-const hasError = ref(false) // Track validation state
-
-// Timer Logic
+const userTimer = ref()
+const timer = ref(0)
+const showCreateQuizzes = ref(false)
+const showPreviewQuizzes = ref(false)
+const showHomeQuizzes = ref(true)
+const showGeneratedQuizzes = ref(false)
+const showPostSubmission = ref(false)
+const showQuizDetail = ref(false)
+const currentIndex = ref(0)
+const quizzes = ref([])
+const selectedQuiz = ref(null)
+const searchQuery = ref('')
+const filterQuizes = ref('all')
+const hasError = ref(false)
 let timerInterval
+
+const prevQuestion = () => {
+  if (currentIndex.value > 0) currentIndex.value--
+}
+const nextQuestion = () => {
+  if (currentIndex.value < quizes.value.length - 1) currentIndex.value++
+}
+
 const startTimer = () => {
-  timer.value = userTimer.value * 60 // Convert minutes to seconds
+  timer.value = userTimer.value * 60
   timerInterval = setInterval(() => {
     if (timer.value > 0) timer.value--
     else {
       clearInterval(timerInterval)
-      checkAnswers() // Automatically submit answers when time runs out
+      checkAnswers()
     }
   }, 1000)
 }
 
-// Trigger the hidden file input when the button is clicked
-const triggerFileInput = () => {
-  document.getElementById('file-upload').click()
+// Fetch quizzes on component mount
+onMounted(() => {
+  fetchQuizzes()
+})
+
+// Fetch quizzes based on filter
+const fetchQuizzes = async () => {
+  try {
+    const endpoint =
+      filterQuizes.value === 'my'
+        ? `/quiz/${sessionStorage.getItem('user_id')}`
+        : '/quiz/all'
+    const response = await fetch(
+      `https://dark-caldron-448714-u5.uc.r.appspot.com${endpoint}`
+    )
+    if (!response.ok) throw new Error('Failed to fetch quizzes')
+    const data = await response.json()
+    quizzes.value = data.Quizes
+  } catch (error) {
+    console.error('Error fetching quizzes:', error)
+  }
 }
 
-// Handle the file selection
-const handleFileChange = async event => {
-  const file = event.target.files[0]
+// Filter quizzes based on search query
+const filteredQuizzes = computed(() => {
+  return quizzes.value.filter(quiz =>
+    quiz.message.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
 
-  if (!file) return
+// Open quiz for taking
+const openQuiz = quiz => {
+  selectedQuiz.value = quiz
+  showQuizDetail.value = false
+  showHomeQuizzes.value = false
+  showCreateQuizzes.value = false
+  showPreviewQuizzes.value = true
 
-  const fileType = file.type
-  errorMessage.value = '' // Clear previous error message
+  // Initialize the quiz for taking
+  quizes.value = quiz.quizes.map(q => ({
+    question: q.question,
+    options: q.options,
+    correctAnswer: q.correctAnswer,
+    image: q.image,
+    userAnswer: null
+  }))
 
-  // PDF Handling
-  if (fileType === 'application/pdf') {
-    const reader = new FileReader()
-    reader.onload = async e => {
-      const pdfData = new Uint8Array(e.target.result)
-      const pdf = await pdfjsLib.getDocument(pdfData).promise
-      let text = ''
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i)
-        const content = await page.getTextContent()
-        text += content.items.map(item => item.str).join(' ') + '\n'
-      }
-      messageContent.value = text
-    }
-    reader.readAsArrayBuffer(file)
-  } else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  ) {
-    const reader = new FileReader()
-    reader.onload = e => {
-      const arrayBuffer = e.target.result
-
-      // Extract text from the Word document using Mammoth
-      mammoth
-        .extractRawText({ arrayBuffer: arrayBuffer })
-        .then(result => {
-          messageContent.value = result.value // Set the extracted text in the textarea
-        })
-        .catch(err => {
-          console.error('Error extracting text from DOCX:', err)
-        })
-    }
-    reader.readAsArrayBuffer(file)
+  // Set the timer if the quiz has a timer
+  if (quiz.timer) {
+    userTimer.value = quiz.timer
+    startTimer()
   }
 
-  // PPTX Handling (using pptx2json)
-  else if (
-    fileType ===
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-  ) {
-    const reader = new FileReader()
+  // Reset the current question index and score
+  currentIndex.value = 0
+  score.value = null
+}
 
-    reader.onload = async e => {
-      const arrayBuffer = e.target.result
+// Close detailed view
+const closeQuizzesSetDetail = () => {
+  selectedQuiz.value = null
+  showQuizDetail.value = false
+  showHomeQuizzes.value = true
+  showCreateQuizzes.value = false
+  showPreviewQuizzes.value = false
+  showGeneratedQuizzes.value = false
+  showPostSubmission.value = false
+}
 
-      try {
-        // Parse the PPTX file
-        const pptx = new PPTX2Json()
-        pptx.load(arrayBuffer)
+// Format date
+const formatDate = dateString => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
 
-        // Extracting the slide content
-        pptx
-          .getSlides()
-          .then(slides => {
-            let text = ''
-            slides.forEach(slide => {
-              slide.texts.forEach(textItem => {
-                text += textItem.text + ' '
-              })
-            })
-            messageContent.value = text // Set the extracted text in the textarea
-          })
-          .catch(err => {
-            console.error('Error extracting slides:', err)
-          })
-      } catch (err) {
-        console.error('Error extracting text from PPTX:', err)
-      }
-    }
-    reader.readAsArrayBuffer(file)
-  }
-
-  // Audio Handling (basic example, can be expanded with speech-to-text libraries)
-  else if (fileType.startsWith('audio/')) {
-    // Example: Extract metadata or transcribe audio (e.g., using Google Speech API)
-    const text = 'Audio recording transcribed content'
-    messageContent.value = text
-  } else {
-    errorMessage.value =
-      'Unsupported file type. Please upload a PDF, DOCX, or Audio file.'
-  }
+// Handle create flashcards button
+const HandleCreateQuizzesButton = async () => {
+  showHomeQuizzes.value = false
+  showCreateQuizzes.value = true
+  showPreviewQuizzes.value = false
 }
 
 // Generate Quiz Questions using the new API
@@ -308,13 +598,15 @@ const generateQuestions = async () => {
       {
         question: 'Please provide content to generate quiz questions.',
         options: [],
-        correctAnswer: ''
+        correctAnswer: '',
+        image: ''
       }
     ]
     return
   }
 
-  loading.value = true
+  isLoading.value = true
+  showHomeQuizzes.value = false
   try {
     const response = await fetch(
       'https://dark-caldron-448714-u5.uc.r.appspot.com/quizes/generate',
@@ -322,11 +614,13 @@ const generateQuestions = async () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          title: SubjectTitle.value,
           message: messageContent.value,
+          visible: selectedPublicity.value,
           level: selectedLevel.value,
           totalQuestions: numQuestions.value,
-          user_timer: userTimer.value,
-          user_id: localStorage.getItem('user_id')
+          timer: userTimer.value,
+          user_id: sessionStorage.getItem('user_id')
         })
       }
     )
@@ -340,14 +634,19 @@ const generateQuestions = async () => {
         question: q.question,
         options: q.options,
         correctAnswer: q.correctAnswer,
+        image: q.image,
         userAnswer: null
       }))
       startTimer() // Start timer
+      showPreviewQuizzes.value = true
+      showHomeQuizzes.value = false
+      showCreateQuizzes.value = false
     } else {
       quizes.value = [
         {
           question: 'Failed to generate quiz questions.',
           options: [],
+          image: '',
           correctAnswer: ''
         }
       ]
@@ -358,34 +657,146 @@ const generateQuestions = async () => {
       {
         question: 'Error generating quiz. Please try again.',
         options: [],
+        image: '',
         correctAnswer: ''
       }
     ]
   } finally {
-    loading.value = false
+    isLoading.value = false
   }
 }
 
 // Check user answers
-const checkAnswers = () => {
+const checkAnswers = async () => {
   let correctCount = 0
   quizes.value.forEach(quiz => {
     if (quiz.userAnswer === quiz.correctAnswer) correctCount++
   })
+
   score.value = correctCount
   clearInterval(timerInterval) // Stop timer
+  showGeneratedQuizzes.value = false
+  showPreviewQuizzes.value = false
+  showPostSubmission.value = true
+
+  try {
+    const response = await fetch(
+      'https://dark-caldron-448714-u5.uc.r.appspot.com/add-students-report',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: sessionStorage.getItem('name'),
+          email: sessionStorage.getItem('email'),
+          user_id: sessionStorage.getItem('user_id'),
+          profile_image: '',
+          practice_type: 'Quiz',
+          score: score.value
+        })
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+
+    const data = await response.json() // Process response
+    console.log('Quiz submitted successfully:', data)
+  } catch (error) {
+    console.error('Error submitting quiz:', error)
+  }
 }
 
 // Highlight correct and incorrect answers
 const getAnswerClass = (quiz, option) => {
   if (score.value !== null) {
-    const isCorrect = option === quiz.correctAnswer
-    const isWrong = option === quiz.userAnswer && !isCorrect
+    const isCorrect = option === quiz.correctAnswer // Correct answer
+    const isUserAnswer = option === quiz.userAnswer // User's selected answer
+    const isWrong = isUserAnswer && !isCorrect // User selected the wrong answer
+
     return {
-      'text-green-600 font-bold': isCorrect,
-      'text-red-600': isWrong
+      'bg-[#284E3E] text-[#29DA30] font-bold': isCorrect, // Correct answer
+      'bg-[#4E2828] text-[#D44D4D]': isWrong // Wrong answer selected by user
     }
   }
   return {}
 }
+
+const retakeQuiz = () => {
+  showPostSubmission.value = false
+  showHomeQuizzes.value = true
+  quizes.value = []
+  score.value = null
+}
+
+const viewPerformance = () => {
+  showPostSubmission.value = false
+  showPreviewQuizzes.value = true
+}
+
+// Trigger the file input when the button is clicked
+const triggerFileInput = () => {
+  document.getElementById('file-upload').click()
+}
+
+// Update message content when a file is uploaded
+const updateMessageContent = text => {
+  messageContent.value = text
+}
+
+const handleFileUploadWrapper = async event => {
+  await handleFileUpload(event, updateMessageContent)
+}
+
+// Wrapper for handleDrop to pass the callback
+const handleDropWrapper = async event => {
+  await handleDrop(event, handleFileUploadWrapper)
+}
+
+// Select answer for a question
+const selectAnswer = (quiz, option) => {
+  if (score.value === null) {
+    quiz.userAnswer = option
+  }
+}
+
+// share with students
+const isShareWithStudentModalVisible = ref(false)
+const selectedQuizForSharing = ref(null)
+
+const shareWithStudentsModal = quiz => {
+  selectedQuizForSharing.value = quiz
+  isShareWithStudentModalVisible.value = true
+}
+
+const closeShareWithStudents = () => {
+  isShareWithStudentModalVisible.value = false
+}
+
+const handleShare = selectedStudents => {
+  console.log('Selected Students:', selectedStudents)
+  console.log('Quiz to Share:', selectedQuizForSharing.value)
+  // Perform sharing logic here
+  closeShareWithStudents()
+}
 </script>
+
+<style scoped>
+@keyframes pulse {
+  0% {
+    width: 10%;
+  }
+
+  50% {
+    width: 70%;
+  }
+
+  100% {
+    width: 10%;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+</style>

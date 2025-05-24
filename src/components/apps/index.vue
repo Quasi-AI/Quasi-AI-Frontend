@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col 2xl:h-screen">
-    <div class="mb-[10%] flex-grow overflow-y-auto overflow-x-hidden p-2">
+  <div class="flex flex-col lg:h-screen">
+    <div class="flex-grow overflow-y-auto overflow-x-hidden">
       <component :is="currentComponent" />
     </div>
   </div>
@@ -12,7 +12,6 @@ import FlashCards from '@/components/apps/flashcards/index.vue'
 import Quizzes from '@/components/apps/quizzes/index.vue'
 import AiTutor from '@/components/apps/chats/ai-tutor/index.vue'
 import FindTutors from '@/components/apps/find-tutors/index.vue'
-import Essay from '@/components/apps/essay/index.vue'
 import SpeechToText from '@/components/apps/speech-to-text/index.vue'
 import Plan from '@/components/apps/other/plan/index.vue'
 import LearningGames from '@/components/apps/games/index.vue'
@@ -28,7 +27,6 @@ const componentsMap = {
   '/apps/quizzes': Quizzes,
   '/apps/ai-tutor': AiTutor,
   '/apps/find-tutors': FindTutors,
-  '/apps/essay': Essay,
   '/apps/speech-to-text': SpeechToText,
   '/other/support': CustomerSupport,
   '/other/games': LearningGames,

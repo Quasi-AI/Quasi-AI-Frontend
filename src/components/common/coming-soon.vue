@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex h-screen items-center justify-center bg-[#F4F7FE] dark:bg-[#0C1438]"
+    class="mx-3 flex h-screen items-center justify-center bg-[#F4F7FE] dark:bg-[#0C1438]"
   >
     <div
       class="max-w-md rounded-2xl bg-white p-6 text-center shadow-lg dark:bg-[#111C44]"
@@ -13,10 +13,10 @@
         We're working on something amazing. Stay tuned!
       </p>
       <NuxtLink
-        to="/dashboard"
+        to="/apps"
         class="mt-4 rounded-lg bg-[#5D3BEA] px-4 py-2 font-medium text-white transition hover:bg-[#4a2fba]"
       >
-        Back to Dashboard
+        Go to Apps
       </NuxtLink>
     </div>
   </div>

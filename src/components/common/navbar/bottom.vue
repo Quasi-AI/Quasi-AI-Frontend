@@ -1,8 +1,9 @@
 <template>
+  <div class="mt-20"></div>
   <div
-    class="fixed bottom-0 left-0 flex w-full bg-white py-2 shadow-lg lg:hidden dark:bg-[#111C44]"
+    class="fixed bottom-0 left-0 flex w-full bg-white py-2 shadow-lg dark:bg-[#111C44] lg:hidden"
   >
-    <div class="grid w-full grid-cols-5">
+    <div class="grid w-full grid-cols-4">
       <NuxtLink
         v-for="(item, index) in menuItems"
         :key="index"
@@ -14,14 +15,14 @@
         <span class="text-xs">{{ item.mobileLabel }}</span>
       </NuxtLink>
 
-      <!-- Contact Support -->
-      <NuxtLink
-        to="/apps/support"
+      <!-- Plan -->
+      <!-- <NuxtLink
+        to="/other/pricing/plan"
         class="flex flex-col items-center text-gray-600 dark:text-gray-300"
       >
-        <QuestionMarkCircleIcon class="h-6 w-6" />
-        <span class="text-xs">Support</span>
-      </NuxtLink>
+        <SparklesIcon class="h-6 w-6" />
+        <span class="text-xs">Plan</span>
+      </NuxtLink> -->
     </div>
   </div>
 </template>
@@ -32,7 +33,7 @@ import {
   CubeIcon,
   AcademicCapIcon,
   DocumentTextIcon,
-  QuestionMarkCircleIcon
+  SparklesIcon
 } from '@heroicons/vue/24/outline'
 
 const route = useRoute()
@@ -53,7 +54,7 @@ const menuItems = [
   },
   {
     fullLabel: 'Past Questions',
-    mobileLabel: 'Questions',
+    mobileLabel: 'Past Que.',
     route: '/other/past-questions',
     icon: DocumentTextIcon
   }

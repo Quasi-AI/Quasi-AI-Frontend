@@ -2,7 +2,9 @@ import { useAuthenticationStore } from '@/store/auth'
 
 export const useAuth = () => {
   const authStore = useAuthenticationStore()
-  const isLoggedIn = computed(() => !!authStore.token)
+  const token = computed(() => sessionStorage.getItem('authToken'))
+
+  const isLoggedIn = computed(() => !!token.value)
 
   onMounted(() => {
     authStore.loadToken()
