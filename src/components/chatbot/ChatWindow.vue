@@ -65,7 +65,7 @@ const scrollToBottom = () => {
   >
     <!-- Toggle Sidebar Button -->
     <button
-      class="fixed bottom-20 right-4 z-50 rounded bg-gray-200 px-3 py-1 text-gray-700 transition hover:bg-gray-300 dark:bg-[#1E2A5A] dark:text-white dark:hover:bg-[#22336a] md:bottom-24 lg:absolute lg:bottom-auto lg:left-2 lg:right-auto lg:top-2 lg:z-30"
+      class="fixed bottom-20 right-4 z-50 rounded-2xl bg-gray-200 px-3 py-1 text-gray-700 shadow-md transition hover:bg-gray-300 dark:bg-[#1E2A5A] dark:text-white dark:hover:bg-[#22336a] md:bottom-24 lg:absolute lg:bottom-auto lg:left-2 lg:right-auto lg:top-2 lg:z-30"
       @click="emit('toggle-sidebar')"
       aria-label="Toggle Sidebar"
     >
