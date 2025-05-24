@@ -2,15 +2,15 @@
   <div id="home" class="relative z-10 min-h-screen xl:mx-auto 2xl:w-[1440px]">
     <!-- Hero Section -->
     <div
-      class="animate-fade-in flex h-screen flex-col items-center justify-center bg-[#E4E0F4] px-4 py-4 lg:h-auto lg:min-h-[60vh] lg:py-5"
+      class="animate-fade-in flex h-screen flex-col items-center justify-center bg-[#E4E0F4] px-4 py-4 dark:bg-[#1E2A5A] lg:h-auto lg:min-h-[60vh] lg:py-5"
     >
       <h1
-        class="h-[160px] max-w-3xl text-center text-4xl font-bold leading-tight text-[#190A53] lg:h-[120px] lg:text-5xl"
+        class="h-[160px] max-w-3xl text-center text-4xl font-bold leading-tight text-[#190A53] dark:text-white lg:h-[120px] lg:text-5xl"
       >
         <span v-html="displayedText"></span>
       </h1>
       <p
-        class="animate-slide-up mt-6 max-w-xl text-center text-lg text-gray-600"
+        class="animate-slide-up mt-6 max-w-xl text-center text-lg text-gray-600 dark:text-gray-300"
         style="animation-delay: 0.4s"
       >
         Generate flashcards, quizzes, and study materials instantly from your
@@ -28,7 +28,7 @@
         </NuxtLink>
         <NuxtLink
           to="/#learn-more"
-          class="rounded-lg px-8 py-3 font-normal transition duration-300 hover:text-[#5D3BEA]"
+          class="rounded-lg px-8 py-3 font-normal transition duration-300 hover:text-[#5D3BEA] dark:text-white"
         >
           Learn more
         </NuxtLink>
@@ -70,7 +70,7 @@
     </div>
 
     <!-- Why Choose Quasi AI Section -->
-    <div id="why" class="relative py-4">
+    <div id="why" class="relative py-4 dark:bg-[#111C44]">
       <div class="container mx-auto px-4">
         <LandingUiIconsBrandsVideoplaceholder
           width="100%"
@@ -84,7 +84,7 @@
             Why choose Quasi AI
           </h2>
           <p
-            class="animate-slide-up mt-4 text-gray-600 lg:text-wrap"
+            class="animate-slide-up mt-4 text-gray-600 dark:text-gray-300 lg:text-wrap"
             style="animation-delay: 0.2s"
           >
             QUASI AI is one powerful platform that combines all the tools needed
@@ -97,14 +97,16 @@
           <div
             v-for="(item, index) in whyChooseItems"
             :key="index"
-            class="animate-slide-up flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 text-center lg:text-wrap"
+            class="animate-slide-up flex flex-col items-center rounded-lg border border-gray-200 bg-white p-6 text-center dark:border-[#0C1438] dark:bg-[#111C44] lg:text-wrap"
             :style="{ 'animation-delay': `${index * 0.2}s` }"
           >
             <component :is="item.icon" />
             <h3 class="mt-4 text-2xl font-bold text-[#5D3BEA]">
               {{ item.title }}
             </h3>
-            <p class="mt-2 text-gray-600">{{ item.description }}</p>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">
+              {{ item.description }}
+            </p>
           </div>
         </div>
       </div>
@@ -113,7 +115,7 @@
     <!-- Our Top Features Section -->
     <div
       id="features"
-      class="flex flex-col items-center bg-white px-4 py-20 lg:px-0"
+      class="flex flex-col items-center bg-white px-4 py-20 dark:bg-[#0C1438] lg:px-0"
     >
       <h2 class="animate-slide-up text-4xl font-bold text-[#5D3BEA]">
         Our top features
@@ -122,20 +124,24 @@
         <div
           v-for="(feature, features) in features"
           :key="features.title"
-          class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-md"
-          :class="feature.bgColor"
+          class="flex items-center gap-4 rounded-lg p-6 transition-all duration-300 hover:scale-105 hover:shadow-md dark:shadow-[#1A2B5F]"
+          :class="[feature.bgColor, feature.darkBgColor]"
           :style="{ 'animation-delay': `${features.title * 0.2}s` }"
           v-animate-onscroll="'slide-up'"
         >
           <component :is="feature.icon" />
           <div class="mt-4">
-            <h3 class="text-xl font-bold">{{ feature.title }}</h3>
-            <p class="text-gray-600">{{ feature.description }}</p>
+            <h3 class="text-xl font-bold dark:text-white">
+              {{ feature.title }}
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300">
+              {{ feature.description }}
+            </p>
           </div>
         </div>
       </div>
       <div
-        class="animate-slide-up mt-10 flex flex-col items-center gap-3 text-gray-600 lg:flex-row"
+        class="animate-slide-up mt-10 flex flex-col items-center gap-3 text-gray-600 dark:text-gray-300 lg:flex-row"
         style="animation-delay: 0.2s"
       >
         Sign up to see more
@@ -151,7 +157,9 @@
     </div>
 
     <!-- How to Become a Successful Instructor -->
-    <div class="flex flex-col items-center bg-[#F5F7FA] px-4 py-20 lg:px-0">
+    <div
+      class="flex flex-col items-center bg-[#F5F7FA] px-4 py-20 dark:bg-[#111C44] lg:px-0"
+    >
       <h2
         class="animate-slide-up text-center text-3xl font-bold text-[#5D3BEA] lg:text-4xl"
       >
@@ -161,12 +169,14 @@
         <div
           v-for="(step, index) in instructorSteps"
           :key="index"
-          class="animate-slide-up flex flex-col items-center rounded bg-white p-6 text-center lg:text-wrap"
+          class="animate-slide-up flex flex-col items-center rounded bg-white p-6 text-center dark:bg-[#1E2A5A] lg:text-wrap"
           :style="{ 'animation-delay': `${index * 0.2}s` }"
         >
           <component :is="step.icon" />
-          <h3 class="mt-4 text-xl font-bold text-black">{{ step.title }}</h3>
-          <p class="text-md mt-2 text-center text-gray-600">
+          <h3 class="mt-4 text-xl font-bold text-black dark:text-white">
+            {{ step.title }}
+          </h3>
+          <p class="text-md mt-2 text-center text-gray-600 dark:text-gray-300">
             {{ step.description }}
           </p>
         </div>
@@ -210,7 +220,7 @@
     <!-- Learn from Experts -->
     <div
       id="learn-more"
-      class="flex flex-col items-center gap-2 bg-white px-4 py-20 lg:gap-10"
+      class="flex flex-col items-center gap-2 bg-white px-4 py-20 dark:bg-[#0C1438] lg:gap-10"
     >
       <div
         class="animate-fade-in flex flex-col items-center justify-between gap-16 lg:flex-row"
@@ -229,7 +239,7 @@
             And Learners
           </h2>
           <p
-            class="animate-slide-up mt-4 text-gray-600 lg:text-wrap"
+            class="animate-slide-up mt-4 text-gray-600 dark:text-gray-300 lg:text-wrap"
             style="animation-delay: 0.2s"
           >
             QUASI AI has a dynamic set of teaching tools built just for you,
@@ -239,7 +249,7 @@
         </div>
       </div>
       <div
-        class="animate-fade-in mt-20 flex flex-col items-center justify-between gap-16 border-t border-gray-200 py-16 text-center lg:flex-row lg:text-wrap lg:border-none"
+        class="animate-fade-in mt-20 flex flex-col items-center justify-between gap-16 border-t border-gray-200 py-16 text-center dark:border-[#1E2A5A] lg:flex-row lg:text-wrap lg:border-none"
       >
         <div class="w-[100%] lg:w-[50%] lg:text-left">
           <h2
@@ -248,7 +258,7 @@
             Learn from 20+ Expert <br />Instructors
           </h2>
           <p
-            class="animate-slide-up mt-4 text-gray-600"
+            class="animate-slide-up mt-4 text-gray-600 dark:text-gray-300"
             style="animation-delay: 0.2s"
           >
             Gain knowledge from a diverse team of experienced professionals
@@ -273,7 +283,7 @@
     </div>
 
     <!-- Pricing Section -->
-    <div class="bg-white py-20 dark:bg-[#1E2A5A]">
+    <div class="bg-white py-20 dark:bg-[#111C44]">
       <div class="container mx-auto px-4">
         <h1
           class="text-center text-4xl font-bold text-slate-800 dark:text-gray-300"
@@ -540,47 +550,60 @@ import LandingUiIconsFeaturesEssay from '@/components/landing/ui/icons/features/
 import { useAuth } from '~/composables/useAuth'
 
 const { isLoggedIn } = useAuth()
+const colorMode = useColorMode()
+const isDark = computed({
+  get: () => colorMode.value === 'dark',
+  set: () =>
+    (colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark')
+})
 
+// Update features to include dark mode background colors
 const features = ref([
   {
     icon: LandingUiIconsFeaturesQuestions,
     title: 'Questions',
     description: '63,476 questions',
-    bgColor: 'bg-[#EBEBFF]'
+    bgColor: 'bg-[#EBEBFF]',
+    darkBgColor: 'dark:bg-[#1E2A5A]'
   },
   {
     icon: LandingUiIconsFeaturesFlashcards,
     title: 'Smart Flashcards',
     description: 'Over 2,736 cards',
-    bgColor: 'bg-[#FFF2E5]'
+    bgColor: 'bg-[#FFF2E5]',
+    darkBgColor: 'dark:bg-[#2C2C54]'
   },
   {
     icon: LandingUiIconsFeaturesTutors,
     title: 'Tutors',
     description: 'Expert educators available',
-    bgColor: 'bg-[#FFEEE8]'
+    bgColor: 'bg-[#FFEEE8]',
+    darkBgColor: 'dark:bg-[#3B3B5F]'
   },
   {
     icon: LandingUiIconsFeaturesAitutors,
     title: 'AI Tutors',
     description: 'Comprehensive AI support',
-    bgColor: 'bg-[#FFFFFF]'
+    bgColor: 'bg-[#FFFFFF]',
+    darkBgColor: 'dark:bg-[#21263A]'
   },
   {
     icon: LandingUiIconsFeaturesQuizzes,
     title: 'Quizzes',
     description: 'Over 13,932 quizzes',
-    bgColor: 'bg-[#F5F7FA]'
+    bgColor: 'bg-[#F5F7FA]',
+    darkBgColor: 'dark:bg-[#232D4B]'
   },
   {
     icon: LandingUiIconsFeaturesEssay,
     title: 'Past Questions',
     description: '22,649 essay resources',
-    bgColor: 'bg-[#FFF0F0]'
+    bgColor: 'bg-[#FFF0F0]',
+    darkBgColor: 'dark:bg-[#1E2A5A]'
   }
 ])
 
-// Text Animation
+// Text Animation needs to be updated for dark mode
 const fullText =
   'Transform Your Learning Experience with <span style="color:#5D3BEA">Quasi AI</span>'
 const displayedText = ref('')
