@@ -59,7 +59,6 @@ const route = useRoute()
 
 const isUserRoute = computed(() => route.path === '/user')
 
-const q = ref('')
 const colorMode = useColorMode()
 const isDark = computed({
   get: () => colorMode.value === 'dark',
