@@ -6,7 +6,7 @@
 
     <template #apps>
       <!-- User Header -->
-      <UserHeader :name="userInfo.name" :email="userInfo.email" />
+      <!-- <UserHeader :name="userInfo.name" :email="userInfo.email" /> -->
 
       <!-- Stat Cards -->
       <StatCardsGrid :cards="cards" :isLoading="isLoading" />
