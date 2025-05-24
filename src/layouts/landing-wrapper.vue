@@ -1,24 +1,24 @@
 <template>
   <div
     :class="bgClass"
-    class="mx-auto text-black transition-colors duration-300"
+    class="mx-auto text-black transition-colors duration-300 dark:text-white"
   >
     <slot></slot>
   </div>
 </template>
 
 <script setup>
-const bgClass = ref('bg-[#E4E0F4]')
+const bgClass = ref('bg-[#E4E0F4] dark:bg-[#1E2A5A]')
 const colorMode = useColorMode()
 
-// force colormode to light
-colorMode.preference = 'light'
+// Get current color mode instead of forcing light mode
+const isDark = computed(() => colorMode.value === 'dark')
 
 const handleScroll = () => {
   if (window.scrollY > window.innerHeight * 0.6) {
-    bgClass.value = 'bg-white'
+    bgClass.value = 'bg-white dark:bg-[#111C44]'
   } else {
-    bgClass.value = 'bg-[#E4E0F4]'
+    bgClass.value = 'bg-[#E4E0F4] dark:bg-[#1E2A5A]'
   }
 }
 
