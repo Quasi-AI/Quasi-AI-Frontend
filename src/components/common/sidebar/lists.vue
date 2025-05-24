@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed left-0 top-0 z-20 hidden h-screen flex-col justify-between bg-white shadow-sm md:flex dark:bg-[#111C44]"
+    class="fixed left-0 top-0 z-20 hidden h-screen flex-col justify-between bg-white shadow-sm dark:bg-[#111C44] md:flex"
     :class="[sidebarStore.isCollapsed ? 'w-24' : 'w-64']"
   >
     <!-- Logo Section -->

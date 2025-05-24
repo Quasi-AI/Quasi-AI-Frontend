@@ -6,7 +6,7 @@
 
     <template #apps>
       <div
-        class="mb-6 flex flex-col items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-sm md:flex-row dark:bg-[#111C44] dark:text-white"
+        class="mb-6 flex flex-col items-center justify-between gap-4 rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white md:flex-row"
       >
         <div class="flex w-full items-center gap-4 md:w-auto">
           <div
@@ -133,7 +133,7 @@
         </div>
 
         <div
-          class="flex max-h-[880px] flex-col overflow-y-auto rounded-lg bg-white p-6 shadow-sm lg:row-span-2 dark:bg-[#111C44] dark:text-white"
+          class="flex max-h-[880px] flex-col overflow-y-auto rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white lg:row-span-2"
         >
           <h2 class="mb-4 text-lg font-semibold">Recent Flashcards</h2>
           <ul class="flex-1 overflow-y-auto">

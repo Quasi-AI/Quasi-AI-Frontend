@@ -42,14 +42,14 @@
       >
         <UInput
           variant="none"
-          class="my-2 w-full rounded-lg border bg-white p-1 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          class="my-2 w-full rounded-lg border bg-white p-1 dark:border-none dark:bg-[#111C44] lg:w-[200px]"
           placeholder="Search for flashcards by name"
           v-model="searchQuery"
           maxlength="250"
         />
         <select
           v-model="filterFlashcards"
-          class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          class="my-2 w-full rounded-lg border bg-white p-2 dark:border-none dark:bg-[#111C44] lg:w-[200px]"
           @change="handleFilterChange"
         >
           <option value="all">All Flashcards</option>
@@ -153,7 +153,7 @@
         <div class="mb-4 flex flex-col-reverse gap-4">
           <div>
             <div
-              class="flex w-full flex-col items-start gap-4 rounded-lg bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between dark:bg-[#111C44]"
+              class="flex w-full flex-col items-start gap-4 rounded-lg bg-white p-4 shadow-sm dark:bg-[#111C44] lg:flex-row lg:items-center lg:justify-between"
             >
               <div class="w-full text-sm font-medium lg:w-1/3">
                 <strong>Topic:</strong>
@@ -456,7 +456,7 @@
       <div class="mb-4 flex flex-col-reverse gap-4">
         <div>
           <div
-            class="flex w-full flex-col items-start gap-4 rounded-lg bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between dark:bg-[#111C44]"
+            class="flex w-full flex-col items-start gap-4 rounded-lg bg-white p-4 shadow-sm dark:bg-[#111C44] lg:flex-row lg:items-center lg:justify-between"
           >
             <div class="w-full text-sm font-medium lg:w-1/3">
               <strong>Topic:</strong>
