@@ -92,7 +92,7 @@
 
     <!-- Empty State (Show when no flashcards are available) -->
     <div v-else-if="!isLoading" class="mt-4 text-center text-gray-500">
-      No games available, generate now .
+      No games available. Generate some now.
       <EmptyStateIcon width="100%" height="350px" />
     </div>
 
@@ -189,9 +189,11 @@ const generateFlashcards = async () => {
   0% {
     width: 10%;
   }
+
   50% {
     width: 70%;
   }
+
   100% {
     width: 10%;
   }

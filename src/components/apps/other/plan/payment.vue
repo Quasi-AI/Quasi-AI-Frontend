@@ -2,22 +2,60 @@
   <div class="w-full rounded-lg bg-white p-6 shadow-lg dark:bg-[#111C44]">
     <!-- Header -->
     <div
-      class="rounded-lg bg-gradient-to-r from-blue-400 to-purple-400 p-4 text-center text-white"
+      class="rounded-lg bg-gradient-to-r from-[#5D3BEA] to-purple-500 p-4 text-center text-white"
     >
       <div class="mb-2 flex items-center justify-center">
         <PricingIcon class="h-8 w-8" />
       </div>
       <h2 class="text-lg font-semibold">
-        You're currently on Basic Plan. You will be <br />
-        billed ${{ selectedPrice }} {{ billingCycle }}
+        You're upgrading to Premium Plan <br />
+        <span class="mt-1 block text-xl">
+          ${{ selectedPrice }} {{ billingCycleName }}
+        </span>
       </h2>
-      <p class="text-sm opacity-80">You can cancel any time</p>
+      <p class="mt-1 text-sm opacity-90">
+        {{
+          billingCycle === 'yearly'
+            ? 'Save 20% with annual billing'
+            : 'Monthly billing'
+        }}
+        · Cancel anytime
+      </p>
     </div>
 
     <!-- Form -->
     <div class="mt-6 space-y-4">
+      <!-- Summary Box -->
+      <div
+        class="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-[#0C1438] dark:bg-[#192556]"
+      >
+        <h3 class="mb-2 font-medium">Subscription Summary</h3>
+        <div class="flex justify-between text-sm">
+          <span>Premium Plan ({{ billingCycleName }})</span>
+          <span>${{ selectedPrice }}</span>
+        </div>
+        <div
+          class="mt-1 flex justify-between text-sm text-gray-600 dark:text-gray-300"
+        >
+          <span>{{
+            billingCycle === 'yearly' ? 'Billed annually' : 'Billed monthly'
+          }}</span>
+          <span>{{
+            billingCycle === 'yearly' ? '(20% discount applied)' : ''
+          }}</span>
+        </div>
+        <hr class="my-3 border-gray-200 dark:border-[#0C1438]" />
+        <div class="flex justify-between font-medium">
+          <span>Total</span>
+          <span>${{ selectedPrice }}</span>
+        </div>
+      </div>
+
       <div>
-        <label class="block text-sm font-medium text-gray-700">Name</label>
+        <label
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >Name</label
+        >
         <input
           type="text"
           placeholder="Enter name of card"
@@ -28,7 +66,8 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700"
+        <label
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >Card number</label
         >
         <div class="relative">
@@ -75,10 +114,44 @@
       <!-- Payment Button -->
       <button
         @click="handlePayment"
-        class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-[#5D3BEA] p-3 font-medium text-white transition hover:bg-[#4A2EBE]"
+        :disabled="!isFormValid"
+        :class="[
+          'mt-4 flex w-full items-center justify-center gap-2 rounded-lg p-3 font-medium text-white transition',
+          isFormValid
+            ? 'bg-[#5D3BEA] hover:bg-[#4A2EBE]'
+            : 'cursor-not-allowed bg-gray-400'
+        ]"
       >
-        Proceed to payment: ${{ selectedPrice }}
+        <span v-if="isProcessing">
+          <svg
+            class="h-5 w-5 animate-spin text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        </span>
+        <span v-else>Complete payment: ${{ selectedPrice }}</span>
       </button>
+
+      <p class="mt-2 text-center text-xs text-gray-500 dark:text-gray-400">
+        Your payment is secured with SSL encryption.<br />
+        By proceeding you agree to our
+        <a href="#" class="text-[#5D3BEA]">Terms of Service</a>
+      </p>
     </div>
   </div>
 </template>
@@ -104,11 +177,25 @@ const cardIcons: Record<string, any> = {
 
 const route = useRoute()
 const selectedPrice = ref(route.query.price || '00.00')
-const billingCycle = ref(route.query.billingCycle || 'free')
+const billingCycle = ref(route.query.billingCycle || 'monthly')
+const billingCycleName = computed(() =>
+  billingCycle.value === 'yearly' ? 'yearly' : 'per month'
+)
 const cardName = ref('')
 const cardNumber = ref('')
 const expiration = ref('')
 const cvv = ref('')
+const isProcessing = ref(false)
+
+// Form validation
+const isFormValid = computed(() => {
+  return (
+    cardName.value.length > 3 &&
+    cardNumber.value.replace(/\s/g, '').length >= 15 &&
+    expiration.value.length === 7 &&
+    cvv.value.length >= (cvvLength.value || 3)
+  )
+})
 
 // Compute card type based on input
 const cardIcon = computed(() => {
@@ -145,13 +232,20 @@ const formatExpiration = () => {
 
 // Handle payment submission
 const handlePayment = async () => {
+  if (!isFormValid.value) return
+
+  isProcessing.value = true
+
   const paymentData = {
     payerName: cardName.value,
     email: email.value,
     amountPaid: parseFloat(selectedPrice.value),
     user_id: userId.value,
     paymentDate: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
-    subscriptionPlan: billingCycle.value,
+    subscriptionPlan:
+      billingCycle.value === 'yearly'
+        ? 'Premium (Annual)'
+        : 'Premium (Monthly)',
     status: 'Paid',
     profileImage: profileImage.value
   }
@@ -162,13 +256,17 @@ const handlePayment = async () => {
       paymentData
     )
     if (response.status === 200) {
+      // Redirect to success page or show success modal
       alert('Payment successful!')
+      navigateTo('/dashboard')
     } else {
       alert('Payment failed. Please try again.')
     }
   } catch (error) {
     console.error('Error during payment:', error)
     alert('Payment failed. Please try again.')
+  } finally {
+    isProcessing.value = false
   }
 }
 </script>
