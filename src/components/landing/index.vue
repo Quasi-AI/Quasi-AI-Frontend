@@ -693,4 +693,8 @@ useSeoMeta({
     'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
   twitterCard: 'summary_large_image'
 })
+
+onMounted(() => {
+  window.scrollTo(0, 0)
+})
 </script>

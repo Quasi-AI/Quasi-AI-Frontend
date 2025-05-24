@@ -1,9 +1,9 @@
 <template>
   <NuxtLayout :name="'landing-wrapper'">
     <!-- Conditional main content -->
+    <LandingNavigationHeader />
     <div>
       <template v-if="!routeType">
-        <LandingNavigationHeader />
         <Landing />
       </template>
       <Careers v-else-if="routeType === 'careers'" />
