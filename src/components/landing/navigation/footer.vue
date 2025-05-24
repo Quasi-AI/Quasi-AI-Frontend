@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#252641] px-6 py-12 text-white">
+  <div class="bg-[#252641] px-6 py-12 text-white dark:bg-[#0C1438]">
     <div
       class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 lg:flex-row-reverse"
     >
@@ -12,7 +12,7 @@
           <input
             type="email"
             placeholder="Your Email"
-            class="h-10 w-full rounded-full border border-gray-500 bg-transparent px-4 text-sm text-white placeholder-gray-400 transition focus:border-[#5D3BEA] focus:outline-none focus:ring-1 focus:ring-[#5D3BEA] sm:max-w-[250px]"
+            class="h-10 w-full rounded-full border border-gray-500 bg-transparent px-4 text-sm text-white placeholder-gray-400 transition focus:border-[#5D3BEA] focus:outline-none focus:ring-1 focus:ring-[#5D3BEA] dark:border-gray-600 sm:max-w-[250px]"
           />
           <button
             class="w-full rounded-lg bg-[#5D3BEA] px-6 py-2 text-sm font-medium text-white transition duration-300 hover:bg-[#4A2DCA] sm:w-auto"
@@ -32,14 +32,14 @@
         >
           Careers
         </NuxtLink>
-        <div class="h-4 border-l border-gray-500"></div>
+        <div class="h-4 border-l border-gray-500 dark:border-gray-600"></div>
         <NuxtLink
           to="/privacy-policy"
           class="text-gray-300 transition hover:text-white"
         >
           Privacy Policy
         </NuxtLink>
-        <div class="h-4 border-l border-gray-500"></div>
+        <div class="h-4 border-l border-gray-500 dark:border-gray-600"></div>
         <NuxtLink
           to="/terms-conditions"
           class="text-gray-300 transition hover:text-white"
@@ -55,12 +55,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'Footer'
-}
-</script>
 
 <style scoped>
 a {
