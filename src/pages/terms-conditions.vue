@@ -5,7 +5,7 @@
     </h1>
 
     <div class="prose dark:prose-invert mx-auto mb-16 max-w-3xl">
-      <p class="mb-8 text-sm text-gray-500">Last Updated: June 1, 2024</p>
+      <p class="mb-8 text-sm text-gray-500">Last Updated: May 24, 2025</p>
 
       <section class="mb-8">
         <h2 class="mb-4 text-2xl font-semibold text-[#5D3BEA]">
