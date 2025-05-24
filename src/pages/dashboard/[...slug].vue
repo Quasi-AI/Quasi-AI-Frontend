@@ -110,12 +110,9 @@
                 </select>
               </div>
             </div>
-            <VueApexCharts
-              type="line"
-              :options="chartOptions"
-              :series="chartSeries"
-              height="350"
-            />
+            <div class="h-[350px] w-full">
+              <Line :key="chartKey" :data="chartData" :options="chartOptions" />
+            </div>
           </div>
 
           <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -124,11 +121,14 @@
               :series="pieChartSeries"
               :chartOptions="pieChartOptions"
             />
-            <ChartCard
-              title="Quiz Created vs Taken"
-              :chartOptions="quizChartOptions"
-              :series="quizChartSeries"
-            />
+            <div
+              class="rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44] dark:text-white"
+            >
+              <h2 class="mb-4 text-lg font-semibold">Quiz Created vs Taken</h2>
+              <div class="h-[350px] w-full">
+                <Bar :data="quizBarData" :options="quizBarOptions" />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -167,12 +167,37 @@
 import StatCard from '@/components/StatCard.vue'
 import PieChart from '@/components/PieChart.vue'
 import EmptyStateIcon from '@/assets/icons/empty-state-icon.vue'
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, onMounted, watchEffect, computed, watch } from 'vue'
 import axios from 'axios'
+import { Line, Bar } from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
+import { useDebounceFn } from '@vueuse/core'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+)
+
 const ChartCard = defineAsyncComponent(
   () => import('@/components/ChartCard.vue')
 )
-const VueApexCharts = defineAsyncComponent(() => import('vue3-apexcharts'))
+
 const selectedStudent = ref('')
 const selectedYear = ref('')
 
@@ -276,8 +301,12 @@ const fetchUsersData = async () => {
   }
 }
 
+const chartKey = ref(0)
+const isChartDataLoading = ref(true)
+
 const fetchlineFlashcard = async () => {
   try {
+    isChartDataLoading.value = true
     const response = await fetch(
       `https://dark-caldron-448714-u5.uc.r.appspot.com/flash-quiz/${sessionStorage.getItem(
         'user_id'
@@ -288,8 +317,12 @@ const fetchlineFlashcard = async () => {
 
     const data = await response.json()
     chartSeries.value = data.data
+    // Force chart re-render with a new key
+    chartKey.value += 1
   } catch (error) {
     console.error('Failed to fetch dashboard data:', error)
+  } finally {
+    isChartDataLoading.value = false
   }
 }
 
@@ -301,12 +334,12 @@ const fetchQuizzeTaken = async () => {
       )}`
     )
 
-    if (!response.ok) throw new Error('Failed to fetch flashcards')
+    if (!response.ok) throw new Error('Failed to fetch quiz data')
 
     const data = await response.json()
     quizChartSeries.value = data.data
   } catch (error) {
-    console.error('Failed to fetch dashboard data:', error)
+    console.error('Failed to fetch quiz data:', error)
   }
 }
 
@@ -319,6 +352,103 @@ const pieChartOptions = computed(() => ({
   colors: ['#EF4444', '#6366F1'],
   legend: { show: false },
   dataLabels: { enabled: false }
+}))
+
+const quizBarData = computed(() => ({
+  labels: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ],
+  datasets: [
+    {
+      label: 'Quizzes Created',
+      data: quizChartSeries.value[0]?.data || Array(12).fill(0),
+      backgroundColor: '#6366F1',
+      borderRadius: 4,
+      maxBarThickness: 20
+    },
+    {
+      label: 'Quizzes Taken',
+      data: quizChartSeries.value[1]?.data || Array(12).fill(0),
+      backgroundColor: '#10B981',
+      borderRadius: 4,
+      maxBarThickness: 20
+    }
+  ]
+}))
+
+const quizBarOptions = computed(() => ({
+  responsive: true,
+  maintainAspectRatio: false,
+  animation: {
+    duration: 500
+  },
+  plugins: {
+    legend: {
+      position: 'top',
+      align: 'end',
+      labels: {
+        boxWidth: 10,
+        usePointStyle: true,
+        pointStyle: 'circle'
+      }
+    },
+    tooltip: {
+      enabled: true,
+      mode: 'index',
+      intersect: false,
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      titleColor: '#fff',
+      bodyColor: '#fff',
+      padding: 10,
+      displayColors: true,
+      usePointStyle: true
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      grid: {
+        display: true,
+        color: '#e5e7eb',
+        drawBorder: false,
+        drawTicks: false
+      },
+      ticks: {
+        padding: 10,
+        font: {
+          size: 11
+        }
+      },
+      border: {
+        display: false
+      }
+    },
+    x: {
+      grid: {
+        display: false
+      },
+      ticks: {
+        padding: 10,
+        font: {
+          size: 11
+        }
+      },
+      border: {
+        display: false
+      }
+    }
+  }
 }))
 
 onMounted(async () => {
@@ -361,71 +491,174 @@ watchEffect(() => {
   }
 })
 
+// Replace chartSeries and chartOptions with chartData
+const chartData = computed(() => ({
+  labels: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ],
+  datasets: [
+    {
+      label: 'Flashcards Created',
+      data: chartSeries.value[0]?.data || Array(12).fill(0),
+      borderColor: '#FF6636',
+      backgroundColor: '#FF6636',
+      tension: 0.1,
+      fill: false,
+      pointBackgroundColor: '#FF6636',
+      pointBorderColor: '#FF6636',
+      pointRadius: 3,
+      pointHoverRadius: 3,
+      pointBorderWidth: 2,
+      borderWidth: 2
+    },
+    {
+      label: 'Quizzes Taken',
+      data: chartSeries.value[1]?.data || Array(12).fill(0),
+      borderColor: '#1E2A5A',
+      backgroundColor: '#1E2A5A',
+      tension: 0.1,
+      fill: false,
+      pointBackgroundColor: '#1E2A5A',
+      pointBorderColor: '#1E2A5A',
+      pointRadius: 3,
+      pointHoverRadius: 3,
+      pointBorderWidth: 2,
+      borderWidth: 2
+    }
+  ]
+}))
+
 const chartOptions = computed(() => ({
-  chart: { type: 'line', toolbar: { show: false } },
-  stroke: { curve: 'smooth', width: 2 },
-  tooltip: { enabled: true },
-  xaxis: {
-    categories: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ]
+  responsive: true,
+  maintainAspectRatio: false,
+  animation: false, // Disable all animations
+  plugins: {
+    legend: {
+      position: 'top',
+      align: 'end',
+      labels: {
+        boxWidth: 10,
+        usePointStyle: true,
+        pointStyle: 'circle'
+      }
+    },
+    tooltip: {
+      enabled: true,
+      mode: 'index',
+      intersect: false,
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      titleColor: '#fff',
+      bodyColor: '#fff',
+      padding: 10,
+      displayColors: true,
+      usePointStyle: true,
+      callbacks: {
+        label: context => ` ${context.dataset.label}: ${context.parsed.y}`
+      }
+    }
   },
-  colors: ['#FF6636', '#1E2A5A'],
-  legend: {
-    position: 'top',
-    horizontalAlign: 'right'
+  // Stabilize rendering by limiting redraws
+  resizeDelay: 200,
+  hover: {
+    mode: 'nearest',
+    intersect: false,
+    axis: 'x',
+    animationDuration: 0
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      grid: {
+        display: true,
+        color: '#e5e7eb',
+        drawBorder: false,
+        drawTicks: false
+      },
+      ticks: {
+        padding: 10,
+        stepSize: 5,
+        font: {
+          size: 11
+        }
+      },
+      border: {
+        display: false
+      }
+    },
+    x: {
+      grid: {
+        display: false
+      },
+      ticks: {
+        padding: 10,
+        font: {
+          size: 11
+        }
+      },
+      border: {
+        display: false
+      }
+    }
+  },
+  transitions: {
+    active: {
+      animation: {
+        duration: 0 // Disable transition animations
+      }
+    }
   }
 }))
 
-const quizChartOptions = computed(() => ({
-  chart: {
-    type: 'bar',
-    toolbar: { show: false }
-  },
-  xaxis: {
-    categories: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ],
-    labels: { style: { colors: '#6B7280', fontSize: '12px' } } // Improve readability
-  },
-  plotOptions: {
-    bar: {
-      horizontal: false,
-      columnWidth: '55%',
-      borderRadius: 4 // Rounded corners
+// Replace with a more robust update function
+const updateChartData = async () => {
+  try {
+    isChartDataLoading.value = true
+    const params = new URLSearchParams()
+
+    if (selectedStudent.value) {
+      params.append('student_id', selectedStudent.value)
     }
-  },
-  colors: ['#4F46E5', '#22C55E'], // Blue for Created, Green for Taken
-  dataLabels: { enabled: false }, // Hide labels for cleaner UI
-  grid: { borderColor: '#E5E7EB', strokeDashArray: 3 }, // Light grid lines
-  tooltip: { theme: 'dark' }, // Dark mode tooltip
-  legend: {
-    position: 'top',
-    labels: { colors: '#374151' } // Improve legend text visibility
+
+    if (selectedYear.value) {
+      params.append('year', selectedYear.value)
+    }
+
+    const url = `https://dark-caldron-448714-u5.uc.r.appspot.com/flash-quiz/${sessionStorage.getItem('user_id')}?${params}`
+    const response = await fetch(url)
+
+    if (!response.ok) throw new Error('Failed to fetch chart data')
+
+    const data = await response.json()
+    chartSeries.value = data.data
+
+    // Force chart re-render
+    chartKey.value += 1
+  } catch (error) {
+    console.error('Error updating chart data:', error)
+  } finally {
+    isChartDataLoading.value = false
   }
-}))
+}
+
+// Watch for changes that should trigger chart updates
+watch(
+  [selectedStudent, selectedYear],
+  () => {
+    updateChartData()
+  },
+  { deep: true }
+)
 </script>
 
 <style scoped>
