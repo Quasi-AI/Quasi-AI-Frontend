@@ -158,33 +158,7 @@ const color = computed(() => (colorMode.value === 'dark' ? '#111C44' : 'white'))
 
 // Add useHead for metadata
 useHead({
-  meta: [
-    { charset: 'utf-8' },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { key: 'theme-color', name: 'theme-color', content: color }
-  ],
-  link: [
-    {
-      rel: 'icon',
-      type: 'image/x-icon',
-      href: 'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png'
-    }
-  ],
-  htmlAttrs: {
-    lang: 'en'
-  }
-})
-
-// Add useSeoMeta for SEO
-useSeoMeta({
-  titleTemplate: 'Quasi AI',
-  description:
-    'Transform your learning experience with Quasi AI, the all-in-one learning platform that generates flashcards, quizzies, and study materials instantly from your lectures, notes, pdfs, and presentations.',
-  ogImage:
-    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
-  twitterImage:
-    'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
-  twitterCard: 'summary_large_image'
+  meta: [{ key: 'theme-color', name: 'theme-color', content: color }]
 })
 
 // Update bgClass to handle dark mode
