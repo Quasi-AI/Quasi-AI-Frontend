@@ -21,7 +21,7 @@ export function getErrorMessage(error: unknown): string {
   ) {
     return String(error.response.data.message)
   }
-  return 'An unexpected error occurred'
+  return 'An unexpected error occurred. Please try again later.'
 }
 
 export function handleError(error: unknown): string {
