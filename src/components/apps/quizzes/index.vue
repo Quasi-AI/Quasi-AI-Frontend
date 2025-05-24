@@ -47,14 +47,14 @@
       >
         <UInput
           variant="none"
-          class="my-2 w-full rounded-lg border bg-white p-1 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          class="my-2 w-full rounded-lg border bg-white p-1 dark:border-none dark:bg-[#111C44] lg:w-[200px]"
           placeholder="Search for quizzes by name"
           v-model="searchQuery"
           maxLength="250"
         />
         <select
           v-model="filterQuizes"
-          class="my-2 w-full rounded-lg border bg-white p-2 lg:w-[200px] dark:border-none dark:bg-[#111C44]"
+          class="my-2 w-full rounded-lg border bg-white p-2 dark:border-none dark:bg-[#111C44] lg:w-[200px]"
           @change="fetchQuizzes"
         >
           <option value="all">All Quizzes</option>
