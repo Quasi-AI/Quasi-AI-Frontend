@@ -6,7 +6,7 @@
       class="mb-4 flex flex-col items-center justify-between gap-4 lg:flex-row"
     >
       <h1 class="text-2xl font-medium">Learning Progress</h1>
-      <div class="flex gap-4">
+      <!-- <div class="flex gap-4">
         <select
           v-model="selectedStudent"
           class="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 dark:border-[#0C1438] dark:bg-[#1E2A5A]"
@@ -29,7 +29,7 @@
             {{ year }}
           </option>
         </select>
-      </div>
+      </div> -->
     </div>
     <div class="h-[350px] w-full">
       <Line :key="chartKey" :data="chartData" :options="chartOptions" />
@@ -38,7 +38,6 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue'
 import { Line } from 'vue-chartjs'
 import { useChartConfig } from '~/composables/useChartConfig'
 
