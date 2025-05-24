@@ -1,13 +1,4 @@
 <script setup lang="ts">
-import {
-  ref,
-  watchEffect,
-  nextTick,
-  onMounted,
-  onBeforeUnmount,
-  defineProps,
-  defineEmits
-} from 'vue'
 import { useChatStore } from '@/store/chat'
 
 const props = defineProps<{ showSidebar: boolean }>()
@@ -74,12 +65,13 @@ const scrollToBottom = () => {
   >
     <!-- Toggle Sidebar Button -->
     <button
-      class="absolute left-2 top-2 z-30 rounded bg-gray-200 px-3 py-1 text-gray-700 transition hover:bg-gray-300 dark:bg-[#1E2A5A] dark:text-white dark:hover:bg-[#22336a]"
+      class="fixed bottom-20 right-4 z-50 rounded-2xl bg-gray-200 px-3 py-1 text-gray-700 shadow-md transition hover:bg-gray-300 dark:bg-[#1E2A5A] dark:text-white dark:hover:bg-[#22336a] md:bottom-24 lg:absolute lg:bottom-auto lg:left-2 lg:right-auto lg:top-2 lg:z-30"
       @click="emit('toggle-sidebar')"
       aria-label="Toggle Sidebar"
     >
       {{ props.showSidebar ? 'Hide' : 'Show' }} Chat History
     </button>
+
     <!-- Chat Messages -->
     <div class="chat-container flex-1 space-y-2 overflow-auto">
       <div v-if="loading" class="flex h-full items-center justify-center">
@@ -130,25 +122,27 @@ const scrollToBottom = () => {
 
     <!-- Message Input -->
     <div
-      class="fixed flex items-center rounded border bg-white p-4 dark:border-[#1E2A50] dark:bg-[#111C44] lg:bottom-4"
+      class="fixed bottom-2 z-50 flex w-full items-center rounded border bg-white p-2 dark:border-[#1E2A50] dark:bg-[#111C44] sm:p-4 lg:bottom-4 lg:z-0"
       :style="{
         width: inputBarWidth,
         left: chatWindowRef?.getBoundingClientRect().left + 'px'
       }"
       style="right: auto"
     >
-      <form class="mx-auto flex w-full max-w-3xl items-center gap-2">
+      <form
+        @submit.prevent="sendMessage"
+        class="mx-auto flex w-full max-w-3xl items-center gap-1 sm:gap-2"
+      >
         <input
           v-model="newMessage"
           placeholder="Type a message..."
-          class="flex-1 rounded-md border p-2 focus:outline-none focus:ring focus:ring-blue-400 dark:border-[#1E2A50] dark:bg-[#1A2B5F] dark:text-white"
+          class="min-w-0 flex-1 rounded-md border p-1 text-sm focus:outline-none focus:ring focus:ring-blue-400 dark:border-[#1E2A50] dark:bg-[#1A2B5F] dark:text-white sm:p-2 sm:text-base"
           :disabled="loading"
         />
         <button
           type="submit"
-          @click="sendMessage"
           :disabled="loading"
-          class="ml-2 transform rounded-md bg-blue-500 px-4 py-2 text-white transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-blue-600 active:scale-95 disabled:opacity-50 dark:bg-[#5D3BEA] dark:hover:bg-[#4A2DCA]"
+          class="ml-1 transform whitespace-nowrap rounded-md bg-blue-500 px-2 py-1 text-sm text-white transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-blue-600 active:scale-95 disabled:opacity-50 dark:bg-[#5D3BEA] dark:hover:bg-[#4A2DCA] sm:ml-2 sm:px-4 sm:py-2 sm:text-base"
         >
           Send
         </button>
