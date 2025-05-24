@@ -38,7 +38,18 @@ onMounted(() => {
   <div
     class="animate-slide-in-left fixed left-0 top-0 z-20 h-screen w-64 overflow-y-auto bg-gray-100 p-4 shadow-lg dark:bg-[#111C44] dark:text-white"
   >
-    <h2 class="mb-2 text-lg font-bold">Chats</h2>
+    <!-- Logo Section -->
+    <div class="p-5">
+      <NuxtLink to="/" class="flex items-center gap-2">
+        <img
+          src="https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png"
+          alt="logo"
+          class="w-10"
+        />
+        <h1 class="text-2xl font-bold">QUASI AI</h1>
+      </NuxtLink>
+    </div>
+
     <div class="mb-4">
       <button
         @click="createNewChat"
