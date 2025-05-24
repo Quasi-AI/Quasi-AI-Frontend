@@ -9,9 +9,6 @@
 
 <script setup>
 const bgClass = ref('bg-[#E4E0F4] dark:bg-[#1E2A5A]')
-const colorMode = useColorMode()
-
-const isDark = computed(() => colorMode.value === 'dark')
 
 const handleScroll = () => {
   if (window.scrollY > window.innerHeight * 0.6) {
