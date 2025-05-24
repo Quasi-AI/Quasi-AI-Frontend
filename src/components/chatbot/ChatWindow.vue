@@ -61,7 +61,7 @@ const scrollToBottom = () => {
 <template>
   <div
     ref="chatWindowRef"
-    class="relative flex h-screen w-full flex-col bg-white p-4 dark:bg-[#0C1438] dark:text-white"
+    class="relative flex h-screen w-full flex-col rounded-md bg-white p-6 dark:bg-[#111C44] dark:text-white"
   >
     <!-- Toggle Sidebar Button -->
     <button
