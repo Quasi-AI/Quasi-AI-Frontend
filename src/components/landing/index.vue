@@ -188,8 +188,8 @@
           style="animation-delay: 0.2s"
         >
           Become an instructor & start teaching with other certified
-          instructors. Create a success story with our dedicated learners — Grow
-          yourself with from different countries.
+          instructors. Create success stories with our dedicated learners — grow
+          yourself with students from different countries.
         </p>
         <NuxtLink
           :to="isLoggedIn ? '/dashboard' : '/auth/sign-up'"
@@ -233,7 +233,7 @@
             style="animation-delay: 0.2s"
           >
             QUASI AI has a dynamic set of teaching tools built just for you,
-            whether you are a student or teacher. Teachers can handout
+            whether you are a student or teacher. Teachers can distribute
             assignments in real-time for students to complete and submit.
           </p>
         </div>
@@ -253,7 +253,7 @@
           >
             Gain knowledge from a diverse team of experienced professionals
             across various fields. Our instructors bring real-world expertise,
-            ensuring you get the best guidance and insights to excel in your
+            ensuring you receive the best guidance and insights to excel in your
             learning journey.
           </p>
           <LandingUiIconsMoreinfoTestimonial
@@ -354,7 +354,7 @@
                 </div>
                 Secure cloud storage
               </li>
-              <li class="flex gap-2">❌ Personalized AI suggestions</li>
+              <li class="flex gap-2">❌ Personalized AI recommendations</li>
             </ul>
           </div>
 
@@ -383,7 +383,7 @@
               }}
             </p>
             <p class="mt-2 text-gray-600 dark:text-gray-300">
-              Advanced features for power users.
+              Advanced features for dedicated users.
             </p>
             <ul class="mt-4 space-y-2 text-gray-600 dark:text-gray-300">
               <li class="flex gap-2">
@@ -402,7 +402,7 @@
                 <div>
                   <LandingUiIconsPricingChecked />
                 </div>
-                Personalized AI suggestions
+                Personalized AI recommendations
               </li>
               <li class="flex gap-2">
                 <div>
@@ -522,31 +522,31 @@ const features = ref([
   {
     icon: LandingUiIconsFeaturesFlashcards,
     title: 'Smart Flashcards',
-    description: 'About 2,736 cards',
+    description: 'Over 2,736 cards',
     bgColor: 'bg-[#FFF2E5]'
   },
   {
     icon: LandingUiIconsFeaturesTutors,
     title: 'Tutors',
-    description: 'More than you imagine',
+    description: 'Expert educators available',
     bgColor: 'bg-[#FFEEE8]'
   },
   {
     icon: LandingUiIconsFeaturesAitutors,
     title: 'AI Tutors',
-    description: 'So many of them',
+    description: 'Comprehensive AI support',
     bgColor: 'bg-[#FFFFFF]'
   },
   {
     icon: LandingUiIconsFeaturesQuizzes,
     title: 'Quizzes',
-    description: 'About 13,932 quizzes',
+    description: 'Over 13,932 quizzes',
     bgColor: 'bg-[#F5F7FA]'
   },
   {
     icon: LandingUiIconsFeaturesEssay,
     title: 'Past Questions',
-    description: '22,649 essays',
+    description: '22,649 essay resources',
     bgColor: 'bg-[#FFF0F0]'
   }
 ])
@@ -627,7 +627,7 @@ useHead({
 useSeoMeta({
   titleTemplate: 'Quasi AI',
   description:
-    'Transform your learning experience with Quasi AI, the all-in-one learning platform that generates flashcards, quizzies, and study materials instantly from your lectures, notes, pdfs, and presentations.',
+    'Transform your learning experience with Quasi AI, the all-in-one learning platform that generates flashcards, quizzes, and study materials instantly from your lectures, notes, PDFs, and presentations.',
   ogImage:
     'https://raw.githubusercontent.com/Quasi-AI/.github/refs/heads/main/quasiailogo.png',
   twitterImage:
