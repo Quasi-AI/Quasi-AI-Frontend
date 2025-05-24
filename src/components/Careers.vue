@@ -1,5 +1,28 @@
 <template>
   <div class="container mx-auto px-4 py-16">
+    <div class="mb-8 flex items-center">
+      <button
+        @click="goBack"
+        class="flex items-center text-gray-600 transition-colors hover:text-[#5D3BEA] dark:text-gray-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="mr-2 h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        Back
+      </button>
+    </div>
+
     <h1 class="mb-10 text-center text-4xl font-bold text-[#5D3BEA]">
       Careers at Quasi AI
     </h1>
@@ -89,7 +112,13 @@
 </template>
 
 <script setup>
-definePageMeta({
-  layout: 'default'
+const router = useRouter()
+
+const goBack = () => {
+  router.back()
+}
+
+onMounted(() => {
+  window.scrollTo(0, 0)
 })
 </script>

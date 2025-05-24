@@ -17,7 +17,6 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import PieChart from '@/components/PieChart.vue'
 import { Bar } from 'vue-chartjs'
 import { useChartConfig } from '~/composables/useChartConfig'

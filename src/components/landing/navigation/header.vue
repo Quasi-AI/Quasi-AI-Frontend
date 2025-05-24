@@ -153,6 +153,14 @@ const isDark = computed({
     (colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark')
 })
 
+// Define color computed property for theme-color
+const color = computed(() => (colorMode.value === 'dark' ? '#111C44' : 'white'))
+
+// Add useHead for metadata
+useHead({
+  meta: [{ key: 'theme-color', name: 'theme-color', content: color }]
+})
+
 // Update bgClass to handle dark mode
 const bgClass = ref('bg-[#E4E0F4] dark:bg-[#1E2A5A]')
 
