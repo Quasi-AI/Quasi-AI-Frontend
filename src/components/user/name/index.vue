@@ -1,73 +1,118 @@
 <template>
-  <div class="relative my-6">
-    <p>
-      You are logged in as <strong>{{ userInfo?.name }}</strong
-      >, if you wish to update your name please enter it below.
-    </p>
-  </div>
+  <div class="rounded-lg bg-white p-6 shadow-sm dark:bg-[#111C44]">
+    <div class="mb-4 flex items-center justify-between">
+      <h4 class="font-medium text-gray-900 dark:text-white">Display Name</h4>
+      <button
+        v-if="!isEditing"
+        @click="startEditing"
+        class="flex items-center text-sm text-[#5D3BEA] hover:text-[#4A2DCA]"
+      >
+        <Icon name="heroicons:pencil" class="mr-1 h-4 w-4" />
+        Edit
+      </button>
+    </div>
 
-  <div class="flex flex-col space-y-4">
-    <UInput
-      variant="none"
-      class="my-2 rounded-full bg-gray-200 p-2 dark:bg-[#0C1438]"
-      placeholder="Full name"
-      v-model="name"
-      maxLength="250"
-      @keyup.enter="updateName"
-    />
-  </div>
-  <p class="text-xs italic text-gray-400">[Press Enter to update]</p>
+    <div v-if="!isEditing" class="space-y-2">
+      <p class="text-lg font-medium text-gray-900 dark:text-white">
+        {{ userInfo?.name || 'Not set' }}
+      </p>
+      <p class="text-sm text-gray-500 dark:text-gray-400">
+        This is how your name appears to other users
+      </p>
+    </div>
 
-  <div class="my-5 flex items-center justify-end">
-    <UDropdown
-      mode="click"
-      :popper="{ placement: 'right-start', arrow: true }"
-      :items="deleteLists"
-    >
-      <UBadge label="Delete Account!" color="red" class="mt-4 cursor-pointer" />
-    </UDropdown>
+    <form v-else @submit.prevent="saveName" class="space-y-4">
+      <div>
+        <UInput
+          v-model="editName"
+          placeholder="Enter your display name"
+          :loading="saving"
+          class="w-full"
+          size="lg"
+        />
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Use your real name for better recognition
+        </p>
+      </div>
+
+      <div class="flex gap-3">
+        <UButton
+          type="submit"
+          :loading="saving"
+          class="bg-[#5D3BEA] hover:bg-[#4A2DCA]"
+        >
+          Save Changes
+        </UButton>
+        <UButton variant="ghost" @click="cancelEditing" :disabled="saving">
+          Cancel
+        </UButton>
+      </div>
+    </form>
+
+    <!-- Success/Error Messages -->
+    <div v-if="message" class="mt-4">
+      <UAlert
+        :color="message.type === 'success' ? 'green' : 'red'"
+        :title="message.text"
+        :close-button="{ color: 'gray' }"
+        @close="message = null"
+      />
+    </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { useUser } from '@/composables/useUser'
-import { useAuthenticationStore } from '@/store/auth'
+<script setup>
+import { useUser } from '~/composables/useUser'
 
-const { userInfo } = useUser()
-const authStore = useAuthenticationStore()
+const { userInfo, updateUserName } = useUser()
 
-const name = ref('')
+// Reactive data
+const isEditing = ref(false)
+const editName = ref('')
+const saving = ref(false)
+const message = ref(null)
 
-const updateName = async () => {
-  if (name.value !== userInfo.value?.name) {
-    try {
-      await authStore.updateName(name.value)
-    } catch (error) {
-      console.error('Error updating first name:', error)
-    }
-  }
+// Methods
+const startEditing = () => {
+  editName.value = userInfo.value?.name || ''
+  isEditing.value = true
 }
 
-const deleteAccount = async () => {
+const cancelEditing = () => {
+  isEditing.value = false
+  editName.value = ''
+  message.value = null
+}
+
+const saveName = async () => {
+  if (!editName.value.trim()) {
+    message.value = {
+      type: 'error',
+      text: 'Name cannot be empty'
+    }
+    return
+  }
+
+  saving.value = true
   try {
-    await authStore.deleteUser()
-    authStore.logout()
+    await updateUserName(editName.value.trim())
+    isEditing.value = false
+    message.value = {
+      type: 'success',
+      text: 'Name updated successfully!'
+    }
+
+    // Clear message after 3 seconds
+    setTimeout(() => {
+      message.value = null
+    }, 3000)
   } catch (error) {
-    console.error('Error deleting account:', error)
+    message.value = {
+      type: 'error',
+      text: 'Failed to update name. Please try again.'
+    }
+  } finally {
+    saving.value = false
   }
 }
-
-watch(
-  userInfo,
-  newUserInfo => {
-    if (newUserInfo) {
-      name.value = newUserInfo.name
-    }
-  },
-  { immediate: true }
-)
-
-const deleteLists = [
-  [{ label: 'Cancel' }, { label: 'Yes, Irreversible!', click: deleteAccount }]
-]
 </script>
