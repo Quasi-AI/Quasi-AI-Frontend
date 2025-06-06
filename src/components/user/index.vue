@@ -182,11 +182,10 @@
             </div>
           </div>
 
-          <div class="flex justify-center">
+          <div class="flex items-center justify-center">
             <label
               class="cursor-pointer rounded-lg bg-[#5D3BEA] px-4 py-2 text-white transition hover:bg-[#4A2DCA]"
             >
-              <Icon name="heroicons:photo" class="mr-2 h-4 w-4" />
               Choose Image
               <input
                 type="file"
