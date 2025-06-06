@@ -23,14 +23,14 @@
         class="cursor-pointer"
       />
 
-      <div class="flex items-center gap-2">
+      <div class="flex items-center">
         <UDropdown
           mode="click"
           :popper="{ placement: 'right-start', arrow: true }"
           :items="profileList"
           class="w-fit dark:bg-[#111C44] dark:text-white"
         >
-          <div class="flex items-center gap-2">
+          <div class="flex items-center">
             <CommonProfileImage
               :img-src="userInfo?.profileImage"
               :name="userInfo?.name"
@@ -38,7 +38,6 @@
               baseClass="w-[30px] h-[30px]"
               :class="[isUserRoute ? 'rounded-full ring-2 ring-blue-500' : '']"
             />
-            <ArrowDownLeftIcon class="h-5 w-5 cursor-pointer text-gray-500" />
           </div>
         </UDropdown>
       </div>
