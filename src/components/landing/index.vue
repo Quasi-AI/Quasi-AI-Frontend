@@ -24,7 +24,7 @@
           :to="isLoggedIn ? '/dashboard' : '/auth/sign-up'"
           class="rounded-lg bg-[#5D3BEA] px-8 py-3 text-white transition duration-300 hover:scale-105 hover:bg-[#4A2DCA]"
         >
-          {{ isLoggedIn ? 'Dashboard' : 'Sign up for free' }}
+          {{ isLoggedIn ? 'Go to Dashboard' : 'Sign up for free' }}
         </NuxtLink>
         <NuxtLink
           to="/#learn-more"
@@ -70,7 +70,7 @@
     </div>
 
     <!-- Why Choose Quasi AI Section -->
-    <div id="why" class="relative py-4 dark:bg-[#111C44]">
+    <div id="why" class="relative py-4">
       <div class="container mx-auto px-4">
         <LandingUiIconsBrandsVideoplaceholder
           width="100%"
@@ -273,12 +273,51 @@
             ensuring you receive the best guidance and insights to excel in your
             learning journey.
           </p>
-          <LandingUiIconsMoreinfoTestimonial
-            width="100%"
-            height=""
-            class="animate-slide-up mt-6"
+
+          <!-- Testimonial Carousel -->
+          <div
+            class="animate-slide-up mt-6 max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-[#1E2A5A]"
             style="animation-delay: 0.4s"
-          />
+          >
+            <div class="flex items-start space-x-4">
+              <div class="text-6xl font-bold text-[#5D3BEA]">"</div>
+              <div class="flex-1">
+                <p class="mb-4 text-gray-700 dark:text-gray-300">
+                  {{ testimonials[currentTestimonial].quote }}
+                </p>
+                <div class="flex items-center space-x-3">
+                  <div
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-[#5D3BEA] to-[#F48C06] font-bold text-white"
+                  >
+                    {{ testimonials[currentTestimonial].name.charAt(0) }}
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-900 dark:text-white">
+                      {{ testimonials[currentTestimonial].name }}
+                    </p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                      {{ testimonials[currentTestimonial].role }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dots indicator -->
+            <div class="mt-4 flex justify-center space-x-2">
+              <button
+                v-for="(_, index) in testimonials"
+                :key="index"
+                @click="currentTestimonial = index"
+                :class="[
+                  'h-2 w-2 rounded-full transition-all duration-300',
+                  currentTestimonial === index
+                    ? 'w-6 bg-[#5D3BEA]'
+                    : 'bg-gray-300 dark:bg-gray-600'
+                ]"
+              ></button>
+            </div>
+          </div>
         </div>
         <div class="animate-slide-up" style="animation-delay: 0.2s">
           <LandingUiIconsMoreinfoSecondUser
@@ -660,6 +699,12 @@ const typeEffect = () => {
 onMounted(() => {
   typeEffect()
   document.documentElement.style.scrollBehavior = 'smooth'
+
+  // Auto-rotate testimonials every 5 seconds
+  setInterval(() => {
+    currentTestimonial.value =
+      (currentTestimonial.value + 1) % testimonials.value.length
+  }, 5000)
 })
 
 onUnmounted(() => {
@@ -697,4 +742,28 @@ useSeoMeta({
 onMounted(() => {
   window.scrollTo(0, 0)
 })
+
+// Testimonial data
+const testimonials = ref([
+  {
+    quote:
+      "I love the variety of instructors available! Each one brings unique insights and real-world experience, making learning practical and engaging. I've gained so much confidence in my skills.",
+    name: 'James Mireku',
+    role: 'Student'
+  },
+  {
+    quote:
+      'The AI-powered study materials have revolutionized how I prepare for exams. The flashcards are incredibly smart and adapt to my learning pace perfectly.',
+    name: 'Sarah Chen',
+    role: 'Medical Student'
+  },
+  {
+    quote:
+      'As an educator, Quasi AI has transformed my teaching approach. The analytics and insights help me understand my students better and create more effective lessons.',
+    name: 'Dr. Michael Roberts',
+    role: 'Professor'
+  }
+])
+
+const currentTestimonial = ref(0)
 </script>
