@@ -3,16 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  font-family: 'Nunito Sans', sans-serif;
-}
-
-*::-webkit-scrollbar {
-  display: none;
-}
-
 /* Smooth fade-in effect on page load */
 @keyframes fadeIn {
   from {
