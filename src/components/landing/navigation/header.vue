@@ -122,7 +122,7 @@
         <div v-if="isLoggedIn" class="flex items-center">
           <UDropdown
             mode="click"
-            :popper="{ placement: 'right-start', arrow: true }"
+            :popper="{ placement: 'left-start', arrow: true }"
             :items="profileList"
           >
             <div class="flex items-center">
