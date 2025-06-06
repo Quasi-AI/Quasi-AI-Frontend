@@ -53,7 +53,7 @@
         </div>
 
         <!-- Add dark mode toggle -->
-        <div class="mr-4 cursor-pointer">
+        <div class="cursor-pointer">
           <lightModeIcon
             v-if="!isDark"
             @click="isDark = !isDark"
@@ -119,18 +119,22 @@
           </transition>
         </Menu>
 
-        <NuxtLink
-          to="/dashboard"
-          v-if="isLoggedIn"
-          class="flex items-center gap-2"
-        >
-          <CommonProfileImage
-            :img-src="userInfo?.profileImage"
-            :name="userInfo?.name"
-            :scale="true"
-            baseClass="w-[35px] h-[35px] rounded-full"
-          />
-        </NuxtLink>
+        <div v-if="isLoggedIn" class="flex items-center">
+          <UDropdown
+            mode="click"
+            :popper="{ placement: 'right-start', arrow: true }"
+            :items="profileList"
+          >
+            <div class="flex items-center">
+              <CommonProfileImage
+                :img-src="userInfo?.profileImage"
+                :name="userInfo?.name"
+                :scale="true"
+                baseClass="w-[35px] h-[35px] rounded-full"
+              />
+            </div>
+          </UDropdown>
+        </div>
       </div>
     </div>
   </div>
@@ -140,11 +144,25 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useUser } from '~/composables/useUser'
 import { useAuth } from '~/composables/useAuth'
+import { useAuthenticationStore } from '@/store/auth'
 import lightModeIcon from '@/assets/icons/light-mode.vue'
 import DarkModeIcon from '@/assets/icons/dark-mode.vue'
 
 const { userInfo } = useUser()
 const { isLoggedIn } = useAuth()
+const authStore = useAuthenticationStore()
+
+const profileList = [
+  [
+    { label: 'Go to Profile', click: () => navigateTo('/user') },
+    {
+      label: 'Logout',
+      click: () => {
+        authStore.logout()
+      }
+    }
+  ]
+]
 
 const colorMode = useColorMode()
 const isDark = computed({
