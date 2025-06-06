@@ -3,6 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  -ms-overflow-style: none;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
 /* Smooth fade-in effect on page load */
 @keyframes fadeIn {
   from {
