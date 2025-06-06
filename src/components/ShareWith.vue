@@ -191,7 +191,7 @@
           <div class="flex justify-end gap-3">
             <button
               @click="closeModal"
-              class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-[#1E2A5A]"
+              class="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-[#1E2A5A]"
             >
               Cancel
             </button>
@@ -256,9 +256,14 @@ onMounted(fetchStudents)
 
 // Computed: Filter students based on search query
 const filteredStudents = computed(() => {
-  return students.value.filter(student =>
-    student.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
+  return students.value
+    .filter(
+      student =>
+        student.name &&
+        student.name.trim() !== '' &&
+        student.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+    .sort((a, b) => a.name.localeCompare(b.name))
 })
 
 // Toggle dropdown
