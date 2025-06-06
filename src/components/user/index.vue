@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen p-4 dark:bg-[#0C1438] lg:p-6">
-    <div class="mx-auto max-w-4xl">
+  <div class="p-6">
+    <div>
       <!-- Header Section -->
       <div class="mb-8 text-center">
         <h1
