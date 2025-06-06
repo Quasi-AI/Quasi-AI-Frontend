@@ -220,7 +220,7 @@
     <!-- Tools For Teachers And Learners -->
     <div
       id="learn-more"
-      class="flex flex-col items-center gap-2 bg-white px-4 py-20 dark:bg-[#0C1438] lg:gap-10"
+      class="flex flex-col items-center gap-2 bg-[#F5F7FA] px-4 py-20 dark:bg-[#0C1438] lg:gap-10"
     >
       <div
         class="animate-fade-in flex flex-col items-center justify-between gap-16 lg:flex-row"
@@ -253,7 +253,7 @@
     <!-- Expert Instructors Section -->
     <div
       id="instructors"
-      class="flex flex-col items-center gap-2 bg-[#F5F7FA] px-4 py-20 dark:bg-[#111C44] lg:gap-10"
+      class="flex flex-col items-center gap-2 px-4 py-20 dark:bg-[#111C44] lg:gap-10"
     >
       <div
         class="animate-fade-in flex flex-col items-center justify-between gap-16 lg:flex-row lg:text-wrap"
