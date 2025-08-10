@@ -32,14 +32,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       email: '',
       profileImage: ''
     },
-    users: [] as Array<{
-      id: number
-      name: string
-      profileImage: string
-      email: string
-      created_at: string
-      updated_at: string
-    }>
+    users: [] as Array
   }),
 
   actions: {
@@ -53,13 +46,14 @@ export const useAuthenticationStore = defineStore('authentication', {
       )
     },
 
-    async login(email: string, password: string) {
+    async login(email: string, password: string, rememberMe: boolean) {
       await this.authenticateUser(
         API_PATHS.login,
         { email, password },
         STATUS_CODES.SUCCESS,
         'Login successful!',
-        '/dashboard'
+        '/dashboard',
+        rememberMe
       )
     },
 
@@ -73,11 +67,14 @@ export const useAuthenticationStore = defineStore('authentication', {
         | RouteLocationAsRelativeGeneric
         | RouteLocationAsPathGeneric
         | null
-        | undefined
+        | undefined,
+      rememberMe: boolean = false
     ) {
       try {
         this.error = ''
         const data = await $fetch<{
+          name: any
+          email: any
           statusCode: number
           token?: string
           id?: number
@@ -89,10 +86,17 @@ export const useAuthenticationStore = defineStore('authentication', {
         if (data.statusCode === successCode) {
           if ('token' in data && data.token) {
             this.token = data.token
-            localStorage.setItem('authToken', this.token)
+            if (rememberMe) {
+              sessionStorage.setItem('authToken', this.token)
+            } else {
+              sessionStorage.setItem('authToken', this.token)
+            }
           }
           if ('id' in data && data.id) {
-            localStorage.setItem('user_id', data.id.toString())
+            sessionStorage.setItem('user_id', data.id.toString())
+            sessionStorage.setItem('role', data.role.toString())
+            sessionStorage.setItem('name', data.name.toString())
+            sessionStorage.setItem('email', data.email.toString())
           }
           this.success = successMessage
           navigateTo(redirectPath)
@@ -105,7 +109,7 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async fetchUserDetails() {
-      const apiUrl = `${API_PATHS.getUserDetails}${localStorage.getItem(
+      const apiUrl = `${API_PATHS.getUserDetails}${sessionStorage.getItem(
         'user_id'
       )}`
       try {
@@ -149,14 +153,7 @@ export const useAuthenticationStore = defineStore('authentication', {
       try {
         const data = await $fetch<{
           statusCode: number
-          users?: Array<{
-            id: number
-            name: string
-            profileImage: string
-            email: string
-            created_at: string
-            updated_at: string
-          }>
+          users?: Array
           message?: string
         }>(API_PATHS.getAllUsers, {
           method: 'GET',
@@ -213,7 +210,9 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateEmail(newEmail: string) {
-      const apiUrl = `${API_PATHS.updateEmail}${localStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.updateEmail}${sessionStorage.getItem(
+        'user_id'
+      )}`
       await this.updateUserData(
         apiUrl,
         { email: newEmail },
@@ -224,7 +223,9 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateProfileImage(imageUrl: string) {
-      const apiUrl = `${API_PATHS.updateProfileImage}${localStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.updateProfileImage}${sessionStorage.getItem(
+        'user_id'
+      )}`
       await this.updateUserData(
         apiUrl,
         { profileImage: imageUrl },
@@ -235,7 +236,9 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async updateName(name: string) {
-      const apiUrl = `${API_PATHS.updateName}${localStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.updateName}${sessionStorage.getItem(
+        'user_id'
+      )}`
       await this.updateUserData(
         apiUrl,
         { name: name },
@@ -274,7 +277,9 @@ export const useAuthenticationStore = defineStore('authentication', {
     },
 
     async deleteUser() {
-      const apiUrl = `${API_PATHS.deleteUser}${localStorage.getItem('user_id')}`
+      const apiUrl = `${API_PATHS.deleteUser}${sessionStorage.getItem(
+        'user_id'
+      )}`
       try {
         const response = await $fetch<{ statusCode: number; message?: string }>(
           apiUrl,
@@ -304,22 +309,28 @@ export const useAuthenticationStore = defineStore('authentication', {
         email: '',
         profileImage: ''
       }
-      localStorage.removeItem('authToken')
-      localStorage.removeItem('user_id')
+      sessionStorage.removeItem('authToken')
+      sessionStorage.removeItem('user_id')
+      sessionStorage.removeItem('name')
+      sessionStorage.removeItem('email')
+      sessionStorage.removeItem('role')
       this.error = ''
       navigateTo('/')
     },
 
     loadToken() {
       if (import.meta.client) {
-        this.token = localStorage.getItem('authToken') ?? ''
+        this.token =
+          sessionStorage.getItem('authToken') ??
+          sessionStorage.getItem('authToken') ??
+          ''
       }
     },
 
     saveToken(token: string) {
       if (import.meta.client) {
         this.token = token
-        localStorage.setItem('authToken', token)
+        sessionStorage.setItem('authToken', token)
       }
     },
 
